@@ -7,15 +7,18 @@ require "landable/version"
 Gem::Specification.new do |s|
   s.name        = "landable"
   s.version     = Landable::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Landable."
-  s.description = "TODO: Description of Landable."
+  s.authors     = ["Team Trogdor"]
+  s.email       = ["trogdor@cashnetusa.com"]
+  s.homepage    = "http://git.cashnetusa.com/trogdor/landable"
+  s.summary     = "Mountable CMS engine for Rails"
+  s.description = "Mountable CMS engine for Rails"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 4.0.0.rc1"
 
   s.add_development_dependency "pg"
+  s.add_development_dependency "rspec-rails", '~> 2.13.0'
+  s.add_development_dependency "factory_girl_rails", '~> 4.2.0'
 end
