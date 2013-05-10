@@ -1,0 +1,3 @@
+module Landable
+  VERSION = "0.0.1"
+end
