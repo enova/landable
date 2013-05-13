@@ -10,8 +10,9 @@ Related projects we are also building:
 
 Open source projects possibly worth using or referencing:
 
-1. [doorkeeper](https://github.com/applicake/doorkeeper): OAuth2 provider engine ([example app](https://github.com/applicake/doorkeeper-provider-app))
-2. [combustion](https://github.com/pat/combustion): gem to supposedly ease the pain of testing isolated Rails engines
+1. [combustion](https://github.com/pat/combustion): gem to supposedly ease the pain of testing isolated Rails engines
+2. [doorkeeper](https://github.com/applicake/doorkeeper): OAuth2 provider engine ([example app](https://github.com/applicake/doorkeeper-provider-app))
+3. [opro](https://github.com/opro/opro): another OAuth2 provider engine
 
 ## Generated Using
 Just in case we need to do this due to incompatibilities from 3.x -> 4.0:
