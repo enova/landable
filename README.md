@@ -4,6 +4,10 @@ Rails engine providing an API and such for managing mostly static content.
 It will likely also contain CSS and JS assets which provide common component implementations.
 
 ## See Also
+Documentation:
+
+1. [doc/DOMAIN.md](http://git.cashnetusa.com/trogdor/landable/blob/master/doc/DOMAIN.md)
+
 Related projects we are also building:
 
 1. [publicist](http://git.cashnetusa.com/trogdor/publicist): a web app for working with landable applications
