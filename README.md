@@ -7,6 +7,7 @@ It will likely also contain CSS and JS assets which provide common component imp
 Documentation:
 
 1. [doc/DOMAIN.md](http://git.cashnetusa.com/trogdor/landable/blob/master/doc/DOMAIN.md)
+1. [doc/API.md](http://git.cashnetusa.com/trogdor/landable/blob/master/doc/API.md)
 
 Related projects we are also building:
 
