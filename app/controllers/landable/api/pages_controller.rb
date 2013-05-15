@@ -5,18 +5,18 @@ module Landable
     class PagesController < ApplicationController
       def index
         @pages = Page.all
-        render json: @pages
+        render json: @pages, each_serializer: Landable::PageSerializer
       end
 
       def create
         @page = Page.new page_params
         @page.save!
-        render json: @page, status: :created, location: url_for(@page)
+        render json: @page, serializer: Landable::PageSerializer, status: :created, location: url_for(@page)
       end
 
       def show
-        @page = Page.find! params[:id]
-        render json: @page
+        @page = Page.find params[:id]
+        render json: @page, serializer: Landable::PageSerializer
       end
 
       private

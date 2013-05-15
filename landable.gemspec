@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 4.0.0.rc1"
   s.add_dependency "rack-cors", ">= 0.2.7"
+  s.add_dependency "active_model_serializers", "~> 0.8"
 
   s.add_development_dependency "pg"
   s.add_development_dependency "rspec-rails", '~> 2.13.0'
