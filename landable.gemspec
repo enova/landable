@@ -1,26 +1,37 @@
-$:.push File.expand_path("../lib", __FILE__)
+# coding: utf-8
+
+lib = File.expand_path('../lib', __FILE__)
+$:.unshift(lib) unless $:.include?(lib)
 
 # Maintain your gem's version:
 require "landable/version"
 
 # Describe your gem and declare its dependencies:
-Gem::Specification.new do |s|
-  s.name        = "landable"
-  s.version     = Landable::VERSION
-  s.authors     = ["Team Trogdor"]
-  s.email       = ["trogdor@cashnetusa.com"]
-  s.homepage    = "http://git.cashnetusa.com/trogdor/landable"
-  s.summary     = "Mountable CMS engine for Rails"
-  s.description = "Mountable CMS engine for Rails"
+Gem::Specification.new do |gem|
+  gem.name          = "landable"
+  gem.version       = Landable::VERSION
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
-  s.test_files = Dir["spec/**/*"]
+  gem.authors       = ["Team Trogdor"]
+  gem.email         = ["trogdor@cashnetusa.com"]
 
-  s.add_dependency "rails", "~> 4.0.0.rc1"
-  s.add_dependency "rack-cors", ">= 0.2.7"
+  gem.homepage      = "http://git.cashnetusa.com/trogdor/landable"
 
-  s.add_development_dependency "pg"
-  s.add_development_dependency "rspec-rails", '~> 2.13.0'
-  s.add_development_dependency "factory_girl_rails", '~> 4.2.0'
-  s.add_development_dependency "combustion", '~> 0.5.0'
+  gem.license       = "MIT-LICENSE"
+
+  gem.summary       = "Mountable CMS engine for Rails"
+  gem.description   = "Landing page storage, rendering, tracking, and management API"
+
+  gem.files         = `git ls-files`.split($/)
+  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  gem.executables   = gem.files.grep(%r{^bin/}) { |f| File.basename(f) }
+
+  gem.require_paths = ["lib"]
+
+  gem.add_dependency "rails",     "~> 4.0.0.rc1"
+  gem.add_dependency "rack-cors", ">= 0.2.7"
+
+  gem.add_development_dependency "pg"
+  gem.add_development_dependency "rspec-rails",        '~> 2.13.0'
+  gem.add_development_dependency "factory_girl_rails", '~> 4.2.0'
+  gem.add_development_dependency "combustion",         '~> 0.5.0'
 end
