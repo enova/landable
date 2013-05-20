@@ -22,7 +22,7 @@ module Landable
       private
 
       def page_params
-        params.require(:page).permit(:title, :body)
+        params.require(:page).permit(:id, :title, :body)
       end
     end
   end
