@@ -4,17 +4,7 @@ module Landable
   module Api
     class PagesController < ApplicationController
       def index
-        if params[:directory].blank?
-          head :bad_request
-          return
-        end
-
-        listing = Directory.listing(params[:directory])
-        if listing.empty?
-          head :not_found
-          return
-        end
-
+        listing = Directory.listing(params[:directory] || '/')
         render json: listing
       end
 
