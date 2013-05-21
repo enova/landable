@@ -8,8 +8,10 @@ module Landable
     initializer "landable.add_middleware" do |app|
       app.middleware.use Rack::Cors do
         allow do
-          origins  'publicist.dev'
-          resource '/landable/*', methods: [:get, :post, :patch, :delete], credentials: false, max_age: 15.minutes
+          origins Landable.cors_origins
+          Landable.cors_resources.each do |path|
+            resource path, methods: [:get, :post, :put, :patch, :delete], credentials: false, max_age: 15.minutes
+          end
         end
       end
     end

@@ -17,4 +17,20 @@ module Landable
       themes.push Theme.new(attributes)
     end
   end
+
+  def self.cors_origins=(origins)
+    @cors_origins = origins
+  end
+
+  def self.cors_origins
+    @cors_origins ||= ['publicist.dev']
+  end
+
+  def self.cors_resources=(resources)
+    @cors_resources = resources
+  end
+
+  def self.cors_resources
+    @cors_resources ||= ['/landable/*']
+  end
 end
