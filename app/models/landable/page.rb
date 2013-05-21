@@ -9,7 +9,7 @@ module Landable
 
     def theme_exists
       return if theme.blank?
-      return if Landable.themes.any? { |theme| theme.name === theme }
+      return if Landable.find_theme(theme).present?
       errors.add(:theme, "Undefined theme #{theme}")
     end
   end
