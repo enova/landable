@@ -55,23 +55,12 @@ SET default_with_oids = false;
 
 CREATE TABLE pages (
     page_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    theme_name text NOT NULL,
-    title text NOT NULL,
-    body text NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: paths; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE TABLE paths (
-    path_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     path text NOT NULL,
+    theme_name text,
+    title text,
+    body text,
     status_code integer DEFAULT 200 NOT NULL,
-    page_id uuid,
+    redirect_url text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -99,18 +88,10 @@ ALTER TABLE ONLY pages
 
 
 --
--- Name: paths_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+-- Name: index_landable.pages_on_path; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY paths
-    ADD CONSTRAINT paths_pkey PRIMARY KEY (path_id);
-
-
---
--- Name: index_landable.paths_on_path; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX "index_landable.paths_on_path" ON paths USING btree (path);
+CREATE UNIQUE INDEX "index_landable.pages_on_path" ON pages USING btree (path);
 
 
 SET search_path = public, pg_catalog;
@@ -126,6 +107,6 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20130510221424');

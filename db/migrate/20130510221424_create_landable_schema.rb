@@ -5,19 +5,18 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE SCHEMA landable"
 
     create_table 'landable.pages', id: :uuid, primary_key: :page_id do |t|
-      t.text :theme_name, null: false
-      t.text :title,      null: false
-      t.text :body,       null: false
-      t.timestamps
-    end
+      t.text :path, null: false
+      t.text :theme_name
 
-    create_table 'landable.paths', id: :uuid, primary_key: :path_id do |t|
-      t.text    :path,        null: false
+      t.text :title
+      t.text :body
+
       t.integer :status_code, null: false, default: 200
-      t.uuid    :page_id
+      t.text    :redirect_url
+
       t.timestamps
     end
 
-    add_index 'landable.paths', :path, unique: true
+    add_index 'landable.pages', :path, unique: true
   end
 end

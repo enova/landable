@@ -1,7 +1,7 @@
 module Landable
   class DirectorySerializer < ActiveModel::Serializer
     attributes :path
-    has_many   :directories, serializer: DirectorySerializer
-    has_many   :pages, serializer: PathSerializer # lol
+    has_many   :directories
+    has_many   :pages
   end
 end

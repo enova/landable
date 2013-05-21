@@ -1,4 +1,5 @@
-require_dependency "rack/cors"
+require "rack/cors"
+require "active_model_serializers"
 
 module Landable
   class Engine < ::Rails::Engine

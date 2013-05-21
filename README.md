@@ -3,6 +3,15 @@ Rails engine providing an API and such for managing mostly static content.
 
 It will likely also contain CSS and JS assets which provide common component implementations.
 
+## Development
+Refreshing `spec/internal/db/structure.sql`:
+
+~~~~sh
+rm spec/internal/db/structure.sql
+touch spec/internal/db/structure.sql
+RAILS_ENV=test rake db:structure:dump
+~~~~
+
 ## See Also
 Documentation:
 
