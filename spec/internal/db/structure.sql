@@ -43,6 +43,16 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
 
 
+SET search_path = public, pg_catalog;
+
+--
+-- Name: uri; Type: DOMAIN; Schema: public; Owner: -
+--
+
+CREATE DOMAIN uri AS text
+	CONSTRAINT uri_check CHECK (((VALUE ~ '^/(\D|\d*)*'::text) AND (VALUE !~ '(\!)|(\*)|(\'')|(\()|(\))|(\;)(\:)|(\@)|(\&)|(\=)|(\+)|(\$)|(\,)|(\?)|(\#)|(\[)|(\])'::text)));
+
+
 SET search_path = landable, pg_catalog;
 
 SET default_tablespace = '';
@@ -55,7 +65,7 @@ SET default_with_oids = false;
 
 CREATE TABLE pages (
     page_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    path text NOT NULL,
+    path public.uri NOT NULL,
     theme_name text,
     title text,
     body text,

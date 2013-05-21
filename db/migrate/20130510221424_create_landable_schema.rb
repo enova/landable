@@ -5,8 +5,8 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute " DROP DOMAIN IF EXISTS uri;
               CREATE DOMAIN uri AS TEXT
               CHECK(
-                VALUE ~ '^/(\D|\d*)*'
-                AND VALUE !~ '(\!)|(\*)|(\'')|(\()|(\))|(\;)(\:)|(\@)|(\&)|(\=)|(\+)|(\$)|(\,)|(\?)|(\#)|(\[)|(\])'
+                VALUE ~ '^/(\\D|\\d*)*'
+                AND VALUE !~ '(\\!)|(\\*)|(\\'')|(\\()|(\\))|(\\;)(\\:)|(\\@)|(\\&)|(\\=)|(\\+)|(\\$)|(\\,)|(\\?)|(\\#)|(\\[)|(\\])'
               );"
 
     execute "DROP SCHEMA IF EXISTS landable; CREATE SCHEMA landable;"
