@@ -2,8 +2,9 @@ module Landable
   class Page < ActiveRecord::Base
     self.table_name = 'landable.pages'
 
-    validates_presence_of :path, :status_code
-    validates_presence_of :redirect_url, if: -> page { page.redirect? }
+    validates_presence_of  :path, :status_code
+    validates_inclusion_of :status_code, in: [200, 301, 302, 404]
+    validates_presence_of  :redirect_url, if: -> page { page.redirect? }
 
     class << self
       def missing

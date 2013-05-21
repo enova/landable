@@ -10,6 +10,7 @@ Combustion.initialize! :active_record, :action_controller, :action_view
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'factory_girl_rails'
+require 'valid_attribute'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
