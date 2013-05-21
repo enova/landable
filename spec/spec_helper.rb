@@ -4,6 +4,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'combustion'
+Combustion.schema_format = :sql
 Combustion.initialize! :active_record, :action_controller, :action_view
 
 require 'rspec/rails'

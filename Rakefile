@@ -5,6 +5,7 @@ rescue LoadError
 end
 
 require 'combustion'
+Combustion.schema_format = :sql
 Combustion.initialize! :active_record, :action_controller, :action_view
 Combustion::Application.load_tasks
 

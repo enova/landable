@@ -1,6 +1,7 @@
 Landable::Engine.routes.draw do
-  # API
   scope path: '/landable', module: 'api' do
+    resources :themes,    only: [:index, :show]
+    resources :templates, only: [:index, :show]
     resources :pages
   end
 

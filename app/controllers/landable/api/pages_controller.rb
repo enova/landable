@@ -4,8 +4,18 @@ module Landable
   module Api
     class PagesController < ApplicationController
       def index
-        @pages = Page.all
-        render json: @pages, each_serializer: Landable::PageSerializer
+        if params[:directory].blank?
+          head :bad_request
+          return
+        end
+
+        listing = Directory.listing(params[:directory])
+        if listing.empty?
+          head :not_found
+          return
+        end
+
+        render json: listing
       end
 
       def create
