@@ -2,10 +2,17 @@ class CreateLandableSchema < ActiveRecord::Migration
   def change
     enable_extension "uuid-ossp"
 
-    execute "CREATE SCHEMA landable"
+    execute " DROP DOMAIN IF EXISTS uri;
+              CREATE DOMAIN uri AS TEXT
+              CHECK(
+                VALUE ~ '^/(\D|\d*)*'
+                AND VALUE !~ '(\!)|(\*)|(\'')|(\()|(\))|(\;)(\:)|(\@)|(\&)|(\=)|(\+)|(\$)|(\,)|(\?)|(\#)|(\[)|(\])'
+              );"
+
+    execute "DROP SCHEMA IF EXISTS landable; CREATE SCHEMA landable;"
 
     create_table 'landable.pages', id: :uuid, primary_key: :page_id do |t|
-      t.text :path, null: false
+      t.column "path", :uri, null: false
       t.text :theme_name
 
       t.text :title
