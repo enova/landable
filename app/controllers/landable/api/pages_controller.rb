@@ -19,6 +19,11 @@ module Landable
         render json: @page, serializer: Landable::PageSerializer
       end
 
+      def preview
+        page = Page.find params[:id]
+        render text: page.body, layout: page.theme.layout
+      end
+
       private
 
       def page_params

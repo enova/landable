@@ -14,7 +14,7 @@ module Landable
 
       def render_page_at(path)
         page  = path.page
-        theme = Landable.find_theme(page.theme)
+        theme = page.theme
         render text: page.body, layout: theme.try(:layout) || 'application'
       end
 
