@@ -7,6 +7,10 @@ module Landable
     @themes ||= []
   end
 
+  def self.find_theme(name)
+    themes.find { |theme| theme.name == name }
+  end
+
   def self.load_themes(file)
     config = YAML.load File.read(file)
     config.each do |attributes|
