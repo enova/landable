@@ -14,7 +14,7 @@ module Landable
 
       def render_page(page)
         theme = page.theme
-        render text: page.body, layout: theme.layout
+        render text: page.body, layout: theme.try(:layout) || 'application'
       end
     end
   end

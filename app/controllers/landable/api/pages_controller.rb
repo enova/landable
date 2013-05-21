@@ -14,15 +14,21 @@ module Landable
         render json: @page, serializer: Landable::PageSerializer
       end
 
+      def update
+        @page = Page.find params[:id]
+        @page.update_attributes page_params
+        render json: @page, serializer: Landable::PageSerializer
+      end
+
       def preview
         page = Page.find params[:id]
-        render text: page.body, layout: page.theme.layout
+        render text: page.body, layout: page.theme.try(:layout) || 'application'
       end
 
       private
 
       def page_params
-        params.require(:page).permit(:id, :theme, :title, :body)
+        params.require(:page).permit(:id, :path, :theme, :title, :body, :status_code, :redirect_url)
       end
     end
   end
