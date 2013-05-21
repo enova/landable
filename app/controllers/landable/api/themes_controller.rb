@@ -4,11 +4,7 @@ module Landable
   module Api
     class ThemesController < ApplicationController
       def index
-        raise NotImplementedError
-      end
-
-      def show
-        raise NotImplementedError
+        render json: Landable.themes
       end
     end
   end

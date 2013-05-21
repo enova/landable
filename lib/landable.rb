@@ -9,8 +9,8 @@ module Landable
 
   def self.load_themes(file)
     config = YAML.load File.read(file)
-    config.each do |theme|
-      themes.push Theme.new(theme['name'], theme['description'], theme['screenshot_urls'])
+    config.each do |attributes|
+      themes.push Theme.new(attributes)
     end
   end
 end
