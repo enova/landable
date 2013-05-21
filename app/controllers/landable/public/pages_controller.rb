@@ -2,24 +2,19 @@ module Landable
   module Public
     class PagesController < ApplicationController
       def show
-        path = Path.by_path(request.path)
-        case path.status_code
-        when 200 then render_page_at(path)
-        when 404 then raise ActiveRecord::RecordNotFound # TODO custom exception
-        else raise NotImplementedError
+        page = Page.by_path(request.path)
+        case page.status_code
+        when 200      then render_page(page)
+        when 301, 302 then redirect_to page.redirect_url, status: page.status_code
+        when 404      then head 404
         end
       end
 
       private
 
-      def render_page_at(path)
-        page  = path.page
+      def render_page(page)
         theme = page.theme
-        render text: page.body, layout: theme.try(:layout) || 'application'
-      end
-
-      def current_path
-        @current_path ||= Path.by_path(request.path)
+        render text: page.body, layout: theme.layout
       end
     end
   end

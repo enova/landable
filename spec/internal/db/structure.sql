@@ -50,7 +50,7 @@ SET search_path = public, pg_catalog;
 --
 
 CREATE DOMAIN uri AS text
-	CONSTRAINT uri_check CHECK (((VALUE ~ '^/(\D|\d*)*'::text) AND (VALUE !~ '(\!)|(\*)|(\'')|(\()|(\))|(\;)(\:)|(\@)|(\&)|(\=)|(\+)|(\$)|(\,)|(\?)|(\#)|(\[)|(\])'::text)));
+	CONSTRAINT uri_check CHECK ((VALUE ~ '^/[a-zA-Z0-9/_.~-]*$'::text));
 
 
 SET search_path = landable, pg_catalog;
