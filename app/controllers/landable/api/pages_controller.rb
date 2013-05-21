@@ -5,7 +5,7 @@ module Landable
     class PagesController < ApplicationController
       def index
         listing = Directory.listing(params[:directory] || '/')
-        render json: listing
+        render json: listing, serializer: Landable::DirectorySerializer
       end
 
       def create

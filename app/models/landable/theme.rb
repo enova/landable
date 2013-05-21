@@ -1,5 +1,7 @@
 module Landable
   class Theme
+    include ActiveModel::SerializerSupport
+
     attr_reader :name, :description, :layout, :screenshot_urls
 
     def initialize(attributes)

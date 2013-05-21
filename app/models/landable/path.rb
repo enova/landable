@@ -5,6 +5,8 @@ module Landable
     validates_presence_of :path, :status_code
     belongs_to :page
 
+    delegate :title, :body, :theme, to: :page
+
     class << self
       def missing
         new(status_code: 404)

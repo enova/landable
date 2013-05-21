@@ -1,5 +1,7 @@
 module Landable
   class Directory
+    include ActiveModel::SerializerSupport
+
     def self.listing(parent)
       paths   = Path.where('path LIKE ?', "#{parent}%").to_a
       subdirs = paths.group_by { |path| path.directory_after(parent) }
@@ -18,10 +20,6 @@ module Landable
 
     def empty?
       @directories.empty? && @pages.empty?
-    end
-
-    def as_json(opts = {})
-      { path: path, directories: directories, pages: pages }
     end
   end
 end

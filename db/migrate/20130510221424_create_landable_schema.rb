@@ -5,9 +5,9 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE SCHEMA landable"
 
     create_table 'landable.pages', id: :uuid, primary_key: :page_id do |t|
-      t.text :theme
-      t.text :title, null: false
-      t.text :body,  null: false
+      t.text :theme_name, null: false
+      t.text :title,      null: false
+      t.text :body,       null: false
       t.timestamps
     end
 
