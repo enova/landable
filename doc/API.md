@@ -1,6 +1,22 @@
 # Landable API Design
 
-No idea!
+## Themes
+1. GET /themes => { themes: [{ name: "", body: "", screenshots: ["http://..."]}] }
+
+## Categories
+1. GET /categories => { categories: [{ name: "SEO", count: 120 }] }
+
+## Pages
+### Listings
+1. GET /pages?directory=/ => { directories: [{ path: "/seo", count: 100 }], pages: [{...}] }
+2. GET /pages?directory=/seo
+3. GET /pages?category=SEO (or category=UUID?)
+
+### CRUD
+1. GET /pages/UUIDHERE => { page: { id: "UUID", body: "", theme: { name: "", body: "" }, category: "", path: "", status_code: 200 }}
+2. POST /pages (PUT /pages/UUIDHERE?)
+3. PATCH /pages/UUIDHERE
+4. GET /pages/UUIDHERE/preview => text/html
 
 ## CORS
 We want [publicist](https://git.cashnetusa.com/trogdor/publicist) to be 99% client side, with JS taking care of the communication with the various backing APIs. Because the JS will be served from `publicist.whatever.com`, but will need to communicate with `our-public-site.com/_landable_api`, we need to support [Cross-Origin Resource Sharing](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
