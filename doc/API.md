@@ -1,22 +1,42 @@
 # Landable API Design
 
-## Themes
-1. GET /themes => { themes: [{ name: "", body: "", screenshots: ["http://..."]}] }
+## Authentication
+TBD.
 
-## Categories
-1. GET /categories => { categories: [{ name: "SEO", count: 120 }] }
+## Themes
+### GET /themes
+~~~~json
+{ "themes": [
+    { "name": "CNU TV", "screenshot_urls": ["http://..."] }
+  ]
+}
+~~~~
 
 ## Pages
-### Listings
-1. GET /pages?directory=/ => { directories: [{ path: "/seo", count: 100 }], pages: [{...}] }
-2. GET /pages?directory=/seo
-3. GET /pages?category=SEO (or category=UUID?)
+### GET /pages/UUID
+1. Returns 200 + JSON body (see below).
+2. Returns 404 if UUID did not exist.
 
-### CRUD
-1. GET /pages/UUIDHERE => { page: { id: "UUID", body: "", theme: { name: "", body: "" }, category: "", path: "", status_code: 200 }}
-2. POST /pages (PUT /pages/UUIDHERE?)
-3. PATCH /pages/UUIDHERE
-4. GET /pages/UUIDHERE/preview => text/html
+~~~~json
+{ "page": {
+    "path": "/some/path",
+    "status_code": 200,
+    "redirect_url": null,
+    "theme": { "name": "CNU TV", "screenshot_urls": [] },
+    "title": "Page Title",
+    "body": "<div>HTML content</div>"
+  }
+}
+~~~~
+
+### GET /pages/UUID/preview
+1. Returns 200 + `text/html` for the rendered page contents.
+2. Returns 400 Bad Request if asking to preview a non-200 page.
+3. Returns 404 if UUID did not exist.
+
+### POST /pages
+1. Returns 201 on success.
+2. Returns 422 on error.
 
 ## CORS
 We want [publicist](https://git.cashnetusa.com/trogdor/publicist) to be 99% client side, with JS taking care of the communication with the various backing APIs. Because the JS will be served from `publicist.whatever.com`, but will need to communicate with `our-public-site.com/_landable_api`, we need to support [Cross-Origin Resource Sharing](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
