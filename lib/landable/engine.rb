@@ -5,6 +5,11 @@ module Landable
   class Engine < ::Rails::Engine
     isolate_namespace Landable
 
+    config.generators do |g|
+      g.test_framework :rspec
+      g.fixture_replacement :factory_girl, :dir => 'spec/factories'
+    end
+
     initializer "landable.add_middleware" do |app|
       app.middleware.use Rack::Cors do
         allow do
@@ -14,11 +19,6 @@ module Landable
           end
         end
       end
-    end
-
-    config.generators do |g|
-      g.test_framework :rspec
-      g.fixture_replacement :factory_girl, :dir => 'spec/factories'
     end
   end
 end

@@ -50,6 +50,21 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: authors; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE authors (
+    author_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    email text,
+    username text,
+    first_name text,
+    last_name text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
 -- Name: pages; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -78,6 +93,14 @@ CREATE TABLE schema_migrations (
 
 
 SET search_path = landable, pg_catalog;
+
+--
+-- Name: authors_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY authors
+    ADD CONSTRAINT authors_pkey PRIMARY KEY (author_id);
+
 
 --
 -- Name: pages_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 

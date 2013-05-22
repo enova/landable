@@ -26,5 +26,13 @@ class CreateLandableSchema < ActiveRecord::Migration
     end
 
     add_index 'landable.pages', :path, unique: true
+
+    create_table 'landable.authors', id: :uuid, primary_key: :author_id do |t|
+      t.text :email
+      t.text :username
+      t.text :first_name
+      t.text :last_name
+      t.timestamps
+    end
   end
 end
