@@ -10,16 +10,16 @@ module Landable
       Directory.new(parent, subdirs.sort_by(&:path), notdirs.sort_by(&:path))
     end
 
-    attr_reader :path, :directories, :pages
+    attr_reader :path, :subdirectories, :pages
 
-    def initialize(path, directories = [], pages = [])
+    def initialize(path, subdirectories = [], pages = [])
       @path = path.squeeze '/'
-      @directories = directories
+      @subdirectories = subdirectories
       @pages = pages
     end
 
     def empty?
-      @directories.empty? && @pages.empty?
+      @subdirectories.empty? && @pages.empty?
     end
   end
 end

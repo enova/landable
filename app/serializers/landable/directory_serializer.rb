@@ -3,7 +3,7 @@ module Landable
     attributes :path
 
     embed :ids, include: true
-    has_many   :directories, embed_key: :path
+    has_many   :subdirectories, embed_key: :path
     has_many   :pages
   end
 end
