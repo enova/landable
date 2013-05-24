@@ -17,15 +17,15 @@ module Landable
       stub_contents
 
       dir = Directory.listing '/'
-      dir.directories.map(&:path).should == ['/aff', '/seo']
+      dir.subdirectories.map(&:path).should == ['/aff', '/seo']
       dir.pages.map(&:path).should == ['/quux']
 
       dir = Directory.listing '/aff'
-      dir.directories.map(&:path).should == ['/aff/deeply']
+      dir.subdirectories.map(&:path).should == ['/aff/deeply']
       dir.pages.map(&:path).should == ['/aff/bar']
 
       dir = Directory.listing '/seo'
-      dir.directories.should be_empty
+      dir.subdirectories.should be_empty
       dir.pages.map(&:path).should == ['/seo/baz', '/seo/foo']
     end
   end
