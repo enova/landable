@@ -34,7 +34,7 @@ module Landable
       end
 
       def page_params
-        params.require(:page).permit(:id, :path, :theme, :title, :body, :status_code, :redirect_url)
+        params.require(:page).permit(:id, :path, :theme_name, :title, :body, :status_code, :redirect_url)
       end
     end
   end
