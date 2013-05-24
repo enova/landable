@@ -50,15 +50,28 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: access_tokens; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE access_tokens (
+    access_token_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    author_id uuid NOT NULL,
+    expires_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
 -- Name: authors; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
 CREATE TABLE authors (
     author_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    email text,
-    username text,
-    first_name text,
-    last_name text,
+    email text NOT NULL,
+    username text NOT NULL,
+    first_name text NOT NULL,
+    last_name text NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -93,6 +106,14 @@ CREATE TABLE schema_migrations (
 
 
 SET search_path = landable, pg_catalog;
+
+--
+-- Name: access_tokens_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY access_tokens
+    ADD CONSTRAINT access_tokens_pkey PRIMARY KEY (access_token_id);
+
 
 --
 -- Name: authors_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 

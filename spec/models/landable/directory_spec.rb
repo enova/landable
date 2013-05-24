@@ -4,7 +4,7 @@ module Landable
   describe Directory, '.listing' do
     def stub_contents
       ['/seo/foo', '/aff/bar', '/seo/baz', '/aff/deeply/nested', '/quux'].each do |path|
-        FactoryGirl.create :page, path: path
+        create :page, path: path
       end
     end
 

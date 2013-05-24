@@ -30,6 +30,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency "rails",     "~> 4.0.0.rc1"
   gem.add_dependency "rack-cors", ">= 0.2.7"
   gem.add_dependency "active_model_serializers", "~> 0.8"
+  gem.add_dependency "net-ldap"
+  gem.add_dependency "deject"
 
   gem.add_development_dependency "pg"
   gem.add_development_dependency "rspec-rails",        '~> 2.13.0'

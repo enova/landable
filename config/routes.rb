@@ -6,6 +6,8 @@ Landable::Engine.routes.draw do
     resources :pages do
       get 'preview', on: :member
     end
+
+    resources :access_tokens,  only: [:show, :create, :destroy]
   end
 
   scope module: 'public' do

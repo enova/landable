@@ -1,5 +1,6 @@
 require "rack/cors"
 require "active_model_serializers"
+require "deject"
 
 module Landable
   class Engine < ::Rails::Engine

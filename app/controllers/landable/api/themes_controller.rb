@@ -2,7 +2,7 @@ require_dependency "landable/application_controller"
 
 module Landable
   module Api
-    class ThemesController < ApplicationController
+    class ThemesController < ApiController
       def index
         render json: Landable.themes
       end

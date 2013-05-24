@@ -2,7 +2,7 @@ require_dependency "landable/application_controller"
 
 module Landable
   module Api
-    class PagesController < ApplicationController
+    class PagesController < ApiController
       rescue_from ActiveRecord::RecordInvalid, with: :return_errors
 
       def create
