@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Landable::Api::AccessTokensController do
+describe Landable::Api::AccessTokensController, api: true do
   routes { Landable::Engine.routes }
 
   describe '#create' do
@@ -12,9 +12,8 @@ describe Landable::Api::AccessTokensController do
       end
     end
 
-    def do_post(username, password, svc = nil)
-      svc ||= service(username, password)
-      controller.with_ldap_service svc
+    def do_post(username, password)
+      controller.with_ldap_service service(username, password)
       post :create, username: username, password: password
     end
 

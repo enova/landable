@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Landable::ApiController do
+describe Landable::ApiController, api: true do
   controller(Landable::ApiController) do
     def index
       render nothing: true
