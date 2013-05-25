@@ -15,16 +15,12 @@ describe Landable::ApiController do
     let(:author) { create :author }
     let(:token)  { create :access_token, author: author }
     let(:headers) do
-      { 'HTTP_AUTHORIZATION' => encode(author.username, token.id) }
+      { 'HTTP_AUTHORIZATION' => encode_basic_auth(author.username, token.id) }
     end
 
     def do_get(params = nil)
       request.env.merge!(headers)
       get :index, params
-    end
-
-    def encode(username, token)
-      ActionController::HttpAuthentication::Basic.encode_credentials(username, token)
     end
 
     it "sets current_author when valid" do
@@ -39,13 +35,13 @@ describe Landable::ApiController do
     end
 
     it "must belong to a valid Author username" do
-      headers['HTTP_AUTHORIZATION'] = encode('wrong-username', token.id)
+      headers['HTTP_AUTHORIZATION'] = encode_basic_auth('wrong-username', token.id)
       do_get
       response.status.should == 401
     end
 
     it "must be an existing token ID" do
-      headers['HTTP_AUTHORIZATION'] = encode(author.username, token.id.reverse)
+      headers['HTTP_AUTHORIZATION'] = encode_basic_auth(author.username, token.id.reverse)
       do_get
       response.status.should == 401
     end

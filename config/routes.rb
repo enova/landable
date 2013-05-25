@@ -7,7 +7,7 @@ Landable::Engine.routes.draw do
       get 'preview', on: :member
     end
 
-    resources :access_tokens,  only: [:show, :create, :destroy]
+    resources :access_tokens,  only: [:create, :destroy]
   end
 
   scope module: 'public' do

@@ -2,6 +2,14 @@ module Landable
   class ApiController < ApplicationController
     before_filter :require_author!
 
+    rescue_from ActiveRecord::RecordNotFound do |ex|
+      head 404
+    end
+
+    rescue_from ActiveRecord::RecordInvalid do |ex|
+      render json: { errors: ex.record.errors }, status: :unprocessable_entity
+    end
+
     protected
 
     def require_author!

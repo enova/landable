@@ -1,20 +1,20 @@
 module Landable
   module Api
     class AccessTokensController < ApiController
-      skip_before_filter :require_author!, only: [:create, :show]
+      skip_before_filter :require_author!, only: [:create]
 
-      def create
-        if entry = LdapAuthenticationService.call(params[:username], params[:password])
-          author = AuthorRegistrationService.call(entry)
-          render json: AccessToken.create!(author: author), status: :created,
-            serializer: AccessTokenSerializer
-        else
-          head :unauthorized
-        end
+      Deject self
+      dependency(:ldap_service) do
+        LdapAuthenticationService.new(params[:username], params[:password])
       end
 
-      def show
-        render json: AccessToken.find(params[:id]), serializer: AccessTokenSerializer
+      def create
+        entry  = ldap_service.authenticate!
+        author = AuthorRegistrationService.call(entry)
+        render json: AccessToken.create!(author: author), status: :created,
+            serializer: AccessTokenSerializer
+      rescue LdapAuthenticationService::LdapAuthenticationError
+        head :unauthorized
       end
 
       def destroy
