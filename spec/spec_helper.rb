@@ -26,5 +26,6 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.include FactoryGirl::Syntax::Methods
-  config.include Landable::ApiSpecHelper, type: :controller
+  config.include Landable::Spec::CoreHelpers
+  config.include Landable::Spec::HttpHelpers, type: :controller
 end

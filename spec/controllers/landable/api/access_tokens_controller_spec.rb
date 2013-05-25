@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Landable::Api::AccessTokensController, api: true do
+describe Landable::Api::AccessTokensController, json: true do
   routes { Landable::Engine.routes }
 
   describe '#create' do
@@ -59,31 +59,26 @@ describe Landable::Api::AccessTokensController, api: true do
   end
 
   describe '#destroy' do
-    before do
-      @token = use_access_token
-    end
+    include_examples 'API authentication', :make_request
+    let(:token) { current_access_token }
 
-    it 'requires an API access token' do
-      do_not_use_access_token
-      delete :destroy, id: @token.id
-      response.status.should == 401
+    def make_request(id = token.id)
+      delete :destroy, id: id
     end
 
     it 'deletes the token' do
-      delete :destroy, id: @token.id
-      expect {
-        Landable::AccessToken.find(@token.id)
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      make_request
+      expect(Landable::AccessToken.exists?(token.id)).to be_false
     end
 
     it 'returns No Content' do
-      delete :destroy, id: @token.id
+      make_request
       response.status.should == 204
     end
 
     context 'invalid token' do
       it 'returns 404' do
-        delete :destroy, id: @token.id.reverse
+        make_request random_uuid
         response.status.should == 404
       end
     end

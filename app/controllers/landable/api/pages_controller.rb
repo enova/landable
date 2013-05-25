@@ -21,8 +21,7 @@ module Landable
       end
 
       def preview
-        page = Page.find params[:id]
-        render text: page.body, layout: page.theme.try(:layout) || 'application'
+        RenderService.call self, Page.find(params[:id])
       end
 
       private

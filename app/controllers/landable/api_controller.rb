@@ -10,6 +10,10 @@ module Landable
       render json: { errors: ex.record.errors }, status: :unprocessable_entity
     end
 
+    rescue_from ActionController::UnknownFormat do |ex|
+      head :not_acceptable
+    end
+
     protected
 
     def require_author!
