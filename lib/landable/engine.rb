@@ -16,7 +16,10 @@ module Landable
         allow do
           origins Landable.cors_origins
           Landable.cors_resources.each do |path|
-            resource path, methods: [:get, :post, :put, :patch, :delete], credentials: false, max_age: 15.minutes
+            resource path, methods: [:get, :post, :put, :patch, :delete],
+              headers: :any,
+              credentials: false,
+              max_age: 15.minutes
           end
         end
       end
