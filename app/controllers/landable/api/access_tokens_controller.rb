@@ -4,7 +4,8 @@ module Landable
       skip_before_filter :require_author!, only: [:create]
 
       Deject self
-      dependency(:ldap_service) do
+      dependency(:ldap_service) do |controller|
+        params = controller.params
         LdapAuthenticationService.new(params[:username], params[:password])
       end
 
