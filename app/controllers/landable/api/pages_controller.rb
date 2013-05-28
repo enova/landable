@@ -2,9 +2,7 @@ require_dependency "landable/application_controller"
 
 module Landable
   module Api
-    class PagesController < ApplicationController
-      rescue_from ActiveRecord::RecordInvalid, with: :return_errors
-
+    class PagesController < ApiController
       def create
         @page = Page.new page_params
         @page.save!
@@ -23,15 +21,10 @@ module Landable
       end
 
       def preview
-        page = Page.find params[:id]
-        render text: page.body, layout: page.theme.try(:layout) || 'application'
+        RenderService.call self, Page.find(params[:id])
       end
 
       private
-
-      def return_errors(ex)
-        render json: { errors: ex.record.errors }, status: :unprocessable_entity
-      end
 
       def page_params
         params.require(:page).permit(:id, :path, :theme_name, :title, :body, :status_code, :redirect_url)

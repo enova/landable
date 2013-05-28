@@ -15,7 +15,7 @@ FactoryGirl.define do
       redirect_url "/redirect/somewhere/else"
 
       theme_name nil
-      sequence nil
+      title nil
       body nil
     end
 
@@ -23,7 +23,7 @@ FactoryGirl.define do
       status_code 404
 
       theme_name nil
-      sequence nil
+      title nil
       body nil
     end
   end
