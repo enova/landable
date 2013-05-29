@@ -13,15 +13,16 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     create_table 'landable.pages', id: :uuid, primary_key: :page_id do |t|
       # t.column "path", :uri, null: false
-      t.text :path, null: false
-      t.text :theme_name
+      t.text      :path, null: false
+      t.text      :theme_name
 
-      t.text :title
-      t.text :body
+      t.text      :title
+      t.text      :body
 
-      t.integer :status_code, null: false, default: 200
-      t.text    :redirect_url
+      t.integer   :status_code, null: false, default: 200
+      t.text      :redirect_url
 
+      t.timestamp :imported_at
       t.timestamps
     end
 
