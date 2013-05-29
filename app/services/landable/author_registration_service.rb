@@ -1,3 +1,5 @@
+require_dependency "landable/author"
+
 module Landable
   class AuthorRegistrationService
     def self.call(attributes)

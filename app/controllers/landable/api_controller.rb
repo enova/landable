@@ -1,3 +1,5 @@
+require_dependency "landable/author"
+
 module Landable
   class ApiController < ApplicationController
     before_filter :require_author!
