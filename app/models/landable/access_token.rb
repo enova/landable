@@ -7,17 +7,22 @@ module Landable
     validates_presence_of :expires_at
 
     before_validation do |token|
-      token.expires_at ||= 2.hours.from_now
+      token.expires_at ||= 8.hours.from_now
     end
 
-    scope :unexpired, -> { where('expires_at > ?', Time.now) }
+    scope :fresh,   -> { where('expires_at > ?',  Time.zone.now) }
+    scope :expired, -> { where('expires_at <= ?', Time.zone.now) }
 
     def self.generate_for_author(author)
       create!(author: author)
     end
 
+    def fresh?
+      expires_at && expires_at > Time.zone.now
+    end
+
     def expired?
-      expires_at > Time.now
+      !fresh?
     end
   end
 end
