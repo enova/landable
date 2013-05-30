@@ -5,7 +5,7 @@ module Landable
       layout = theme.try(:layout) || 'application'
 
       reply = if page.status_code == 200 || page.body.present?
-                proc { controller.render text: page.body, layout: layout }
+                proc { controller.render text: page.body, layout: layout, locals: { current_page: page } }
               else
                 proc { controller.head :bad_request }
               end

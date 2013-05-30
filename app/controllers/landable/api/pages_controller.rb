@@ -21,7 +21,7 @@ module Landable
       end
 
       def preview
-        RenderService.call self, Page.find(params[:id])
+        RenderService.call self, Page.new(page_params)
       end
 
       private
