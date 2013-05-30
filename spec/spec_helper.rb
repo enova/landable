@@ -5,6 +5,7 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'factory_girl_rails'
 require 'valid_attribute'
+require 'pry'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -23,4 +24,8 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Landable::Spec::CoreHelpers
   config.include Landable::Spec::HttpHelpers, type: :controller
+
+  config.before :suite do
+    Landable.load_themes File.expand_path('../support/themes.yml', __FILE__)
+  end
 end

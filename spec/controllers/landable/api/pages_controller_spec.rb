@@ -5,7 +5,7 @@ module Landable::Api
     routes { Landable::Engine.routes }
 
     describe '#create' do
-      include_examples 'API authentication', :make_request
+      include_examples 'Authenticated API controller', :make_request
 
       let(:default_params) do
         { page: attributes_for(:page) }
@@ -51,7 +51,7 @@ module Landable::Api
     end
 
     describe '#show' do
-      include_examples 'API authentication', :make_request
+      include_examples 'Authenticated API controller', :make_request
       let(:page) { @page || create(:page) }
 
       def make_request(id = page.id)
@@ -72,7 +72,8 @@ module Landable::Api
     end
 
     describe '#update' do
-      include_examples 'API authentication', :make_request
+      include_examples 'Authenticated API controller', :make_request
+
       let(:page) { @page || create(:page) }
       let(:default_params) do
         { page: { body: 'Different body content' } }
@@ -114,7 +115,7 @@ module Landable::Api
     end
 
     describe '#preview', json: false do
-      include_examples 'API authentication', :make_request
+      include_examples 'Authenticated API controller', :make_request
       let(:page) { @page || create(:page) }
 
       before do

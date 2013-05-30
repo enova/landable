@@ -1,0 +1,10 @@
+- name: TV May 2013
+  description: "Theme for CNU's May 2013 TV campaign"
+  layout: cnu_tv_2013
+  screenshot_urls:
+  - http://example.com/tv-2013.png
+
+- name: Blank
+  description: Completely blank layout
+  layout: ~
+  screenshot_urls: ~

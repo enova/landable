@@ -1,4 +1,3 @@
 Rails.application.routes.draw do
-
-  mount Landable::Engine => "/landable"
+  mount Landable::Engine => "/"
 end

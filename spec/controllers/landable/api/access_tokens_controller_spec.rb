@@ -59,7 +59,7 @@ describe Landable::Api::AccessTokensController, json: true do
   end
 
   describe '#destroy' do
-    include_examples 'API authentication', :make_request
+    include_examples 'Authenticated API controller', :make_request
     let(:token) { current_access_token }
 
     def make_request(id = token.id)
