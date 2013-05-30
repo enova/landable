@@ -42,5 +42,19 @@ module Landable
     def ldap_entry(name)
       ldap.search(filter: Net::LDAP::Filter.eq('uid', name)).try(:first)
     end
+
+    class DevelopmentMock < LdapAuthenticationService
+      def authenticate!
+        if @username == 'trogdor' && @password == 'trogdor'
+          { username: 'trogdor',
+            email: 'trogdor@cashnetusa.com',
+            first_name: 'Trogdor',
+            last_name: 'de Burninator'
+          }
+        else
+          super
+        end
+      end
+    end
   end
 end

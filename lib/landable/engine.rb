@@ -24,5 +24,14 @@ module Landable
         end
       end
     end
+
+    initializer "landable.dependency_injection" do |app|
+      if Rails.env.development?
+        Landable::Api::AccessTokensController.override(:ldap_service) do |controller|
+          params = controller.params
+          LdapAuthenticationService::DevelopmentMock.new(params[:username], params[:password])
+        end
+      end
+    end
   end
 end
