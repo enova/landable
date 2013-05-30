@@ -2,8 +2,7 @@ module Landable
   class DirectorySerializer < ActiveModel::Serializer
     attributes :path
 
-    embed :ids, include: true
-    has_many   :subdirectories, embed_key: :path
-    has_many   :pages
+    has_many   :subdirectories, embed: :ids, embed_key: :path
+    has_many   :pages, embed: :ids, include: true
   end
 end
