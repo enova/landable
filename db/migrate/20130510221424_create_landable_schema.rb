@@ -1,6 +1,12 @@
 class CreateLandableSchema < ActiveRecord::Migration
   def change
+    # This really should not be in this migration, but it's a convenient location
+    # while everything's still under development.
+    #
+    # TODO extract to a separate migration, check if it exists, maybe check if we
+    # actually have permission to do it, etc.
     enable_extension "uuid-ossp"
+    enable_extension "hstore"
 
     # Currently prevents creation of Pages due to apparent AR4 bug:
     # execute " DROP DOMAIN IF EXISTS uri;
@@ -21,6 +27,8 @@ class CreateLandableSchema < ActiveRecord::Migration
 
       t.integer   :status_code, null: false, default: 200
       t.text      :redirect_url
+
+      t.hstore    :meta_tags
 
       t.timestamp :imported_at
       t.timestamps

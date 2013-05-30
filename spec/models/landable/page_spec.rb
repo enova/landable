@@ -29,6 +29,21 @@ module Landable
       end
     end
 
+    describe '#meta_tags' do
+      it { subject.should have_valid(:meta_tags).when(nil) }
+
+      specify "quacks like a Hash" do
+        # Note the change from symbol to string; thus, always favor strings.
+        page = create :page, meta_tags: { keywords: 'foo' }
+        page.meta_tags.keys.should == [:keywords]
+
+        tags = Page.first.meta_tags
+        tags.should be_a(Enumerable)
+        tags.keys.should == ['keywords']
+        tags.values.should == ['foo']
+      end
+    end
+
     describe '#theme=' do
       it 'sets theme_name' do
         Page.new(theme: 'foo').theme_name.should == 'foo'

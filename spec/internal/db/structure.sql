@@ -30,6 +30,20 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
+-- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION hstore; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
+
+
+--
 -- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -89,6 +103,8 @@ CREATE TABLE pages (
     body text,
     status_code integer DEFAULT 200 NOT NULL,
     redirect_url text,
+    meta_tags public.hstore,
+    imported_at timestamp without time zone,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
