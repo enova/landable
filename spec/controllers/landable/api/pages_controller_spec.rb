@@ -121,8 +121,8 @@ module Landable::Api
         request.env['HTTP_ACCEPT'] = 'text/html'
       end
 
-      def make_request(id = page.id)
-        get :preview, id: id
+      def make_request(attributes = attributes_for(:page))
+        post :preview, page: attributes
       end
 
       it 'renders HTML' do
@@ -134,41 +134,31 @@ module Landable::Api
       it 'does not know how to return JSON' do
         request.env['HTTP_ACCEPT'] = 'application/json'
         make_request
-      end
-
-      context 'no such page' do
-        it 'returns 404' do
-          make_request random_uuid
-          response.status.should == 404
-        end
+        response.status.should == 406
       end
 
       context 'page is a redirect' do
         it 'renders the body as normal, if possible' do
-          @page = create :page, :redirect, body: 'still here'
-          make_request
+          make_request attributes_for(:page, :redirect, body: 'still here')
           response.status.should == 200
           response.content_type.should == 'text/html'
         end
 
         it 'returns 400 if there is no body' do
-          @page = create :page, :redirect
-          make_request
+          make_request attributes_for(:page, :redirect)
           response.status.should == 400
         end
       end
 
       context 'page is a 404' do
         it 'renders the body as normal, if possible' do
-          @page = create :page, :not_found, body: 'still here'
-          make_request
+          make_request attributes_for(:page, :not_found, body: 'still here')
           response.status.should == 200
           response.content_type.should == 'text/html'
         end
 
         it 'returns 400 if there is no body' do
-          @page = create :page, :not_found
-          make_request
+          make_request attributes_for(:page, :not_found)
           response.status.should == 400
         end
       end

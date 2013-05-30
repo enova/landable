@@ -4,13 +4,12 @@ rescue LoadError
   puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
 end
 
-require 'combustion'
-Combustion.schema_format = :sql
-Combustion.initialize! :active_record, :action_controller, :action_view
-Combustion::Application.load_tasks
+APP_RAKEFILE = File.expand_path("../spec/dummy/Rakefile", __FILE__)
+load 'rails/tasks/engine.rake'
+
+Bundler::GemHelper.install_tasks
 
 require 'rdoc/task'
-
 RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = 'Landable'
@@ -19,4 +18,9 @@ RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-Bundler::GemHelper.install_tasks
+require 'rspec/core'
+require 'rspec/core/rake_task'
+
+desc "Run specs"
+RSpec::Core::RakeTask.new(:spec => 'app:db:test:prepare')
+task :default => :spec

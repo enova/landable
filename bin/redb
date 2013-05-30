@@ -1,4 +1,8 @@
 #!/bin/sh
-rm spec/internal/db/structure.sql
-touch spec/internal/db/structure.sql
-RAILS_ENV=test rake db:structure:dump
+rm spec/dummy/db/structure.sql
+rm spec/dummy/db/migrate/*.rb
+
+rake app:landable:install:migrations
+rake app:db:drop:all
+rake app:db:create:all
+rake app:db:migrate
