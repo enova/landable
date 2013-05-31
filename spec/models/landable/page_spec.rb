@@ -58,7 +58,7 @@ module Landable
 
     describe '#path=' do
       it 'ensures a leading "/" on path' do
-        Page.new(path: 'foo/bar').path.should == '/foo/bar' 
+        Page.new(path: 'foo/bar').path.should == '/foo/bar'
       end
 
       it 'leaves nil and empty paths alone' do
