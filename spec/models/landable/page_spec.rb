@@ -55,5 +55,17 @@ module Landable
         Page.new(theme: 'anything').theme.should == theme
       end
     end
+
+    describe '#path=' do
+      it 'ensures a leading "/" on path' do
+        Page.new(path: 'foo/bar').path.should == '/foo/bar' 
+      end
+
+      it 'leaves nil and empty paths alone' do
+        Page.new(path: '').path.should == ''
+        Page.new(path: nil).path.should == nil
+      end
+    end
+
   end
 end

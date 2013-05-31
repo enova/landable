@@ -40,6 +40,15 @@ module Landable
       self.theme_name = name
     end
 
+    def path=(name)
+      # if not present, add a leading slash for a non-empty path
+      if name and not name.empty?
+        name = name.gsub(/^\/?(.*)/, '/\1')
+      end
+
+      self[:path] = name
+    end
+
     private
 
     def theme_exists
