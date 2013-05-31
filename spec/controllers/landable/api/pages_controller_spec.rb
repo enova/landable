@@ -116,7 +116,7 @@ module Landable::Api
 
     describe '#preview', json: false do
       include_examples 'Authenticated API controller', :make_request
-      let(:page) { @page || create(:page) }
+      render_views
 
       before do
         request.env['HTTP_ACCEPT'] = 'text/html'
@@ -138,30 +138,25 @@ module Landable::Api
         response.status.should == 406
       end
 
-      context 'page is a redirect' do
-        it 'renders the body as normal, if possible' do
-          make_request attributes_for(:page, :redirect, body: 'still here')
-          response.status.should == 200
-          response.content_type.should == 'text/html'
-        end
-
-        it 'returns 400 if there is no body' do
-          make_request attributes_for(:page, :redirect)
-          response.status.should == 400
-        end
+      it 'renders the layout without content if the body is not present' do
+        make_request attributes_for(:page, body: nil)
+        response.status.should == 200
+        response.content_type.should == 'text/html'
+        response.body.should match(/!doctype/i)
       end
 
-      context 'page is a 404' do
-        it 'renders the body as normal, if possible' do
-          make_request attributes_for(:page, :not_found, body: 'still here')
-          response.status.should == 200
-          response.content_type.should == 'text/html'
-        end
+      it 'renders 30x pages as if they were 200s' do
+        make_request attributes_for(:page, :redirect, body: 'still here')
+        response.status.should == 200
+        response.content_type.should == 'text/html'
+        response.body.should match(/still here/)
+      end
 
-        it 'returns 400 if there is no body' do
-          make_request attributes_for(:page, :not_found)
-          response.status.should == 400
-        end
+      it 'renders 404 pages as if they were 200s' do
+        make_request attributes_for(:page, :not_found, body: 'still here')
+        response.status.should == 200
+        response.content_type.should == 'text/html'
+        response.body.should match(/still here/)
       end
     end
   end
