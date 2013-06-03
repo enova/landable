@@ -36,6 +36,9 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     add_index 'landable.pages', :path, unique: true
 
+    # Manually add CHECK constraints for valid URIs until we can get the custom domain working
+    execute "ALTER TABLE landable.pages ADD CONSTRAINT only_valid_paths CHECK (path ~ '^/[a-zA-Z0-9/_.~-]*$');"
+
     create_table 'landable.authors', id: :uuid, primary_key: :author_id do |t|
       t.text :email,      null: false
       t.text :username,   null: false
