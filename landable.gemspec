@@ -36,6 +36,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "pg"
   gem.add_development_dependency "rspec-rails",        '~> 2.13.0'
   gem.add_development_dependency "factory_girl_rails", '~> 4.2.0'
+  gem.add_development_dependency "simplecov"
   gem.add_development_dependency "valid_attribute"
   gem.add_development_dependency "pry"
 end
