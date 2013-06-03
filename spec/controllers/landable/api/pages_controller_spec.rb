@@ -63,6 +63,12 @@ module Landable::Api
         last_json['page']['body'].should == page.body
       end
 
+      it 'includes an empty meta_tags hash instead of a null' do
+        page.update_attributes meta_tags: nil
+        make_request
+        last_json['page']['meta_tags'].should == {}
+      end
+
       context 'no such page' do
         it 'returns 404' do
           make_request random_uuid
