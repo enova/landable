@@ -12,6 +12,7 @@ module Landable
     end
 
     attr_reader :path, :subdirectories, :pages
+    alias_attribute :id, :path
 
     def initialize(path, subdirectories = [], pages = [])
       @path = path.squeeze '/'
