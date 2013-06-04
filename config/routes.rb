@@ -1,7 +1,7 @@
 Landable::Engine.routes.draw do
   scope path: '/landable', module: 'api' do
     resources :themes, only: [:index]
-    resources :directories, only: [:index, :show]
+    resources :directories, only: [:index, :show], :constraints => {:id => /[%a-zA-Z0-9\/_.~-]*/}
 
     resources :pages do
       post 'preview', on: :collection
