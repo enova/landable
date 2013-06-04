@@ -5,7 +5,7 @@ FactoryGirl.define do
     sequence(:path) { |n| "/page-#{n}" }
     status_code 200
 
-    theme_name 'Foo'
+    theme_name 'testing'
     sequence(:title) { |n| "Page #{n}" }
     body "<div>Page body</div>"
 

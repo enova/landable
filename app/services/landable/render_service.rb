@@ -1,8 +1,7 @@
 module Landable
   class RenderService
     def self.call(controller, page)
-      theme  = page.theme
-      layout = theme.try(:layout) || 'application'
+      layout   = page.theme.try(:layout) || false
       landable = Landable::PageDecorator.new(page)
 
       controller.respond_to do |format|

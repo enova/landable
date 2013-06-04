@@ -126,9 +126,10 @@ module Landable::Api
 
       before do
         request.env['HTTP_ACCEPT'] = 'text/html'
+        Landable.stub!(themes: [Landable::Theme.new(name: 'testing', layout: 'testing')])
       end
 
-      def make_request(attributes = attributes_for(:page))
+      def make_request(attributes = attributes_for(:page, theme_name: 'testing'))
         post :preview, page: attributes
       end
 
@@ -145,21 +146,28 @@ module Landable::Api
       end
 
       it 'renders the layout without content if the body is not present' do
-        make_request attributes_for(:page, body: nil)
+        make_request attributes_for(:page, body: nil, theme_name: 'testing')
         response.status.should == 200
         response.content_type.should == 'text/html'
         response.body.should match(/!doctype/i)
       end
 
+      it 'renders without a layout if no theme is present' do
+        make_request attributes_for(:page, body: 'raw content', theme_name: nil)
+        response.status.should == 200
+        response.content_type.should == 'text/html'
+        response.body.should == 'raw content'
+      end
+
       it 'renders 30x pages as if they were 200s' do
-        make_request attributes_for(:page, :redirect, body: 'still here')
+        make_request attributes_for(:page, :redirect, body: 'still here', theme_name: 'testing')
         response.status.should == 200
         response.content_type.should == 'text/html'
         response.body.should match(/still here/)
       end
 
       it 'renders 404 pages as if they were 200s' do
-        make_request attributes_for(:page, :not_found, body: 'still here')
+        make_request attributes_for(:page, :not_found, body: 'still here', theme_name: 'testing')
         response.status.should == 200
         response.content_type.should == 'text/html'
         response.body.should match(/still here/)
