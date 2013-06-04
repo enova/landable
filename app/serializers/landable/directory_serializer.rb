@@ -3,6 +3,6 @@ module Landable
     attributes :path
 
     has_many   :subdirectories, embed: :ids, embed_key: :path
-    has_many   :pages, embed: :ids, include: true
+    has_many   :pages, embed: :ids
   end
 end

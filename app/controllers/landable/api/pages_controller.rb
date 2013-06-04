@@ -3,6 +3,18 @@ require_dependency "landable/application_controller"
 module Landable
   module Api
     class PagesController < ApiController
+      def index
+        ids = params[:ids] if params[:ids].present? and params[:ids].is_a? Array
+
+        if ids
+          pages = Page.where(page_id: params[:ids])
+        else
+          pages = Page.all
+        end
+
+        render json: pages
+      end
+
       def create
         @page = Page.new page_params
         @page.save!
