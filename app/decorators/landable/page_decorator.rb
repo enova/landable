@@ -16,6 +16,10 @@ module Landable
       content_tag('title', title)
     end
 
+    def path
+      page.path
+    end
+
     def meta_tags
       return unless tags = page.meta_tags
       return if tags.empty?
