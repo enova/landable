@@ -17,10 +17,6 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "DROP SCHEMA IF EXISTS landable; CREATE SCHEMA landable;"
 
-    # Creating this via SQL (instead of create_table) because the app shouldn't need to know about it.
-    #execute "CREATE TABLE landable.status_codes(
-              #status_code integer not null primary key);"
-
     create_table 'landable.pages', id: :uuid, primary_key: :page_id do |t|
       # t.column "path", :uri, null: false
       t.text      :path, null: false
@@ -59,7 +55,6 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "ALTER TABLE landable.pages ADD CONSTRAINT only_valid_paths CHECK (path ~ '^/[a-zA-Z0-9/_.~-]*$');"
 
     # landable.pages:
-    #execute "ALTER TABLE landable.pages ADD CONSTRAINT status_codes_fk FOREIGN KEY (status_code) REFERENCES landable.status_codes (status_code) MATCH FULL;"
     execute "ALTER TABLE landable.pages ADD CONSTRAINT only_valid_status_codes CHECK (status_code IN (200,301,302,404))"
     # => redirect_url: points to an existing page (FK)
     # => theme_name: points to existing theme (FK)
