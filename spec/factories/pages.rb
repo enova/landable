@@ -2,6 +2,7 @@
 
 FactoryGirl.define do
   factory :page, class: 'Landable::Page' do
+    
     sequence(:path) { |n| "/page-#{n}" }
     status_code 200
 

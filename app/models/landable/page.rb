@@ -7,6 +7,9 @@ module Landable
     validates_inclusion_of  :status_code, in: [200, 301, 302, 404]
     validates_presence_of   :redirect_url, if: -> page { page.redirect? }
 
+    belongs_to :published_revision, class_name: 'PageRevision'
+    has_many :revisions, class_name: 'PageRevision'
+
     class << self
       def missing
         new(status_code: 404)
@@ -48,6 +51,12 @@ module Landable
 
       self[:path] = name
     end
+
+    def publish!(author)
+      revision = revisions.create author: author
+      self.published_revision = revision
+      save!
+   end
 
     private
 

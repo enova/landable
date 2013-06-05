@@ -36,6 +36,12 @@ module Landable
         RenderService.call self, Page.new(page_params)
       end
 
+      def publish
+        @page = Page.find params[:id]
+        @page.publish! author_id: params[:author_id]
+        render json: @page, serializer: Landable::PageSerializer
+      end
+
       private
 
       def page_params

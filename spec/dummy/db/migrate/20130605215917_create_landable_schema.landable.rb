@@ -1,3 +1,4 @@
+# This migration comes from landable (originally 20130510221424)
 class CreateLandableSchema < ActiveRecord::Migration
   def change
     # This really should not be in this migration, but it's a convenient location
