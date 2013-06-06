@@ -44,18 +44,6 @@ module Landable
       end
     end
 
-    describe '#theme=' do
-      it 'sets theme_name' do
-        Page.new(theme: 'foo').theme_name.should == 'foo'
-      end
-
-      it 'changes #theme object' do
-        theme = double 'theme'
-        Landable.stub! find_theme: theme # sorry world
-        Page.new(theme: 'anything').theme.should == theme
-      end
-    end
-
     describe '#path=' do
       it 'ensures a leading "/" on path' do
         Page.new(path: 'foo/bar').path.should == '/foo/bar'
@@ -78,7 +66,7 @@ module Landable
       it 'should have the provided author' do
         page.publish! author: author
         revision = page.revisions.last
-        
+
         revision.author.should == author
       end
 

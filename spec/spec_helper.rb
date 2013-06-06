@@ -27,8 +27,4 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Landable::Spec::CoreHelpers
   config.include Landable::Spec::HttpHelpers, type: :controller
-
-  config.before :suite do
-    Landable.load_themes File.expand_path('../support/themes.yml', __FILE__)
-  end
 end

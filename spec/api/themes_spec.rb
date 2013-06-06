@@ -8,15 +8,14 @@ describe 'GET /themes', json: true do
   end
 
   it 'returns all themes' do
-    theme = Landable.themes.first
-    Landable.stub!(themes: [theme])
+    theme = create :theme
 
     make_request
     response.status.should == 200
 
     json['themes'].length.should == 1
     json['themes'][0].should include({
-      'name' => theme.name, 'description' => theme.description, 'layout' => theme.layout, 'screenshot_urls' => theme.screenshot_urls
+      'name' => theme.name, 'description' => theme.description, 'screenshot_url' => theme.screenshot_url
     })
   end
 

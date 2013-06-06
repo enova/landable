@@ -14,5 +14,13 @@ module Landable
     def meta_tags
       ''
     end
+
+    def path
+      ''
+    end
+
+    def body
+      ''
+    end
   end
 end

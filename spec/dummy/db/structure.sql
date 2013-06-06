@@ -9,13 +9,6 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- Name: history; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA history;
-
-
---
 -- Name: landable; Type: SCHEMA; Schema: -; Owner: -
 --
 
@@ -67,95 +60,6 @@ COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UU
 SET search_path = public, pg_catalog;
 
 --
--- Name: create_history_record(name, hstore); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION create_history_record(p_table_name name, p_column_values hstore) RETURNS text
-    LANGUAGE plpgsql
-    AS $$
-DECLARE 
-    v_column        text = '';
-    v_value         text = '';
-    v_column_list   text = '';
-    v_values_list   text = '';
-    v_sql           text = '';
-
-BEGIN
-    --Make sure arguments are not null
-    IF p_table_name IS NULL THEN
-        RAISE EXCEPTION 'p_table_name cannot be null!';
-    ELSEIF p_column_values IS NULL THEN
-        RAISE EXCEPTION 'p_column_values cannot be null!';
-    END IF;
-
-    --Setup initial statement
-    v_sql := 'INSERT INTO ' || p_table_name || ' (';
-
-    --Loop through columns & values, concatenate on to existing lists
-    FOR v_column, v_value IN SELECT (each(p_column_values)).key, (each(p_column_values)).value
-    LOOP
-        v_column_list := v_column_list || ', ' || v_column;
-        v_values_list := v_values_list || ', ' || v_value;
-    END LOOP;
-
-    --Add ending paren
-    v_column_list := v_column_list || ')';
-    v_values_list := v_values_list || ')';
-
-    --Create entire insert statement
-    v_sql := v_sql || v_column_list || ' VALUES (' || v_values_list;
-
-    --Remove bogus commas
-    v_sql := replace(v_sql, '(,', '(');
-
-    IF v_sql LIKE '%;%' THEN
-        RAISE EXCEPTION 'Invalid character in statement, %', v_sql;
-    END IF;
-
-    EXECUTE v_sql;
-
-    RETURN v_sql;
-END;
-$$;
-
-
---
--- Name: create_history_table(text, hstore); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION create_history_table(p_table_name text, p_table_columns hstore) RETURNS text
-    LANGUAGE plpgsql
-    AS $$
-DECLARE
-    v_sql text = 'CREATE TABLE ' || p_table_name || '(';
-    v_out text = p_table_name || '_ID INTEGER NOT NULL';
-    v_key text = '';
-    v_value text = '';
-BEGIN
-    --Check for null args
-    IF p_table_name IS NULL THEN
-        RAISE EXCEPTION 'p_table_name cannot be null!';
-    ELSEIF p_table_columns IS NULL THEN
-        RAISE EXCEPTION 'p_table_columns cannot be null!';
-    END IF;
-
-    --Loop through columns/types, creating sql statement
-    FOR v_key, v_value IN SELECT (each(p_table_columns)).key, (each(p_table_columns)).value
-    LOOP
-        v_out := v_out || ', ' || v_key || ' ' || v_value;
-    END LOOP;
-
-    --Put together final statement
-    v_sql := v_sql || v_out || ');';
-
-    EXECUTE v_sql;
-
-    RETURN v_sql;
-END;
-$$;
-
-
---
 -- Name: pages_revision_ordinal(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -174,27 +78,11 @@ CREATE FUNCTION pages_revision_ordinal() RETURNS trigger
        $$;
 
 
-SET search_path = history, pg_catalog;
+SET search_path = landable, pg_catalog;
 
 SET default_tablespace = '';
 
 SET default_with_oids = false;
-
---
--- Name: table_columns; Type: TABLE; Schema: history; Owner: -; Tablespace: 
---
-
-CREATE TABLE table_columns (
-    table_column_id integer NOT NULL,
-    table_name text NOT NULL,
-    column_name text NOT NULL,
-    column_data_type text NOT NULL,
-    column_is_nullable boolean NOT NULL,
-    column_is_changeable boolean NOT NULL
-);
-
-
-SET search_path = landable, pg_catalog;
 
 --
 -- Name: access_tokens; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
@@ -233,6 +121,7 @@ CREATE TABLE page_revisions (
     ordinal integer,
     page_id uuid NOT NULL,
     author_id uuid NOT NULL,
+    theme_id uuid,
     snapshot_attributes public.hstore NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
@@ -246,8 +135,8 @@ CREATE TABLE page_revisions (
 CREATE TABLE pages (
     page_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     published_revision_id uuid,
+    theme_id uuid,
     path text NOT NULL,
-    theme_name text,
     title text,
     body text,
     status_code integer DEFAULT 200 NOT NULL,
@@ -261,6 +150,21 @@ CREATE TABLE pages (
 );
 
 
+--
+-- Name: themes; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE themes (
+    theme_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    name text NOT NULL,
+    body text NOT NULL,
+    description text NOT NULL,
+    screenshot_url text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
 SET search_path = public, pg_catalog;
 
 --
@@ -270,26 +174,6 @@ SET search_path = public, pg_catalog;
 CREATE TABLE schema_migrations (
     version character varying(255) NOT NULL
 );
-
-
---
--- Name: test; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE test (
-    test_id integer NOT NULL,
-    tester_id integer NOT NULL
-);
-
-
-SET search_path = history, pg_catalog;
-
---
--- Name: table_columns_pkey; Type: CONSTRAINT; Schema: history; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY table_columns
-    ADD CONSTRAINT table_columns_pkey PRIMARY KEY (table_column_id);
 
 
 SET search_path = landable, pg_catalog;
@@ -327,6 +211,21 @@ ALTER TABLE ONLY pages
 
 
 --
+-- Name: themes_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY themes
+    ADD CONSTRAINT themes_pkey PRIMARY KEY (theme_id);
+
+
+--
+-- Name: index_landable.access_tokens_on_author_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE INDEX "index_landable.access_tokens_on_author_id" ON access_tokens USING btree (author_id);
+
+
+--
 -- Name: index_landable.authors_on_email; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -345,6 +244,13 @@ CREATE UNIQUE INDEX "index_landable.authors_on_username" ON authors USING btree 
 --
 
 CREATE UNIQUE INDEX "index_landable.pages_on_path" ON pages USING btree (path);
+
+
+--
+-- Name: index_landable.themes_on_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX "index_landable.themes_on_name" ON themes USING btree (name);
 
 
 SET search_path = public, pg_catalog;
@@ -390,9 +296,25 @@ ALTER TABLE ONLY pages
 
 
 --
+-- Name: theme_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY page_revisions
+    ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES themes(theme_id);
+
+
+--
+-- Name: theme_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY pages
+    ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES themes(theme_id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130610150814');
+INSERT INTO schema_migrations (version) VALUES ('20130610160408');

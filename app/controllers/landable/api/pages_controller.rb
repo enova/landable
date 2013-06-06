@@ -18,7 +18,7 @@ module Landable
       def create
         @page = Page.new page_params
         @page.save!
-        render json: @page, serializer: Landable::PageSerializer, status: :created, location: url_for(@page)
+        render json: @page, serializer: Landable::PageSerializer, status: :created, location: page_url(@page)
       end
 
       def show
@@ -33,7 +33,12 @@ module Landable
       end
 
       def preview
-        RenderService.call self, Page.new(page_params)
+        respond_to do |format|
+          format.html do
+            content = RenderService.call Page.new(page_params)
+            render text: content, layout: false, content_type: 'text/html'
+          end
+        end
       end
 
       def publish
@@ -45,7 +50,7 @@ module Landable
       private
 
       def page_params
-        params.require(:page).permit(:id, :path, :theme_name, :title, :body, :status_code, :redirect_url,
+        params.require(:page).permit(:id, :path, :theme_id, :title, :body, :status_code, :redirect_url,
                                      meta_tags: [:description, :keywords, :robots])
       end
     end
