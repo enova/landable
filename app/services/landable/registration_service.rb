@@ -1,7 +1,7 @@
 require_dependency "landable/author"
 
 module Landable
-  class AuthorRegistrationService
+  class RegistrationService
     def self.call(attributes)
       if author = Author.where(username: attributes[:username]).first
         author
