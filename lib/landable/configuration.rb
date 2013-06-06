@@ -1,11 +1,16 @@
 module Landable
   class Configuration
-    attr_accessor :authenticator
     attr_writer :api_namespace, :public_namespace
 
-    def authenticator
-      @authenticator || raise("No Landable authenticator configured.")
+    def authenticators
+      @authenticators || raise("No Landable authenticator configured.")
     end
+
+    def authenticators=(authenticators)
+      @authenticators = Array(authenticators)
+    end
+
+    alias :authenticator= :authenticators=
 
     def api_namespace
       @api_namespace ||= '/landable'

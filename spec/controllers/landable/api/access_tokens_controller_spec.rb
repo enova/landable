@@ -16,7 +16,7 @@ describe Landable::Api::AccessTokensController, json: true do
     end
 
     before do
-      Landable.configuration.stub!(authenticator: authenticator)
+      Landable.configuration.stub!(authenticators: [authenticator])
     end
 
     def make_request(username, password)
