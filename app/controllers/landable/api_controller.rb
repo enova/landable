@@ -2,6 +2,7 @@ require_dependency "landable/author"
 
 module Landable
   class ApiController < ApplicationController
+    skip_before_filter :protect_from_forgery
     before_filter :require_author!
 
     rescue_from ActiveRecord::RecordNotFound do |ex|
