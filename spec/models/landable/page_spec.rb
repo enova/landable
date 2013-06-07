@@ -72,18 +72,18 @@ module Landable
       let(:author) { FactoryGirl.create :author }
 
       it 'should create a page_revision' do
-        expect {page.publish!(author)}.to change{page.revisions.count}.from(0).to(1)
+        expect {page.publish!(author: author)}.to change{page.revisions.count}.from(0).to(1)
       end
 
       it 'should have the provided author' do
-        page.publish! author
+        page.publish! author: author
         revision = page.revisions.last
         
         revision.author.should == author
       end
 
       it 'should update the published_revision_id' do
-        page.publish! author
+        page.publish! author: author
         revision = page.revisions.last
 
         page.published_revision.should == revision

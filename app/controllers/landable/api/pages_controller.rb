@@ -38,7 +38,7 @@ module Landable
 
       def publish
         @page = Page.find params[:id]
-        @page.publish! author_id: params[:author_id]
+        @page.publish! author: current_author
         render json: @page, serializer: Landable::PageSerializer
       end
 

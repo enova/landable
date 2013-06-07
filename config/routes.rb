@@ -5,12 +5,10 @@ Landable::Engine.routes.draw do
 
     resources :pages do
       post 'preview', on: :collection
-
-      member do
-        resources :page_revisions, path: 'revisions', only: [:index, :show]
-        post 'publish'
-      end
+      post 'publish', on: :member
     end
+
+    resources :page_revisions, only: [:index, :show]
 
     resources :access_tokens, only: [:create, :destroy]
   end
