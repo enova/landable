@@ -46,6 +46,9 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_index 'landable.authors', :email, unique: true
+    add_index 'landable.authors', :username, unique: true
+
     create_table 'landable.access_tokens', id: :uuid, primary_key: :access_token_id do |t|
       t.uuid      :author_id,  null: false
       t.timestamp :expires_at, null: false
