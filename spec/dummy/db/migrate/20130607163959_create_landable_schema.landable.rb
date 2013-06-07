@@ -59,16 +59,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.uuid      :page_id, null: false
       t.uuid      :author_id, null: false
 
-      t.text      :page_path, null: false
-      t.text      :page_theme_name
-
-      t.text      :page_title
-      t.text      :page_body
-
-      t.integer   :page_status_code, null: false, default: 200
-      t.text      :page_redirect_url
-
-      t.hstore    :page_meta_tags
+      t.hstore    :snapshot_attributes, null: false
 
       t.timestamps
     end

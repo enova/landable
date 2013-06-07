@@ -233,13 +233,7 @@ CREATE TABLE page_revisions (
     ordinal integer,
     page_id uuid NOT NULL,
     author_id uuid NOT NULL,
-    page_path text NOT NULL,
-    page_theme_name text,
-    page_title text,
-    page_body text,
-    page_status_code integer DEFAULT 200 NOT NULL,
-    page_redirect_url text,
-    page_meta_tags public.hstore,
+    snapshot_attributes public.hstore NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -387,4 +381,4 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130605215917');
+INSERT INTO schema_migrations (version) VALUES ('20130607163959');
