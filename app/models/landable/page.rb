@@ -14,6 +14,8 @@ module Landable
     belongs_to :published_revision, class_name: 'Landable::PageRevision'
     has_many   :revisions, class_name: 'Landable::PageRevision'
 
+    scope :imported, -> { where("imported_at IS NOT NULL") }
+
     class << self
       def missing
         new(status_code: 404)
