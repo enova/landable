@@ -1,13 +1,7 @@
 module Landable
-  class Theme
-    include ActiveModel::SerializerSupport
-
-    attr_reader :name, :description, :layout, :screenshot_urls
-
-    def initialize(attributes)
-      attributes.each do |attr, value|
-        instance_variable_set(:"@#{attr}", value)
-      end
-    end
+  class Theme < ActiveRecord::Base
+    self.table_name = 'landable.themes'
+    validates_presence_of :name, :description
+    has_many :pages, inverse_of: :theme
   end
 end

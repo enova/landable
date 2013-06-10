@@ -20,13 +20,26 @@ module Landable
       page.path
     end
 
+    def body
+      page.body
+    end
+
     def meta_tags
       return unless tags = page.meta_tags
       return if tags.empty?
 
       tags.map { |name, value|
-        tag('meta', name: name, value: value) if value.present?
+        tag('meta', name: name, content: value) if value.present?
       }.compact.join("\n").html_safe
+    end
+
+    def to_liquid
+      { 'head'      => head,
+        'title'     => title,
+        'meta_tags' => meta_tags,
+        'path'      => path,
+        'body'      => body
+      }
     end
 
     private

@@ -1,3 +1,6 @@
+require_dependency 'landable/theme'
+require_dependency 'landable/page_revision'
+
 module Landable
   class Page < ActiveRecord::Base
     self.table_name = 'landable.pages'
@@ -7,8 +10,9 @@ module Landable
     validates_inclusion_of  :status_code, in: [200, 301, 302, 404]
     validates_presence_of   :redirect_url, if: -> page { page.redirect? }
 
-    belongs_to  :published_revision, class_name: 'PageRevision'
-    has_many    :revisions, class_name: 'PageRevision'
+    belongs_to :theme, class_name: 'Landable::Theme', inverse_of: :pages
+    belongs_to :published_revision, class_name: 'Landable::PageRevision'
+    has_many   :revisions, class_name: 'Landable::PageRevision'
 
     class << self
       def missing
@@ -34,15 +38,6 @@ module Landable
       status_code == 301 || status_code == 302
     end
 
-    def theme
-      return nil unless theme_name
-      Landable.find_theme(theme_name)
-    end
-
-    def theme=(name)
-      self.theme_name = name
-    end
-
     def path=(name)
       # if not present, add a leading slash for a non-empty path
       if name and not name.empty?
@@ -63,12 +58,5 @@ module Landable
       self.attributes = revision.snapshot_attributes
       save!
    end
-
-    private
-
-    def theme_exists
-      return if theme.present?
-      errors.add(:theme_name, "Unknown theme #{theme_name}")
-    end
   end
 end

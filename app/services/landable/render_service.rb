@@ -1,13 +1,16 @@
+require 'liquid'
+
 module Landable
   class RenderService
-    def self.call(controller, page)
-      layout   = page.theme.try(:layout) || false
+    def self.call(page)
       landable = Landable::PageDecorator.new(page)
+      theme = page.theme
 
-      controller.respond_to do |format|
-        format.html do
-          controller.render text: page.body, layout: layout, locals: { landable: landable }
-        end
+      if theme.try(:body).blank?
+        landable.body || ''
+      else
+        template = Liquid::Template.parse(theme.body)
+        template.render!('landable' => landable)
       end
     end
   end

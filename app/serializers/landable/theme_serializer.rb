@@ -1,5 +1,5 @@
 module Landable
   class ThemeSerializer < ActiveModel::Serializer
-    attributes :name, :description, :layout, :screenshot_urls
+    attributes :id, :name, :body, :description, :screenshot_url
   end
 end
