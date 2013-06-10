@@ -1,3 +1,4 @@
+require_dependency "landable/application_controller"
 require_dependency "landable/author"
 
 module Landable

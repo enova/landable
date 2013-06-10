@@ -1,3 +1,5 @@
+require_dependency "landable/api_controller"
+
 module Landable
   module Api
     class PageRevisionsController < ApiController

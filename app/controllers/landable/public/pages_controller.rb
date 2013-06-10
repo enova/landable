@@ -1,3 +1,5 @@
+require_dependency "landable/application_controller"
+
 module Landable
   module Public
     class PagesController < ApplicationController
