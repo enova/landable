@@ -4,24 +4,23 @@ module Landable
   module Api
     class ThemesController < ApiController
       def index
-        render json: Theme.all, each_serializer: ThemeSerializer
+        respond_with Theme.all
       end
 
       def create
         theme = Theme.new(theme_params)
         theme.save!
-        render json: theme, serializer: ThemeSerializer, status: :created, location: theme_url(theme)
+        respond_with theme, status: :created, location: theme_url(theme)
       end
 
       def show
-        theme = Theme.find(params[:id])
-        render json: theme, serializer: ThemeSerializer
+        respond_with Theme.find(params[:id])
       end
 
       def update
         theme = Theme.find(params[:id])
         theme.update_attributes! theme_params
-        render json: theme, serializer: ThemeSerializer
+        respond_with theme
       end
 
       private

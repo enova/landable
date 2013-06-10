@@ -1,10 +1,14 @@
 require_dependency "landable/application_controller"
+require_dependency "landable/api_responder"
 require_dependency "landable/author"
 
 module Landable
   class ApiController < ApplicationController
     skip_before_filter :protect_from_forgery
     before_filter :require_author!
+
+    respond_to :json
+    self.responder = Landable::ApiResponder
 
     rescue_from ActiveRecord::RecordNotFound do |ex|
       head 404

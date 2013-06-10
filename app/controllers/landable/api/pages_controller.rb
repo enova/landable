@@ -12,24 +12,29 @@ module Landable
           pages = Page.all
         end
 
-        render json: pages
+        respond_with pages
       end
 
       def create
-        @page = Page.new page_params
-        @page.save!
-        render json: @page, serializer: Landable::PageSerializer, status: :created, location: page_url(@page)
+        page = Page.new page_params
+        page.save!
+        respond_with page, status: :created, location: page_url(page)
       end
 
       def show
-        @page = Page.find params[:id]
-        render json: @page, serializer: Landable::PageSerializer
+        respond_with Page.find(params[:id])
       end
 
       def update
         @page = Page.find params[:id]
         @page.update_attributes! page_params
-        render json: @page, serializer: Landable::PageSerializer
+        respond_with @page
+      end
+
+      def publish
+        @page = Page.find params[:id]
+        @page.publish! author: current_author
+        respond_with @page
       end
 
       def preview
@@ -39,12 +44,6 @@ module Landable
             render text: content, layout: false, content_type: 'text/html'
           end
         end
-      end
-
-      def publish
-        @page = Page.find params[:id]
-        @page.publish! author: current_author
-        render json: @page, serializer: Landable::PageSerializer
       end
 
       private

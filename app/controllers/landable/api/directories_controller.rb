@@ -8,12 +8,11 @@ module Landable
         ids ||= ['/']
 
         listings = ids.map { |id| Directory.listing id }
-        render json: listings
+        respond_with listings
       end
 
       def show
-        listing = Directory.listing params[:id]
-        render json: listing, serializer: Landable::DirectorySerializer
+        respond_with Directory.listing(params[:id])
       end
     end
   end

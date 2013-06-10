@@ -8,10 +8,7 @@ module Landable
       def create
         ident  = AuthenticationService.call(params[:username], params[:password])
         author = RegistrationService.call(ident)
-
-        render json: AccessToken.create!(author: author), status: :created,
-          serializer: AccessTokenSerializer
-
+        respond_with AccessToken.create!(author: author), status: :created
       rescue Landable::AuthenticationFailedError
         head :unauthorized
       end
