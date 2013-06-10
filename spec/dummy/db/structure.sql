@@ -327,6 +327,20 @@ ALTER TABLE ONLY pages
 
 
 --
+-- Name: index_landable.authors_on_email; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX "index_landable.authors_on_email" ON authors USING btree (email);
+
+
+--
+-- Name: index_landable.authors_on_username; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX "index_landable.authors_on_username" ON authors USING btree (username);
+
+
+--
 -- Name: index_landable.pages_on_path; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -381,4 +395,4 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130607163959');
+INSERT INTO schema_migrations (version) VALUES ('20130610150814');

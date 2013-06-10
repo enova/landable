@@ -8,7 +8,9 @@ Landable::Engine.routes.draw do
       post 'publish', on: :member
     end
 
-    resources :page_revisions, only: [:index, :show]
+    resources :page_revisions, only: [:index, :show] do
+      post 'revert_to', on: :member
+    end
 
     resources :access_tokens, only: [:create, :destroy]
   end

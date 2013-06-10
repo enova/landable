@@ -1,7 +1,6 @@
 module Landable
   class PageRevisionSerializer < ActiveModel::Serializer
     attributes :id, :ordinal
-    # attributes :page_path # FIXME apparently trying to build an actual url, breaking
     attributes :snapshot_attributes
     attributes :created_at
 

@@ -58,6 +58,12 @@ module Landable
       save!
    end
 
+   def revert_to!(revision)
+      self.published_revision = revision
+      self.attributes = revision.snapshot_attributes
+      save!
+   end
+
     private
 
     def theme_exists
