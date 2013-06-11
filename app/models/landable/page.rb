@@ -16,6 +16,8 @@ module Landable
 
     scope :imported, -> { where("imported_at IS NOT NULL") }
 
+    scope :imported, where('imported_at is not null')
+
     class << self
       def missing
         new(status_code: 404)
