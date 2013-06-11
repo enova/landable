@@ -119,6 +119,8 @@ CREATE TABLE authors (
 CREATE TABLE page_revisions (
     page_revision_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     ordinal integer,
+    notes text,
+    is_minor boolean DEFAULT false,
     page_id uuid NOT NULL,
     author_id uuid NOT NULL,
     theme_id uuid,
@@ -317,4 +319,4 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130610160408');
+INSERT INTO schema_migrations (version) VALUES ('20130611163136');
