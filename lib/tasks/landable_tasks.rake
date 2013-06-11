@@ -10,5 +10,9 @@ namespace :landable do
       body: File.read(File.expand_path('../minimal_theme.liquid', __FILE__)),
       description: 'A minimal HTML5 template'
     })
+
+    Landable::Category.create! name: 'Affiliates', description: 'Affiliates'
+    Landable::Category.create! name: 'PPC',        description: 'Pay-per-click'
+    Landable::Category.create! name: 'SEO',        description: 'Search engine optimization'
   end
 end

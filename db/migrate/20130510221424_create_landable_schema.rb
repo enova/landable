@@ -30,6 +30,7 @@ class CreateLandableSchema < ActiveRecord::Migration
     create_table 'landable.pages', id: :uuid, primary_key: :page_id do |t|
       t.uuid      :published_revision_id
       t.uuid      :theme_id
+      t.uuid      :category_id
 
       t.text      :path, null: false
 
@@ -115,5 +116,13 @@ class CreateLandableSchema < ActiveRecord::Migration
               BEFORE INSERT ON landable.page_revisions
               FOR EACH ROW EXECUTE PROCEDURE pages_revision_ordinal();"
 
+    create_table 'landable.categories', id: :uuid, primary_key: :category_id do |t|
+      t.text      :name
+      t.text      :description
+    end
+
+    add_index 'landable.categories', :name, unique: true
+
+    execute "ALTER TABLE landable.pages ADD CONSTRAINT category_id_fk FOREIGN KEY (category_id) REFERENCES landable.categories(category_id)"
   end
 end
