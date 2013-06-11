@@ -1,0 +1,33 @@
+{
+  "title": "Author",
+  "description": "An author of landable content",
+  "additionalProperties": false,
+
+  "properties": {
+    "id": {
+      "$ref": "uuid.json",
+      "required": true
+    },
+
+    "username": {
+      "type": "string",
+      "required": true
+    },
+
+    "email": {
+      "type": "string",
+      "format": "email",
+      "required": true
+    },
+
+    "first_name": {
+      "type": "string",
+      "required": true
+    },
+
+    "last_name": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

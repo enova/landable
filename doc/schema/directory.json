@@ -1,0 +1,22 @@
+{
+  "title": "Directory",
+  "description": "A directory listing of all pages beneath a given path",
+  "additionalProperties": false,
+
+  "properties": {
+    "id":   { "type": "string", "required": true, "format": "^/" },
+    "path": { "$ref": "#/properties/id" },
+
+    "subdirectory_ids": {
+      "type": "array",
+      "items": { "$ref": "#/properties/id" },
+      "uniqueItems": true
+    },
+
+    "page_ids": {
+      "type": "array",
+      "items": { "$ref": "uuid.json" },
+      "uniqueItems": true
+    }
+  }
+}

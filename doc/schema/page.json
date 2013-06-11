@@ -1,0 +1,58 @@
+{
+  "title": "Page",
+  "description": "A page served by landable",
+  "additionalProperties": false,
+
+  "properties": {
+    "id": {
+      "$ref": "uuid.json"
+    },
+
+    "theme_id": {
+      "type": [{ "$ref": "uuid.json" }, "null"]
+    },
+
+    "path": {
+      "type": "string",
+      "required": true
+    },
+
+    "status_code": {
+      "type": "integer",
+      "enum": [200, 301, 302, 404],
+      "required": true
+    },
+
+    "title": {
+      "type": ["string", "null"]
+    },
+
+    "body": {
+      "type": ["string", "null"]
+    },
+
+    "redirect_url": {
+      "type": ["string", "null"],
+      "format": "uri"
+    },
+
+    "meta_tags": {
+      "type": "object",
+      "additionalProperties": false,
+
+      "properties": {
+        "keywords": {
+          "type": ["string", "null"]
+        },
+
+        "description": {
+          "type": ["string", "null"]
+        },
+
+        "robots": {
+          "type": ["string", "null"]
+        }
+      }
+    }
+  }
+}

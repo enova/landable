@@ -1,0 +1,43 @@
+{
+  "title": "Page Revision",
+  "description": "A particular snapshot of a page which has, at some point, been published.",
+  "additionalProperties": false,
+
+  "properties": {
+    "id": {
+      "$ref": "uuid.json",
+      "required": true
+    },
+
+    "page_id": {
+      "$ref": "uuid.json",
+      "required": true
+    },
+
+    "theme_id": {
+      "type": [{ "$ref": "uuid.json" }, "null"],
+      "required": true
+    },
+
+    "author_id": {
+      "$ref": "uuid.json",
+      "required": true
+    },
+
+    "ordinal": {
+      "type": "integer",
+      "minimum": 1,
+      "required": true
+    },
+
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "required": true
+    },
+
+    "snapshot_attributes": {
+      "$ref": "page.json#"
+    }
+  }
+}

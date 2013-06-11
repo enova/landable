@@ -4,7 +4,8 @@ module Landable
   module Api
     class PageRevisionsController < ApiController
       def index
-        respond_with PageRevision.where(page_id: params[:page_id])
+        page = Page.find(params[:page_id])
+        respond_with page.revisions
       end
 
       def show
