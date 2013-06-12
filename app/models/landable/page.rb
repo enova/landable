@@ -16,6 +16,8 @@ module Landable
 
     scope :imported, -> { where("imported_at IS NOT NULL") }
 
+    before_validation :downcase_path
+
     class << self
       def missing
         new(status_code: 404)
@@ -24,6 +26,10 @@ module Landable
       def by_path(path)
         where(path: path).first || missing
       end
+    end
+
+    def downcase_path
+      self.path = path.downcase
     end
 
     def directory_after(prefix)
