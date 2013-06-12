@@ -56,12 +56,10 @@ Given 'my access token expired 2 minutes ago' do
 end
 
 When /^I (HEAD|GET|POST|PUT|PATCH|DELETE|OPTIONS)(?: to)? "(.+?)"$/ do |http_method, path|
-  path = path.sub(/^\/api\//, '/landable/')
   request expand_mustache[binding, path], method: http_method
 end
 
 When /^I (POST|PUT|PATCH|DELETE|OPTIONS)(?: to)? "(.+?)"(?: with)?:$/ do |http_method, path, body|
-  path = path.sub(/^\/api\//, '/landable/')
   request expand_mustache[binding, path], method: http_method, params: body
 end
 

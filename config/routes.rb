@@ -1,5 +1,5 @@
 Landable::Engine.routes.draw do
-  scope path: '/landable', module: 'api' do
+  scope path: Landable.configuration.api_namespace, module: 'api' do
     resources :themes, only: [:index, :show, :create, :update]
     resources :directories, only: [:index, :show], :constraints => {:id => /[%a-zA-Z0-9\/_.~-]*/}
 

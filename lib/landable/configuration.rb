@@ -13,10 +13,11 @@ module Landable
     alias :authenticator= :authenticators=
 
     def api_namespace
-      @api_namespace ||= '/landable'
+      @api_namespace ||= '/api/landable'
     end
 
     def public_namespace
+      raise NotImplementedError
       @public_namespace ||= '/'
     end
 
