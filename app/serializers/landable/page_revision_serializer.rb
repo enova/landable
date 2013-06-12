@@ -4,9 +4,10 @@ module Landable
     attributes :snapshot_attributes
     attributes :created_at
 
-    has_one :page, embed: :id
-    has_one :theme, embed: :id
-    has_one :author, embed: :id
+    embed :ids
+    has_one :page
+    has_one :theme
+    has_one :author, embed_key: :username, include: true, serializer: Api::AuthorSerializer
 
     def theme_id
       object.snapshot_attributes[:theme_id]
