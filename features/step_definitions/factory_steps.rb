@@ -1,3 +1,9 @@
+Given /^(\d+) ([\w\s]+)$/ do |count, kind|
+  Integer(count).times do
+    create kind.gsub(/\s+/, '_').singularize.to_sym
+  end
+end
+
 Given 'there are no authors in the database' do
   Landable::Author.delete_all
 end

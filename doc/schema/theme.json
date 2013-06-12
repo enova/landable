@@ -1,0 +1,30 @@
+{
+  "title": "Theme",
+  "description": "A landable theme contains a Liquid template which can be used as a layout wrapping its pages' bodies",
+  "additionalProperties": false,
+
+  "properties": {
+    "id": {
+      "$ref": "uuid.json",
+      "required": true
+    },
+
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "required": true
+    },
+
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "required": true
+    },
+
+    "body": {
+      "type": ["string", "null"],
+      "required": true,
+      "minLength": 0
+    }
+  }
+}

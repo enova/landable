@@ -12,7 +12,7 @@ Landable::Engine.routes.draw do
       post 'revert_to', on: :member
     end
 
-    resources :access_tokens, only: [:create, :destroy]
+    resources :access_tokens, only: [:create, :update, :destroy]
   end
 
   scope module: 'public' do

@@ -13,9 +13,25 @@ module Landable
         head :unauthorized
       end
 
+      def update
+        token = find_own_access_token params[:id]
+        token.refresh!
+        respond_with token
+      end
+
       def destroy
-        AccessToken.find(params[:id]).destroy!
+        token = find_own_access_token params[:id]
+        token.destroy!
         head :no_content
+
+      rescue ActiveRecord::RecordNotFound
+        head :unauthorized
+      end
+
+      private
+
+      def find_own_access_token(id = params[:id])
+        AccessToken.where(author_id: current_author.id).find(id)
       end
     end
   end

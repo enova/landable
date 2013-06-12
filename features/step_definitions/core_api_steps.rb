@@ -8,19 +8,51 @@ expand_mustache = lambda do |context, str|
   end
 end
 
+module Landable::FeatureHelper
+  def basic_authorize!(author = current_author, token = current_access_token)
+    basic_authorize author.username, token.id
+  end
+
+  def current_author
+    @current_author ||= create :author
+  end
+
+  def current_access_token
+    @current_access_token ||= create :access_token, author: @current_author
+  end
+
+  def last_json(body = last_response.body)
+    JSON.parse body
+  end
+
+  def latest(model)
+    model = model.to_s.classify
+    klass = "Landable::#{model}".constantize
+    klass.order('created_at DESC').first!
+  end
+end
+
+World(Landable::FeatureHelper)
+
 Before '@api' do
   header 'Accept',       'application/json'
   header 'Content-Type', 'application/json'
 end
 
-Before '@no-api-auth' do
-  header 'Authorization', nil
+Before '@api', '~@no-api-auth' do
+  basic_authorize!
 end
 
 Given 'my API requests include a valid access token' do
-  @current_author ||= create :author
-  @current_access_token ||= create :access_token, author: @current_author
-  header 'Authorization', encode_basic_auth(@current_author.username, @current_access_token.id)
+  basic_authorize!
+end
+
+Given 'my access token will expire in 2 minutes' do
+  current_access_token.update_attributes!(expires_at: 2.minutes.from_now)
+end
+
+Given 'my access token expired 2 minutes ago' do
+  current_access_token.update_attributes!(expires_at: 2.minutes.ago)
 end
 
 When /^I (HEAD|GET|POST|PUT|PATCH|DELETE|OPTIONS)(?: to)? "(.+?)"$/ do |http_method, path|
@@ -28,13 +60,22 @@ When /^I (HEAD|GET|POST|PUT|PATCH|DELETE|OPTIONS)(?: to)? "(.+?)"$/ do |http_met
   request expand_mustache[binding, path], method: http_method
 end
 
-When /^I (POST|PUT|PATCH|DELETE|OPTIONS)(?: to)? "(.+?)" with:$/ do |http_method, path, body|
+When /^I (POST|PUT|PATCH|DELETE|OPTIONS)(?: to)? "(.+?)"(?: with)?:$/ do |http_method, path, body|
   path = path.sub(/^\/api\//, '/landable/')
   request expand_mustache[binding, path], method: http_method, params: body
 end
 
+Then 'my access token should not expire for at least 2 hours' do
+  token = current_access_token.reload
+  token.expires_at.should be >= 2.hours.from_now
+end
+
 Then /^the response status should be (\d{3})(?: "[A-Za-z ]+")?$/ do |code|
   last_response.status.should == Integer(code)
+end
+
+Then /^the response should contain (\d+) ([\w\s]+)$/ do |count, kind|
+  last_json['themes'].length.should == 3
 end
 
 Then 'the response body should be empty' do

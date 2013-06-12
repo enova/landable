@@ -6,7 +6,6 @@ end
 
 APP_RAKEFILE = File.expand_path("../spec/dummy/Rakefile", __FILE__)
 load 'rails/tasks/engine.rake'
-load File.expand_path("../lib/tasks/cucumber.rake", __FILE__)
 
 Bundler::GemHelper.install_tasks
 
@@ -25,3 +24,5 @@ require 'rspec/core/rake_task'
 desc "Run specs"
 RSpec::Core::RakeTask.new(:spec => 'app:db:test:prepare')
 task :default => :spec
+
+load File.expand_path("../lib/tasks/cucumber.rake", __FILE__)

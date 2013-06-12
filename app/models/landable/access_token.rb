@@ -17,6 +17,10 @@ module Landable
       create!(author: author)
     end
 
+    def refresh!
+      update_column :expires_at, 8.hours.from_now
+    end
+
     def fresh?
       expires_at && expires_at > Time.zone.now
     end

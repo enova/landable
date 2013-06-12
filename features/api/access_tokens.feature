@@ -37,13 +37,31 @@ Feature: Access Tokens API
     Then there should be 1 author in the database
     And  the author "someone" should have 1 access token
 
+  Scenario: Refreshing an active token
+    Given my API requests include a valid access token
+    But my access token will expire in 2 minutes
+    When I PUT to "/api/access_tokens/{{@current_access_token.id}}"
+    Then my access token should not expire for at least 2 hours
+
+  Scenario: Refreshing an expired token
+    Given my API requests include a valid access token
+    But my access token expired 2 minutes ago
+    When I PUT to "/api/access_tokens/{{@current_access_token.id}}"
+    Then the response status should be 401 "Not Authorized"
+
   Scenario: Deleting your own access token
     Given my API requests include a valid access token
     When I DELETE "/api/access_tokens/{{@current_access_token.id}}"
     Then the response status should be 204 "No Content"
+    And  there should be 0 access tokens in the database
 
   Scenario: Deleting someone else's access token
     Given my API requests include a valid access token
     And there is another author's access token in the database
     When I DELETE "/api/access_tokens/{{@foreign_access_token.id}}"
+    Then the response status should be 401 "Not Authorized"
+
+  Scenario: Deleting a non-existent token is 401, not 404
+    Given my API requests include a valid access token
+    When I DELETE "/api/access_tokens/{{random_uuid}}"
     Then the response status should be 401 "Not Authorized"

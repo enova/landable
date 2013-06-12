@@ -81,10 +81,10 @@ describe Landable::Api::AccessTokensController, json: true do
       response.status.should == 204
     end
 
-    context 'invalid token' do
-      it 'returns 404' do
+    context 'no such token' do
+      it 'returns 401' do
         make_request random_uuid
-        response.status.should == 404
+        response.status.should == 401
       end
     end
   end
