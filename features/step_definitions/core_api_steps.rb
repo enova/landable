@@ -2,7 +2,7 @@
 
 expand_mustache = lambda do |context, str|
   if str.respond_to?(:gsub)
-    str.gsub(/\{\{(.+?)\}\}/) { context.eval($1) }
+    str.gsub(/\{\{([^ ].+?)\}\}/) { context.eval($1) }
   else
     str
   end
@@ -78,4 +78,12 @@ end
 
 Then 'the response body should be empty' do
   last_response.body.should be_blank
+end
+
+Then 'the response body should be "$body"' do |body|
+  last_response.body.should == body
+end
+
+Then 'I should have been redirected to "$url"' do |url|
+  last_response.headers['Location'].should == url
 end

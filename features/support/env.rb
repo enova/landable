@@ -5,11 +5,12 @@
 # files.
 
 ENV["RAILS_ENV"] ||= "test"
+require 'simplecov'
+SimpleCov.start 'rails'
+
 require File.expand_path("../../../spec/dummy/config/environment.rb",  __FILE__)
 ENV["RAILS_ROOT"] ||= File.dirname(__FILE__) + "../../../spec/dummy"
 
-require 'simplecov'
-SimpleCov.start 'rails'
 require 'cucumber/rails'
 
 # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In

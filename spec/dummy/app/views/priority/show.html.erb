@@ -1,0 +1,8 @@
+<!-- We can access the `current_page helper` in a layout -->
+<span id="path"><%= current_page.path %></span>
+
+<!-- We can access the `landable` helper in a layout -->
+<div id="body"><%= landable.body %></div>
+
+<!-- But be wary of HTML safety! -->
+<div id="body-unescaped"><%= landable.body.html_safe %></div>

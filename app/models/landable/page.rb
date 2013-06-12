@@ -30,6 +30,10 @@ module Landable
       def by_path(path)
         where(path: path).first || missing
       end
+
+      def by_path!(path)
+        where(path: path).first!
+      end
     end
 
     def downcase_path
