@@ -25,7 +25,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index 'landable.themes', :name, unique: true
+    execute "CREATE UNIQUE INDEX theme_name_lower ON landable.themes(lower(name))"
 
     create_table 'landable.pages', id: :uuid, primary_key: :page_id do |t|
       t.uuid      :published_revision_id
@@ -46,7 +46,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index 'landable.pages', :path, unique: true
+    execute "CREATE UNIQUE INDEX pages_path_lower ON landable.pages(lower(path))"
 
     create_table 'landable.authors', id: :uuid, primary_key: :author_id do |t|
       t.text :email,      null: false
@@ -81,21 +81,24 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    # Foreign keys for page_revisions
+    create_table 'landable.categories', id: :uuid, primary_key: :category_id do |t|
+      t.text      :name
+      t.text      :description
+    end
+
+    execute "CREATE UNIQUE INDEX category_name_lower ON landable.categories(lower(name))"
+
+    # Constraints for page_revisions
     execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES landable.pages(page_id)"
     execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES landable.authors(author_id)"
     execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES landable.themes(theme_id)"
 
+    # Constraints for pages
     execute "ALTER TABLE landable.pages ADD CONSTRAINT revision_id_fk FOREIGN KEY (published_revision_id) REFERENCES landable.page_revisions(page_revision_id)"
     execute "ALTER TABLE landable.pages ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES landable.themes(theme_id)"
-
-    # TODO: Add proper database checks/constraints/validations on columns
-    # Manually add CHECK constraints for valid URIs until we can get the custom domain working
+    execute "ALTER TABLE landable.pages ADD CONSTRAINT category_id_fk FOREIGN KEY (category_id) REFERENCES landable.categories(category_id)"
     execute "ALTER TABLE landable.pages ADD CONSTRAINT only_valid_paths CHECK (path ~ '^/[a-zA-Z0-9/_.~-]*$');"
-
-    # landable.pages:
     execute "ALTER TABLE landable.pages ADD CONSTRAINT only_valid_status_codes CHECK (status_code IN (200,301,302,404))"
-    # => redirect_url: points to an existing page (FK)
 
     # Revision-tracking trigger to automatically update ordinal
     execute "CREATE FUNCTION pages_revision_ordinal()
@@ -118,13 +121,28 @@ class CreateLandableSchema < ActiveRecord::Migration
               BEFORE INSERT ON landable.page_revisions
               FOR EACH ROW EXECUTE PROCEDURE pages_revision_ordinal();"
 
-    create_table 'landable.categories', id: :uuid, primary_key: :category_id do |t|
-      t.text      :name
-      t.text      :description
-    end
+    # Trigger disallowing deletes on page_revisions
+    execute "CREATE FUNCTION tg_disallow()
+      RETURNS TRIGGER
+      AS
+      $TRIGGER$
+        BEGIN
 
-    add_index 'landable.categories', :name, unique: true
+        IF TG_LEVEL <> 'STATEMENT' THEN
+          RAISE EXCEPTION $$You should use a statement-level trigger (trigger %, table %)$$, TG_NAME, TG_RELID::regclass;
+        END IF;
 
-    execute "ALTER TABLE landable.pages ADD CONSTRAINT category_id_fk FOREIGN KEY (category_id) REFERENCES landable.categories(category_id)"
+        RAISE EXCEPTION $$%s are not allowed on table %$$, TG_OP, TG_RELNAME;
+
+        RETURN NULL;
+
+        END
+       $TRIGGER$
+       LANGUAGE plpgsql;"
+
+      execute "CREATE TRIGGER page_revivions_no_delete
+              BEFORE INSERT ON landable.page_revisions
+              FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();"
+
   end
 end
