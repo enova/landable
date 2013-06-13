@@ -22,6 +22,15 @@ module Landable
       page.is_publishable = true unless page.published_revision_id_changed?
     }
 
+    # TODO use the db
+    def assets=(assets)
+      @assets = Array(assets)
+    end
+
+    def assets
+      @assets || []
+    end
+
     class << self
       def missing
         new(status_code: 404)

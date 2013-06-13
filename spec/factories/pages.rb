@@ -8,8 +8,8 @@ FactoryGirl.define do
 
     body <<-HTML
     <html>
-      <head>{{landable.head}}</head>
-      <body><header>header</header><article>{{landable.body}}</article></body>
+      <head>{% title_tag %}{% meta_tags %}</head>
+      <body><header>header</header><article>{{body}}</article></body>
     </html>
     HTML
   end

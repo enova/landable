@@ -126,10 +126,11 @@ CREATE TABLE assets (
     asset_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     author_id uuid NOT NULL,
     name text NOT NULL,
+    description text,
     sha text NOT NULL,
     mime_type text NOT NULL,
     basename text NOT NULL,
-    content text NOT NULL
+    store text NOT NULL
 );
 
 
@@ -331,10 +332,10 @@ CREATE INDEX "index_landable.access_tokens_on_author_id" ON access_tokens USING 
 
 
 --
--- Name: index_landable.assets_on_content; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+-- Name: index_landable.assets_on_author_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX "index_landable.assets_on_content" ON assets USING btree (content);
+CREATE INDEX "index_landable.assets_on_author_id" ON assets USING btree (author_id);
 
 
 --
@@ -342,6 +343,13 @@ CREATE UNIQUE INDEX "index_landable.assets_on_content" ON assets USING btree (co
 --
 
 CREATE UNIQUE INDEX "index_landable.assets_on_sha" ON assets USING btree (sha);
+
+
+--
+-- Name: index_landable.assets_on_store; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX "index_landable.assets_on_store" ON assets USING btree (store);
 
 
 --
@@ -505,4 +513,4 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130613193327');
+INSERT INTO schema_migrations (version) VALUES ('20130613220837');

@@ -91,16 +91,18 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE UNIQUE INDEX category_name_lower ON landable.categories(lower(name))"
 
     create_table 'landable.assets', id: :uuid, primary_key: :asset_id do |t|
-      t.uuid :author_id, null: false
-      t.text :name,      null: false
-      t.text :sha,       null: false, length: 64
-      t.text :mime_type, null: false
-      t.text :basename,  null: false
-      t.text :content,   null: false
+      t.uuid :author_id,   null: false
+      t.text :name,        null: false
+      t.text :description
+      t.text :sha,         null: false, length: 64
+      t.text :mime_type,   null: false
+      t.text :basename,    null: false
+      t.text :store,       null: false
     end
 
-    add_index 'landable.assets', :content, unique: true
-    add_index 'landable.assets', :sha,     unique: true
+    add_index 'landable.assets', :store, unique: true
+    add_index 'landable.assets', :sha,   unique: true
+    add_index 'landable.assets', :author_id
 
     execute "ALTER TABLE landable.assets ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES landable.authors(author_id)"
 

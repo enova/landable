@@ -1,16 +1,23 @@
-require 'liquid'
+require_dependency 'landable/liquid'
 
 module Landable
   class RenderService
     def self.call(page)
-      landable = Landable::PageDecorator.new(page)
-      theme = page.theme
+      template = ::Liquid::Template.parse(page.body)
 
-      if theme.try(:body).blank?
-        landable.body || ''
+      registers = {
+        asset_prefix: $asset_uri_prefix, # TODO obviously shouldn't be a global
+        page:   page,
+        assets: page.assets
+      }
+
+      content = template.render!(nil, registers: registers)
+
+      if theme_body = page.theme.try(:body)
+        template = ::Liquid::Template.parse(theme_body)
+        template.render!({ 'body' => content }, registers: registers)
       else
-        template = Liquid::Template.parse(theme.body)
-        template.render!('landable' => landable)
+        content
       end
     end
   end
