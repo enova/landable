@@ -36,6 +36,14 @@
       "format": "uri"
     },
 
+    "is_publishable": {
+      "type": "boolean"
+    },
+
+    "published_revision_id": {
+      "type": ["null", {"$ref": "uuid"}]
+    },
+
     "meta_tags": {
       "type": "object",
       "additionalProperties": false,
