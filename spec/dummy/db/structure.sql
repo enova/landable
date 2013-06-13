@@ -119,6 +119,21 @@ CREATE TABLE access_tokens (
 
 
 --
+-- Name: assets; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE assets (
+    asset_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    author_id uuid NOT NULL,
+    name text NOT NULL,
+    sha text NOT NULL,
+    mime_type text NOT NULL,
+    basename text NOT NULL,
+    content text NOT NULL
+);
+
+
+--
 -- Name: authors; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -223,6 +238,14 @@ ALTER TABLE ONLY access_tokens
 
 
 --
+-- Name: assets_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY assets
+    ADD CONSTRAINT assets_pkey PRIMARY KEY (asset_id);
+
+
+--
 -- Name: authors_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -274,6 +297,20 @@ CREATE UNIQUE INDEX category_name_lower ON categories USING btree (lower(name));
 --
 
 CREATE INDEX "index_landable.access_tokens_on_author_id" ON access_tokens USING btree (author_id);
+
+
+--
+-- Name: index_landable.assets_on_content; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX "index_landable.assets_on_content" ON assets USING btree (content);
+
+
+--
+-- Name: index_landable.assets_on_sha; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX "index_landable.assets_on_sha" ON assets USING btree (sha);
 
 
 --
@@ -333,6 +370,14 @@ CREATE TRIGGER page_revivions_no_delete BEFORE DELETE ON page_revisions FOR EACH
 -- Name: author_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
 --
 
+ALTER TABLE ONLY assets
+    ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES authors(author_id);
+
+
+--
+-- Name: author_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
 ALTER TABLE ONLY page_revisions
     ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES authors(author_id);
 
@@ -383,4 +428,4 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130613175017');
+INSERT INTO schema_migrations (version) VALUES ('20130613192443');
