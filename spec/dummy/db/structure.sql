@@ -78,6 +78,27 @@ CREATE FUNCTION pages_revision_ordinal() RETURNS trigger
        $$;
 
 
+--
+-- Name: tg_disallow(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION tg_disallow() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $_$
+        BEGIN
+
+        IF TG_LEVEL <> 'STATEMENT' THEN
+          RAISE EXCEPTION $$You should use a statement-level trigger (trigger %, table %)$$, TG_NAME, TG_RELID::regclass;
+        END IF;
+
+        RAISE EXCEPTION $$%s are not allowed on table %$$, TG_OP, TG_RELNAME;
+
+        RETURN NULL;
+
+        END
+       $_$;
+
+
 SET search_path = landable, pg_catalog;
 
 SET default_tablespace = '';
@@ -113,6 +134,17 @@ CREATE TABLE authors (
 
 
 --
+-- Name: categories; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE categories (
+    category_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    name text,
+    description text
+);
+
+
+--
 -- Name: page_revisions; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -138,6 +170,7 @@ CREATE TABLE pages (
     page_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     published_revision_id uuid,
     theme_id uuid,
+    category_id uuid,
     path text NOT NULL,
     title text,
     body text,
@@ -178,6 +211,16 @@ CREATE TABLE schema_migrations (
 );
 
 
+--
+-- Name: test; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE test (
+    test_id integer NOT NULL,
+    tester_id integer NOT NULL
+);
+
+
 SET search_path = landable, pg_catalog;
 
 --
@@ -194,6 +237,14 @@ ALTER TABLE ONLY access_tokens
 
 ALTER TABLE ONLY authors
     ADD CONSTRAINT authors_pkey PRIMARY KEY (author_id);
+
+
+--
+-- Name: categories_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY categories
+    ADD CONSTRAINT categories_pkey PRIMARY KEY (category_id);
 
 
 --
@@ -221,6 +272,13 @@ ALTER TABLE ONLY themes
 
 
 --
+-- Name: category_name_lower; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX category_name_lower ON categories USING btree (lower(name));
+
+
+--
 -- Name: index_landable.access_tokens_on_author_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -242,17 +300,17 @@ CREATE UNIQUE INDEX "index_landable.authors_on_username" ON authors USING btree 
 
 
 --
--- Name: index_landable.pages_on_path; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+-- Name: pages_path_lower; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX "index_landable.pages_on_path" ON pages USING btree (path);
+CREATE UNIQUE INDEX pages_path_lower ON pages USING btree (lower(path));
 
 
 --
--- Name: index_landable.themes_on_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+-- Name: theme_name_lower; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX "index_landable.themes_on_name" ON themes USING btree (name);
+CREATE UNIQUE INDEX theme_name_lower ON themes USING btree (lower(name));
 
 
 SET search_path = public, pg_catalog;
@@ -274,11 +332,26 @@ CREATE TRIGGER page_revivions_bfr_insert BEFORE INSERT ON page_revisions FOR EAC
 
 
 --
+-- Name: page_revivions_no_delete; Type: TRIGGER; Schema: landable; Owner: -
+--
+
+CREATE TRIGGER page_revivions_no_delete BEFORE DELETE ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE public.tg_disallow();
+
+
+--
 -- Name: author_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
 --
 
 ALTER TABLE ONLY page_revisions
     ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES authors(author_id);
+
+
+--
+-- Name: category_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY pages
+    ADD CONSTRAINT category_id_fk FOREIGN KEY (category_id) REFERENCES categories(category_id);
 
 
 --
@@ -319,4 +392,4 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130611163136');
+INSERT INTO schema_migrations (version) VALUES ('20130613155845');

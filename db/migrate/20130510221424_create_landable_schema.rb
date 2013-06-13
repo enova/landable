@@ -141,7 +141,7 @@ class CreateLandableSchema < ActiveRecord::Migration
        LANGUAGE plpgsql;"
 
       execute "CREATE TRIGGER page_revivions_no_delete
-              BEFORE INSERT ON landable.page_revisions
+              BEFORE DELETE ON landable.page_revisions
               FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();"
 
   end
