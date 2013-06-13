@@ -169,6 +169,7 @@ CREATE TABLE page_revisions (
 CREATE TABLE pages (
     page_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     published_revision_id uuid,
+    is_publishable boolean DEFAULT true NOT NULL,
     theme_id uuid,
     category_id uuid,
     path text NOT NULL,
@@ -208,16 +209,6 @@ SET search_path = public, pg_catalog;
 
 CREATE TABLE schema_migrations (
     version character varying(255) NOT NULL
-);
-
-
---
--- Name: test; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE test (
-    test_id integer NOT NULL,
-    tester_id integer NOT NULL
 );
 
 
@@ -392,4 +383,4 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130613155845');
+INSERT INTO schema_migrations (version) VALUES ('20130613175017');

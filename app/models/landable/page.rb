@@ -18,6 +18,10 @@ module Landable
 
     before_validation :downcase_path
 
+    before_save -> page {
+      page.is_publishable = true unless page.published_revision_id_changed?
+    }
+
     class << self
       def missing
         new(status_code: 404)
@@ -58,6 +62,7 @@ module Landable
     def publish!(options)
       revision = revisions.create options
       self.published_revision = revision
+      self.is_publishable = false
       save!
    end
 

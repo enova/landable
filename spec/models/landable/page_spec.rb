@@ -7,6 +7,12 @@ module Landable
     it { should have_valid(:status_code).when(200, 301, 302, 404) }
     it { should_not have_valid(:status_code).when(201, 303, 405, 500) }
 
+    it 'should set is_publishable to true on before_save' do
+      page = FactoryGirl.build :page, is_publishable: false
+      page.save!
+      page.is_publishable.should be_true
+    end
+
     specify "#redirect?" do
       Page.new.should_not be_redirect
       Page.new(status_code: 200).should_not be_redirect
@@ -77,6 +83,11 @@ module Landable
         page.published_revision.should == revision
       end
 
+      it 'should set is_publishable to false' do
+        page.is_publishable = true
+        page.publish! author: author
+        page.is_publishable.should be_false
+      end
     end
 
     describe '#revert_to' do
