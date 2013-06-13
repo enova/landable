@@ -29,7 +29,7 @@ module Landable
     end
 
     def downcase_path
-      self.path = path.downcase
+      path.try :downcase!
     end
 
     def directory_after(prefix)
