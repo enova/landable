@@ -7,7 +7,7 @@ module Landable
     embed :ids
     has_one :page
     has_one :theme
-    has_one :author, embed_key: :username, include: true, serializer: Api::AuthorSerializer
+    has_one :author, embed_key: :username, include: true, serializer: AuthorSerializer
 
     def theme_id
       object.snapshot_attributes[:theme_id]
