@@ -212,6 +212,16 @@ CREATE TABLE schema_migrations (
 );
 
 
+--
+-- Name: test; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE test (
+    test_id integer NOT NULL,
+    tester_id integer NOT NULL
+);
+
+
 SET search_path = landable, pg_catalog;
 
 --
@@ -270,17 +280,17 @@ CREATE UNIQUE INDEX category_name_lower ON categories USING btree (lower(name));
 
 
 --
+-- Name: email_lower; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX email_lower ON authors USING btree (lower(email));
+
+
+--
 -- Name: index_landable.access_tokens_on_author_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
 CREATE INDEX "index_landable.access_tokens_on_author_id" ON access_tokens USING btree (author_id);
-
-
---
--- Name: index_landable.authors_on_email; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX "index_landable.authors_on_email" ON authors USING btree (email);
 
 
 --
@@ -383,4 +393,4 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130613175017');
+INSERT INTO schema_migrations (version) VALUES ('20130614150143');

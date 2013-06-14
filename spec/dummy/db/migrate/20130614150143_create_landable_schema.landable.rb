@@ -59,7 +59,8 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index 'landable.authors', :email, unique: true
+    #add_index 'landable.authors', :email, unique: true
+    execute "CREATE UNIQUE INDEX email_lower ON landable.authors(lower(email))"
     add_index 'landable.authors', :username, unique: true
 
     create_table 'landable.access_tokens', id: :uuid, primary_key: :access_token_id do |t|
