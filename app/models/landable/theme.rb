@@ -8,6 +8,9 @@ module Landable
     validates_uniqueness_of :name
     has_many :pages, inverse_of: :theme
 
+    has_many :theme_assets
+    has_many :assets, through: :theme_assets
+
     def downcase_name
       self.name = name.downcase
     end

@@ -135,29 +135,6 @@ CREATE TABLE assets (
 
 
 --
--- Name: assets_pages; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE TABLE assets_pages (
-    asset_page_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    asset_id uuid NOT NULL,
-    page_id uuid NOT NULL,
-    alias text
-);
-
-
---
--- Name: assets_themes; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE TABLE assets_themes (
-    asset_id uuid NOT NULL,
-    theme_id uuid NOT NULL,
-    alias text
-);
-
-
---
 -- Name: authors; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -180,6 +157,18 @@ CREATE TABLE categories (
     category_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     name text,
     description text
+);
+
+
+--
+-- Name: page_assets; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE page_assets (
+    asset_page_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    asset_id uuid NOT NULL,
+    page_id uuid NOT NULL,
+    alias text
 );
 
 
@@ -226,6 +215,17 @@ CREATE TABLE pages (
 
 
 --
+-- Name: theme_assets; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE theme_assets (
+    asset_id uuid NOT NULL,
+    theme_id uuid NOT NULL,
+    alias text
+);
+
+
+--
 -- Name: themes; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -262,14 +262,6 @@ ALTER TABLE ONLY access_tokens
 
 
 --
--- Name: assets_pages_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY assets_pages
-    ADD CONSTRAINT assets_pages_pkey PRIMARY KEY (asset_page_id);
-
-
---
 -- Name: assets_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -291,6 +283,14 @@ ALTER TABLE ONLY authors
 
 ALTER TABLE ONLY categories
     ADD CONSTRAINT categories_pkey PRIMARY KEY (category_id);
+
+
+--
+-- Name: page_assets_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY page_assets
+    ADD CONSTRAINT page_assets_pkey PRIMARY KEY (asset_page_id);
 
 
 --
@@ -353,20 +353,6 @@ CREATE UNIQUE INDEX "index_landable.assets_on_store" ON assets USING btree (stor
 
 
 --
--- Name: index_landable.assets_pages_on_page_id_and_asset_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX "index_landable.assets_pages_on_page_id_and_asset_id" ON assets_pages USING btree (page_id, asset_id);
-
-
---
--- Name: index_landable.assets_themes_on_theme_id_and_asset_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX "index_landable.assets_themes_on_theme_id_and_asset_id" ON assets_themes USING btree (theme_id, asset_id);
-
-
---
 -- Name: index_landable.authors_on_email; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -378,6 +364,20 @@ CREATE UNIQUE INDEX "index_landable.authors_on_email" ON authors USING btree (em
 --
 
 CREATE UNIQUE INDEX "index_landable.authors_on_username" ON authors USING btree (username);
+
+
+--
+-- Name: index_landable.page_assets_on_page_id_and_asset_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX "index_landable.page_assets_on_page_id_and_asset_id" ON page_assets USING btree (page_id, asset_id);
+
+
+--
+-- Name: index_landable.theme_assets_on_theme_id_and_asset_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX "index_landable.theme_assets_on_theme_id_and_asset_id" ON theme_assets USING btree (theme_id, asset_id);
 
 
 --
@@ -423,7 +423,7 @@ CREATE TRIGGER page_revivions_no_delete BEFORE DELETE ON page_revisions FOR EACH
 -- Name: asset_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
 --
 
-ALTER TABLE ONLY assets_pages
+ALTER TABLE ONLY page_assets
     ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES assets(asset_id);
 
 
@@ -431,7 +431,7 @@ ALTER TABLE ONLY assets_pages
 -- Name: asset_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
 --
 
-ALTER TABLE ONLY assets_themes
+ALTER TABLE ONLY theme_assets
     ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES assets(asset_id);
 
 
@@ -463,7 +463,7 @@ ALTER TABLE ONLY pages
 -- Name: page_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
 --
 
-ALTER TABLE ONLY assets_pages
+ALTER TABLE ONLY page_assets
     ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES pages(page_id);
 
 
@@ -487,7 +487,7 @@ ALTER TABLE ONLY pages
 -- Name: theme_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
 --
 
-ALTER TABLE ONLY assets_themes
+ALTER TABLE ONLY theme_assets
     ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES themes(theme_id);
 
 
@@ -513,4 +513,4 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130613220837');
+INSERT INTO schema_migrations (version) VALUES ('20130510221424');

@@ -14,6 +14,9 @@ module Landable
     belongs_to :published_revision, class_name: 'Landable::PageRevision'
     has_many   :revisions, class_name: 'Landable::PageRevision'
 
+    has_many :page_assets
+    has_many :assets, :through => :page_assets
+
     scope :imported, -> { where("imported_at IS NOT NULL") }
 
     before_validation :downcase_path
@@ -21,15 +24,6 @@ module Landable
     before_save -> page {
       page.is_publishable = true unless page.published_revision_id_changed?
     }
-
-    # TODO use the db
-    def assets=(assets)
-      @assets = Array(assets)
-    end
-
-    def assets
-      @assets || []
-    end
 
     class << self
       def missing

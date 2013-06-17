@@ -25,8 +25,8 @@ Given "the page's meta tags are:" do |table|
 end
 
 Given "the page has these assets:" do |table|
-  @page.assets = table.hashes.map do |attrs|
-    Landable::Asset.new attrs
+  table.hashes.each do |attrs|
+    @page.assets.push Landable::Asset.new(attrs)
   end
 end
 
