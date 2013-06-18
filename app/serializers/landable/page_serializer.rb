@@ -8,6 +8,7 @@ module Landable
 
     has_one :theme, embed: :id
     has_one :published_revision, embed: :id
+    has_one :category, embed: :id
 
     def meta_tags
       object.meta_tags || {}

@@ -1,5 +1,6 @@
 require_dependency 'landable/theme'
 require_dependency 'landable/page_revision'
+require_dependency 'landable/category'
 
 module Landable
   class Page < ActiveRecord::Base
@@ -12,6 +13,7 @@ module Landable
 
     belongs_to :theme, class_name: 'Landable::Theme', inverse_of: :pages
     belongs_to :published_revision, class_name: 'Landable::PageRevision'
+    belongs_to :category, class_name: 'Landable::Category'
     has_many   :revisions, class_name: 'Landable::PageRevision'
 
     scope :imported, -> { where("imported_at IS NOT NULL") }

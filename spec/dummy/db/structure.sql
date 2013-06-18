@@ -212,16 +212,6 @@ CREATE TABLE schema_migrations (
 );
 
 
---
--- Name: test; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE test (
-    test_id integer NOT NULL,
-    tester_id integer NOT NULL
-);
-
-
 SET search_path = landable, pg_catalog;
 
 --
@@ -393,4 +383,4 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130614150143');
+INSERT INTO schema_migrations (version) VALUES ('20130617150755');
