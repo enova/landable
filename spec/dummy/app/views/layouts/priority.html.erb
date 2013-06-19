@@ -6,6 +6,10 @@
 
     <!-- We can access the `current_page helper` in a layout -->
     <title>Home: <%= current_page.title %></title>
+
+    <!-- Without a title, the decorator just omits the tag -->
+    <%  current_page.title = nil %>
+    <%= landable.title %>
   </head>
 
   <body>
