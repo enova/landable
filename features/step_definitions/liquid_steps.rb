@@ -26,7 +26,8 @@ end
 
 Given "the page has these assets:" do |table|
   table.hashes.each do |attrs|
-    @page.assets.push Landable::Asset.new(attrs)
+    asset_alias = attrs.delete('alias')
+    @page.page_assets.build alias: asset_alias, asset: build(:asset, attrs)
   end
 end
 

@@ -4,15 +4,9 @@ module Landable
   module Api
     class PagesController < ApiController
       def index
-        ids = params[:ids] if params[:ids].present? and params[:ids].is_a? Array
-
-        if ids
-          pages = Page.where(page_id: params[:ids])
-        else
-          pages = Page.all
-        end
-
-        respond_with pages
+        ids   = Array(params[:ids])
+        scope = ids.any? ? Page.where(page_id: ids) : Page.all
+        respond_with scope
       end
 
       def create
@@ -26,15 +20,15 @@ module Landable
       end
 
       def update
-        @page = Page.find params[:id]
-        @page.update_attributes! page_params
-        respond_with @page
+        page = Page.find params[:id]
+        page.update_attributes! page_params
+        respond_with page
       end
 
       def publish
-        @page = Page.find params[:id]
-        @page.publish! author: current_author, notes: params[:notes], is_minor: !!params[:is_minor]
-        respond_with @page
+        page = Page.find params[:id]
+        page.publish! author: current_author, notes: params[:notes], is_minor: !!params[:is_minor]
+        respond_with page
       end
 
       def preview

@@ -40,8 +40,13 @@
       "type": "boolean"
     },
 
+    "asset_ids": {
+      "type": "array",
+      "items": { "$ref": "uuid.json" }
+    },
+
     "published_revision_id": {
-      "type": ["null", {"$ref": "uuid"}]
+      "type": ["null", {"$ref": "uuid.json"}]
     },
 
     "meta_tags": {

@@ -4,7 +4,7 @@ Feature: Themes API
     Given 3 themes
     When I GET "/api/themes"
     Then the response status should be 200
-    And  the response should contain 3 themes
+    And  the response should contain 3 "themes"
 
   Scenario: Create a new theme
     When I POST "/api/themes":
@@ -18,4 +18,3 @@ Feature: Themes API
       }
       """
     Then the response status should be 201 "Created"
-    

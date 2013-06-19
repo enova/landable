@@ -71,12 +71,12 @@ module Landable
       self.published_revision = revision
       self.is_publishable = false
       save!
-   end
+    end
 
-   def revert_to!(revision)
+    def revert_to!(revision)
       self.published_revision = revision
       self.attributes = revision.snapshot_attributes
       save!
-   end
+    end
   end
 end

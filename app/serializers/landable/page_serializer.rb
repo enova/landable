@@ -6,8 +6,10 @@ module Landable
     attributes :meta_tags
     attributes :is_publishable
 
-    has_one :theme, embed: :id
-    has_one :published_revision, embed: :id
+    embed :ids
+    has_one  :theme
+    has_one  :published_revision
+    has_many :assets
 
     def meta_tags
       object.meta_tags || {}

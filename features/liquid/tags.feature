@@ -1,11 +1,14 @@
+# This is totally a unit test, but it's much more informative to read
+# this in cuke form.
 Feature: Liquid Tags
   Background:
     Given the asset URI prefix is "https://landable.dev/_assets/"
     And   a page under test
     And   the page has these assets:
-      | basename | name | description           |
-      | foo.png  | bar  | Baz!                  |
-      | wi.pdf   | doc  | Wisconsin Disclosures |
+      | basename | name    | description           | alias |
+      | foo.png  | bar     | Baz!                  |       |
+      | wi.pdf   | doc     | Wisconsin Disclosures |       |
+      | fav.ico  | favicon | Site Favicon          | icon  |
 
   Scenario: title_tag
     Given the page's body is "{% title_tag %}"
@@ -65,3 +68,10 @@ Feature: Liquid Tags
          </body>
        </html>
        """
+
+  Scenario: Reference the asset alias
+    Given the page's body is "{% img_tag icon %}"
+    Then  the rendered content should be:
+      """
+      <img alt="Site Favicon" src="https://landable.dev/_assets/fav.ico" />
+      """

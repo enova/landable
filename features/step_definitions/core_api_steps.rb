@@ -47,6 +47,11 @@ Given 'my API requests include a valid access token' do
   basic_authorize!
 end
 
+Given 'I repeat the request with a valid access token' do
+  basic_authorize!
+  request last_request.url, last_request.env
+end
+
 Given 'my access token will expire in 2 minutes' do
   current_access_token.update_attributes!(expires_at: 2.minutes.from_now)
 end
@@ -63,17 +68,31 @@ When /^I (POST|PUT|PATCH|DELETE|OPTIONS)(?: to)? "(.+?)"(?: with)?:$/ do |http_m
   request expand_mustache[binding, path], method: http_method, params: body
 end
 
+When 'I follow the "Location" header' do
+  get last_response.headers['Location']
+end
+
 Then 'my access token should not expire for at least 2 hours' do
   token = current_access_token.reload
   token.expires_at.should be >= 2.hours.from_now
 end
 
-Then /^the response status should be (\d{3})(?: "[A-Za-z ]+")?$/ do |code|
-  last_response.status.should == Integer(code)
+Then /^the response(?: status)? should(?: (not))? be (\d{3})(?: "[A-Za-z ]+")?$/ do |negate, code|
+  code = Integer(code)
+  if negate == 'not'
+    last_response.status.should_not eq(code)
+  else
+    last_response.status.should eq(code)
+  end
 end
 
-Then /^the response should contain (\d+) ([\w\s]+)$/ do |count, kind|
-  last_json['themes'].length.should == 3
+Then /^the response should contain (?:a|an) "([^"]+)"$/ do |model|
+  last_json.should have_key(model)
+  last_json[model].should have_key('id')
+end
+
+Then /^the response should contain (\d+) "([^"]+)"$/ do |count, kind|
+  last_json[kind].length.should == Integer(count)
 end
 
 Then 'the response body should be empty' do

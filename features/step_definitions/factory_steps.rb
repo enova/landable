@@ -20,6 +20,17 @@ Given "there is another author's access token in the database" do
   @foreign_access_token = create :access_token, author: create(:author)
 end
 
+Given /^an? (page|theme|asset)$/ do |model|
+  instance_variable_set :"@#{model}", create(model.to_sym)
+end
+
+Given /^a (page|theme) with an asset attached$/ do |model|
+  record = create model.to_sym
+  @asset = create :asset
+  record.assets.push @asset
+  instance_variable_set :"@#{model}", record
+end
+
 Given /^a page "([^"]+)"$/ do |path|
   create :page, path: path
 end

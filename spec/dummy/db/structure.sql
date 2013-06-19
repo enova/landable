@@ -127,10 +127,13 @@ CREATE TABLE assets (
     author_id uuid NOT NULL,
     name text NOT NULL,
     description text,
-    sha text NOT NULL,
+    data text NOT NULL,
+    md5sum text NOT NULL,
     mime_type text NOT NULL,
     basename text NOT NULL,
-    store text NOT NULL
+    file_size integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -165,10 +168,12 @@ CREATE TABLE categories (
 --
 
 CREATE TABLE page_assets (
-    asset_page_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    page_asset_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     asset_id uuid NOT NULL,
     page_id uuid NOT NULL,
-    alias text
+    alias text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -219,9 +224,12 @@ CREATE TABLE pages (
 --
 
 CREATE TABLE theme_assets (
+    theme_asset_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     asset_id uuid NOT NULL,
     theme_id uuid NOT NULL,
-    alias text
+    alias text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -290,7 +298,7 @@ ALTER TABLE ONLY categories
 --
 
 ALTER TABLE ONLY page_assets
-    ADD CONSTRAINT page_assets_pkey PRIMARY KEY (asset_page_id);
+    ADD CONSTRAINT page_assets_pkey PRIMARY KEY (page_asset_id);
 
 
 --
@@ -307,6 +315,14 @@ ALTER TABLE ONLY page_revisions
 
 ALTER TABLE ONLY pages
     ADD CONSTRAINT pages_pkey PRIMARY KEY (page_id);
+
+
+--
+-- Name: theme_assets_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY theme_assets
+    ADD CONSTRAINT theme_assets_pkey PRIMARY KEY (theme_asset_id);
 
 
 --
@@ -339,17 +355,17 @@ CREATE INDEX "index_landable.assets_on_author_id" ON assets USING btree (author_
 
 
 --
--- Name: index_landable.assets_on_sha; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+-- Name: index_landable.assets_on_data; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX "index_landable.assets_on_sha" ON assets USING btree (sha);
+CREATE UNIQUE INDEX "index_landable.assets_on_data" ON assets USING btree (data);
 
 
 --
--- Name: index_landable.assets_on_store; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+-- Name: index_landable.assets_on_md5sum; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX "index_landable.assets_on_store" ON assets USING btree (store);
+CREATE UNIQUE INDEX "index_landable.assets_on_md5sum" ON assets USING btree (md5sum);
 
 
 --

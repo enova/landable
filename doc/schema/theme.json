@@ -25,6 +25,11 @@
       "type": ["string", "null"],
       "required": true,
       "minLength": 0
+    },
+
+    "asset_ids": {
+      "type": "array",
+      "items": { "$ref": "uuid.json" }
     }
   }
 }

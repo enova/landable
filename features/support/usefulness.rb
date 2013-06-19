@@ -8,5 +8,5 @@ World(Landable::Spec::CoreHelpers)
 World(Landable::Spec::HttpHelpers)
 
 Landable.configure do |c|
-  c.authenticators   = Landable::AuthenticationService::EchoAuthenticator
+  c.authenticators = Landable::AuthenticationService::EchoAuthenticator
 end

@@ -91,35 +91,39 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE UNIQUE INDEX category_name_lower ON landable.categories(lower(name))"
 
     create_table 'landable.assets', id: :uuid, primary_key: :asset_id do |t|
-      t.uuid :author_id,   null: false
-      t.text :name,        null: false
-      t.text :description
-      t.text :sha,         null: false, length: 64
-      t.text :mime_type,   null: false
-      t.text :basename,    null: false
-      t.text :store,       null: false
+      t.uuid    :author_id,   null: false
+      t.text    :name,        null: false
+      t.text    :description
+      t.text    :data,        null: false
+      t.text    :md5sum,      null: false, length: 32
+      t.text    :mime_type,   null: false
+      t.text    :basename,    null: false
+      t.integer :file_size
+      t.timestamps
     end
 
-    add_index 'landable.assets', :store, unique: true
-    add_index 'landable.assets', :sha,   unique: true
+    add_index 'landable.assets', :data,   unique: true
+    add_index 'landable.assets', :md5sum, unique: true
     add_index 'landable.assets', :author_id
 
     execute "ALTER TABLE landable.assets ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES landable.authors(author_id)"
 
-    create_table 'landable.page_assets', id: :uuid, primary_key: :asset_page_id do |t|
+    create_table 'landable.page_assets', id: :uuid, primary_key: :page_asset_id do |t|
       t.uuid :asset_id, null: false
       t.uuid :page_id,  null: false
       t.text :alias
+      t.timestamps
     end
 
     add_index 'landable.page_assets', [:page_id, :asset_id], unique: true
     execute "ALTER TABLE landable.page_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
     execute "ALTER TABLE landable.page_assets ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES landable.pages(page_id)"
 
-    create_table 'landable.theme_assets', id: false do |t|
+    create_table 'landable.theme_assets', id: :uuid, primary_key: :theme_asset_id do |t|
       t.uuid :asset_id, null: false
       t.uuid :theme_id, null: false
       t.text :alias
+      t.timestamps
     end
 
     add_index 'landable.theme_assets', [:theme_id, :asset_id], unique: true

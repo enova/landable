@@ -18,9 +18,9 @@ module Landable
           raise ArgumentError.new("`assets' value was never registered with the template")
         end
 
-        asset = assets.find { |a| a.name == name }
-        raise ArgumentError.new("No `#{name}' asset available") if asset.nil?
-        asset
+        assets.fetch(name) do
+          raise ArgumentError.new("No `#{name}' asset available")
+        end
       end
 
       def asset_uri(context, asset)
