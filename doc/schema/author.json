@@ -1,6 +1,7 @@
 {
   "title": "Author",
   "description": "An author of landable content",
+  "type": "object",
   "additionalProperties": false,
 
   "properties": {

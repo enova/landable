@@ -1,6 +1,7 @@
 {
   "title": "Directory",
   "description": "A directory listing of all pages beneath a given path",
+  "type": "object",
   "additionalProperties": false,
 
   "properties": {

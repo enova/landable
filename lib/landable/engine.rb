@@ -24,5 +24,12 @@ module Landable
         end
       end
     end
+
+    initializer "landable.json_schema" do |app|
+      if ENV['LANDABLE_VALIDATE_JSON']
+        require 'rack/schema'
+        app.middleware.use Rack::Schema
+      end
+    end
   end
 end

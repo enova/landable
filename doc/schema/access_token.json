@@ -1,6 +1,7 @@
 {
   "title": "Access Token",
   "description": "An API access token",
+  "type": "object",
   "additionalProperties": false,
 
   "properties": {

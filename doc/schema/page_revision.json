@@ -1,6 +1,7 @@
 {
   "title": "Page Revision",
   "description": "A particular snapshot of a page which has, at some point, been published.",
+  "type": "object",
   "additionalProperties": false,
 
   "properties": {

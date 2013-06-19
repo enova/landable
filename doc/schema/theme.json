@@ -1,6 +1,7 @@
 {
   "title": "Theme",
   "description": "A landable theme contains a Liquid template which can be used as a layout wrapping its pages' bodies",
+  "type": "object",
   "additionalProperties": false,
 
   "properties": {

@@ -1,6 +1,7 @@
 {
   "title": "Asset",
   "description": "An uploaded asset file",
+  "type": "object",
   "additionalProperties": false,
 
   "properties": {

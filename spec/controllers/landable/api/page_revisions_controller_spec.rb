@@ -14,12 +14,10 @@ module Landable::Api
       end
 
       it "returns all of a page's revisions" do
-        pending "schema violation" do
-          page.publish! author: current_author
-          make_request
-          response.status.should == 200
-          last_json['page_revisions'].length.should == 1
-        end
+        page.publish! author: current_author
+        make_request
+        response.status.should == 200
+        last_json['page_revisions'].length.should == 1
       end
 
       it "404s on page not found" do

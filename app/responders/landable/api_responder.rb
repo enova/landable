@@ -1,21 +1,16 @@
-require_dependency "landable/json_schema"
-
 module Landable
   class ApiResponder < ActionController::Responder
-    def to_json
-      json = to_format
-
-      if validate_schema? && schema = response_schema
-        Landable::JsonSchema.validate!(schema, json.first)
-      end
-
-      json
-    end
-
     def to_format
       if serializer = resource_serializer
         options[collection_resource? ? :each_serializer : :serializer] = serializer
-        controller.response.headers['X-Serializer'] = serializer.name if Rails.env.development?
+        controller.response.headers['X-Serializer'] = serializer.name if leaky?
+      end
+
+      if leaky? && format == :json && schema = json_schema
+        key  = collection_resource? ? resource_name.pluralize : resource_name
+        link = "<#{schema}>; rel=\"describedby\"; anchor=\"#/#{key}\""
+        link = "#{link}; collection=\"collection\"" if collection_resource?
+        controller.response.headers['Link'] = link
       end
 
       # For updates, rails defaults to returning 204 No Content;
@@ -34,12 +29,14 @@ module Landable
       Rails.env.development? || Rails.env.test?
     end
 
-    def validate_schema?
-      Rails.env.development? || Rails.env.test?
-    end
-
     def collection_resource?
       Array === resource || ActiveRecord::Relation === resource
+    end
+
+    def json_schema
+      path = Landable::Engine.root.join('doc', 'schema', "#{resource_name}.json")
+      return unless path.exist?
+      "file://#{path}#"
     end
 
     def resource_name
@@ -61,38 +58,6 @@ module Landable
     rescue NameError
       @resource_serializer = false
       nil
-    end
-
-    def response_schema
-      return unless uri = Landable::JsonSchema.schema_uri(resource_name)
-
-      if collection_resource?
-        collection_of(resource_name.pluralize, uri)
-      else
-        instance_of(resource_name, uri)
-      end
-    end
-
-    def instance_of(type, uri)
-      { 'title' => type,
-        'properties' => {
-          type => {
-            '$ref' => uri.to_s,
-            'required' => true
-          }
-        }
-      }
-    end
-
-    def collection_of(type, uri)
-      { 'title' => "Collection of #{type}",
-        'properties' => {
-          type => {
-            'type' => 'array',
-            'items' => [{ '$ref' => uri.to_s }]
-          }
-        }
-      }
     end
   end
 end
