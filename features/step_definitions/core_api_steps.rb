@@ -68,6 +68,14 @@ When /^I (POST|PUT|PATCH|DELETE|OPTIONS)(?: to)? "(.+?)"(?: with)?:$/ do |http_m
   request expand_mustache[binding, path], method: http_method, params: body
 end
 
+When 'I request CORS from "$path" with:' do |path, table|
+  options = table.hashes.first
+
+  header 'Origin', options['origin']
+  header 'Access-Control-Request-Method', options['method']
+  request path, method: 'OPTIONS'
+end
+
 When 'I follow the "Location" header' do
   get last_response.headers['Location']
 end
@@ -105,4 +113,11 @@ end
 
 Then 'I should have been redirected to "$url"' do |url|
   last_response.headers['Location'].should == url
+end
+
+Then 'the response headers should include:' do |table|
+  expected = table.hashes.reduce({}) do |acc, row|
+    acc.merge row['header'] => row['value']
+  end
+  last_response.headers.should include(expected)
 end
