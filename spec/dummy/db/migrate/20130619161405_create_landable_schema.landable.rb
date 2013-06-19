@@ -8,6 +8,7 @@ class CreateLandableSchema < ActiveRecord::Migration
     # actually have permission to do it, etc.
     enable_extension "uuid-ossp"
     enable_extension "hstore"
+    enable_extension "pg_trgm"
 
     # Currently prevents creation of Pages due to apparent AR4 bug:
     # execute " DROP DOMAIN IF EXISTS uri;
@@ -50,6 +51,7 @@ class CreateLandableSchema < ActiveRecord::Migration
     end
 
     execute "CREATE UNIQUE INDEX pages_path_lower ON landable.pages(lower(path))"
+    execute "CREATE INDEX pages_path_trigram ON landable.pages USING gin(path gin_trgm_ops)"
 
     create_table 'landable.authors', id: :uuid, primary_key: :author_id do |t|
       t.text :email,      null: false

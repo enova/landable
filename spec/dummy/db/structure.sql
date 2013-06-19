@@ -44,6 +44,20 @@ COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs
 
 
 --
+-- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_trgm; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching based on trigrams';
+
+
+--
 -- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -212,16 +226,6 @@ CREATE TABLE schema_migrations (
 );
 
 
---
--- Name: test; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE test (
-    test_id integer NOT NULL,
-    tester_id integer NOT NULL
-);
-
-
 SET search_path = landable, pg_catalog;
 
 --
@@ -305,6 +309,13 @@ CREATE UNIQUE INDEX "index_landable.authors_on_username" ON authors USING btree 
 --
 
 CREATE UNIQUE INDEX pages_path_lower ON pages USING btree (lower(path));
+
+
+--
+-- Name: pages_path_trigram; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE INDEX pages_path_trigram ON pages USING gin (path public.gin_trgm_ops);
 
 
 --
@@ -393,4 +404,4 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130614150143');
+INSERT INTO schema_migrations (version) VALUES ('20130619161405');
