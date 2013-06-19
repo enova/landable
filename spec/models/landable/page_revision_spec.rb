@@ -16,7 +16,7 @@ module Landable
         page_revision = PageRevision.new
         page_revision.page_id = page.page_id
 
-        page_revision.snapshot_attributes.should == page.attributes.reject { |key|
+        page_revision.snapshot_attributes[:attrs].should == page.attributes.reject { |key|
           PageRevision.ignored_page_attributes.include? key
         }
       end

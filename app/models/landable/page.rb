@@ -70,7 +70,7 @@ module Landable
 
    def revert_to!(revision)
       self.published_revision = revision
-      self.attributes = revision.snapshot_attributes
+      self.attributes = revision.snapshot_attributes[:attrs]
       save!
    end
   end

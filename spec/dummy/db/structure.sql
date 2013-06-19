@@ -156,7 +156,7 @@ CREATE TABLE page_revisions (
     page_id uuid NOT NULL,
     author_id uuid NOT NULL,
     theme_id uuid,
-    snapshot_attributes public.hstore NOT NULL,
+    snapshot_attributes text NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -209,6 +209,16 @@ SET search_path = public, pg_catalog;
 
 CREATE TABLE schema_migrations (
     version character varying(255) NOT NULL
+);
+
+
+--
+-- Name: test; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE test (
+    test_id integer NOT NULL,
+    tester_id integer NOT NULL
 );
 
 
@@ -383,4 +393,4 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130617150755');
+INSERT INTO schema_migrations (version) VALUES ('20130619160232');

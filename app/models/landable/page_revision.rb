@@ -1,6 +1,7 @@
 module Landable
   class PageRevision < ActiveRecord::Base
     self.table_name = 'landable.page_revisions'
+    store :snapshot_attributes, accessors: [ :attrs ]
 
     @@ignored_page_attributes = [
       'page_id',
@@ -18,7 +19,7 @@ module Landable
       self[:page_id] = the_page_id
 
       # copy over attributes from our new page
-      self.snapshot_attributes ||= page.attributes.reject { |key| self.ignored_page_attributes.include? key }
+      self.snapshot_attributes[:attrs] ||= page.attributes.reject { |key| self.ignored_page_attributes.include? key }
     end
 
     def snapshot

@@ -80,7 +80,8 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.uuid      :author_id, null: false
       t.uuid      :theme_id
 
-      t.hstore    :snapshot_attributes, null: false
+      #t.hstore    :snapshot_attributes, null: false
+      t.text      :snapshot_attributes, null: false
 
       t.timestamps
     end
