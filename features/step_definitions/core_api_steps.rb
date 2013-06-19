@@ -121,3 +121,7 @@ Then 'the response headers should include:' do |table|
   end
   last_response.headers.should include(expected)
 end
+
+Then 'the JSON at "$path" should be "$value"' do |json_path, value|
+  at_json(json_path).should == value
+end
