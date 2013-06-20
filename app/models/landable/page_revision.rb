@@ -23,7 +23,7 @@ module Landable
     end
 
     def snapshot
-      Page.new snapshot_attributes
+      Page.new snapshot_attributes[:attrs]
     end
 
     def publish!
