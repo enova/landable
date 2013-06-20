@@ -31,15 +31,12 @@ module Landable
     describe '#snapshot' do
       it 'should build a page based on snapshot_attribute' do
         revision = PageRevision.new
-        revision.snapshot_attributes = {
-          title: 'title',
-          path: '/path/here'
-        }
+        revision.page_id = page.id
 
-        page = revision.snapshot
-        page.should be_an_instance_of Page
-        page.title.should == 'title'
-        page.path.should == '/path/here'
+        new_page = revision.snapshot
+        new_page.should be_an_instance_of Page
+        new_page.title.should == 'title'
+        new_page.path.should == '/test/path'
 
       end
 
