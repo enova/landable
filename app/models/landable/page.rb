@@ -74,6 +74,7 @@ module Landable
       self.published_revision = revision
       self.published_revision.publish!
       self.attributes = revision.snapshot_attributes[:attrs]
+      self.is_publishable = false
       save!
    end
   end
