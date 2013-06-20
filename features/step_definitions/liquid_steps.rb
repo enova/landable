@@ -24,6 +24,12 @@ Given "the page's meta tags are:" do |table|
   end
 end
 
+Given "the page uses a theme with the body:" do |body|
+  @page.theme ||= Landable::Theme.new
+  @theme ||= @page.theme
+  @page.theme.body = body
+end
+
 Given "the page has these assets:" do |table|
   table.hashes.each do |attrs|
     asset_alias = attrs.delete('alias')
@@ -31,9 +37,11 @@ Given "the page has these assets:" do |table|
   end
 end
 
-Given "the page uses a theme with the body:" do |body|
-  @page.theme ||= Landable::Theme.new
-  @page.theme.body = body
+Given 'the theme has these assets:' do |table|
+  table.hashes.each do |attrs|
+    asset_alias = attrs.delete('alias')
+    @theme.theme_assets.build alias: asset_alias, asset: build(:asset, attrs)
+  end
 end
 
 Given 'a theme with the body:' do |body|

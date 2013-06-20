@@ -1,6 +1,9 @@
 # This is totally a unit test, but it's much more informative to read
 # this in cuke form.
 Feature: Liquid Tags
+  A number of custom liquid tags are made available to the page and theme bodies,
+  enabling generation of HTML tags, referencing assets, etc.
+
   Background:
     Given the asset URI prefix is "https://landable.dev/_assets/"
     And   a page under test
@@ -46,28 +49,24 @@ Feature: Liquid Tags
       <a href="https://landable.dev/_assets/wi.pdf" title="Wisconsin Disclosures">Disclosures</a>
       """
 
-   Scenario: All of the above, in a theme
-     Given the page uses a theme with the body:
-       """
-       <html>
-         <head>{% title_tag %}</head>
-         <body>
-           {% img_tag bar %}
-           {{body}}
-         </body>
-       </html>
-       """
-     And the page's body is "The page body here"
-     Then the rendered content should be:
-       """
-       <html>
-         <head><title>Page Under Test</title></head>
-         <body>
-           <img alt="Baz!" src="https://landable.dev/_assets/foo.png" />
-           The page body here
-         </body>
-       </html>
-       """
+  Scenario: Referencing your theme's asset
+    Given the page's body is:
+      """
+      {% asset_url theme/header %}
+      """
+    And the page uses a theme with the body:
+      """
+      {% asset_url header %}
+      {{body}}
+      """
+    And the theme has these assets:
+      | basename | name   | description  |
+      | hdr.png  | header | Header image |
+    Then the rendered content should be:
+      """
+      https://landable.dev/_assets/hdr.png
+      https://landable.dev/_assets/hdr.png
+      """
 
   Scenario: Reference the asset alias
     Given the page's body is "{% img_tag icon %}"

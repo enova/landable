@@ -31,18 +31,22 @@ module Landable
     private
 
     def assets_for_page
-      @assets_for_page ||= assets_for_theme.merge reduce_assets(@page.page_assets)
+      @assets_for_page ||=
+        begin
+          prefixed = assets_for_theme.map { |k, v| ["theme/#{k}", v] }
+          Hash[prefixed].merge reduce_assets(@page.page_assets)
+        end
     end
 
     def assets_for_theme
-      @assets_for_theme ||= themed? ? reduce_assets(@theme.theme_assets, 'theme/') : {}
+      @assets_for_theme ||= themed? ? reduce_assets(@theme.theme_assets) : {}
     end
 
-    def reduce_assets(relations, prefix = '')
+    def reduce_assets(relations)
       assets = {}
       relations.each do |rel|
         name = rel.alias || rel.asset.name
-        assets["#{prefix}#{name}"] = rel.asset
+        assets[name] = rel.asset
       end
       assets
     end

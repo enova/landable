@@ -42,6 +42,8 @@ module Landable
       end
 
       def destroy
+        asset = Asset.find params[:id]
+        parent.assets.delete asset
         head :no_content
       end
 
