@@ -117,7 +117,7 @@ module Landable
 
         page.revert_to! revision
 
-        page.attributes.reject { |key| PageRevision.ignored_page_attributes.include? key }.should == revision.snapshot_attributes
+        page.attributes.reject { |key| PageRevision.ignored_page_attributes.include? key }.should == revision.snapshot_attributes[:attrs]
       end
     end
 

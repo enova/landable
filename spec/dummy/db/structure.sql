@@ -186,10 +186,11 @@ CREATE TABLE page_revisions (
     ordinal integer,
     notes text,
     is_minor boolean DEFAULT false,
+    is_published boolean DEFAULT true,
     page_id uuid NOT NULL,
     author_id uuid NOT NULL,
     theme_id uuid,
-    snapshot_attributes public.hstore NOT NULL,
+    snapshot_attributes text NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -341,6 +342,13 @@ CREATE UNIQUE INDEX category_name_lower ON categories USING btree (lower(name));
 
 
 --
+-- Name: email_lower; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX email_lower ON authors USING btree (lower(email));
+
+
+--
 -- Name: index_landable.access_tokens_on_author_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -366,13 +374,6 @@ CREATE UNIQUE INDEX "index_landable.assets_on_data" ON assets USING btree (data)
 --
 
 CREATE UNIQUE INDEX "index_landable.assets_on_md5sum" ON assets USING btree (md5sum);
-
-
---
--- Name: index_landable.authors_on_email; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX "index_landable.authors_on_email" ON authors USING btree (email);
 
 
 --

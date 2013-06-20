@@ -2,23 +2,29 @@ require 'spec_helper'
 
 module Landable
   describe PageRevision do
-    describe '#page_id=' do
-      it 'should set page revision attributes matching the page' do
-        page = FactoryGirl.create(:page,
+    let(:page) { FactoryGirl.create(:page,
           path: '/test/path',
           title: 'title',
           status_code: 200,
           body: 'body',
           redirect_url: '/redirect/here',
           meta_tags: {'key'=>'value'}
-        )
+        ) }
+    let(:author) { FactoryGirl.create(:author) }
+
+    describe '#page_id=' do
+      it 'should set page revision attributes matching the page' do
 
         page_revision = PageRevision.new
         page_revision.page_id = page.page_id
 
-        page_revision.snapshot_attributes.should == page.attributes.reject { |key|
+        page_revision.snapshot_attributes[:attrs].should == page.attributes.reject { |key|
           PageRevision.ignored_page_attributes.include? key
         }
+      end
+
+      it 'should have default to is_published = true' do
+        PageRevision.new.is_published.should == true
       end
     end
 
@@ -36,6 +42,18 @@ module Landable
         page.path.should == '/path/here'
 
       end
+
+    describe 'is_published' do
+      it 'should set is_published to true and false as requested' do
+        revision = PageRevision.new
+        revision.page_id = page.id
+        revision.author_id = author.id
+        revision.unpublish!
+        revision.is_published.should == false
+        revision.publish!
+        revision.is_published.should == true
+      end
+    end
     end
   end
 end

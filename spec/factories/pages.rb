@@ -14,6 +14,11 @@ FactoryGirl.define do
     HTML
   end
 
+  factory :category, class: 'Landable::Category' do
+    sequence(:name) { |n| "Category #{n}" }
+    description "Factory-generated category"
+  end
+
   factory :page, class: 'Landable::Page' do
     association :theme, strategy: :build
 

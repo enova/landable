@@ -9,6 +9,7 @@ module Landable
     embed :ids
     has_one  :theme
     has_one  :published_revision
+    has_one  :category
     has_many :assets
 
     def meta_tags

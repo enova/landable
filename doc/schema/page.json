@@ -13,6 +13,10 @@
       "type": [{ "$ref": "uuid.json" }, "null"]
     },
 
+    "category_id": {
+      "type": [{ "$ref": "uuid.json" }, "null"]
+    },
+
     "path": {
       "type": "string",
       "required": true

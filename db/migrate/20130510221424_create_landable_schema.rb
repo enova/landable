@@ -58,7 +58,8 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index 'landable.authors', :email, unique: true
+    #add_index 'landable.authors', :email, unique: true
+    execute "CREATE UNIQUE INDEX email_lower ON landable.authors(lower(email))"
     add_index 'landable.authors', :username, unique: true
 
     create_table 'landable.access_tokens', id: :uuid, primary_key: :access_token_id do |t|
@@ -72,13 +73,14 @@ class CreateLandableSchema < ActiveRecord::Migration
     create_table 'landable.page_revisions', id: :uuid, primary_key: :page_revision_id do |t|
       t.integer   :ordinal
       t.text      :notes
-      t.boolean   :is_minor,  default: false
+      t.boolean   :is_minor,      default: false
+      t.boolean   :is_published,  default: true
 
       t.uuid      :page_id,   null: false
       t.uuid      :author_id, null: false
       t.uuid      :theme_id
 
-      t.hstore    :snapshot_attributes, null: false
+      t.text      :snapshot_attributes, null: false
 
       t.timestamps
     end

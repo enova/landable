@@ -1,13 +1,13 @@
 module Landable
   class PageRevisionSerializer < ActiveModel::Serializer
-    attributes :id, :ordinal, :notes, :is_minor
+    attributes :id, :ordinal, :notes, :is_minor, :is_published
     attributes :snapshot_attributes
     attributes :created_at
 
     embed :ids
     has_one :page
     has_one :theme
-    has_one :author, embed_key: :username, include: true, serializer: Api::AuthorSerializer
+    has_one :author, embed_key: :username, include: true, serializer: AuthorSerializer
 
     def snapshot_attributes
       attrs = object.snapshot_attributes
