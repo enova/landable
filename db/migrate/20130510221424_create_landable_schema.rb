@@ -8,13 +8,6 @@ class CreateLandableSchema < ActiveRecord::Migration
     enable_extension "uuid-ossp"
     enable_extension "hstore"
 
-    # Currently prevents creation of Pages due to apparent AR4 bug:
-    # execute " DROP DOMAIN IF EXISTS uri;
-    #           CREATE DOMAIN uri AS TEXT
-    #           CHECK(
-    #             VALUE ~ '^/[a-zA-Z0-9/_.~-]*$'
-    #           );"
-
     execute "DROP SCHEMA IF EXISTS landable; CREATE SCHEMA landable;"
 
     create_table 'landable.themes', id: :uuid, primary_key: :theme_id do |t|
