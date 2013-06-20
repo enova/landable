@@ -25,5 +25,15 @@ module Landable
     def snapshot
       Page.new snapshot_attributes
     end
+
+    def publish!
+      self.is_published = true
+      save!
+    end
+
+    def unpublish!
+      self.is_published = false
+      save!
+    end
   end
 end

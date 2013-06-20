@@ -153,6 +153,7 @@ CREATE TABLE page_revisions (
     ordinal integer,
     notes text,
     is_minor boolean DEFAULT false,
+    is_published boolean DEFAULT true,
     page_id uuid NOT NULL,
     author_id uuid NOT NULL,
     theme_id uuid,
@@ -393,4 +394,4 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130619160232');
+INSERT INTO schema_migrations (version) VALUES ('20130620140205');

@@ -62,6 +62,7 @@ module Landable
     end
 
     def publish!(options)
+      self.published_revision.unpublish! if self.published_revision
       revision = revisions.create options
       self.published_revision = revision
       self.is_publishable = false
@@ -69,7 +70,9 @@ module Landable
    end
 
    def revert_to!(revision)
+      self.published_revision.unpublish! if self.published_revision
       self.published_revision = revision
+      self.published_revision.publish!
       self.attributes = revision.snapshot_attributes[:attrs]
       save!
    end

@@ -73,7 +73,8 @@ class CreateLandableSchema < ActiveRecord::Migration
     create_table 'landable.page_revisions', id: :uuid, primary_key: :page_revision_id do |t|
       t.integer   :ordinal
       t.text      :notes
-      t.boolean   :is_minor,  default: false
+      t.boolean   :is_minor,      default: false
+      t.boolean   :is_published,  default: true
 
       t.uuid      :page_id,   null: false
       t.uuid      :author_id, null: false
