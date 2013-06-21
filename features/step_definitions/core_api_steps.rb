@@ -43,6 +43,10 @@ Before '@api', '~@no-api-auth' do
   basic_authorize!
 end
 
+Given 'I accept HTML' do
+  header 'Accept',      'text/html'
+end
+
 Given 'my API requests include a valid access token' do
   basic_authorize!
 end
