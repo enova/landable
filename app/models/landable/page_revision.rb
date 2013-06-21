@@ -9,6 +9,7 @@ module Landable
       'created_at',
       'updated_at',
       'published_revision_id',
+      'is_publishable',
     ]
     cattr_accessor :ignored_page_attributes
 
@@ -23,7 +24,7 @@ module Landable
     end
 
     def snapshot
-      Page.new snapshot_attributes
+      Page.new snapshot_attributes[:attrs]
     end
 
     def publish!

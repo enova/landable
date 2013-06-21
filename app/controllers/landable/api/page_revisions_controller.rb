@@ -5,7 +5,7 @@ module Landable
     class PageRevisionsController < ApiController
       def index
         page = Page.find(params[:page_id])
-        respond_with page.revisions
+        respond_with page.revisions.order(:ordinal).reverse
       end
 
       def show
