@@ -44,6 +44,20 @@ COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs
 
 
 --
+-- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_trgm; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching based on trigrams';
+
+
+--
 -- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -287,6 +301,13 @@ CREATE UNIQUE INDEX landable_authors__u_email ON authors USING btree (lower(emai
 --
 
 CREATE UNIQUE INDEX landable_categories__u_name ON categories USING btree (lower(name));
+
+
+--
+-- Name: landable_pages__trgm_path; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE INDEX landable_pages__trgm_path ON pages USING gin (path public.gin_trgm_ops);
 
 
 --

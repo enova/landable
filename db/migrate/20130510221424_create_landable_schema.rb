@@ -7,6 +7,7 @@ class CreateLandableSchema < ActiveRecord::Migration
     # actually have permission to do it, etc.
     enable_extension "uuid-ossp"
     enable_extension "hstore"
+    enable_extension "pg_trgm"
 
     execute "DROP SCHEMA IF EXISTS landable; CREATE SCHEMA landable;"
 
@@ -42,6 +43,7 @@ class CreateLandableSchema < ActiveRecord::Migration
     end
 
     execute "CREATE UNIQUE INDEX landable_pages__u_path ON landable.pages(lower(path))"
+    execute "CREATE INDEX landable_pages__trgm_path ON landable.pages USING gin(path gin_trgm_ops)"
 
     create_table 'landable.authors', id: :uuid, primary_key: :author_id do |t|
       t.text :email,      null: false

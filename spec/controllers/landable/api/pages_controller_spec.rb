@@ -50,6 +50,57 @@ module Landable::Api
       end
     end
 
+    describe '#index' do
+      include_examples 'Authenticated API controller', :make_request
+
+      let(:pages) { @pages ||= create_list(:page, 5) }
+      before(:each) { pages }
+
+      def make_request(params = {})
+        get :index, params
+      end
+
+      it 'renders pages as json' do
+        make_request
+        last_json['pages'].collect { |p| p['id'] }.should == pages.map(&:id)
+      end
+
+      it 'filters pages according to requested ids' do
+        filtered_for_pages = pages[0..2]
+
+        make_request ids: filtered_for_pages.map(&:id)
+        last_json['pages'].collect { |p| p['id'] }.should == filtered_for_pages.map(&:id)
+      end
+
+      describe 'search' do
+        describe 'by path' do
+          before(:each) do
+            ['/foo', '/foo/bar', '/foo/bar/baz', '/bar'].each do |path|
+              create :page, path: path
+            end
+          end
+
+          it 'filters by starting path fragment' do
+            make_request search: {path: '/foo/ba'}
+            last_json['pages'].collect { |p| p['path'] }.should == ['/foo/bar', '/foo/bar/baz']
+          end
+
+          it 'assumes a starting slash' do
+            make_request search: {path: 'ba'}
+            last_json['pages'].collect { |p| p['path'] }.should == ['/bar']
+          end
+        end
+      end
+
+      it 'only include 50 results, and include the total result count as meta data' do
+        create_list :page, (100 - pages.size)
+        make_request search: {path: '/'}
+
+        last_json['pages'].size.should == 50
+        last_json['meta']['search']['total_results'].should == 100
+      end
+    end
+
     describe '#show' do
       include_examples 'Authenticated API controller', :make_request
       let(:page) { @page || create(:page) }

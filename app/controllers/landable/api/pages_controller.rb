@@ -4,15 +4,44 @@ module Landable
   module Api
     class PagesController < ApiController
       def index
-        ids = params[:ids] if params[:ids].present? and params[:ids].is_a? Array
+        pages = []
+        meta = {}
 
-        if ids
-          pages = Page.where(page_id: params[:ids])
+        # id filtering
+        if params[:ids].present? and params[:ids].is_a? Array
+          pages = Page.where page_id: params[:ids]
+
+        # searching
+        elsif params[:search].present? and params[:search].is_a? Hash
+
+          # ... by path
+          if params[:search][:path]
+            path = params[:search][:path].to_s
+
+            # assume a leading slash
+            path = "/#{path}" unless path.start_with? '/'
+
+            pages = Page.select(
+              "*, similarity(path, #{Page.sanitize path}) _sml"
+            ).where(
+              'path LIKE ?', "#{path}%"
+            ).order(
+              '_sml DESC, path ASC'
+            )
+
+            meta[:search] = {
+              total_results: pages.count
+            }
+
+            pages = pages.limit(50)
+          end
+
+        # default to showing all
         else
           pages = Page.all
         end
 
-        respond_with pages
+        respond_with pages, meta: meta
       end
 
       def create
