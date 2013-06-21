@@ -1,10 +1,6 @@
 #!/bin/sh
 rm spec/dummy/db/structure.sql
-rm spec/dummy/db/migrate/*.landable.rb
 
-rake app:landable:install:migrations
-
-rake app:landable:install:migrations
 rake app:db:drop:all
 rake app:db:create:all
 rake app:db:migrate

@@ -27,7 +27,7 @@ Gem::Specification.new do |gem|
 
   gem.require_paths = ["lib"]
 
-  gem.add_dependency "rails",     "~> 4.0.0.rc1"
+  gem.add_dependency "rails",     "~> 4.0.0.rc2"
   gem.add_dependency "rack-cors", ">= 0.2.7"
   gem.add_dependency "active_model_serializers", "~> 0.8"
   gem.add_dependency "liquid"
