@@ -5,6 +5,7 @@ module Landable
     class PagesController < ApiController
       def index
         pages = []
+        meta = {}
 
         # id filtering
         if params[:ids].present? and params[:ids].is_a? Array
@@ -26,7 +27,13 @@ module Landable
               'path LIKE ?', "#{path}%"
             ).order(
               '_sml DESC, path ASC'
-            ).limit(100)
+            )
+
+            meta[:search] = {
+              total_results: pages.count
+            }
+
+            pages = pages.limit(50)
           end
 
         # default to showing all
@@ -34,7 +41,7 @@ module Landable
           pages = Page.all
         end
 
-        respond_with pages
+        respond_with pages, meta: meta
       end
 
       def create
