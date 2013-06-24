@@ -41,13 +41,11 @@ module Landable
     end
 
     def publish!
-      self.is_published = true
-      save!
+      update_attribute :is_published, true
     end
 
     def unpublish!
-      self.is_published = false
-      save!
+      update_attribute :is_published, false
     end
   end
 end

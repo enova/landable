@@ -62,14 +62,14 @@ module Landable::Api
 
       it 'renders pages as json' do
         make_request
-        last_json['pages'].collect { |p| p['id'] }.should == pages.map(&:id)
+        last_json['pages'].collect { |p| p['id'] }.sort.should == pages.map(&:id).sort
       end
 
       it 'filters pages according to requested ids' do
         filtered_for_pages = pages[0..2]
 
         make_request ids: filtered_for_pages.map(&:id)
-        last_json['pages'].collect { |p| p['id'] }.should == filtered_for_pages.map(&:id)
+        last_json['pages'].collect { |p| p['id'] }.sort.should == filtered_for_pages.map(&:id).sort
       end
 
       describe 'search' do
