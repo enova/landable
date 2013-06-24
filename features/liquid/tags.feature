@@ -5,7 +5,7 @@ Feature: Liquid Tags
   enabling generation of HTML tags, referencing assets, etc.
 
   Background:
-    Given the asset URI prefix is "https://landable.dev/_assets/"
+    Given the asset URI prefix is "https://landable.dev/_assets"
     And   a page under test
     And   the page has these assets:
       | basename | name    | description           | alias |

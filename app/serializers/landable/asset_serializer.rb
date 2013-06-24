@@ -10,9 +10,5 @@ module Landable
     has_one  :author
     has_many :pages
     has_many :themes
-
-    def public_url
-      object.data.url
-    end
   end
 end

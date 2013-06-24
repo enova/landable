@@ -3,18 +3,16 @@ require_dependency 'landable/liquid'
 module Landable
   class RenderService
     def self.call(page)
-      new(page, page.theme, $asset_uri_prefix || '/').render!
+      new(page, page.theme).render!
     end
 
-    def initialize(page, theme, asset_uri_prefix)
+    def initialize(page, theme)
       @page   = page
       @theme  = theme
-      @prefix = asset_uri_prefix
     end
 
     def render!
       content = parse(@page.body).render!(nil, registers: {
-        asset_prefix: @prefix,
         page: @page,
         assets: assets_for_page
       })
@@ -22,7 +20,6 @@ module Landable
       return content unless layout?
 
       parse(@theme.body).render!({ 'body' => content }, registers: {
-        asset_prefix: @prefix,
         page: @page,
         assets: assets_for_theme
       })

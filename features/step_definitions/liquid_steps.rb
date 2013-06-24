@@ -1,8 +1,11 @@
 Given 'the asset URI prefix is "$uri"' do |uri|
-  $asset_uri_prefix = uri
-  # restore_config do |config|
-  #   config.asset_uri_prefix = uri
-  # end
+  # Kinda bogus, but makes explicit tests significantly easier
+  Landable::Asset.stub!(:url_generator) do
+    proc { |asset|
+      uri = "#{uri}/" unless uri.ends_with?('/')
+      "#{uri}#{asset.basename}"
+    }
+  end
 end
 
 Given /^a page under test$/ do

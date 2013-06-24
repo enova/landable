@@ -8,6 +8,12 @@ module Landable
     self.table_name = 'landable.assets'
     mount_uploader :data, Landable::AssetUploader
 
+    # This bit of indirection allows us to generate predictable
+    # URLs in the test environment.
+    def self.url_generator
+      @url_generator ||= proc { |asset| asset.data.try(:url) }
+    end
+
     belongs_to :author
 
     has_many :page_assets
@@ -21,6 +27,10 @@ module Landable
     validates_presence_of     :name, :basename, :mime_type, :md5sum, :file_size
     validates_uniqueness_of   :md5sum
     validates_numericality_of :file_size, only_integer: true
+
+    def public_url
+      self.class.url_generator.call(self)
+    end
 
     def duplicate_of
       return unless data.present?

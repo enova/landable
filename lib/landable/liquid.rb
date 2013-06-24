@@ -19,14 +19,8 @@ module Landable
         end
 
         assets.fetch(name) do
-          raise ArgumentError.new("No `#{name}' asset available")
+          raise ArgumentError.new("No `#{name}' asset available in #{assets.inspect}")
         end
-      end
-
-      def asset_uri(context, asset)
-        uri = URI.parse(context.registers[:asset_prefix] || 'http://example.com/')
-        uri.path += asset.basename
-        uri.to_s
       end
     end
 
@@ -55,7 +49,7 @@ module Landable
 
       def render(context)
         asset = lookup_asset context, @asset_name
-        tag :img, src: asset_uri(context, asset), alt: asset.description
+        tag :img, src: asset.public_url, alt: asset.description
       end
     end
 
@@ -69,7 +63,7 @@ module Landable
         asset = lookup_asset context, @asset_name
 
         case @attribute
-        when 'url' then asset_uri(context, asset)
+        when 'url' then asset.public_url
         else asset.send @attribute
         end
       end
