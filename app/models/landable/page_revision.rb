@@ -16,15 +16,28 @@ module Landable
     belongs_to :author
     belongs_to :page, inverse_of: :revisions
 
-    def page_id=(the_page_id)
-      self[:page_id] = the_page_id
+    has_many :page_revision_assets
+    has_many :assets, :through => :page_revision_assets
 
-      # copy over attributes from our new page
-      self.snapshot_attributes[:attrs] ||= page.attributes.reject { |key| self.ignored_page_attributes.include? key }
+    def page_id=(id)
+      self[:page_id] = id
+      snapshot_attributes[:attrs] = page.attributes.except(*self.ignored_page_attributes)
+
+      page.page_assets.pluck(:asset_id, :alias).each do |(id, als)|
+        page_revision_assets.build(asset_id: id, alias: als)
+      end
     end
 
     def snapshot
-      Page.new snapshot_attributes[:attrs]
+      Page.new(snapshot_attributes[:attrs]).tap do |page|
+        # ech, gross. perhaps an AssetRepository or similar to deal with this tedium?
+        # that way the rest of the world doesn't have to dance through associations.
+        page_revision_assets.each do |record|
+          page.assets << record.asset
+          join = page.page_assets.find { |pa| pa.asset_id == record.asset_id }
+          join.alias = record.alias
+        end
+      end
     end
 
     def publish!

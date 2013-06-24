@@ -190,6 +190,20 @@ CREATE TABLE page_assets (
 
 
 --
+-- Name: page_revision_assets; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE page_revision_assets (
+    page_revision_asset_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    asset_id uuid NOT NULL,
+    page_revision_id uuid NOT NULL,
+    alias text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
 -- Name: page_revisions; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -315,6 +329,14 @@ ALTER TABLE ONLY page_assets
 
 
 --
+-- Name: page_revision_assets_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY page_revision_assets
+    ADD CONSTRAINT page_revision_assets_pkey PRIMARY KEY (page_revision_asset_id);
+
+
+--
 -- Name: page_revisions_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -344,6 +366,13 @@ ALTER TABLE ONLY theme_assets
 
 ALTER TABLE ONLY themes
     ADD CONSTRAINT themes_pkey PRIMARY KEY (theme_id);
+
+
+--
+-- Name: idx_page_revision_assets_nk; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_page_revision_assets_nk ON page_revision_assets USING btree (page_revision_id, asset_id);
 
 
 --
@@ -472,6 +501,14 @@ ALTER TABLE ONLY theme_assets
 
 
 --
+-- Name: asset_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY page_revision_assets
+    ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES assets(asset_id);
+
+
+--
 -- Name: author_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
 --
 
@@ -509,6 +546,14 @@ ALTER TABLE ONLY page_assets
 
 ALTER TABLE ONLY page_revisions
     ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES pages(page_id);
+
+
+--
+-- Name: page_revision_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY page_revision_assets
+    ADD CONSTRAINT page_revision_id_fk FOREIGN KEY (page_revision_id) REFERENCES page_revisions(page_revision_id);
 
 
 --

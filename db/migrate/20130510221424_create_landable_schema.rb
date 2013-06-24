@@ -127,6 +127,17 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "ALTER TABLE landable.theme_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
     execute "ALTER TABLE landable.theme_assets ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES landable.themes(theme_id)"
 
+    create_table 'landable.page_revision_assets', id: :uuid, primary_key: :page_revision_asset_id do |t|
+      t.uuid :asset_id,         null: false
+      t.uuid :page_revision_id, null: false
+      t.text :alias
+      t.timestamps
+    end
+
+    add_index 'landable.page_revision_assets', [:page_revision_id, :asset_id], unique: true, name: 'idx_page_revision_assets_nk'
+    execute "ALTER TABLE landable.page_revision_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
+    execute "ALTER TABLE landable.page_revision_assets ADD CONSTRAINT page_revision_id_fk FOREIGN KEY (page_revision_id) REFERENCES landable.page_revisions(page_revision_id)"
+
     # Constraints for page_revisions
     execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES landable.pages(page_id)"
     execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES landable.authors(author_id)"
