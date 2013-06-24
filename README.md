@@ -21,9 +21,19 @@ Landable.configure do |config|
   config.api_namespace = '/my/custom/namespace'
 end
 
-CarrierWave.root = Rails.root
 CarrierWave.configure do |config|
-  config.fog_credentials = { ... } # See CarrierWave docs
+  config.root      = Rails.root.join('public/uploads')
+  config.cache_dir = Rails.root.join('tmp/carrierwave')
+
+  # For example, using Fog for AWS:
+  config.store = :fog
+  config.fog_credentials = {
+    provider: 'AWS',
+    # etc; see the CarrierWave and Fog docs.
+  }
+
+  # Or, in development or test, maybe just store locally:
+  config.store = :file
 end
 ~~~~
 

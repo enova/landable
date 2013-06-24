@@ -1,5 +1,6 @@
 require "rack/cors"
 require "active_model_serializers"
+require "carrierwave"
 
 module Landable
   class Engine < ::Rails::Engine

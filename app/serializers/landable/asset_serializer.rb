@@ -12,7 +12,7 @@ module Landable
     has_many :themes
 
     def public_url
-      'http://no.idea.how/TODO/this'
+      object.data.url
     end
   end
 end
