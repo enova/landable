@@ -44,6 +44,20 @@ COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs
 
 
 --
+-- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_trgm; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching based on trigrams';
+
+
+--
 -- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -57,10 +71,10 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
 
 
-SET search_path = public, pg_catalog;
+SET search_path = landable, pg_catalog;
 
 --
--- Name: pages_revision_ordinal(); Type: FUNCTION; Schema: public; Owner: -
+-- Name: pages_revision_ordinal(); Type: FUNCTION; Schema: landable; Owner: -
 --
 
 CREATE FUNCTION pages_revision_ordinal() RETURNS trigger
@@ -79,7 +93,7 @@ CREATE FUNCTION pages_revision_ordinal() RETURNS trigger
 
 
 --
--- Name: tg_disallow(); Type: FUNCTION; Schema: public; Owner: -
+-- Name: tg_disallow(); Type: FUNCTION; Schema: landable; Owner: -
 --
 
 CREATE FUNCTION tg_disallow() RETURNS trigger
@@ -98,8 +112,6 @@ CREATE FUNCTION tg_disallow() RETURNS trigger
         END
        $_$;
 
-
-SET search_path = landable, pg_catalog;
 
 SET default_tablespace = '';
 
@@ -335,20 +347,6 @@ ALTER TABLE ONLY themes
 
 
 --
--- Name: category_name_lower; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX category_name_lower ON categories USING btree (lower(name));
-
-
---
--- Name: email_lower; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX email_lower ON authors USING btree (lower(email));
-
-
---
 -- Name: index_landable.access_tokens_on_author_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -398,17 +396,38 @@ CREATE UNIQUE INDEX "index_landable.theme_assets_on_theme_id_and_asset_id" ON th
 
 
 --
--- Name: pages_path_lower; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+-- Name: landable_authors__u_email; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX pages_path_lower ON pages USING btree (lower(path));
+CREATE UNIQUE INDEX landable_authors__u_email ON authors USING btree (lower(email));
 
 
 --
--- Name: theme_name_lower; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+-- Name: landable_categories__u_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX theme_name_lower ON themes USING btree (lower(name));
+CREATE UNIQUE INDEX landable_categories__u_name ON categories USING btree (lower(name));
+
+
+--
+-- Name: landable_pages__trgm_path; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE INDEX landable_pages__trgm_path ON pages USING gin (path public.gin_trgm_ops);
+
+
+--
+-- Name: landable_pages__u_path; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_pages__u_path ON pages USING btree (lower(path));
+
+
+--
+-- Name: landable_themes__u_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_themes__u_name ON themes USING btree (lower(name));
 
 
 SET search_path = public, pg_catalog;
@@ -426,14 +445,14 @@ SET search_path = landable, pg_catalog;
 -- Name: page_revivions_bfr_insert; Type: TRIGGER; Schema: landable; Owner: -
 --
 
-CREATE TRIGGER page_revivions_bfr_insert BEFORE INSERT ON page_revisions FOR EACH ROW EXECUTE PROCEDURE public.pages_revision_ordinal();
+CREATE TRIGGER page_revivions_bfr_insert BEFORE INSERT ON page_revisions FOR EACH ROW EXECUTE PROCEDURE pages_revision_ordinal();
 
 
 --
 -- Name: page_revivions_no_delete; Type: TRIGGER; Schema: landable; Owner: -
 --
 
-CREATE TRIGGER page_revivions_no_delete BEFORE DELETE ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE public.tg_disallow();
+CREATE TRIGGER page_revivions_no_delete BEFORE DELETE ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
 
 
 --

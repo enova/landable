@@ -7,6 +7,7 @@ class CreateLandableSchema < ActiveRecord::Migration
     # actually have permission to do it, etc.
     enable_extension "uuid-ossp"
     enable_extension "hstore"
+    enable_extension "pg_trgm"
 
     execute "DROP SCHEMA IF EXISTS landable; CREATE SCHEMA landable;"
 
@@ -18,7 +19,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    execute "CREATE UNIQUE INDEX theme_name_lower ON landable.themes(lower(name))"
+    execute "CREATE UNIQUE INDEX landable_themes__u_name ON landable.themes(lower(name))"
 
     create_table 'landable.pages', id: :uuid, primary_key: :page_id do |t|
       t.uuid      :published_revision_id
@@ -41,7 +42,8 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    execute "CREATE UNIQUE INDEX pages_path_lower ON landable.pages(lower(path))"
+    execute "CREATE UNIQUE INDEX landable_pages__u_path ON landable.pages(lower(path))"
+    execute "CREATE INDEX landable_pages__trgm_path ON landable.pages USING gin(path gin_trgm_ops)"
 
     create_table 'landable.authors', id: :uuid, primary_key: :author_id do |t|
       t.text :email,      null: false
@@ -52,7 +54,7 @@ class CreateLandableSchema < ActiveRecord::Migration
     end
 
     #add_index 'landable.authors', :email, unique: true
-    execute "CREATE UNIQUE INDEX email_lower ON landable.authors(lower(email))"
+    execute "CREATE UNIQUE INDEX landable_authors__u_email ON landable.authors(lower(email))"
     add_index 'landable.authors', :username, unique: true
 
     create_table 'landable.access_tokens', id: :uuid, primary_key: :access_token_id do |t|
@@ -83,7 +85,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.text      :description
     end
 
-    execute "CREATE UNIQUE INDEX category_name_lower ON landable.categories(lower(name))"
+    execute "CREATE UNIQUE INDEX landable_categories__u_name ON landable.categories(lower(name))"
 
     create_table 'landable.assets', id: :uuid, primary_key: :asset_id do |t|
       t.uuid    :author_id,   null: false
@@ -138,7 +140,7 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "ALTER TABLE landable.pages ADD CONSTRAINT only_valid_status_codes CHECK (status_code IN (200,301,302,404))"
 
     # Revision-tracking trigger to automatically update ordinal
-    execute "CREATE FUNCTION pages_revision_ordinal()
+    execute "CREATE FUNCTION landable.pages_revision_ordinal()
       RETURNS TRIGGER
       AS
       $TRIGGER$
@@ -156,10 +158,10 @@ class CreateLandableSchema < ActiveRecord::Migration
 
       execute "CREATE TRIGGER page_revivions_bfr_insert
               BEFORE INSERT ON landable.page_revisions
-              FOR EACH ROW EXECUTE PROCEDURE pages_revision_ordinal();"
+              FOR EACH ROW EXECUTE PROCEDURE landable.pages_revision_ordinal();"
 
     # Trigger disallowing deletes on page_revisions
-    execute "CREATE FUNCTION tg_disallow()
+    execute "CREATE FUNCTION landable.tg_disallow()
       RETURNS TRIGGER
       AS
       $TRIGGER$
@@ -179,7 +181,7 @@ class CreateLandableSchema < ActiveRecord::Migration
 
       execute "CREATE TRIGGER page_revivions_no_delete
               BEFORE DELETE ON landable.page_revisions
-              FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();"
+              FOR EACH STATEMENT EXECUTE PROCEDURE landable.tg_disallow();"
 
   end
 end
