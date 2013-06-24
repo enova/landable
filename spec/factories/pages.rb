@@ -48,12 +48,16 @@ FactoryGirl.define do
   end
 
   factory :asset, class: 'Landable::Asset' do
+    ignore do
+      fixture 'panda.png'
+    end
+
     sequence(:name)        { |n| "asset upload #{n}" }
     sequence(:description) { |n| "what a useful asset #{n}" }
     author
 
     data do
-      path = Landable::Engine.root.join('spec', 'fixtures', 'assets', 'panda.png')
+      path = Landable::Engine.root.join('spec', 'fixtures', 'assets', fixture)
       Rack::Test::UploadedFile.new(path, 'image/png')
     end
   end

@@ -2,6 +2,7 @@ require 'factory_girl_rails'
 require 'pry'
 
 load Landable::Engine.root.join('spec/support/helpers.rb').to_s
+load Landable::Engine.root.join('spec/support/carrier_wave.rb').to_s
 
 World(FactoryGirl::Syntax::Methods)
 World(Landable::Spec::CoreHelpers)

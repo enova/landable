@@ -32,6 +32,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency "active_model_serializers", "~> 0.8"
   gem.add_dependency "carrierwave"
   gem.add_dependency "liquid"
+  gem.add_dependency "fog"
 
   gem.add_development_dependency "pg"
   gem.add_development_dependency "rspec-rails",        '~> 2.13.0'

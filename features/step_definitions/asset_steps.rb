@@ -7,17 +7,12 @@ Given 'two existing themes' do
 end
 
 When 'I POST an asset to "$path"' do |path|
-  post path, asset: attributes_for(:asset)
+  post path, asset: attributes_for(:asset, fixture: 'panda.png')
   last_request.should be_form_data
 end
 
 When 'I POST that asset to "$path" again' do |path|
-  file = @asset.data.file
-
-  post path, asset: attributes_for(:asset).merge({
-    data: Rack::Test::UploadedFile.new(file.path, file.content_type)
-  })
-
+  post path, asset: attributes_for(:asset, fixture: 'panda.png')
   last_request.should be_form_data
 end
 
