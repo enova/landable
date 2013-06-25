@@ -62,19 +62,27 @@ module Landable
     end
 
     def publish!(options)
-      self.published_revision.unpublish! if self.published_revision
-      revision = revisions.create options
-      self.published_revision = revision
-      self.is_publishable = false
-      save!
-   end
+      transaction do
+        published_revision.unpublish! if published_revision
 
-   def revert_to!(revision)
-      self.published_revision.unpublish! if self.published_revision
-      self.published_revision = revision
-      self.published_revision.publish!
-      self.attributes = revision.snapshot_attributes[:attrs]
-      save!
-   end
+        revision = revisions.create options
+
+        self.published_revision = revision
+        self.is_publishable = false
+        save!
+      end
+    end
+
+    def revert_to!(revision)
+      transaction do
+        published_revision.unpublish! if published_revision
+        self.published_revision = revision
+
+        published_revision.publish!
+
+        self.attributes = revision.snapshot_attributes[:attrs]
+        save!
+      end
+    end
   end
 end
