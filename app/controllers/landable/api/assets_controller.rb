@@ -37,13 +37,14 @@ module Landable
 
       def update
         asset = Asset.find params[:id]
-        parent.assets << asset
+        name  = params[:asset].try(:[], :name)
+        parent.attachments.add(asset, name)
         respond_with parent
       end
 
       def destroy
         asset = Asset.find params[:id]
-        parent.assets.delete asset
+        parent.attachments.delete(asset)
         head :no_content
       end
 

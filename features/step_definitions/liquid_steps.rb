@@ -36,14 +36,14 @@ end
 Given "the page has these assets:" do |table|
   table.hashes.each do |attrs|
     asset_alias = attrs.delete('alias')
-    @page.page_assets.build alias: asset_alias, asset: build(:asset, attrs)
+    @page.attachments.add build(:asset, attrs), asset_alias
   end
 end
 
 Given 'the theme has these assets:' do |table|
   table.hashes.each do |attrs|
     asset_alias = attrs.delete('alias')
-    @theme.theme_assets.build alias: asset_alias, asset: build(:asset, attrs)
+    @theme.attachments.add build(:asset, attrs), asset_alias
   end
 end
 

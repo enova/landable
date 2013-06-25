@@ -1,10 +1,12 @@
 require_dependency 'landable/theme'
 require_dependency 'landable/page_revision'
 require_dependency 'landable/category'
+require_dependency 'landable/has_attachments'
 
 module Landable
   class Page < ActiveRecord::Base
     self.table_name = 'landable.pages'
+    include Landable::HasAttachments
 
     validates_presence_of   :path, :status_code
     validates_uniqueness_of :path
@@ -15,9 +17,6 @@ module Landable
     belongs_to :published_revision, class_name: 'Landable::PageRevision'
     belongs_to :category, class_name: 'Landable::Category'
     has_many   :revisions, class_name: 'Landable::PageRevision'
-
-    has_many :page_assets
-    has_many :assets, :through => :page_assets
 
     scope :imported, -> { where("imported_at IS NOT NULL") }
 
