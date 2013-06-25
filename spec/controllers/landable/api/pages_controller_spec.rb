@@ -120,6 +120,7 @@ module Landable::Api
         last_json['page']['meta_tags'].should == {}
       end
 
+
       context 'no such page' do
         it 'returns 404' do
           make_request random_uuid

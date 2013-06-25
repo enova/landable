@@ -11,6 +11,7 @@ module Landable
       'published_revision_id',
       'is_publishable',
     ]
+
     cattr_accessor :ignored_page_attributes
 
     belongs_to :author
@@ -21,6 +22,10 @@ module Landable
 
       # copy over attributes from our new page
       self.snapshot_attributes[:attrs] ||= page.attributes.reject { |key| self.ignored_page_attributes.include? key }
+    end
+
+    def url
+      Engine.routes.url_helpers.page_revision_url self
     end
 
     def snapshot
