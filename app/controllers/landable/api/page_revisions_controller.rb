@@ -13,17 +13,11 @@ module Landable
       end
 
       def show
-        respond_to do |format|
-          format.json { respond_with PageRevision.find(params[:id]) }
-          format.html do
-            page = PageRevision.find(params[:id]).snapshot
+        revision = PageRevision.find(params[:id])
 
-            case page.status_code
-            when 200      then render text: RenderService.call(page), content_type: 'text/html'
-            when 301, 302 then redirect_to page.redirect_url, status: page.status_code
-            when 404      then head 404
-            end
-          end
+        respond_to do |format|
+          format.json { respond_with revision }
+          format.html { respond_with revision.snapshot, responder: Landable::PageRenderResponder }
         end
       end
 
