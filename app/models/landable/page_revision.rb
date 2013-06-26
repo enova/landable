@@ -26,10 +26,6 @@ module Landable
       self.attachments = page.attachments
     end
 
-    def url
-      Engine.routes.url_helpers.page_revision_url self
-    end
-
     def snapshot
       attrs = snapshot_attributes[:attrs]
       Page.new attrs.merge(attachments: attachments)

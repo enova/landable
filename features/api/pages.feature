@@ -34,3 +34,6 @@ Feature: Pages API
     Given a page
     When I POST "/api/pages/{{@page.id}}/publish"
     Then the response should be 201 "Created"
+    And  the JSON at "page/published_revision_id" should be a page revision's ID
+    When I GET "/api/page_revisions/{{@revision.id}}"
+    Then the response should be 200 "OK"

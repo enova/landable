@@ -25,6 +25,27 @@
       "required": true
     },
 
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "required": true
+    },
+
+    "notes": {
+      "type": ["string", "null"],
+      "required": true
+    },
+
+    "is_published": {
+      "type": "boolean",
+      "required": true
+    },
+
+    "is_minor": {
+      "type": "boolean",
+      "required": true
+    },
+
     "ordinal": {
       "type": "integer",
       "minimum": 1,
