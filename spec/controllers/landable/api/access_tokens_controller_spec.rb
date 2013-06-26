@@ -88,4 +88,59 @@ describe Landable::Api::AccessTokensController, json: true do
       end
     end
   end
+
+  describe '#show' do
+    include_examples 'Authenticated API controller', :make_request
+    let(:token) { current_access_token }
+
+    def make_request(id = token.id)
+      get :show, id: id
+    end
+
+    context 'authenticated' do
+      it 'returns the token' do
+        make_request
+        last_json['access_token']['id'].should == token.id
+      end
+
+      context 'invalid token' do
+        it 'returns 404' do
+          make_request random_uuid
+          response.status.should == 404
+        end
+      end
+
+      context 'expired token' do
+        let(:token) { create :access_token, author: current_author, expires_at: 5.days.ago }
+
+        it 'returns 404' do
+          make_request
+          response.status.should == 404
+        end
+      end
+
+      context 'someone else\'s token' do
+        let(:token) { create :access_token, author: create(:author) }
+
+        it 'returns 404' do
+          make_request
+          response.status.should == 404
+        end
+      end
+    end
+
+    context 'unauthenticated', auth: false do
+      it 'returns 401' do
+        make_request
+        response.status.should == 401
+      end
+
+      context 'invalid token' do
+        it 'returns 401' do
+          make_request random_uuid
+          response.status.should == 401
+        end
+      end
+    end
+  end
 end

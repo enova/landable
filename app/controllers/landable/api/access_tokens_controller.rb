@@ -17,6 +17,10 @@ module Landable
         AccessToken.find(params[:id]).destroy!
         head :no_content
       end
+
+      def show
+        respond_with AccessToken.fresh.where(author: current_author).find(params[:id])
+      end
     end
   end
 end
