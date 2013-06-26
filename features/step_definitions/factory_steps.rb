@@ -16,6 +16,10 @@ Given '"$username" has an unexpired access token' do |username|
   create :access_token, author: Landable::Author.where(username: username).first!
 end
 
+Given 'I also have an older, expired access token' do
+  @expired_access_token = create :access_token, author: @current_author, expires_at: 2.minutes.ago
+end
+
 Given "there is another author's access token in the database" do
   @foreign_access_token = create :access_token, author: create(:author)
 end

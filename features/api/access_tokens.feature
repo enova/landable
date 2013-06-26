@@ -37,6 +37,23 @@ Feature: Access Tokens API
     Then there should be 1 author in the database
     And  the author "someone" should have 1 access token
 
+  Scenario: Retrieving my own fresh token
+    Given my API requests include a valid access token
+    When  I GET "/api/access_tokens/{{@current_access_token.id}}"
+    Then  the response status should be 200 "OK"
+
+  Scenario: Retrieving my expired token (while authenticating with a fresh one)
+    Given my API requests include a valid access token
+    And   I also have an older, expired access token
+    When  I GET "/api/access_tokens/{{@expired_access_token.id}}"
+    Then  the response status should be 404 "Not Found"
+
+  Scenario: Retrieving someone else's token
+    Given my API requests include a valid access token
+    And   there is another author's access token in the database
+    When  I GET "/api/access_tokens/{{@foreign_access_token.id}}"
+    Then  the response status should be 404 "Not Found"
+
   Scenario: Refreshing an active token
     Given my API requests include a valid access token
     But my access token will expire in 2 minutes
