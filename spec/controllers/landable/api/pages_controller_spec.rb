@@ -85,9 +85,9 @@ module Landable::Api
             last_json['pages'].collect { |p| p['path'] }.should == ['/foo/bar', '/foo/bar/baz']
           end
 
-          it 'assumes a starting slash' do
+          it 'matches all paths with the search term in them' do
             make_request search: {path: 'ba'}
-            last_json['pages'].collect { |p| p['path'] }.should == ['/bar']
+            last_json['pages'].collect { |p| p['path'] }.should == ['/bar', '/foo/bar', '/foo/bar/baz']
           end
         end
       end
@@ -119,6 +119,7 @@ module Landable::Api
         make_request
         last_json['page']['meta_tags'].should == {}
       end
+
 
       context 'no such page' do
         it 'returns 404' do

@@ -28,7 +28,7 @@ Landable::Engine.routes.draw do
   end
 
   scope module: 'public' do
-    get '*url', to: 'pages#show', constraints: {
+    get '*url' => 'pages#show', constraints: {
       url: /[a-zA-Z0-9\/_.~-]*/
     }
   end

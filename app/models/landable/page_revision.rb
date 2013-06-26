@@ -14,6 +14,7 @@ module Landable
       'published_revision_id',
       'is_publishable',
     ]
+
     cattr_accessor :ignored_page_attributes
 
     belongs_to :author
@@ -23,6 +24,10 @@ module Landable
       self[:page_id] = id
       snapshot_attributes[:attrs] = page.attributes.except(*self.ignored_page_attributes)
       self.attachments = page.attachments
+    end
+
+    def url
+      Engine.routes.url_helpers.page_revision_url self
     end
 
     def snapshot

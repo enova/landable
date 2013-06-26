@@ -18,13 +18,10 @@ module Landable
           if params[:search][:path]
             path = params[:search][:path].to_s
 
-            # assume a leading slash
-            path = "/#{path}" unless path.start_with? '/'
-
             pages = Page.select(
               "*, similarity(path, #{Page.sanitize path}) _sml"
             ).where(
-              'path LIKE ?', "#{path}%"
+              'path LIKE ?', "%#{path}%"
             ).order(
               '_sml DESC, path ASC'
             )

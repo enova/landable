@@ -286,6 +286,16 @@ CREATE TABLE schema_migrations (
 );
 
 
+--
+-- Name: test; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE test (
+    test_id integer NOT NULL,
+    tester_id integer NOT NULL
+);
+
+
 SET search_path = landable, pg_catalog;
 
 --
