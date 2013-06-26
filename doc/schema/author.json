@@ -6,7 +6,7 @@
 
   "properties": {
     "id": {
-      "$ref": "uuid.json",
+      "$ref": "uuid.json#",
       "required": true
     },
 

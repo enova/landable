@@ -21,7 +21,7 @@
     },
 
     "author_id": {
-      "$ref": "uuid.json",
+      "type": "string",
       "required": true
     },
 

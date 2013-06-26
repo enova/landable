@@ -11,7 +11,7 @@ module Landable
     embed :ids
     has_one :page
     has_one :theme
-    has_one :author, include: true, serializer: AuthorSerializer
+    has_one :author, embed_key: :username, include: true, serializer: AuthorSerializer
 
     def snapshot_attributes
       attrs = object.snapshot_attributes[:attrs]
