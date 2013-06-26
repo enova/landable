@@ -23,6 +23,15 @@ module Landable
         respond_with theme
       end
 
+      def preview
+        respond_to do |format|
+          format.html do
+            content = RenderService.call Page.new(theme: Theme.new(theme_params))
+            render text: content, layout: false, content_type: 'text/html'
+          end
+        end
+      end
+
       private
 
       def theme_params
