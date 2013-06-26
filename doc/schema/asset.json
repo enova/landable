@@ -44,8 +44,8 @@
     },
 
     "author_id": {
-      "required": true,
-      "$ref": "uuid.json"
+      "type": "string",
+      "required": true
     },
 
     "theme_ids": {
