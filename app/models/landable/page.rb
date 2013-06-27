@@ -32,6 +32,11 @@ module Landable
       def by_path(path)
         where(path: path).first || missing
       end
+
+      def example(attrs)
+        defaults = { body: 'This is an example page!' }
+        new(defaults.merge(attrs))
+      end
     end
 
     def downcase_path

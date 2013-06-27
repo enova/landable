@@ -24,9 +24,11 @@ module Landable
       end
 
       def preview
+        theme = Theme.new(theme_params)
+        page = Page.example(theme: theme)
         respond_to do |format|
           format.html do
-            content = RenderService.call Page.new(theme: Theme.new(theme_params))
+            content = RenderService.call page
             render text: content, layout: false, content_type: 'text/html'
           end
         end
