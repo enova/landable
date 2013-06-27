@@ -9,7 +9,7 @@ class CreateLandableSchema < ActiveRecord::Migration
     enable_extension "hstore"
     enable_extension "pg_trgm"
 
-    execute "DROP SCHEMA IF EXISTS landable; CREATE SCHEMA landable;"
+    execute "CREATE SCHEMA landable;"
 
     create_table 'landable.themes', id: :uuid, primary_key: :theme_id do |t|
       t.text :name,           null: false
