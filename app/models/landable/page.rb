@@ -34,7 +34,7 @@ module Landable
       end
 
       def example(attrs)
-        defaults = { body: 'This is an example page!' }
+        defaults  = {}
         new(defaults.merge(attrs))
       end
     end
