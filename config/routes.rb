@@ -25,6 +25,8 @@ Landable::Engine.routes.draw do
     resources :page_revisions, only: [:index, :show] do
       post 'revert_to', on: :member
     end
+
+    resources :access_tokens, only: [:create, :destroy, :show]
   end
 
   scope module: 'public' do

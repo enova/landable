@@ -33,6 +33,10 @@ module Landable
       def find_own_access_token(id = params[:id])
         AccessToken.where(author_id: current_author.id).find(id)
       end
+
+      def show
+        respond_with AccessToken.fresh.where(author: current_author).find(params[:id])
+      end
     end
   end
 end
