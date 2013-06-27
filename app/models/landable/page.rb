@@ -38,6 +38,11 @@ module Landable
       def by_path!(path)
         where(path: path).first!
       end
+
+      def example(attrs)
+        defaults = {}
+        new(defaults.merge(attrs))
+      end
     end
 
     def downcase_path

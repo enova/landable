@@ -13,9 +13,9 @@ Landable::Engine.routes.draw do
       resources :assets, only: [:index, :update, :destroy]
     end
 
-    resources :themes,
-      only: [:index, :show, :create, :update],
-      concerns: :has_assets
+    resources :themes, only: [:index, :show, :create, :update], concerns: :has_assets do
+      post 'preview', on: :collection
+    end
 
     resources :pages, concerns: :has_assets do
       post 'preview', on: :collection
