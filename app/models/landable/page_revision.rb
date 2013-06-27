@@ -1,8 +1,11 @@
+require_dependency 'landable/has_attachments'
+
 module Landable
   class PageRevision < ActiveRecord::Base
     self.table_name = 'landable.page_revisions'
-    store :snapshot_attributes, accessors: [ :attrs ]
+    include Landable::HasAttachments
 
+    store :snapshot_attributes, accessors: [ :attrs ]
     @@ignored_page_attributes = [
       'page_id',
       'imported_at',
@@ -17,29 +20,23 @@ module Landable
     belongs_to :author
     belongs_to :page, inverse_of: :revisions
 
-    def page_id=(the_page_id)
-      self[:page_id] = the_page_id
-
-      # copy over attributes from our new page
-      self.snapshot_attributes[:attrs] ||= page.attributes.reject { |key| self.ignored_page_attributes.include? key }
-    end
-
-    def url
-      Engine.routes.url_helpers.page_revision_url self
+    def page_id=(id)
+      self[:page_id] = id
+      snapshot_attributes[:attrs] = page.attributes.except(*self.ignored_page_attributes)
+      self.attachments = page.attachments
     end
 
     def snapshot
-      Page.new snapshot_attributes[:attrs]
+      attrs = snapshot_attributes[:attrs]
+      Page.new attrs.merge(attachments: attachments)
     end
 
     def publish!
-      self.is_published = true
-      save!
+      update_attribute :is_published, true
     end
 
     def unpublish!
-      self.is_published = false
-      save!
+      update_attribute :is_published, false
     end
   end
 end

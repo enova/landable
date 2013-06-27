@@ -22,6 +22,14 @@ module Landable
       head :not_acceptable
     end
 
+    rescue_from PG::Error do |ex|
+      if ex.message =~ /invalid input syntax for uuid/
+        head :not_found
+      else
+        raise ex
+      end
+    end
+
     protected
 
     def require_author!

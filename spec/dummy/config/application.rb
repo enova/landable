@@ -10,6 +10,9 @@ require "sprockets/railtie"
 Bundler.require(*Rails.groups)
 require "landable"
 
+# Always mount Rack::Schema in test / dev environments.
+ENV['LANDABLE_VALIDATE_JSON'] = '1'
+
 module Dummy
   class Application < Rails::Application
     config.active_record.schema_format = :sql

@@ -13,16 +13,8 @@ module Landable
     scope :fresh,   -> { where('expires_at > ?',  Time.zone.now) }
     scope :expired, -> { where('expires_at <= ?', Time.zone.now) }
 
-    def self.generate_for_author(author)
-      create!(author: author)
-    end
-
-    def fresh?
-      expires_at && expires_at > Time.zone.now
-    end
-
-    def expired?
-      !fresh?
+    def refresh!
+      update_column :expires_at, 8.hours.from_now
     end
   end
 end

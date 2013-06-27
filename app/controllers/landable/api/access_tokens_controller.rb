@@ -5,6 +5,10 @@ module Landable
     class AccessTokensController < ApiController
       skip_before_filter :require_author!, only: [:create]
 
+      def show
+        respond_with find_own_access_token
+      end
+
       def create
         ident  = AuthenticationService.call(params[:username], params[:password])
         author = RegistrationService.call(ident)
@@ -13,13 +17,25 @@ module Landable
         head :unauthorized
       end
 
-      def destroy
-        AccessToken.find(params[:id]).destroy!
-        head :no_content
+      def update
+        token = find_own_access_token
+        token.refresh!
+        respond_with token
       end
 
-      def show
-        respond_with AccessToken.fresh.where(author: current_author).find(params[:id])
+      def destroy
+        token = find_own_access_token
+        token.destroy!
+        head :no_content
+
+      rescue ActiveRecord::RecordNotFound
+        head :unauthorized
+      end
+
+      private
+
+      def find_own_access_token(id = params[:id])
+        current_author.access_tokens.fresh.find(id)
       end
     end
   end

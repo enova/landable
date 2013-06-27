@@ -19,9 +19,5 @@ module Landable
       @subdirectories = subdirectories
       @pages = pages
     end
-
-    def empty?
-      @subdirectories.empty? && @pages.empty?
-    end
   end
 end

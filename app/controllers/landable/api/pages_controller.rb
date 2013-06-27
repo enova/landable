@@ -52,21 +52,25 @@ module Landable
       end
 
       def update
-        @page = Page.find params[:id]
-        @page.update_attributes! page_params
-        respond_with @page
+        page = Page.find params[:id]
+        page.update_attributes! page_params
+        respond_with page
       end
 
       def publish
-        @page = Page.find params[:id]
-        @page.publish! author: current_author, notes: params[:notes], is_minor: !!params[:is_minor]
-        respond_with @page
+        page = Page.find params[:id]
+        page.publish! author: current_author, notes: params[:notes], is_minor: !!params[:is_minor]
+        respond_with page
       end
 
       def preview
+        attrs = page_params
+        page  = attrs[:id].present? ? Page.find(attrs[:id]) : Page.new
+        page.attributes = page_params
+
         respond_to do |format|
           format.html do
-            content = RenderService.call Page.new(page_params)
+            content = RenderService.call page
             render text: content, layout: false, content_type: 'text/html'
           end
         end

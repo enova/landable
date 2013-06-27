@@ -1,10 +1,12 @@
 require_dependency 'landable/theme'
 require_dependency 'landable/page_revision'
 require_dependency 'landable/category'
+require_dependency 'landable/has_attachments'
 
 module Landable
   class Page < ActiveRecord::Base
     self.table_name = 'landable.pages'
+    include Landable::HasAttachments
 
     validates_presence_of   :path, :status_code
     validates_uniqueness_of :path
@@ -31,6 +33,10 @@ module Landable
 
       def by_path(path)
         where(path: path).first || missing
+      end
+
+      def by_path!(path)
+        where(path: path).first!
       end
     end
 
@@ -64,24 +70,18 @@ module Landable
     def publish!(options)
       transaction do
         published_revision.unpublish! if published_revision
-
-        revision = revisions.create options
-
-        self.published_revision = revision
-        self.is_publishable = false
-        save!
+        revision = revisions.create! options
+        update_attributes!(published_revision: revision, is_publishable: false)
       end
     end
 
     def revert_to!(revision)
+      attrs = revision.snapshot_attributes[:attrs]
+
       transaction do
         published_revision.unpublish! if published_revision
-        self.published_revision = revision
-
-        published_revision.publish!
-
-        self.attributes = revision.snapshot_attributes[:attrs]
-        save!
+        update_attributes! attrs.merge(published_revision: revision)
+        revision.publish!
       end
     end
   end

@@ -1,5 +1,6 @@
 require "rack/cors"
 require "active_model_serializers"
+require "carrierwave"
 
 module Landable
   class Engine < ::Rails::Engine
@@ -10,7 +11,7 @@ module Landable
       g.fixture_replacement :factory_girl, :dir => 'spec/factories'
     end
 
-    initializer "landable.add_middleware" do |app|
+    initializer "landable.enable_cors" do |app|
       config = Landable.configuration
       if config.cors.enabled?
         app.middleware.use Rack::Cors do
@@ -22,6 +23,13 @@ module Landable
               max_age: 15.minutes
           end
         end
+      end
+    end
+
+    initializer "landable.json_schema" do |app|
+      if ENV['LANDABLE_VALIDATE_JSON']
+        require 'rack/schema'
+        app.middleware.use Rack::Schema
       end
     end
   end

@@ -1,0 +1,24 @@
+{
+  "title": "Access Token",
+  "description": "An API access token",
+  "type": "object",
+  "additionalProperties": false,
+
+  "properties": {
+    "id": {
+      "required": true,
+      "$ref": "uuid.json"
+    },
+
+    "expires_at": {
+      "required": true,
+      "type": "string",
+      "format": "date-time"
+    },
+
+    "author": {
+      "required": true,
+      "$ref": "author.json"
+    }
+  }
+}

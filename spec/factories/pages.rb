@@ -8,8 +8,8 @@ FactoryGirl.define do
 
     body <<-HTML
     <html>
-      <head>{{landable.head}}</head>
-      <body><header>header</header><article>{{landable.body}}</article></body>
+      <head>{% title_tag %}{% meta_tags %}</head>
+      <body><header>header</header><article>{{body}}</article></body>
     </html>
     HTML
   end
@@ -44,6 +44,21 @@ FactoryGirl.define do
       theme nil
       title nil
       body  nil
+    end
+  end
+
+  factory :asset, class: 'Landable::Asset' do
+    ignore do
+      fixture 'panda.png'
+    end
+
+    sequence(:name)        { |n| "asset upload #{n}" }
+    sequence(:description) { |n| "what a useful asset #{n}" }
+    author
+
+    data do
+      path = Landable::Engine.root.join('spec', 'fixtures', 'assets', fixture)
+      Rack::Test::UploadedFile.new(path, 'image/png')
     end
   end
 end

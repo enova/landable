@@ -24,3 +24,5 @@ require 'rspec/core/rake_task'
 desc "Run specs"
 RSpec::Core::RakeTask.new(:spec => 'app:db:test:prepare')
 task :default => :spec
+
+load File.expand_path("../lib/tasks/cucumber.rake", __FILE__)

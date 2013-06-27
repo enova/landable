@@ -21,6 +21,14 @@ describe Landable::ApiController, json: true do
     def record_invalid
       Landable::Page.create!
     end
+
+    def uuid_invalid
+      Landable::Page.find('1')
+    end
+
+    def other_pg_error
+      ActiveRecord::Base.connection.execute "LOL THIS IS NOT SQL AT ALL GUYS!"
+    end
   end
 
   before do
@@ -29,6 +37,8 @@ describe Landable::ApiController, json: true do
       get 'not_found' => 'anonymous#not_found'
       get 'xml_only'  => 'anonymous#xml_only'
       get 'record_invalid' => 'anonymous#record_invalid'
+      get 'uuid_invalid' => 'anonymous#uuid_invalid'
+      get 'other_pg_error' => 'anonymous#other_pg_error'
     end
   end
 
@@ -98,6 +108,19 @@ describe Landable::ApiController, json: true do
       request.env['HTTP_ACCEPT'] = 'text/plain'
       get :xml_only
       response.status.should == 406
+    end
+  end
+
+  context 'rescues PG::Errors about invalid UUIDs' do
+    it 'returns 404' do
+      get :uuid_invalid
+      response.status.should == 404
+    end
+
+    it 're-raises any other PG::Error' do
+      expect {
+        get :other_pg_error
+      }.to raise_error(PG::Error)
     end
   end
 end

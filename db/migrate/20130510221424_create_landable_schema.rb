@@ -87,6 +87,57 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "CREATE UNIQUE INDEX landable_categories__u_name ON landable.categories(lower(name))"
 
+    create_table 'landable.assets', id: :uuid, primary_key: :asset_id do |t|
+      t.uuid    :author_id,   null: false
+      t.text    :name,        null: false
+      t.text    :description
+      t.text    :data,        null: false
+      t.text    :md5sum,      null: false, length: 32
+      t.text    :mime_type,   null: false
+      t.text    :basename,    null: false
+      t.integer :file_size
+      t.timestamps
+    end
+
+    add_index 'landable.assets', :data,   unique: true
+    add_index 'landable.assets', :md5sum, unique: true
+    add_index 'landable.assets', :author_id
+
+    execute "ALTER TABLE landable.assets ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES landable.authors(author_id)"
+
+    create_table 'landable.page_assets', id: :uuid, primary_key: :page_asset_id do |t|
+      t.uuid :asset_id, null: false
+      t.uuid :page_id,  null: false
+      t.text :alias
+      t.timestamps
+    end
+
+    add_index 'landable.page_assets', [:page_id, :asset_id], unique: true
+    execute "ALTER TABLE landable.page_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
+    execute "ALTER TABLE landable.page_assets ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES landable.pages(page_id)"
+
+    create_table 'landable.theme_assets', id: :uuid, primary_key: :theme_asset_id do |t|
+      t.uuid :asset_id, null: false
+      t.uuid :theme_id, null: false
+      t.text :alias
+      t.timestamps
+    end
+
+    add_index 'landable.theme_assets', [:theme_id, :asset_id], unique: true
+    execute "ALTER TABLE landable.theme_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
+    execute "ALTER TABLE landable.theme_assets ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES landable.themes(theme_id)"
+
+    create_table 'landable.page_revision_assets', id: :uuid, primary_key: :page_revision_asset_id do |t|
+      t.uuid :asset_id,         null: false
+      t.uuid :page_revision_id, null: false
+      t.text :alias
+      t.timestamps
+    end
+
+    add_index 'landable.page_revision_assets', [:page_revision_id, :asset_id], unique: true, name: 'idx_page_revision_assets_nk'
+    execute "ALTER TABLE landable.page_revision_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
+    execute "ALTER TABLE landable.page_revision_assets ADD CONSTRAINT page_revision_id_fk FOREIGN KEY (page_revision_id) REFERENCES landable.page_revisions(page_revision_id)"
+
     # Constraints for page_revisions
     execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES landable.pages(page_id)"
     execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES landable.authors(author_id)"
