@@ -11,8 +11,9 @@ namespace :landable do
       description: 'A minimal HTML5 template'
     })
 
-    Landable::Category.create! name: 'Affiliates', description: 'Affiliates'
-    Landable::Category.create! name: 'PPC',        description: 'Pay-per-click'
-    Landable::Category.create! name: 'SEO',        description: 'Search engine optimization'
+    Landable::Category.create! name: 'Uncategorized', description: 'No category'
+    Landable::Category.create! name: 'Affiliates',    description: 'Affiliates'
+    Landable::Category.create! name: 'PPC',           description: 'Pay-per-click'
+    Landable::Category.create! name: 'SEO',           description: 'Search engine optimization'
   end
 end
