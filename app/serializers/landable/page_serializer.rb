@@ -13,6 +13,10 @@ module Landable
     has_one  :category
     has_many :assets
 
+    def category
+      object.category || Landable::Category.where(name: 'Uncategorized').first
+    end
+
     def meta_tags
       object.meta_tags || {}
     end
