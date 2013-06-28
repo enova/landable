@@ -25,7 +25,7 @@
       "required": true
     },
 
-    "url": {
+    "preview_url": {
       "type": "string",
       "format": "uri",
       "required": true
@@ -53,6 +53,12 @@
     },
 
     "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "required": true
+    },
+
+    "updated_at": {
       "type": "string",
       "format": "date-time",
       "required": true

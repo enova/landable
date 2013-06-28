@@ -41,6 +41,11 @@
       "format": "uri"
     },
 
+    "preview_url": {
+      "type": "string",
+      "format": "uri"
+    },
+
     "is_publishable": {
       "type": "boolean"
     },
