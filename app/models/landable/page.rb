@@ -82,12 +82,7 @@ module Landable
 
     def revert_to!(revision)
       attrs = revision.snapshot_attributes[:attrs]
-
-      transaction do
-        published_revision.unpublish! if published_revision
-        update_attributes! attrs.merge(published_revision: revision)
-        revision.publish!
-      end
+      update_attributes! attrs
     end
   end
 end

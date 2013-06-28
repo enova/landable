@@ -5,7 +5,7 @@ module Landable
   class PageRevisionSerializer < ActiveModel::Serializer
     attributes :id, :ordinal, :notes, :is_minor, :is_published
     attributes :snapshot_attributes
-    attributes :created_at
+    attributes :created_at, :updated_at
     attributes :url
 
     embed :ids

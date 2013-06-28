@@ -88,13 +88,20 @@ module Landable
         page.publish! author: author
         page.is_publishable.should be_false
       end
+
+      it 'should unset previous revision.is_published' do
+        page.publish! author: author
+        revision1 = page.published_revision
+        page.publish! author: author
+        revision1.is_published.should be_false
+      end
     end
 
     describe '#revert_to' do
       let(:page) { FactoryGirl.create :page }
       let(:author) { FactoryGirl.create :author }
 
-      it 'should update published_revision for the page' do
+      it 'should NOT update published_revision for the page' do
         page.title = 'Bar'
         page.publish! author: author
         revision = page.published_revision
@@ -104,7 +111,7 @@ module Landable
 
         page.revert_to! revision
 
-        page.published_revision.id.should == revision.id
+        page.published_revision.id.should_not == revision.id
       end
 
       it 'should copy snapshot_attributes into the page model' do
