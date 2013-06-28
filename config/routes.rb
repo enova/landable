@@ -29,7 +29,12 @@ Landable::Engine.routes.draw do
     resources :access_tokens, only: [:create, :destroy, :show]
   end
 
-  scope module: 'public' do
+  scope module: 'public', as: :public do
+    scope '-', module: 'preview', as: :preview do
+      resources :pages, path: 'p', only: [:show]
+      resources :page_revisions, path: 'pr', only: [:show]
+    end
+
     get '*url' => 'pages#show', constraints: {
       url: /[a-zA-Z0-9\/_.~-]*/
     }

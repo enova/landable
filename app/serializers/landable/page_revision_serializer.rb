@@ -6,7 +6,7 @@ module Landable
     attributes :id, :ordinal, :notes, :is_minor, :is_published
     attributes :snapshot_attributes
     attributes :created_at, :updated_at
-    attributes :url
+    attributes :preview_url
 
     embed :ids
     has_one :page
@@ -19,8 +19,8 @@ module Landable
       attrs
     end
 
-    def url
-      page_revision_url(object)
+    def preview_url
+      public_preview_page_revision_url(object)
     end
 
     def theme_id
