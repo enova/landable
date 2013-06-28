@@ -40,8 +40,12 @@ module Landable
       end
 
       def example(attrs)
-        defaults = {}
-        new(defaults.merge(attrs))
+        defaults = {
+          title: 'Example page',
+          body:  '<div>Example page contents would live here</div>'
+        }
+
+        new defaults.merge(attrs)
       end
     end
 
