@@ -5,7 +5,7 @@ module Landable
     class PagesController < ApiController
       def index
         search = Landable::PageSearchEngine.new search_params.merge(ids: params[:ids])
-        respond_with search.results, meta: { search: search.meta }
+        respond_with search.results, meta: search.meta
       end
 
       def create

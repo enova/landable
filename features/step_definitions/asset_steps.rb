@@ -1,9 +1,7 @@
-Given 'two existing pages' do
-  @pages = [create(:page), create(:page)]
-end
-
-Given 'two existing themes' do
-  @themes = [create(:theme), create(:theme)]
+# a bit specific eh ...
+Given '2 assets named "panda" and "disclaimer"' do
+  @assets = [create(:asset, name: 'panda', fixture: 'panda.png'),
+             create(:asset, name: 'disclaimer', fixture: 'small.pdf')]
 end
 
 When 'I POST an asset to "$path"' do |path|

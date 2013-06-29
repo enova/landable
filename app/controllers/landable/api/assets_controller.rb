@@ -1,16 +1,12 @@
 require_dependency "landable/api_controller"
+require_dependency "landable/asset_search_engine"
 
 module Landable
   module Api
     class AssetsController < ApiController
       def index
-        ids   = Array(params[:ids])
-        scope = if ids.any?
-                  Asset.where(asset_id: ids)
-                else
-                  Asset.all
-                end
-        respond_with scope
+        search = Landable::AssetSearchEngine.new search_params.merge(ids: params[:ids])
+        respond_with search.results, meta: search.meta
       end
 
       def show
@@ -49,6 +45,14 @@ module Landable
       end
 
       private
+
+      def search_params
+        @search_params ||=
+          begin
+            hash = params.permit(search: [:name])
+            hash[:search] || {}
+          end
+      end
 
       def asset_params
         params.require(:asset).permit(:name, :description, :data)

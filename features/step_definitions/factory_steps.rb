@@ -1,7 +1,9 @@
 Given /^(\d+) ([\w\s]+)$/ do |count, kind|
-  Integer(count).times do
+  result = Integer(count).times.map do
     create kind.gsub(/\s+/, '_').singularize.to_sym
   end
+
+  instance_variable_set :"@#{kind}", result
 end
 
 Given 'there are no authors in the database' do
