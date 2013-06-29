@@ -4,34 +4,8 @@ module Landable
   module Api
     class PagesController < ApiController
       def index
-        pages = []
-        meta = {}
-
-        # id filtering
-        if params[:ids].present? and params[:ids].is_a? Array
-          pages = Page.where page_id: params[:ids]
-
-        # searching
-        elsif params[:search].present? and params[:search].is_a? Hash
-
-          # ... by path
-          if params[:search][:path]
-            path = params[:search][:path].to_s
-            pages = Page.with_fuzzy_path(path)
-
-            meta[:search] = {
-              total_results: pages.count
-            }
-
-            pages = pages.limit(50)
-          end
-
-        # default to showing all
-        else
-          pages = Page.all
-        end
-
-        respond_with pages, meta: meta
+        search = Landable::PageSearchEngine.new search_params.merge(ids: params[:ids])
+        respond_with search.results, meta: { search: search.meta }
       end
 
       def create
@@ -70,6 +44,14 @@ module Landable
       end
 
       private
+
+      def search_params
+        @search_params ||=
+          begin
+            hash = params.permit(search: [:path])
+            hash[:search] || {}
+          end
+      end
 
       def page_params
         params.require(:page).permit(:id, :path, :theme_id, :category_id, :title, :body, :status_code, :redirect_url,
