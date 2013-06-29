@@ -39,6 +39,12 @@ module Landable
         where(path: path).first!
       end
 
+      def with_fuzzy_path(path)
+        select("*, similarity(path, #{Page.sanitize path}) _sml").
+          where('path LIKE ?', "%#{path}%").
+          order('_sml DESC, path ASC')
+      end
+
       def example(attrs)
         defaults = {
           title: 'Example page',

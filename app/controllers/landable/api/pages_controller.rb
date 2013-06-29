@@ -17,14 +17,7 @@ module Landable
           # ... by path
           if params[:search][:path]
             path = params[:search][:path].to_s
-
-            pages = Page.select(
-              "*, similarity(path, #{Page.sanitize path}) _sml"
-            ).where(
-              'path LIKE ?', "%#{path}%"
-            ).order(
-              '_sml DESC, path ASC'
-            )
+            pages = Page.with_fuzzy_path(path)
 
             meta[:search] = {
               total_results: pages.count
