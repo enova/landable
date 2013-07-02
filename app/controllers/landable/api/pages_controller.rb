@@ -35,6 +35,10 @@ module Landable
         page  = attrs[:id].present? ? Page.find(attrs[:id]) : Page.new
         page.attributes = page_params
 
+        params[:page][:asset_ids].try(:each) do |asset_id|
+          page.attachments.add Asset.find(asset_id)
+        end
+
         respond_to do |format|
           format.html do
             content = RenderService.call page

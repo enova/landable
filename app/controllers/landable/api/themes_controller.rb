@@ -26,6 +26,11 @@ module Landable
       def preview
         theme = Theme.new(theme_params)
         page = Page.example(theme: theme)
+
+        params[:theme][:asset_ids].try(:each) do |asset_id|
+          theme.attachments.add Asset.find(asset_id)
+        end
+
         respond_to do |format|
           format.html do
             content = RenderService.call page
@@ -37,7 +42,7 @@ module Landable
       private
 
       def theme_params
-        params.require(:theme).permit(:id, :name, :body, :description, :screenshot_url)
+        params.require(:theme).permit(:id, :name, :body, :description)
       end
     end
   end
