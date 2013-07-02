@@ -2,7 +2,7 @@ module Landable
   class SearchEngine
     def initialize(base_scope, filters, options = {})
       @scope = base_scope
-      @limit = options[:limit].to_i or 50
+      @limit = (options[:limit] or 50).to_i
       filter_by!(filters)
     end
 
