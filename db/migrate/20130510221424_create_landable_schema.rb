@@ -167,7 +167,7 @@ class CreateLandableSchema < ActiveRecord::Migration
        $TRIGGER$
        LANGUAGE plpgsql;"
 
-      execute "CREATE TRIGGER page_revivions_bfr_insert
+      execute "CREATE TRIGGER page_revisions_bfr_insert
               BEFORE INSERT ON landable.page_revisions
               FOR EACH ROW EXECUTE PROCEDURE landable.pages_revision_ordinal();"
 
@@ -190,7 +190,7 @@ class CreateLandableSchema < ActiveRecord::Migration
        $TRIGGER$
        LANGUAGE plpgsql;"
 
-      execute "CREATE TRIGGER page_revivions_no_delete
+      execute "CREATE TRIGGER page_revisions_no_delete
               BEFORE DELETE ON landable.page_revisions
               FOR EACH STATEMENT EXECUTE PROCEDURE landable.tg_disallow();"
 
