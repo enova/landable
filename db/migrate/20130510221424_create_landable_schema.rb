@@ -53,9 +53,8 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    #add_index 'landable.authors', :email, unique: true
     execute "CREATE UNIQUE INDEX landable_authors__u_email ON landable.authors(lower(email))"
-    add_index 'landable.authors', :username, unique: true
+    execute "CREATE UNIQUE INDEX landable_authors__u_username ON landable.authors(username)"
 
     create_table 'landable.access_tokens', id: :uuid, primary_key: :access_token_id do |t|
       t.uuid      :author_id,  null: false
@@ -63,7 +62,8 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index 'landable.access_tokens', :author_id
+    execute "CREATE INDEX landable_access_tokens__author_id ON landable.access_tokens(author_id)"
+    execute "ALTER TABLE landable.access_tokens ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES landable.authors(author_id)"
 
     create_table 'landable.page_revisions', id: :uuid, primary_key: :page_revision_id do |t|
       t.integer   :ordinal
@@ -99,9 +99,9 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index 'landable.assets', :data,   unique: true
-    add_index 'landable.assets', :md5sum, unique: true
-    add_index 'landable.assets', :author_id
+    execute "CREATE UNIQUE INDEX landable_assets__u_data ON landable.assets(data)"
+    execute "CREATE UNIQUE INDEX landable_assets__u_md5sum ON landable.assets(md5sum)"
+    execute "CREATE INDEX landable_assets__author_id ON landable.assets(author_id)"
 
     execute "ALTER TABLE landable.assets ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES landable.authors(author_id)"
 
@@ -112,7 +112,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index 'landable.page_assets', [:page_id, :asset_id], unique: true
+    execute "CREATE UNIQUE INDEX landable_page_assets__u_page_id_asset_id ON landable.page_assets(page_id, asset_id)"
     execute "ALTER TABLE landable.page_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
     execute "ALTER TABLE landable.page_assets ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES landable.pages(page_id)"
 
@@ -123,7 +123,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index 'landable.theme_assets', [:theme_id, :asset_id], unique: true
+    execute "CREATE UNIQUE INDEX landable_theme_assets__u_theme_id_asset_id ON landable.theme_assets(theme_id, asset_id)"
     execute "ALTER TABLE landable.theme_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
     execute "ALTER TABLE landable.theme_assets ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES landable.themes(theme_id)"
 
@@ -134,7 +134,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index 'landable.page_revision_assets', [:page_revision_id, :asset_id], unique: true, name: 'idx_page_revision_assets_nk'
+    execute "CREATE UNIQUE INDEX landable_page_revision_assets__u_page_revision_id_asset_id ON landable.page_revision_assets(page_revision_id, asset_id)"
     execute "ALTER TABLE landable.page_revision_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
     execute "ALTER TABLE landable.page_revision_assets ADD CONSTRAINT page_revision_id_fk FOREIGN KEY (page_revision_id) REFERENCES landable.page_revisions(page_revision_id)"
 
@@ -157,6 +157,10 @@ class CreateLandableSchema < ActiveRecord::Migration
       $TRIGGER$
         BEGIN
 
+        IF NEW.ordinal IS NOT NULL THEN
+          RAISE EXCEPTION $$Must not supply ordinal value manually.$$;
+        END IF;
+
         NEW.ordinal = (SELECT COALESCE(MAX(ordinal)+1,1)
                         FROM landable.page_revisions
                         WHERE page_id = NEW.page_id);
@@ -167,7 +171,7 @@ class CreateLandableSchema < ActiveRecord::Migration
        $TRIGGER$
        LANGUAGE plpgsql;"
 
-      execute "CREATE TRIGGER page_revivions_bfr_insert
+      execute "CREATE TRIGGER landable_page_revisions__bfr_insert
               BEFORE INSERT ON landable.page_revisions
               FOR EACH ROW EXECUTE PROCEDURE landable.pages_revision_ordinal();"
 
@@ -190,8 +194,12 @@ class CreateLandableSchema < ActiveRecord::Migration
        $TRIGGER$
        LANGUAGE plpgsql;"
 
-      execute "CREATE TRIGGER page_revivions_no_delete
+      execute "CREATE TRIGGER landable_page_revisions__no_delete
               BEFORE DELETE ON landable.page_revisions
+              FOR EACH STATEMENT EXECUTE PROCEDURE landable.tg_disallow();"
+
+      execute "CREATE TRIGGER landable_page_revisions__no_update
+              BEFORE UPDATE OF notes, is_minor, page_id, author_id, theme_id, created_at, ordinal ON landable.page_revisions
               FOR EACH STATEMENT EXECUTE PROCEDURE landable.tg_disallow();"
 
   end
