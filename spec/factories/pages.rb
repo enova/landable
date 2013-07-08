@@ -14,6 +14,13 @@ FactoryGirl.define do
     HTML
   end
 
+  factory :layout, class: 'Landable::Layout' do
+    sequence(:name) { |n| "Layout #{n}" }
+    description "Factory-generated layout"
+    screenshot_url "http://example.com/bogus-screenshot.png"
+    body '<div class="container">content goes here!</div>'
+  end
+
   factory :category, class: 'Landable::Category' do
     sequence(:name) { |n| "Category #{n}" }
     description "Factory-generated category"
