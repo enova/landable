@@ -1,5 +1,5 @@
 module Landable
-  class LayoutSerializer < ActiveModel::Serializer
+  class TemplateSerializer < ActiveModel::Serializer
     attributes :id, :name, :body, :description, :screenshot_url
   end
 end

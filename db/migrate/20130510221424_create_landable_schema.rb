@@ -21,7 +21,7 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "CREATE UNIQUE INDEX landable_themes__u_name ON landable.themes(lower(name))"
 
-    create_table 'landable.layouts', id: :uuid, primary_key: :layout_id do |t|
+    create_table 'landable.templates', id: :uuid, primary_key: :template_id do |t|
       t.text :name,           null: false
       t.text :body,           null: false
       t.text :description,    null: false
@@ -29,7 +29,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    execute "CREATE UNIQUE INDEX landable_layouts__u_name ON landable.layouts(lower(name))"
+    execute "CREATE UNIQUE INDEX landable_templates__u_name ON landable.templates(lower(name))"
 
     create_table 'landable.pages', id: :uuid, primary_key: :page_id do |t|
       t.uuid      :published_revision_id

@@ -14,9 +14,9 @@ FactoryGirl.define do
     HTML
   end
 
-  factory :layout, class: 'Landable::Layout' do
-    sequence(:name) { |n| "Layout #{n}" }
-    description "Factory-generated layout"
+  factory :template, class: 'Landable::Template' do
+    sequence(:name) { |n| "Template #{n}" }
+    description "Factory-generated template"
     screenshot_url "http://example.com/bogus-screenshot.png"
     body '<div class="container">content goes here!</div>'
   end

@@ -180,21 +180,6 @@ CREATE TABLE categories (
 
 
 --
--- Name: layouts; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE TABLE layouts (
-    layout_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    name text NOT NULL,
-    body text NOT NULL,
-    description text NOT NULL,
-    screenshot_url text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
 -- Name: page_assets; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -262,6 +247,21 @@ CREATE TABLE pages (
     updated_at timestamp without time zone,
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text)),
     CONSTRAINT only_valid_status_codes CHECK ((status_code = ANY (ARRAY[200, 301, 302, 404])))
+);
+
+
+--
+-- Name: templates; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE templates (
+    template_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    name text NOT NULL,
+    body text NOT NULL,
+    description text NOT NULL,
+    screenshot_url text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -340,14 +340,6 @@ ALTER TABLE ONLY categories
 
 
 --
--- Name: layouts_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY layouts
-    ADD CONSTRAINT layouts_pkey PRIMARY KEY (layout_id);
-
-
---
 -- Name: page_assets_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -377,6 +369,14 @@ ALTER TABLE ONLY page_revisions
 
 ALTER TABLE ONLY pages
     ADD CONSTRAINT pages_pkey PRIMARY KEY (page_id);
+
+
+--
+-- Name: templates_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY templates
+    ADD CONSTRAINT templates_pkey PRIMARY KEY (template_id);
 
 
 --
@@ -445,13 +445,6 @@ CREATE UNIQUE INDEX landable_categories__u_name ON categories USING btree (lower
 
 
 --
--- Name: landable_layouts__u_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX landable_layouts__u_name ON layouts USING btree (lower(name));
-
-
---
 -- Name: landable_page_assets__u_page_id_asset_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -477,6 +470,13 @@ CREATE INDEX landable_pages__trgm_path ON pages USING gin (path public.gin_trgm_
 --
 
 CREATE UNIQUE INDEX landable_pages__u_path ON pages USING btree (lower(path));
+
+
+--
+-- Name: landable_templates__u_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_templates__u_name ON templates USING btree (lower(name));
 
 
 --

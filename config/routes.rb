@@ -17,7 +17,7 @@ Landable::Engine.routes.draw do
       post 'preview', on: :collection
     end
 
-    resources :layouts, only: [:index, :show, :create, :update]
+    resources :templates, only: [:index, :show, :create, :update]
 
     resources :pages, concerns: :has_assets do
       post 'preview', on: :collection
