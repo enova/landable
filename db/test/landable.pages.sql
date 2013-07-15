@@ -12,7 +12,7 @@ SELECT col_is_pk('landable', 'pages', 'page_id', 'page_id is PK');
 SELECT throws_matching($$INSERT INTO landable.pages (is_publishable, path, status_code) VALUES ('true', '/bad/page', 205)$$, 'violates check constraint');
 SELECT lives_ok($$INSERT INTO landable.pages (is_publishable, path, status_code) VALUES ('true', '/good/page1', 200)$$, 'Valid status code 200');
 SELECT lives_ok($$INSERT INTO landable.pages (is_publishable, path, status_code) VALUES ('true', '/good/page2', 301)$$, 'Valid status code 301');
-SELECT lives_ok($$INSERT INTO landable.pages (is_publishable, path, status_code) VALUES ('true', '/good/page3', 302)$$, 'Valid status code 303');
+SELECT lives_ok($$INSERT INTO landable.pages (is_publishable, path, status_code) VALUES ('true', '/good/page3', 302)$$, 'Valid status code 302');
 SELECT lives_ok($$INSERT INTO landable.pages (is_publishable, path, status_code) VALUES ('true', '/good/page4', 404)$$, 'Valid status code 404');
 
 --Verify unique index on path
