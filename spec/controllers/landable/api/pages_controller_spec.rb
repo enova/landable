@@ -92,11 +92,11 @@ module Landable::Api
         end
       end
 
-      it 'only include 50 results, and include the total result count as meta data' do
+      it 'only include 100 results, and include the total result count as meta data' do
         create_list :page, (100 - pages.size)
         make_request search: {path: '/'}
 
-        last_json['pages'].size.should == 50
+        last_json['pages'].size.should == 100
         last_json['meta']['search']['total_results'].should == 100
       end
     end
