@@ -1,6 +1,9 @@
 namespace :landable do
-  desc "Populate a landable database with basic themes"
+
+  desc "Populate a landable database with basic categories and themes"
   task :seed => :environment do
+
+    # themes
     Landable::Theme.where(name: 'Blank').first_or_create!({
       body: '',
       description: 'A completely blank theme; only the page body will be rendered.'
@@ -11,9 +14,12 @@ namespace :landable do
       description: 'A minimal HTML5 template'
     })
 
+    # categories
     Landable::Category.create! name: 'Uncategorized', description: 'No category'
     Landable::Category.create! name: 'Affiliates',    description: 'Affiliates'
     Landable::Category.create! name: 'PPC',           description: 'Pay-per-click'
     Landable::Category.create! name: 'SEO',           description: 'Search engine optimization'
+
   end
+
 end

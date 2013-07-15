@@ -79,8 +79,12 @@ SET search_path = landable, pg_catalog;
 
 CREATE FUNCTION pages_revision_ordinal() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
         BEGIN
+
+        IF NEW.ordinal IS NOT NULL THEN
+          RAISE EXCEPTION $$Must not supply ordinal value manually.$$;
+        END IF;
 
         NEW.ordinal = (SELECT COALESCE(MAX(ordinal)+1,1)
                         FROM landable.page_revisions
@@ -89,7 +93,7 @@ CREATE FUNCTION pages_revision_ordinal() RETURNS trigger
         RETURN NEW;
 
         END
-       $$;
+       $_$;
 
 
 --
@@ -247,6 +251,21 @@ CREATE TABLE pages (
 
 
 --
+-- Name: templates; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE templates (
+    template_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    name text NOT NULL,
+    body text NOT NULL,
+    description text NOT NULL,
+    screenshot_url text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
 -- Name: theme_assets; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -283,16 +302,6 @@ SET search_path = public, pg_catalog;
 
 CREATE TABLE schema_migrations (
     version character varying(255) NOT NULL
-);
-
-
---
--- Name: test; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE test (
-    test_id integer NOT NULL,
-    tester_id integer NOT NULL
 );
 
 
@@ -363,6 +372,14 @@ ALTER TABLE ONLY pages
 
 
 --
+-- Name: templates_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY templates
+    ADD CONSTRAINT templates_pkey PRIMARY KEY (template_id);
+
+
+--
 -- Name: theme_assets_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -379,59 +396,31 @@ ALTER TABLE ONLY themes
 
 
 --
--- Name: idx_page_revision_assets_nk; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+-- Name: landable_access_tokens__author_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX idx_page_revision_assets_nk ON page_revision_assets USING btree (page_revision_id, asset_id);
-
-
---
--- Name: index_landable.access_tokens_on_author_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE INDEX "index_landable.access_tokens_on_author_id" ON access_tokens USING btree (author_id);
+CREATE INDEX landable_access_tokens__author_id ON access_tokens USING btree (author_id);
 
 
 --
--- Name: index_landable.assets_on_author_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+-- Name: landable_assets__author_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-CREATE INDEX "index_landable.assets_on_author_id" ON assets USING btree (author_id);
-
-
---
--- Name: index_landable.assets_on_data; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX "index_landable.assets_on_data" ON assets USING btree (data);
+CREATE INDEX landable_assets__author_id ON assets USING btree (author_id);
 
 
 --
--- Name: index_landable.assets_on_md5sum; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+-- Name: landable_assets__u_data; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX "index_landable.assets_on_md5sum" ON assets USING btree (md5sum);
-
-
---
--- Name: index_landable.authors_on_username; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX "index_landable.authors_on_username" ON authors USING btree (username);
+CREATE UNIQUE INDEX landable_assets__u_data ON assets USING btree (data);
 
 
 --
--- Name: index_landable.page_assets_on_page_id_and_asset_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+-- Name: landable_assets__u_md5sum; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX "index_landable.page_assets_on_page_id_and_asset_id" ON page_assets USING btree (page_id, asset_id);
-
-
---
--- Name: index_landable.theme_assets_on_theme_id_and_asset_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX "index_landable.theme_assets_on_theme_id_and_asset_id" ON theme_assets USING btree (theme_id, asset_id);
+CREATE UNIQUE INDEX landable_assets__u_md5sum ON assets USING btree (md5sum);
 
 
 --
@@ -442,10 +431,31 @@ CREATE UNIQUE INDEX landable_authors__u_email ON authors USING btree (lower(emai
 
 
 --
+-- Name: landable_authors__u_username; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_authors__u_username ON authors USING btree (username);
+
+
+--
 -- Name: landable_categories__u_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX landable_categories__u_name ON categories USING btree (lower(name));
+
+
+--
+-- Name: landable_page_assets__u_page_id_asset_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_page_assets__u_page_id_asset_id ON page_assets USING btree (page_id, asset_id);
+
+
+--
+-- Name: landable_page_revision_assets__u_page_revision_id_asset_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_page_revision_assets__u_page_revision_id_asset_id ON page_revision_assets USING btree (page_revision_id, asset_id);
 
 
 --
@@ -460,6 +470,20 @@ CREATE INDEX landable_pages__trgm_path ON pages USING gin (path public.gin_trgm_
 --
 
 CREATE UNIQUE INDEX landable_pages__u_path ON pages USING btree (lower(path));
+
+
+--
+-- Name: landable_templates__u_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_templates__u_name ON templates USING btree (lower(name));
+
+
+--
+-- Name: landable_theme_assets__u_theme_id_asset_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_theme_assets__u_theme_id_asset_id ON theme_assets USING btree (theme_id, asset_id);
 
 
 --
@@ -481,17 +505,24 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 SET search_path = landable, pg_catalog;
 
 --
--- Name: page_revivions_bfr_insert; Type: TRIGGER; Schema: landable; Owner: -
+-- Name: landable_page_revisions__bfr_insert; Type: TRIGGER; Schema: landable; Owner: -
 --
 
-CREATE TRIGGER page_revivions_bfr_insert BEFORE INSERT ON page_revisions FOR EACH ROW EXECUTE PROCEDURE pages_revision_ordinal();
+CREATE TRIGGER landable_page_revisions__bfr_insert BEFORE INSERT ON page_revisions FOR EACH ROW EXECUTE PROCEDURE pages_revision_ordinal();
 
 
 --
--- Name: page_revivions_no_delete; Type: TRIGGER; Schema: landable; Owner: -
+-- Name: landable_page_revisions__no_delete; Type: TRIGGER; Schema: landable; Owner: -
 --
 
-CREATE TRIGGER page_revivions_no_delete BEFORE DELETE ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
+CREATE TRIGGER landable_page_revisions__no_delete BEFORE DELETE ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
+
+
+--
+-- Name: landable_page_revisions__no_update; Type: TRIGGER; Schema: landable; Owner: -
+--
+
+CREATE TRIGGER landable_page_revisions__no_update BEFORE UPDATE OF notes, is_minor, page_id, author_id, theme_id, created_at, ordinal ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
 
 
 --
@@ -516,6 +547,14 @@ ALTER TABLE ONLY theme_assets
 
 ALTER TABLE ONLY page_revision_assets
     ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES assets(asset_id);
+
+
+--
+-- Name: author_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY access_tokens
+    ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES authors(author_id);
 
 
 --

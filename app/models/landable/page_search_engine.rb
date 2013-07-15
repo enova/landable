@@ -3,8 +3,8 @@ require_dependency 'landable/page'
 
 module Landable
   class PageSearchEngine < SearchEngine
-    def initialize(filters)
-      super Page.all, filters
+    def initialize(filters, options = {})
+      super Page.all, filters, options
     end
 
     def filter_by!(filters)

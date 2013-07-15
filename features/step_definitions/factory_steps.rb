@@ -26,7 +26,7 @@ Given "there is another author's access token in the database" do
   @foreign_access_token = create :access_token, author: create(:author)
 end
 
-Given /^an? (page|theme|asset)$/ do |model|
+Given /^an? (page|theme|asset|template)$/ do |model|
   instance_variable_set :"@#{model}", create(model.to_sym)
 end
 
