@@ -1,6 +1,6 @@
 namespace :landable do
 
-  desc "Populate a landable database with basic categories, themes, and templates"
+  desc "Populate a landable database with basic categories and themes"
   task :seed => :environment do
 
     # themes
@@ -19,18 +19,6 @@ namespace :landable do
     Landable::Category.create! name: 'Affiliates',    description: 'Affiliates'
     Landable::Category.create! name: 'PPC',           description: 'Pay-per-click'
     Landable::Category.create! name: 'SEO',           description: 'Search engine optimization'
-
-    # templates
-    Landable::Template.create!(
-      name:         'Starter',
-      description:  'Barebones starter document.',
-      body:         File.read(File.expand_path('../starter_template.html', __FILE__)),
-    )
-    Landable::Template.create!(
-      name:         'Basic Marketing',
-      description:  'Features a hero unit for a primary message and three supporting elements.',
-      body:         File.read(File.expand_path('../basic_marketing_template.html', __FILE__)),
-    )
 
   end
 
