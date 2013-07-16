@@ -13,7 +13,7 @@ module Landable
       end
 
       if name = filters[:name].presence
-        @scope = @scope.where('name LIKE ?', "%#{name}%")
+        @scope = @scope.where('LOWER(name) LIKE ?', "%#{name}%".downcase)
       end
     end
   end
