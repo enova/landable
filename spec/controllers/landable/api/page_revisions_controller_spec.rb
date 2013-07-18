@@ -25,5 +25,21 @@ module Landable::Api
         response.status.should == 404
       end
     end
+
+    describe '#screenshots' do
+      include_examples 'Authenticated API controller', :make_request
+
+      let(:page_revision) { create :page_revision }
+
+      def make_request
+        post :screenshots, id: page_revision.id
+      end
+
+      it 'invokes ScreenshotService and returns a 202' do
+        Landable::ScreenshotService.should_receive(:call).with(page_revision)
+        make_request
+        response.status.should == 202
+      end
+    end
   end
 end

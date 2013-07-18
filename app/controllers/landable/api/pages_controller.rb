@@ -47,6 +47,11 @@ module Landable
         end
       end
 
+      def screenshots
+        Landable::ScreenshotService.call Page.find(params[:id])
+        head 202
+      end
+
       private
 
       def search_params

@@ -20,9 +20,5 @@ module Landable
     def meta_tags
       object.meta_tags || {}
     end
-
-    def preview_url
-      public_preview_page_url(object)
-    end
   end
 end

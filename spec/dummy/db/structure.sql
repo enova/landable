@@ -251,6 +251,29 @@ CREATE TABLE pages (
 
 
 --
+-- Name: screenshots; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE screenshots (
+    screenshot_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    screenshotable_id uuid NOT NULL,
+    screenshotable_type text NOT NULL,
+    device text,
+    os text,
+    os_version text,
+    browser text,
+    browser_version text,
+    state text,
+    thumb_url text,
+    image_url text,
+    browserstack_id text,
+    browserstack_job_id text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
 -- Name: templates; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -372,6 +395,14 @@ ALTER TABLE ONLY pages
 
 
 --
+-- Name: screenshots_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY screenshots
+    ADD CONSTRAINT screenshots_pkey PRIMARY KEY (screenshot_id);
+
+
+--
 -- Name: templates_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -414,6 +445,13 @@ CREATE INDEX landable_assets__author_id ON assets USING btree (author_id);
 --
 
 CREATE UNIQUE INDEX landable_assets__u_data ON assets USING btree (data);
+
+
+--
+-- Name: landable_assets__u_lower_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_assets__u_lower_name ON assets USING btree (lower(name));
 
 
 --
@@ -470,6 +508,20 @@ CREATE INDEX landable_pages__trgm_path ON pages USING gin (path public.gin_trgm_
 --
 
 CREATE UNIQUE INDEX landable_pages__u_path ON pages USING btree (lower(path));
+
+
+--
+-- Name: landable_screenshots__u_browserstack_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_screenshots__u_browserstack_id ON screenshots USING btree (browserstack_id);
+
+
+--
+-- Name: landable_screenshots__u_screenshotable_id_screenshotable_type; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE INDEX landable_screenshots__u_screenshotable_id_screenshotable_type ON screenshots USING btree (screenshotable_id, screenshotable_type);
 
 
 --

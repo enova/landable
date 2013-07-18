@@ -26,6 +26,11 @@ module Landable
         revision.page.revert_to! revision
         respond_with revision
       end
+
+      def screenshots
+        Landable::ScreenshotService.call PageRevision.find(params[:id])
+        head 202
+      end
     end
   end
 end
