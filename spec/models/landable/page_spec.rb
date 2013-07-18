@@ -3,9 +3,6 @@ require 'spec_helper'
 module Landable
   describe Page do
     it { should_not have_valid(:path).when(nil, '') }
-    #it { should_not have_valid(:status_code).when(nil, '') }
-    #it { should have_valid(:status_code).when(200, 301, 302, 404) }
-    #it { should_not have_valid(:status_code).when(201, 303, 405, 500) }
 
     it 'should set is_publishable to true on before_save' do
       page = FactoryGirl.build :page, is_publishable: false

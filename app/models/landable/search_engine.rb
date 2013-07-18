@@ -2,6 +2,7 @@ module Landable
   class SearchEngine
     def initialize(base_scope, filters, options = {})
       @scope = base_scope
+      limit!(options[:limit])
       filter_by!(filters)
     end
 
@@ -15,6 +16,10 @@ module Landable
 
     def filter_by!(filters)
       raise NotImplementedError
+    end
+
+    def limit!(limit)
+      @scope = @scope.limit(limit) if limit
     end
 
     protected
