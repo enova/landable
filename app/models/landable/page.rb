@@ -10,7 +10,6 @@ module Landable
 
     validates_presence_of   :path, :status_code
     validates_uniqueness_of :path
-    validates_inclusion_of  :status_code, in: [200, 301, 302, 404]
     validates_presence_of   :redirect_url, if: -> page { page.redirect? }
 
     belongs_to :theme, class_name: 'Landable::Theme', inverse_of: :pages

@@ -11,6 +11,17 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "CREATE SCHEMA landable;"
 
+    execute "CREATE TABLE landable.status_codes(
+              status_code smallint not null primary key
+            , description text not null)"
+
+    execute "INSERT INTO landable.status_codes
+              VALUES
+              (200, 'OK')
+            , (301, 'Permanent Redirect')
+            , (302, 'Temporary Redirect')
+            , (404, 'Not Found')"
+
     create_table 'landable.themes', id: :uuid, primary_key: :theme_id do |t|
       t.text :name,           null: false
       t.text :body,           null: false
@@ -158,8 +169,8 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "ALTER TABLE landable.pages ADD CONSTRAINT revision_id_fk FOREIGN KEY (published_revision_id) REFERENCES landable.page_revisions(page_revision_id)"
     execute "ALTER TABLE landable.pages ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES landable.themes(theme_id)"
     execute "ALTER TABLE landable.pages ADD CONSTRAINT category_id_fk FOREIGN KEY (category_id) REFERENCES landable.categories(category_id)"
+    execute "ALTER TABLE landable.pages ADD CONSTRAINT status_code_fk FOREIGN KEY (status_code) REFERENCES landable.status_codes(status_code)"
     execute "ALTER TABLE landable.pages ADD CONSTRAINT only_valid_paths CHECK (path ~ '^/[a-zA-Z0-9/_.~-]*$');"
-    execute "ALTER TABLE landable.pages ADD CONSTRAINT only_valid_status_codes CHECK (status_code IN (200,301,302,404))"
 
     # Revision-tracking trigger to automatically update ordinal
     execute "CREATE FUNCTION landable.pages_revision_ordinal()
