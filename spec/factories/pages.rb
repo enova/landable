@@ -32,12 +32,11 @@ FactoryGirl.define do
     sequence(:path)  { |n| "/page-#{n}" }
     sequence(:title) { |n| "Page #{n}" }
 
-    status_code 200
     body "<div>Page body</div>"
 
     # Anyone see a more reasonable way to unset these attributes?
     trait :redirect do
-      status_code  301
+      status_code_id Landable::StatusCode.where(status_code: 301).first.id
       redirect_url "/redirect/somewhere/else"
 
       theme nil
@@ -46,7 +45,7 @@ FactoryGirl.define do
     end
 
     trait :not_found do
-      status_code 404
+      status_code_id Landable::StatusCode.where(status_code: 404).first.id
 
       theme nil
       title nil

@@ -44,7 +44,7 @@ module Landable::Api
         end
 
         it 'includes the errors in the JSON response' do
-          make_request status_code: 302, redirect_url: nil
+          make_request status_code_id: Landable::StatusCode.where(status_code: 302).first.id, redirect_url: nil
           last_json['errors'].should have_key('redirect_url')
         end
       end
@@ -160,7 +160,7 @@ module Landable::Api
         end
 
         it 'includes the errors in the JSON response' do
-          make_request status_code: 302, redirect_url: nil
+          make_request status_code_id: Landable::StatusCode.where(status_code: 302).first.id, redirect_url: nil
         end
       end
 

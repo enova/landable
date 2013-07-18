@@ -2,6 +2,7 @@ Landable::Engine.routes.draw do
   scope path: Landable.configuration.api_namespace, module: 'api' do
     resources :access_tokens, only: [:create, :update, :destroy]
     resources :categories, only: [:index, :show]
+    resources :status_codes, only: [:index, :show]
 
     resources :directories, only: [:index, :show], constraints: {
       id: /[%a-zA-Z0-9\/_.~-]*/

@@ -7,7 +7,7 @@ module Landable
 
     let(:page) do
       create(:page, path: '/test/path', title: 'title',
-             status_code: 200, body: 'body', redirect_url: '/redirect/here',
+             body: 'body', redirect_url: '/redirect/here',
              meta_tags: {'key'=>'value'})
     end
 
