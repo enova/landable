@@ -29,7 +29,9 @@ module Landable
 
       def screenshots
         Landable::ScreenshotService.call PageRevision.find(params[:id])
-        head 202
+
+        # "{}" is valid json, which jquery will accept as a successful response. "" is not.
+        render json: {}, status: 202
       end
     end
   end

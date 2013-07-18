@@ -29,5 +29,33 @@ module Landable
       end
     end
 
+    describe '#os' do
+      def os_for os
+        build(:page_screenshot, os: os).os
+      end
+
+      it 'should return "iOS" for "ios"' do
+        os_for('ios').should == 'iOS'
+      end
+
+      it 'should capitalize anything else' do
+        os_for('foobar').should == 'Foobar'
+      end
+    end
+
+    describe '#browser' do
+      def browser_for browser
+        build(:page_screenshot, browser: browser).browser
+      end
+
+      it 'should return "Internet Explorer" for "ie"' do
+        browser_for('ie').should == 'Internet Explorer'
+      end
+
+      it 'should capitalize' do
+        browser_for('foobar').should == 'Foobar'
+      end
+    end
+
   end
 end

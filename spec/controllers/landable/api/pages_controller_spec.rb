@@ -236,10 +236,11 @@ module Landable::Api
         post :screenshots, id: page.id
       end
 
-      it 'invokes ScreenshotService and returns a 202' do
+      it 'invokes ScreenshotService and returns a 202 with an empty json document' do
         Landable::ScreenshotService.should_receive(:call).with(page)
         make_request
         response.status.should == 202
+        last_json.should == {}
       end
     end
   end

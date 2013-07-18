@@ -18,5 +18,25 @@ module Landable
       screenshotable.try(:preview_url)
     end
 
+    # browserstack is inconsistent about this.
+    def browser
+      if self[:browser] == 'ie'
+        'Internet Explorer'
+      else
+        self[:browser].try(:titleize)
+      end
+    end
+
+    # browserstack is inconsistent about this.
+    def os
+      if self[:os] == 'ios'
+        'iOS'
+      elsif self[:os] == 'OS X'
+        'OS X'
+      else
+        self[:os].try(:titleize)
+      end
+    end
+
   end
 end
