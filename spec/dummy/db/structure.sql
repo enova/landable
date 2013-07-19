@@ -254,12 +254,8 @@ CREATE TABLE pages (
 --
 
 CREATE TABLE status_codes (
-<<<<<<< HEAD
     status_code_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    status_code integer NOT NULL,
-=======
-    status_code smallint NOT NULL,
->>>>>>> 5fdfd90339b196f8c5479c6a098bef2afab3dce1
+    code integer NOT NULL,
     description text NOT NULL
 );
 
@@ -400,11 +396,7 @@ ALTER TABLE ONLY pages
 --
 
 ALTER TABLE ONLY status_codes
-<<<<<<< HEAD
     ADD CONSTRAINT status_codes_pkey PRIMARY KEY (status_code_id);
-=======
-    ADD CONSTRAINT status_codes_pkey PRIMARY KEY (status_code);
->>>>>>> 5fdfd90339b196f8c5479c6a098bef2afab3dce1
 
 
 --
@@ -516,10 +508,10 @@ CREATE UNIQUE INDEX landable_pages__u_path ON pages USING btree (lower(path));
 
 
 --
--- Name: landable_status_codes__u_status_code; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+-- Name: landable_status_codes__u_code; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX landable_status_codes__u_status_code ON status_codes USING btree (status_code);
+CREATE UNIQUE INDEX landable_status_codes__u_code ON status_codes USING btree (code);
 
 
 --
@@ -669,6 +661,7 @@ ALTER TABLE ONLY pages
 
 ALTER TABLE ONLY pages
     ADD CONSTRAINT status_code_fk FOREIGN KEY (status_code_id) REFERENCES status_codes(status_code_id);
+
 
 --
 -- Name: theme_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -

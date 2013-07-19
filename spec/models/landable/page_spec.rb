@@ -13,16 +13,16 @@ module Landable
     specify "#redirect?" do
       Page.new.should_not be_redirect
       Page.new().should_not be_redirect
-      Page.new(status_code: StatusCode.where(status_code: 200).first).should_not be_redirect
-      Page.new(status_code: StatusCode.where(status_code: 404).first).should_not be_redirect
+      Page.new(status_code: StatusCode.where(code: 200).first).should_not be_redirect
+      Page.new(status_code: StatusCode.where(code: 404).first).should_not be_redirect
 
-      Page.new(status_code: StatusCode.where(status_code: 301).first).should be_redirect
-      Page.new(status_code: StatusCode.where(status_code: 302).first).should be_redirect
+      Page.new(status_code: StatusCode.where(code: 301).first).should be_redirect
+      Page.new(status_code: StatusCode.where(code: 302).first).should be_redirect
     end
 
     context '#redirect_url' do
       it 'is required if redirect?' do
-        page = Page.new status_code: StatusCode.where(status_code: 301).first
+        page = Page.new status_code: StatusCode.where(code: 301).first
         page.should_not have_valid(:redirect_url).when(nil, '')
         page.should have_valid(:redirect_url).when('http://example.com', '/some/path')
       end
