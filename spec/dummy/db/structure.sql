@@ -236,10 +236,10 @@ CREATE TABLE pages (
     is_publishable boolean DEFAULT true NOT NULL,
     theme_id uuid,
     category_id uuid,
+    status_code_id uuid NOT NULL,
     path text NOT NULL,
     title text,
     body text,
-    status_code integer DEFAULT 200 NOT NULL,
     redirect_url text,
     meta_tags public.hstore,
     imported_at timestamp without time zone,
@@ -254,7 +254,8 @@ CREATE TABLE pages (
 --
 
 CREATE TABLE status_codes (
-    status_code smallint NOT NULL,
+    status_code_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    code integer NOT NULL,
     description text NOT NULL
 );
 
@@ -395,7 +396,7 @@ ALTER TABLE ONLY pages
 --
 
 ALTER TABLE ONLY status_codes
-    ADD CONSTRAINT status_codes_pkey PRIMARY KEY (status_code);
+    ADD CONSTRAINT status_codes_pkey PRIMARY KEY (status_code_id);
 
 
 --
@@ -504,6 +505,13 @@ CREATE INDEX landable_pages__trgm_path ON pages USING gin (path public.gin_trgm_
 --
 
 CREATE UNIQUE INDEX landable_pages__u_path ON pages USING btree (lower(path));
+
+
+--
+-- Name: landable_status_codes__u_code; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_status_codes__u_code ON status_codes USING btree (code);
 
 
 --
@@ -652,7 +660,7 @@ ALTER TABLE ONLY pages
 --
 
 ALTER TABLE ONLY pages
-    ADD CONSTRAINT status_code_fk FOREIGN KEY (status_code) REFERENCES status_codes(status_code);
+    ADD CONSTRAINT status_code_fk FOREIGN KEY (status_code_id) REFERENCES status_codes(status_code_id);
 
 
 --
