@@ -120,6 +120,26 @@ module Landable::Api
       end
     end
 
+    describe '#resubmit' do
+      include_examples 'Authenticated API controller', :make_request
+
+      let(:screenshot) { create :page_screenshot }
+
+      def make_request
+        post :resubmit, id: screenshot.id
+      end
+
+      it 'should load the ScreenshotService, and submit the screenshot in question' do
+        service = double('service')
+        Landable::ScreenshotService.should_receive(:new) { service }
+        service.should_receive(:submit_screenshots).with([screenshot])
+
+        make_request
+
+        last_json['screenshot']['id'].should == screenshot.id
+      end
+    end
+
     describe '#callback' do
       it 'should pass all params to ScreenshotService.handle_job_callback' do
         Landable::ScreenshotService.should_receive(:handle_job_callback).with('one' => 'two')

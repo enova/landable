@@ -34,6 +34,7 @@ Landable::Engine.routes.draw do
 
     resources :screenshots, only: [:index, :show, :create] do
       post 'callback', on: :collection
+      post 'resubmit', on: :member
     end
 
     resources :access_tokens, only: [:create, :destroy, :show]

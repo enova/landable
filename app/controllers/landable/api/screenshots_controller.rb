@@ -20,6 +20,13 @@ module Landable
         respond_with screenshot, status: :created, location: screenshot_url(screenshot)
       end
 
+      def resubmit
+        screenshot = Landable::Screenshot.find(params[:id])
+        service = Landable::ScreenshotService.new screenshot.screenshotable
+        service.submit_screenshots [screenshot]
+        respond_with screenshot
+      end
+
       def callback
         Landable::ScreenshotService.handle_job_callback params.except(:controller, :action)
         head :ok
