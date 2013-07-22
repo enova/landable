@@ -57,5 +57,12 @@ module Landable
       end
     end
 
+    describe '#browser_attributes' do
+      it 'returns a hash containing the keys defining the browser' do
+        screenshot = build(:page_screenshot)
+        screenshot.browser_attributes.keys.sort.should == ['browser', 'browser_version', 'device', 'os', 'os_version']
+      end
+    end
+
   end
 end

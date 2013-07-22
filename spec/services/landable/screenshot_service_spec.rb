@@ -8,12 +8,15 @@ describe Landable::ScreenshotService do
   let(:service) { Landable::ScreenshotService.new screenshotable }
 
   describe '.call' do
-    it 'should initialize, and submit a job' do
+    it 'should initialize, create default screenshots, and submit them' do
       service = double('service')
-      Landable::ScreenshotService.should_receive(:new).with(screenshotable) { service }
-      service.should_receive(:submit_job) { 'result' }
 
-      Landable::ScreenshotService.call(screenshotable).should == 'result'
+      Landable::ScreenshotService.should_receive(:new).with(screenshotable) { service }
+      service.should_receive(:create_default_screenshots).ordered
+      service.should_receive(:submit_screenshots).ordered
+      service.should_receive(:screenshots).ordered { 'screenshots' }
+
+      Landable::ScreenshotService.call(screenshotable).should == 'screenshots'
     end
   end
 
@@ -48,7 +51,38 @@ describe Landable::ScreenshotService do
     end
   end
 
-  describe '#submit_job' do
+  describe '#create_default_screenshots' do
+    let(:default_browsers) {
+      [
+        {
+          os: 'Windows',
+          os_version: '7',
+          browser: 'chrome',
+          browser_version: '27.0',
+        },
+        {
+          os: 'Windows',
+          os_version: '7',
+          browser: 'firefox',
+          browser_version: '21.0',
+        }
+      ]
+    }
+
+    it 'creates screenshots according to DEFAULT_BROWSERS' do
+      stub_const 'Landable::ScreenshotService::DEFAULT_BROWSERS', default_browsers
+
+      screenshots = double('screenshots')
+      service.stub(:screenshots) { screenshots }
+
+      default_browsers.should_not be_empty
+      default_browsers.each { |browser| service.screenshots.should_receive :create!, browser }
+
+      service.create_default_screenshots
+    end
+  end
+
+  describe '#submit_screenshots' do
     let(:response) {
       {
         'job_id' => '13b93a14db22872fcb5fd1c86b730a51197db319',
@@ -78,20 +112,28 @@ describe Landable::ScreenshotService do
       }
     }
 
-    it 'should submit to browsershots and create screenshots' do
+    let(:screenshots) {
+      response['screenshots'].map do |s|
+        create :page_screenshot, {browserstack_id: nil, browserstack_job_id: nil, os_version: nil, browser_version: nil, browser: nil}.merge(s.except('url', 'id'))
+      end
+    }
+
+    it 'should submit to browsershots, and update screenshots with results' do
+      service.stub(:screenshots) { screenshots }
+
       RestClient.should_receive(:post).with(
         'http://www.browserstack.com/screenshots',
         {
           url: screenshotable.preview_url,
           callback_url: callback_screenshots_url,
-          browsers: Landable::ScreenshotService::DEFAULT_BROWSERS,
+          browsers: screenshots.map(&:browser_attributes),
         }.to_json,
         accept: :json,
         content_type: :json,
         authorization: 'Basic ' + Base64.encode64('enovamobile@gmail.com:trogdor13'),
       ) { response.to_json }
 
-      screenshots = service.submit_job
+      service.submit_screenshots
 
       screenshots.size.should == 2
       screenshots[0].browserstack_id.should == response['screenshots'][0]['id']

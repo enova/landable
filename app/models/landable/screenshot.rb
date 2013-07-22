@@ -38,5 +38,9 @@ module Landable
       end
     end
 
+    def browser_attributes
+      attributes.slice 'device', 'os', 'os_version', 'browser', 'browser_version'
+    end
+
   end
 end
