@@ -12,6 +12,29 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE SCHEMA landable;"
 
 
+    ## status_codes
+
+    create_table 'landable.status_codes', id: :uuid, primary_key: :status_code_id do |t|
+      t.integer   :code,        null: false
+      t.text      :description, null: false
+      t.boolean   :is_redirect, null: false, default: false
+      t.boolean   :is_missing,  null: false, default: false
+    end
+
+    execute "CREATE UNIQUE INDEX landable_status_codes__u_code ON landable.status_codes(code)"
+    # Ensure we can't have both is_redirect and is_missing set to true
+    execute "ALTER TABLE landable.status_codes ADD CONSTRAINT landable_status_codes__redirect_or_missing
+              CHECK((is_redirect = false AND is_missing = false)
+                OR  (is_redirect = false AND is_missing = true)
+                OR  (is_redirect = true AND is_missing = false))"
+
+    execute "INSERT INTO landable.status_codes(code, description, is_redirect, is_missing) VALUES 
+                (200, 'OK', false, false)
+              , (301, 'Permanent Redirect', true, false)
+              , (302, 'Temporary Redirect', true, false)
+              , (404, 'Not Found', false, true)"
+
+
     ## themes
 
     create_table 'landable.themes', id: :uuid, primary_key: :theme_id do |t|
@@ -46,13 +69,13 @@ class CreateLandableSchema < ActiveRecord::Migration
 
       t.uuid      :theme_id
       t.uuid      :category_id
+      t.uuid      :status_code_id, null: false
 
       t.text      :path, null: false
 
       t.text      :title
       t.text      :body
 
-      t.integer   :status_code, null: false, default: 200
       t.text      :redirect_url
 
       t.hstore    :meta_tags
@@ -220,8 +243,8 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "ALTER TABLE landable.pages ADD CONSTRAINT revision_id_fk FOREIGN KEY (published_revision_id) REFERENCES landable.page_revisions(page_revision_id)"
     execute "ALTER TABLE landable.pages ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES landable.themes(theme_id)"
     execute "ALTER TABLE landable.pages ADD CONSTRAINT category_id_fk FOREIGN KEY (category_id) REFERENCES landable.categories(category_id)"
+    execute "ALTER TABLE landable.pages ADD CONSTRAINT status_code_fk FOREIGN KEY (status_code_id) REFERENCES landable.status_codes(status_code_id)"
     execute "ALTER TABLE landable.pages ADD CONSTRAINT only_valid_paths CHECK (path ~ '^/[a-zA-Z0-9/_.~-]*$');"
-    execute "ALTER TABLE landable.pages ADD CONSTRAINT only_valid_status_codes CHECK (status_code IN (200,301,302,404))"
 
     # Revision-tracking trigger to automatically update ordinal
     execute "CREATE FUNCTION landable.pages_revision_ordinal()

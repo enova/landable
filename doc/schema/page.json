@@ -22,9 +22,8 @@
       "required": true
     },
 
-    "status_code": {
-      "type": "integer",
-      "enum": [200, 301, 302, 404],
+    "status_code_id": {
+      "type": [{ "$ref": "uuid.json" }],
       "required": true
     },
 

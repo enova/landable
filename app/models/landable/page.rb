@@ -2,6 +2,7 @@ require_dependency 'landable/theme'
 require_dependency 'landable/page_revision'
 require_dependency 'landable/category'
 require_dependency 'landable/has_attachments'
+require_dependency 'landable/status_code'
 
 module Landable
   class Page < ActiveRecord::Base
@@ -11,9 +12,8 @@ module Landable
     include Landable::HasAttachments
     include Landable::Engine.routes.url_helpers
 
-    validates_presence_of   :path, :status_code
+    validates_presence_of   :path#, :status_code
     validates_uniqueness_of :path
-    validates_inclusion_of  :status_code, in: [200, 301, 302, 404]
     validates_presence_of   :redirect_url, if: -> page { page.redirect? }
 
     belongs_to :theme, class_name: 'Landable::Theme', inverse_of: :pages
@@ -21,10 +21,15 @@ module Landable
     belongs_to :category, class_name: 'Landable::Category'
     has_many   :revisions, class_name: 'Landable::PageRevision'
     has_many   :screenshots, class_name: 'Landable::Screenshot', as: :screenshotable
+    belongs_to :status_code, class_name: 'Landable::StatusCode'
 
     scope :imported, -> { where("imported_at IS NOT NULL") }
 
     before_validation :downcase_path
+
+    after_initialize do |page|
+      page.status_code = StatusCode.where(code: 200).first unless page.status_code
+    end
 
     before_save -> page {
       page.is_publishable = true unless page.published_revision_id_changed?
@@ -32,7 +37,7 @@ module Landable
 
     class << self
       def missing
-        new(status_code: 404)
+        new(status_code: StatusCode.where(code: 404).first)
       end
 
       def by_path(path)
@@ -74,7 +79,7 @@ module Landable
     end
 
     def redirect?
-      status_code == 301 || status_code == 302
+      status_code.is_redirect
     end
 
     def path=(name)
