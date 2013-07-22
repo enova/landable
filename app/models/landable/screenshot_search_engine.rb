@@ -4,7 +4,7 @@ require_dependency "landable/asset"
 module Landable
   class ScreenshotSearchEngine < SearchEngine
     def initialize(filters)
-      super Screenshot.all, filters
+      super Screenshot.all, filters, order: 'updated_at DESC'
     end
 
     def filter_by!(filters)
