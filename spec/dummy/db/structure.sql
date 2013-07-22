@@ -257,7 +257,9 @@ CREATE TABLE status_codes (
     status_code_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     code integer NOT NULL,
     description text NOT NULL,
-    is_redirect boolean DEFAULT false NOT NULL
+    is_redirect boolean DEFAULT false NOT NULL,
+    is_missing boolean DEFAULT false NOT NULL,
+    CONSTRAINT landable_status_codes__redirect_or_missing CHECK (((((is_redirect = false) AND (is_missing = false)) OR ((is_redirect = false) AND (is_missing = true))) OR ((is_redirect = true) AND (is_missing = false))))
 );
 
 

@@ -12,18 +12,24 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE SCHEMA landable;"
 
     create_table 'landable.status_codes', id: :uuid, primary_key: :status_code_id do |t|
-      t.integer   :code, null: false
+      t.integer   :code,        null: false
       t.text      :description, null: false
       t.boolean   :is_redirect, null: false, default: false
+      t.boolean   :is_missing,  null: false, default: false
     end
 
     execute "CREATE UNIQUE INDEX landable_status_codes__u_code ON landable.status_codes(code)"
+    # Ensure we can't have both is_redirect and is_missing set to true
+    execute "ALTER TABLE landable.status_codes ADD CONSTRAINT landable_status_codes__redirect_or_missing
+              CHECK((is_redirect = false AND is_missing = false)
+                OR  (is_redirect = false AND is_missing = true)
+                OR  (is_redirect = true AND is_missing = false))"
 
-    execute "INSERT INTO landable.status_codes(code, description, is_redirect) VALUES 
-                (200, 'OK', false)
-              , (301, 'Permanent Redirect', true)
-              , (302, 'Temporary Redirect', true)
-              , (404, 'Not Found', false)"
+    execute "INSERT INTO landable.status_codes(code, description, is_redirect, is_missing) VALUES 
+                (200, 'OK', false, false)
+              , (301, 'Permanent Redirect', true, false)
+              , (302, 'Temporary Redirect', true, false)
+              , (404, 'Not Found', false, true)"
 
     create_table 'landable.themes', id: :uuid, primary_key: :theme_id do |t|
       t.text :name,           null: false
