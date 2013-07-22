@@ -14,15 +14,16 @@ class CreateLandableSchema < ActiveRecord::Migration
     create_table 'landable.status_codes', id: :uuid, primary_key: :status_code_id do |t|
       t.integer   :code, null: false
       t.text      :description, null: false
+      t.boolean   :is_redirect, null: false, default: false
     end
 
     execute "CREATE UNIQUE INDEX landable_status_codes__u_code ON landable.status_codes(code)"
 
-    execute "INSERT INTO landable.status_codes(code, description) VALUES 
-                (200, 'OK')
-              , (301, 'Permanent Redirect')
-              , (302, 'Temporary Redirect')
-              , (404, 'Not Found')"
+    execute "INSERT INTO landable.status_codes(code, description, is_redirect) VALUES 
+                (200, 'OK', false)
+              , (301, 'Permanent Redirect', true)
+              , (302, 'Temporary Redirect', true)
+              , (404, 'Not Found', false)"
 
     create_table 'landable.themes', id: :uuid, primary_key: :theme_id do |t|
       t.text :name,           null: false

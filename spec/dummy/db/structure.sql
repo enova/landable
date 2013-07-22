@@ -256,7 +256,8 @@ CREATE TABLE pages (
 CREATE TABLE status_codes (
     status_code_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     code integer NOT NULL,
-    description text NOT NULL
+    description text NOT NULL,
+    is_redirect boolean DEFAULT false NOT NULL
 );
 
 

@@ -75,7 +75,7 @@ module Landable
     end
 
     def redirect?
-      status_code.code == 301 || status_code.code == 302
+      status_code.is_redirect
     end
 
     def path=(name)
