@@ -280,7 +280,7 @@ CREATE TABLE templates (
     name text NOT NULL,
     body text NOT NULL,
     description text NOT NULL,
-    screenshot_url text,
+    thumbnail_url text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -309,7 +309,7 @@ CREATE TABLE themes (
     name text NOT NULL,
     body text NOT NULL,
     description text NOT NULL,
-    screenshot_url text,
+    thumbnail_url text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -323,16 +323,6 @@ SET search_path = public, pg_catalog;
 
 CREATE TABLE schema_migrations (
     version character varying(255) NOT NULL
-);
-
-
---
--- Name: test; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE test (
-    test_id integer NOT NULL,
-    tester_id integer NOT NULL
 );
 
 

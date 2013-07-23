@@ -44,7 +44,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.text :name,           null: false
       t.text :body,           null: false
       t.text :description,    null: false
-      t.text :screenshot_url
+      t.text :thumbnail_url
       t.timestamps
     end
 
@@ -54,7 +54,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.text :name,           null: false
       t.text :body,           null: false
       t.text :description,    null: false
-      t.text :screenshot_url
+      t.text :thumbnail_url
       t.timestamps
     end
 
