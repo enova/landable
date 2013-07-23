@@ -278,7 +278,7 @@ CREATE TABLE status_codes (
 CREATE TABLE templates (
     template_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     name text NOT NULL,
-    body text NOT NULL,
+    body text,
     description text NOT NULL,
     thumbnail_url text,
     created_at timestamp without time zone,
