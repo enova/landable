@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :theme, class: 'Landable::Theme' do
     sequence(:name) { |n| "Theme #{n}" }
     description "Factory-generated theme"
-    screenshot_url "http://example.com/bogus-screenshot.png"
+    thumbnail_url "http://example.com/bogus-screenshot.png"
 
     body <<-HTML
     <html>
@@ -17,7 +17,7 @@ FactoryGirl.define do
   factory :template, class: 'Landable::Template' do
     sequence(:name) { |n| "Template #{n}" }
     description "Factory-generated template"
-    screenshot_url "http://example.com/bogus-screenshot.png"
+    thumbnail_url "http://example.com/bogus-screenshot.png"
     body '<div class="container">content goes here!</div>'
   end
 

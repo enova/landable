@@ -14,25 +14,34 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     ## status_codes
 
+    create_table 'landable.status_code_categories', id: :uuid, primary_key: :status_code_category_id do |t|
+      t.text      :name, null: false
+    end
+
+    execute "CREATE UNIQUE INDEX landable_status_code_categories__u_name ON landable.status_code_categories(lower(name))"
+
+    execute "INSERT INTO landable.status_code_categories (name) VALUES
+              ('okay')
+            , ('redirect')
+            , ('missing')"
+
     create_table 'landable.status_codes', id: :uuid, primary_key: :status_code_id do |t|
+      t.uuid      :status_code_category_id, null: false
       t.integer   :code,        null: false
       t.text      :description, null: false
-      t.boolean   :is_redirect, null: false, default: false
-      t.boolean   :is_missing,  null: false, default: false
     end
 
     execute "CREATE UNIQUE INDEX landable_status_codes__u_code ON landable.status_codes(code)"
-    # Ensure we can't have both is_redirect and is_missing set to true
-    execute "ALTER TABLE landable.status_codes ADD CONSTRAINT landable_status_codes__redirect_or_missing
-              CHECK((is_redirect = false AND is_missing = false)
-                OR  (is_redirect = false AND is_missing = true)
-                OR  (is_redirect = true AND is_missing = false))"
+    execute "ALTER TABLE landable.status_codes ADD CONSTRAINT status_code_category_fk FOREIGN KEY(status_code_category_id) REFERENCES landable.status_code_categories(status_code_category_id)"
 
-    execute "INSERT INTO landable.status_codes(code, description, is_redirect, is_missing) VALUES 
-                (200, 'OK', false, false)
-              , (301, 'Permanent Redirect', true, false)
-              , (302, 'Temporary Redirect', true, false)
-              , (404, 'Not Found', false, true)"
+    execute "INSERT INTO landable.status_codes(status_code_category_id, code, description)
+              SELECT status_code_category_id, 200, 'OK' FROM landable.status_code_categories WHERE name = 'okay';
+            INSERT INTO landable.status_codes(status_code_category_id, code, description)
+              SELECT status_code_category_id, 301, 'Permanent Redirect' FROM landable.status_code_categories WHERE name = 'redirect';
+            INSERT INTO landable.status_codes(status_code_category_id, code, description)
+              SELECT status_code_category_id, 302, 'Temporary Redirect' FROM landable.status_code_categories WHERE name = 'redirect';
+            INSERT INTO landable.status_codes(status_code_category_id, code, description)
+              SELECT status_code_category_id, 404, 'Not Found' FROM landable.status_code_categories WHERE name = 'missing';"
 
 
     ## themes
@@ -41,7 +50,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.text :name,           null: false
       t.text :body,           null: false
       t.text :description,    null: false
-      t.text :screenshot_url
+      t.text :thumbnail_url
       t.timestamps
     end
 
@@ -54,7 +63,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.text :name,           null: false
       t.text :body,           null: false
       t.text :description,    null: false
-      t.text :screenshot_url
+      t.text :thumbnail_url
       t.timestamps
     end
 

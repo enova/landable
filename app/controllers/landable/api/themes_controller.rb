@@ -42,7 +42,7 @@ module Landable
       private
 
       def theme_params
-        params.require(:theme).permit(:id, :name, :body, :description)
+        params.require(:theme).permit(:id, :name, :body, :description, :thumbnail_url)
       end
     end
   end

@@ -273,16 +273,24 @@ CREATE TABLE screenshots (
 
 
 --
+-- Name: status_code_categories; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE status_code_categories (
+    status_code_category_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    name text NOT NULL
+);
+
+
+--
 -- Name: status_codes; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
 CREATE TABLE status_codes (
     status_code_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    status_code_category_id uuid NOT NULL,
     code integer NOT NULL,
-    description text NOT NULL,
-    is_redirect boolean DEFAULT false NOT NULL,
-    is_missing boolean DEFAULT false NOT NULL,
-    CONSTRAINT landable_status_codes__redirect_or_missing CHECK (((((is_redirect = false) AND (is_missing = false)) OR ((is_redirect = false) AND (is_missing = true))) OR ((is_redirect = true) AND (is_missing = false))))
+    description text NOT NULL
 );
 
 
@@ -295,7 +303,7 @@ CREATE TABLE templates (
     name text NOT NULL,
     body text NOT NULL,
     description text NOT NULL,
-    screenshot_url text,
+    thumbnail_url text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -324,7 +332,7 @@ CREATE TABLE themes (
     name text NOT NULL,
     body text NOT NULL,
     description text NOT NULL,
-    screenshot_url text,
+    thumbnail_url text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -413,6 +421,14 @@ ALTER TABLE ONLY pages
 
 ALTER TABLE ONLY screenshots
     ADD CONSTRAINT screenshots_pkey PRIMARY KEY (screenshot_id);
+
+
+--
+-- Name: status_code_categories_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY status_code_categories
+    ADD CONSTRAINT status_code_categories_pkey PRIMARY KEY (status_code_category_id);
 
 
 --
@@ -543,6 +559,13 @@ CREATE UNIQUE INDEX landable_screenshots__u_browserstack_id ON screenshots USING
 --
 
 CREATE INDEX landable_screenshots__u_screenshotable_id_screenshotable_type ON screenshots USING btree (screenshotable_id, screenshotable_type);
+
+
+--
+-- Name: landable_status_code_categories__u_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_status_code_categories__u_name ON status_code_categories USING btree (lower(name));
 
 
 --
@@ -691,6 +714,14 @@ ALTER TABLE ONLY page_revision_assets
 
 ALTER TABLE ONLY pages
     ADD CONSTRAINT revision_id_fk FOREIGN KEY (published_revision_id) REFERENCES page_revisions(page_revision_id);
+
+
+--
+-- Name: status_code_category_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY status_codes
+    ADD CONSTRAINT status_code_category_fk FOREIGN KEY (status_code_category_id) REFERENCES status_code_categories(status_code_category_id);
 
 
 --

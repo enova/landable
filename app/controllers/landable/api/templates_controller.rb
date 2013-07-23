@@ -26,7 +26,7 @@ module Landable
       private
 
       def template_params
-        params.require(:template).permit(:id, :name, :body, :description, :screenshot_url)
+        params.require(:template).permit(:id, :name, :body, :description, :thumbnail_url)
       end
     end
   end
