@@ -83,6 +83,11 @@ module Landable
       end
     end
 
+    def self.available_browsers
+      result = RestClient.get 'http://www.browserstack.com/screenshots/browsers.json'
+      JSON.parse result
+    end
+
 
     attr_accessor :screenshotable
     delegate :screenshots, to: :screenshotable

@@ -51,6 +51,16 @@ describe Landable::ScreenshotService do
     end
   end
 
+  describe '.available_browsers' do
+    it 'should retrieve browser data from browserstack' do
+      result = {'one' => 'two'}
+
+      RestClient.should_receive(:get).with('http://www.browserstack.com/screenshots/browsers.json') { result.to_json }
+
+      Landable::ScreenshotService.available_browsers.should == result
+    end
+  end
+
   describe '#create_default_screenshots' do
     let(:default_browsers) {
       [
