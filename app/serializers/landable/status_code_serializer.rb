@@ -1,6 +1,7 @@
 module Landable
   class StatusCodeSerializer < ActiveModel::Serializer
-    attributes :id, :code, :description, :is_redirect, :is_missing, :is_okay
+    attributes :id, :code, :description, :category
+    attributes :is_redirect, :is_missing, :is_okay
 
     def is_redirect
       object.is_redirect?

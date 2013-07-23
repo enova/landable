@@ -15,5 +15,9 @@ module Landable
     def is_okay?
       status_code_category.name == 'okay'
     end
+
+    def category
+      status_code_category.name
+    end
   end
 end
