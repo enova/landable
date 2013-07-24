@@ -33,12 +33,14 @@ Gem::Specification.new do |gem|
   gem.add_dependency "carrierwave"
   gem.add_dependency "liquid"
   gem.add_dependency "fog"
+  gem.add_dependency "rest-client"
 
   gem.add_development_dependency "pg"
   gem.add_development_dependency "rspec-rails",        '~> 2.13.0'
   gem.add_development_dependency "factory_girl_rails", '~> 4.2.0'
   gem.add_development_dependency "json-schema"
   gem.add_development_dependency "rack-schema"
+  gem.add_development_dependency "cucumber",           '= 1.3.2'
   gem.add_development_dependency "cucumber-rails"
   gem.add_development_dependency "database_cleaner"
   gem.add_development_dependency "simplecov"

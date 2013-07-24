@@ -2,15 +2,16 @@ module Landable
   class PageSerializer < ActiveModel::Serializer
     attributes :id, :path
     attributes :title, :body
-    attributes :status_code, :redirect_url
+    attributes :redirect_url
     attributes :meta_tags
     attributes :is_publishable
     attributes :preview_url
 
-    embed :ids
+    embed    :ids
     has_one  :theme
     has_one  :published_revision
     has_one  :category
+    has_one  :status_code
     has_many :assets
 
     def category
@@ -21,8 +22,8 @@ module Landable
       object.meta_tags || {}
     end
 
-    def preview_url
-      public_preview_page_url(object)
+    def status_code
+      object.status_code
     end
   end
 end

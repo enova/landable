@@ -38,15 +38,15 @@ Given /^a (page|theme) with an asset attached$/ do |model|
 end
 
 Given /^a page "([^"]+)"$/ do |path|
-  create :page, path: path
+  create :page, path: path, body: "<HTML>BODY</HTML>"
 end
 
 Given /^a page "([^"]+)" with title "(.+)"$/ do |path, title|
-  create :page, path: path, title: title
+  create :page, path: path, title: title, body: "<HTML>BODY</HTML>"
 end
 
 Given 'page "$path" redirects to "$url" with status $code' do |path, url, code|
-  page = create :page, :redirect, path: path, redirect_url: url, status_code: code
+  page = create :page, :redirect, path: path, redirect_url: url, status_code: Landable::StatusCode.where(code: code).first, body: "BODY"
   page.publish! author: create(:author)
 end
 
@@ -58,9 +58,9 @@ end
 Given 'a published page "$path" with status $code' do |path, code|
   code = Integer(code)
   page = case code
-         when 301, 302 then create :page, :redirect, path: path, status_code: code
-         when 404 then create :page, :not_found, path: path
-         else create :page, path: path
+         when 301, 302 then create :page, :redirect, path: path, status_code: Landable::StatusCode.where(code: code).first, body: "BODY"
+         when 404 then create :page, :not_found, path: path, body: "BODY"
+         else create :page, path: path, body: "BODY"
          end
 
   page.publish! author: create(:author)

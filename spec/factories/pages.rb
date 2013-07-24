@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :theme, class: 'Landable::Theme' do
     sequence(:name) { |n| "Theme #{n}" }
     description "Factory-generated theme"
-    screenshot_url "http://example.com/bogus-screenshot.png"
+    thumbnail_url "http://example.com/bogus-screenshot.png"
 
     body <<-HTML
     <html>
@@ -17,7 +17,7 @@ FactoryGirl.define do
   factory :template, class: 'Landable::Template' do
     sequence(:name) { |n| "Template #{n}" }
     description "Factory-generated template"
-    screenshot_url "http://example.com/bogus-screenshot.png"
+    thumbnail_url "http://example.com/bogus-screenshot.png"
     body '<div class="container">content goes here!</div>'
   end
 
@@ -32,12 +32,11 @@ FactoryGirl.define do
     sequence(:path)  { |n| "/page-#{n}" }
     sequence(:title) { |n| "Page #{n}" }
 
-    status_code 200
     body "<div>Page body</div>"
 
     # Anyone see a more reasonable way to unset these attributes?
     trait :redirect do
-      status_code  301
+      status_code_id Landable::StatusCode.where(code: 301).first.id
       redirect_url "/redirect/somewhere/else"
 
       theme nil
@@ -46,12 +45,17 @@ FactoryGirl.define do
     end
 
     trait :not_found do
-      status_code 404
+      status_code_id Landable::StatusCode.where(code: 404).first.id
 
       theme nil
       title nil
       body  nil
     end
+  end
+
+  factory :page_revision, class: 'Landable::PageRevision' do
+    association :page, strategy: :build
+    association :author, strategy: :build
   end
 
   factory :asset, class: 'Landable::Asset' do
@@ -80,5 +84,21 @@ FactoryGirl.define do
              end
       Rack::Test::UploadedFile.new(path, mime)
     end
+  end
+
+  factory :screenshot, class: 'Landable::Screenshot' do
+    os 'some_os'
+    os_version 'some_os_version'
+    browser 'some_browser'
+    browser_version 'some_browser_version'
+    browserstack_id { SecureRandom.uuid }
+  end
+
+  factory :page_screenshot, parent: :screenshot do
+    screenshotable { build :page }
+  end
+
+  factory :page_revision_screenshot, parent: :screenshot do
+    screenshotable { build :page_revision }
   end
 end

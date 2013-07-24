@@ -16,7 +16,10 @@ Feature: Pages API
   Scenario: Create a new page
     When I POST to "/api/pages" with:
     """
-    { "path": "/page" }
+    { 
+        "path": "/page",
+        "body": "<HTML>BODY</HTML" 
+    }
     """
     Then the response should be 201 "Created"
     And the JSON at "page/path" should be "/page"

@@ -44,7 +44,7 @@ module Landable::Api
         end
 
         it 'includes the errors in the JSON response' do
-          make_request status_code: 302, redirect_url: nil
+          make_request status_code_id: Landable::StatusCode.where(code: 302).first.id, redirect_url: nil
           last_json['errors'].should have_key('redirect_url')
         end
       end
@@ -160,7 +160,7 @@ module Landable::Api
         end
 
         it 'includes the errors in the JSON response' do
-          make_request status_code: 302, redirect_url: nil
+          make_request status_code_id: Landable::StatusCode.where(code: 302).first.id, redirect_url: nil
         end
       end
 
@@ -224,6 +224,23 @@ module Landable::Api
         response.status.should == 200
         response.content_type.should == 'text/html'
         response.body.should match(/still here/)
+      end
+    end
+
+    describe '#screenshots' do
+      include_examples 'Authenticated API controller', :make_request
+
+      let(:page) { create :page }
+
+      def make_request
+        post :screenshots, id: page.id
+      end
+
+      it 'invokes ScreenshotService and returns a 202 with an empty json document' do
+        Landable::ScreenshotService.should_receive(:call).with(page)
+        make_request
+        response.status.should == 202
+        last_json.should == {}
       end
     end
   end

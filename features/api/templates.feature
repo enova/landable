@@ -14,7 +14,7 @@ Feature: Templates API
           "name": "A template name!",
           "description": "A beautiful template",
           "body": "<div>body</div>",
-          "screenshot_url": "http://foo/bar.jpg"
+          "thumbnail_url": "http://foo/bar.jpg"
         }
       }
       """

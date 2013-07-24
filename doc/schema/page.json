@@ -3,6 +3,7 @@
   "description": "A page served by landable",
   "type": "object",
   "additionalProperties": false,
+  "required": ["path", "status_code_id", "body"],
 
   "properties": {
     "id": {
@@ -18,14 +19,11 @@
     },
 
     "path": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
 
-    "status_code": {
-      "type": "integer",
-      "enum": [200, 301, 302, 404],
-      "required": true
+    "status_code_id": {
+      "type": [{ "$ref": "uuid.json" }]
     },
 
     "title": {
@@ -33,7 +31,7 @@
     },
 
     "body": {
-      "type": ["string", "null"]
+      "type": ["string"]
     },
 
     "redirect_url": {

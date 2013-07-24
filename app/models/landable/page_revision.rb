@@ -2,8 +2,11 @@ require_dependency 'landable/has_attachments'
 
 module Landable
   class PageRevision < ActiveRecord::Base
+
     self.table_name = 'landable.page_revisions'
+
     include Landable::HasAttachments
+    include Landable::Engine.routes.url_helpers
 
     store :snapshot_attributes, accessors: [ :attrs ]
     @@ignored_page_attributes = [
@@ -19,6 +22,7 @@ module Landable
 
     belongs_to :author
     belongs_to :page, inverse_of: :revisions
+    has_many   :screenshots, class_name: 'Landable::Screenshot', as: :screenshotable
 
     def page_id=(id)
       self[:page_id] = id
@@ -37,6 +41,10 @@ module Landable
 
     def unpublish!
       update_attribute :is_published, false
+    end
+
+    def preview_url
+      public_preview_page_revision_url(self)
     end
   end
 end

@@ -236,17 +236,61 @@ CREATE TABLE pages (
     is_publishable boolean DEFAULT true NOT NULL,
     theme_id uuid,
     category_id uuid,
+    status_code_id uuid NOT NULL,
     path text NOT NULL,
     title text,
-    body text,
-    status_code integer DEFAULT 200 NOT NULL,
+    body text NOT NULL,
     redirect_url text,
     meta_tags public.hstore,
     imported_at timestamp without time zone,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text)),
-    CONSTRAINT only_valid_status_codes CHECK ((status_code = ANY (ARRAY[200, 301, 302, 404])))
+    CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
+);
+
+
+--
+-- Name: screenshots; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE screenshots (
+    screenshot_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    screenshotable_id uuid NOT NULL,
+    screenshotable_type text NOT NULL,
+    device text,
+    os text,
+    os_version text,
+    browser text,
+    browser_version text,
+    state text,
+    thumb_url text,
+    image_url text,
+    browserstack_id text,
+    browserstack_job_id text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: status_code_categories; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE status_code_categories (
+    status_code_category_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    name text NOT NULL
+);
+
+
+--
+-- Name: status_codes; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE status_codes (
+    status_code_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    status_code_category_id uuid NOT NULL,
+    code integer NOT NULL,
+    description text NOT NULL
 );
 
 
@@ -259,7 +303,7 @@ CREATE TABLE templates (
     name text NOT NULL,
     body text NOT NULL,
     description text NOT NULL,
-    screenshot_url text,
+    thumbnail_url text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -288,7 +332,7 @@ CREATE TABLE themes (
     name text NOT NULL,
     body text NOT NULL,
     description text NOT NULL,
-    screenshot_url text,
+    thumbnail_url text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -302,6 +346,16 @@ SET search_path = public, pg_catalog;
 
 CREATE TABLE schema_migrations (
     version character varying(255) NOT NULL
+);
+
+
+--
+-- Name: test; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE test (
+    test_id integer NOT NULL,
+    tester_id integer NOT NULL
 );
 
 
@@ -372,6 +426,30 @@ ALTER TABLE ONLY pages
 
 
 --
+-- Name: screenshots_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY screenshots
+    ADD CONSTRAINT screenshots_pkey PRIMARY KEY (screenshot_id);
+
+
+--
+-- Name: status_code_categories_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY status_code_categories
+    ADD CONSTRAINT status_code_categories_pkey PRIMARY KEY (status_code_category_id);
+
+
+--
+-- Name: status_codes_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY status_codes
+    ADD CONSTRAINT status_codes_pkey PRIMARY KEY (status_code_id);
+
+
+--
 -- Name: templates_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -414,6 +492,13 @@ CREATE INDEX landable_assets__author_id ON assets USING btree (author_id);
 --
 
 CREATE UNIQUE INDEX landable_assets__u_data ON assets USING btree (data);
+
+
+--
+-- Name: landable_assets__u_lower_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_assets__u_lower_name ON assets USING btree (lower(name));
 
 
 --
@@ -470,6 +555,34 @@ CREATE INDEX landable_pages__trgm_path ON pages USING gin (path public.gin_trgm_
 --
 
 CREATE UNIQUE INDEX landable_pages__u_path ON pages USING btree (lower(path));
+
+
+--
+-- Name: landable_screenshots__u_browserstack_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_screenshots__u_browserstack_id ON screenshots USING btree (browserstack_id);
+
+
+--
+-- Name: landable_screenshots__u_screenshotable_id_screenshotable_type; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE INDEX landable_screenshots__u_screenshotable_id_screenshotable_type ON screenshots USING btree (screenshotable_id, screenshotable_type);
+
+
+--
+-- Name: landable_status_code_categories__u_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_status_code_categories__u_name ON status_code_categories USING btree (lower(name));
+
+
+--
+-- Name: landable_status_codes__u_code; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_status_codes__u_code ON status_codes USING btree (code);
 
 
 --
@@ -611,6 +724,22 @@ ALTER TABLE ONLY page_revision_assets
 
 ALTER TABLE ONLY pages
     ADD CONSTRAINT revision_id_fk FOREIGN KEY (published_revision_id) REFERENCES page_revisions(page_revision_id);
+
+
+--
+-- Name: status_code_category_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY status_codes
+    ADD CONSTRAINT status_code_category_fk FOREIGN KEY (status_code_category_id) REFERENCES status_code_categories(status_code_category_id);
+
+
+--
+-- Name: status_code_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY pages
+    ADD CONSTRAINT status_code_fk FOREIGN KEY (status_code_id) REFERENCES status_codes(status_code_id);
 
 
 --
