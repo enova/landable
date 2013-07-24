@@ -3,9 +3,10 @@
   "description": "A directory listing of all pages beneath a given path",
   "type": "object",
   "additionalProperties": false,
+  "required": ["id"],
 
   "properties": {
-    "id":   { "type": "string", "required": true, "format": "^/" },
+    "id":   { "type": "string", "format": "^/" },
     "path": { "$ref": "#/properties/id" },
 
     "subdirectory_ids": {

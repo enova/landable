@@ -3,65 +3,55 @@
   "description": "A particular snapshot of a page which has, at some point, been published.",
   "type": "object",
   "additionalProperties": false,
+  "required": ["id", "page_id", "theme_id", "author_id", "notes", "is_published", "is_minor", "preview_url", "ordinal", "created_at", "updated_at"],
 
   "properties": {
     "id": {
-      "$ref": "uuid.json",
-      "required": true
+      "$ref": "uuid.json"
     },
 
     "page_id": {
-      "$ref": "uuid.json",
-      "required": true
+      "$ref": "uuid.json"
     },
 
     "theme_id": {
-      "type": [{ "$ref": "uuid.json" }, "null"],
-      "required": true
+      "type": [{ "$ref": "uuid.json" }, "null"]
     },
 
     "author_id": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
 
     "preview_url": {
       "type": "string",
-      "format": "uri",
-      "required": true
+      "format": "uri"
     },
 
     "notes": {
-      "type": ["string", "null"],
-      "required": true
+      "type": ["string", "null"]
     },
 
     "is_published": {
-      "type": "boolean",
-      "required": true
+      "type": "boolean"
     },
 
     "is_minor": {
-      "type": "boolean",
-      "required": true
+      "type": "boolean"
     },
 
     "ordinal": {
       "type": "integer",
-      "minimum": 1,
-      "required": true
+      "minimum": 1
     },
 
     "created_at": {
       "type": "string",
-      "format": "date-time",
-      "required": true
+      "format": "date-time"
     },
 
     "updated_at": {
       "type": "string",
-      "format": "date-time",
-      "required": true
+      "format": "date-time"
     },
 
     "snapshot_attributes": {

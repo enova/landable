@@ -3,15 +3,14 @@
   "description": "An uploaded asset file",
   "type": "object",
   "additionalProperties": false,
+  "required": ["id", "name", "public_url", "md5sum", "file_size", "mime_type", "author_id", "theme_ids", "page_ids", "created_at", "updated_at"],
 
   "properties": {
     "id": {
-      "required": true,
       "$ref": "uuid.json"
     },
 
     "name": {
-      "required": true,
       "type": "string",
       "minLength": 1
     },
@@ -21,53 +20,44 @@
     },
 
     "public_url": {
-      "required": true,
       "type": "string",
       "format": "uri"
     },
 
     "md5sum": {
-      "required": true,
       "type": "string",
       "length": 32
     },
 
     "file_size": {
-      "required": true,
       "type": "integer",
       "min": 1
     },
 
     "mime_type": {
-      "required": true,
       "type": "string"
     },
 
     "author_id": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
 
     "theme_ids": {
       "type": "array",
-      "required": true,
       "items": { "$ref": "uuid.json" }
     },
 
     "page_ids": {
       "type": "array",
-      "required": true,
       "items": { "$ref": "uuid.json" }
     },
 
     "created_at": {
-      "required": true,
       "type": "string",
       "format": "date-time"
     },
 
     "updated_at": {
-      "required": true,
       "type": "string",
       "format": "date-time"
     }
