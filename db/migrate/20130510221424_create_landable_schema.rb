@@ -71,7 +71,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.text      :path, null: false
 
       t.text      :title
-      t.text      :body
+      t.text      :body, null: false
 
       t.text      :redirect_url
 

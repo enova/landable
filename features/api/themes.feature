@@ -13,7 +13,8 @@ Feature: Themes API
         "theme": {
           "name": "A theme name!",
           "description": "A beautiful theme",
-          "body": "{{ body }}"
+          "body": "{{ body }}",
+          "thumbnail_url": "http://foo/bar.jpg"
         }
       }
       """

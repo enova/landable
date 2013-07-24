@@ -31,6 +31,12 @@
     "asset_ids": {
       "type": "array",
       "items": { "$ref": "uuid.json" }
+    },
+
+    "thumbnail_url": {
+      "type": ["string", "null"],
+      "required": false,
+      "minLength": 0
     }
   }
 }

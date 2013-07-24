@@ -32,7 +32,8 @@
     },
 
     "body": {
-      "type": ["string", "null"]
+      "type": ["string"],
+      "required": true
     },
 
     "redirect_url": {

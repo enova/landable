@@ -239,7 +239,7 @@ CREATE TABLE pages (
     status_code_id uuid NOT NULL,
     path text NOT NULL,
     title text,
-    body text,
+    body text NOT NULL,
     redirect_url text,
     meta_tags public.hstore,
     imported_at timestamp without time zone,
@@ -278,7 +278,7 @@ CREATE TABLE status_codes (
 CREATE TABLE templates (
     template_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     name text NOT NULL,
-    body text,
+    body text NOT NULL,
     description text NOT NULL,
     thumbnail_url text,
     created_at timestamp without time zone,
@@ -323,6 +323,16 @@ SET search_path = public, pg_catalog;
 
 CREATE TABLE schema_migrations (
     version character varying(255) NOT NULL
+);
+
+
+--
+-- Name: test; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE test (
+    test_id integer NOT NULL,
+    tester_id integer NOT NULL
 );
 
 
