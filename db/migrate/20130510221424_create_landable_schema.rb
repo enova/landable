@@ -52,7 +52,7 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     create_table 'landable.templates', id: :uuid, primary_key: :template_id do |t|
       t.text :name,           null: false
-      t.text :body
+      t.text :body,           null: false
       t.text :description,    null: false
       t.text :thumbnail_url
       t.timestamps
