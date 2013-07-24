@@ -19,10 +19,6 @@ module Landable
       attrs
     end
 
-    def preview_url
-      public_preview_page_revision_url(object)
-    end
-
     def theme_id
       snapshot_attributes[:theme_id]
     end

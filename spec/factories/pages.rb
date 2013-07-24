@@ -53,6 +53,11 @@ FactoryGirl.define do
     end
   end
 
+  factory :page_revision, class: 'Landable::PageRevision' do
+    association :page, strategy: :build
+    association :author, strategy: :build
+  end
+
   factory :asset, class: 'Landable::Asset' do
     ignore do
       asset_dir    { Landable::Engine.root.join('spec', 'fixtures', 'assets') }
@@ -79,5 +84,21 @@ FactoryGirl.define do
              end
       Rack::Test::UploadedFile.new(path, mime)
     end
+  end
+
+  factory :screenshot, class: 'Landable::Screenshot' do
+    os 'some_os'
+    os_version 'some_os_version'
+    browser 'some_browser'
+    browser_version 'some_browser_version'
+    browserstack_id { SecureRandom.uuid }
+  end
+
+  factory :page_screenshot, parent: :screenshot do
+    screenshotable { build :page }
+  end
+
+  factory :page_revision_screenshot, parent: :screenshot do
+    screenshotable { build :page_revision }
   end
 end

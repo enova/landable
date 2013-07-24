@@ -11,6 +11,9 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "CREATE SCHEMA landable;"
 
+
+    ## status_codes
+
     create_table 'landable.status_code_categories', id: :uuid, primary_key: :status_code_category_id do |t|
       t.text      :name, null: false
     end
@@ -40,6 +43,9 @@ class CreateLandableSchema < ActiveRecord::Migration
             INSERT INTO landable.status_codes(status_code_category_id, code, description)
               SELECT status_code_category_id, 404, 'Not Found' FROM landable.status_code_categories WHERE name = 'missing';"
 
+
+    ## themes
+
     create_table 'landable.themes', id: :uuid, primary_key: :theme_id do |t|
       t.text :name,           null: false
       t.text :body,           null: false
@@ -50,6 +56,9 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "CREATE UNIQUE INDEX landable_themes__u_name ON landable.themes(lower(name))"
 
+
+    ## templates
+
     create_table 'landable.templates', id: :uuid, primary_key: :template_id do |t|
       t.text :name,           null: false
       t.text :body,           null: false
@@ -59,6 +68,9 @@ class CreateLandableSchema < ActiveRecord::Migration
     end
 
     execute "CREATE UNIQUE INDEX landable_templates__u_name ON landable.templates(lower(name))"
+
+
+    ## pages
 
     create_table 'landable.pages', id: :uuid, primary_key: :page_id do |t|
       t.uuid      :published_revision_id
@@ -84,6 +96,9 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE UNIQUE INDEX landable_pages__u_path ON landable.pages(lower(path))"
     execute "CREATE INDEX landable_pages__trgm_path ON landable.pages USING gin(path gin_trgm_ops)"
 
+
+    ## authors
+
     create_table 'landable.authors', id: :uuid, primary_key: :author_id do |t|
       t.text :email,      null: false
       t.text :username,   null: false
@@ -95,6 +110,9 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE UNIQUE INDEX landable_authors__u_email ON landable.authors(lower(email))"
     execute "CREATE UNIQUE INDEX landable_authors__u_username ON landable.authors(username)"
 
+
+    ## access_tokens
+
     create_table 'landable.access_tokens', id: :uuid, primary_key: :access_token_id do |t|
       t.uuid      :author_id,  null: false
       t.timestamp :expires_at, null: false
@@ -103,6 +121,9 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "CREATE INDEX landable_access_tokens__author_id ON landable.access_tokens(author_id)"
     execute "ALTER TABLE landable.access_tokens ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES landable.authors(author_id)"
+
+
+    ## page_revisions
 
     create_table 'landable.page_revisions', id: :uuid, primary_key: :page_revision_id do |t|
       t.integer   :ordinal
@@ -119,12 +140,18 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
+
+    ## categories
+
     create_table 'landable.categories', id: :uuid, primary_key: :category_id do |t|
       t.text      :name
       t.text      :description
     end
 
     execute "CREATE UNIQUE INDEX landable_categories__u_name ON landable.categories(lower(name))"
+
+
+    ## assets
 
     create_table 'landable.assets', id: :uuid, primary_key: :asset_id do |t|
       t.uuid    :author_id,   null: false
@@ -145,6 +172,9 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "ALTER TABLE landable.assets ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES landable.authors(author_id)"
 
+
+    ## page_assets
+
     create_table 'landable.page_assets', id: :uuid, primary_key: :page_asset_id do |t|
       t.uuid :asset_id, null: false
       t.uuid :page_id,  null: false
@@ -155,6 +185,9 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE UNIQUE INDEX landable_page_assets__u_page_id_asset_id ON landable.page_assets(page_id, asset_id)"
     execute "ALTER TABLE landable.page_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
     execute "ALTER TABLE landable.page_assets ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES landable.pages(page_id)"
+
+
+    ## theme_assets
 
     create_table 'landable.theme_assets', id: :uuid, primary_key: :theme_asset_id do |t|
       t.uuid :asset_id, null: false
@@ -167,6 +200,9 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "ALTER TABLE landable.theme_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
     execute "ALTER TABLE landable.theme_assets ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES landable.themes(theme_id)"
 
+
+    ## page_revision_assets
+
     create_table 'landable.page_revision_assets', id: :uuid, primary_key: :page_revision_asset_id do |t|
       t.uuid :asset_id,         null: false
       t.uuid :page_revision_id, null: false
@@ -177,6 +213,35 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE UNIQUE INDEX landable_page_revision_assets__u_page_revision_id_asset_id ON landable.page_revision_assets(page_revision_id, asset_id)"
     execute "ALTER TABLE landable.page_revision_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
     execute "ALTER TABLE landable.page_revision_assets ADD CONSTRAINT page_revision_id_fk FOREIGN KEY (page_revision_id) REFERENCES landable.page_revisions(page_revision_id)"
+
+
+    ## screenshots
+
+    create_table 'landable.screenshots', id: :uuid, primary_key: :screenshot_id do |t|
+      t.uuid :screenshotable_id,    null: false
+      t.text :screenshotable_type,  null: false
+
+      t.text :device
+      t.text :os
+      t.text :os_version
+      t.text :browser
+      t.text :browser_version
+
+      t.text :state
+      t.text :thumb_url
+      t.text :image_url
+
+      t.text :browserstack_id
+      t.text :browserstack_job_id
+
+      t.timestamps
+    end
+
+    execute "CREATE INDEX landable_screenshots__u_screenshotable_id_screenshotable_type ON landable.screenshots(screenshotable_id, screenshotable_type)"
+    execute "CREATE UNIQUE INDEX landable_screenshots__u_browserstack_id ON landable.screenshots(browserstack_id)"
+
+
+    ## other stuff
 
     # Constraints for page_revisions
     execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES landable.pages(page_id)"

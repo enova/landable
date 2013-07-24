@@ -14,19 +14,34 @@ Landable::Engine.routes.draw do
       resources :assets, only: [:index, :update, :destroy]
     end
 
+    concern :has_screenshots do
+      post 'screenshots', on: :member
+    end
+
     resources :themes, only: [:index, :show, :create, :update], concerns: :has_assets do
       post 'preview', on: :collection
     end
 
     resources :templates, only: [:index, :show, :create, :update]
 
-    resources :pages, concerns: :has_assets do
+    resources :pages, concerns: [:has_assets, :has_screenshots] do
       post 'preview', on: :collection
       post 'publish', on: :member
     end
 
-    resources :page_revisions, only: [:index, :show] do
+    resources :page_revisions, only: [:index, :show], concerns: [:has_screenshots] do
       post 'revert_to', on: :member
+    end
+
+    resources :screenshots, only: [:index, :show, :create] do
+      collection do
+        get 'browsers'
+        post 'callback'
+      end
+
+      member do
+        post 'resubmit'
+      end
     end
 
     resources :access_tokens, only: [:create, :destroy, :show]
