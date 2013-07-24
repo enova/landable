@@ -15,7 +15,7 @@ module Landable
 
     def self.call input
       if not tidyable?
-        raise Exeception('Your system doesn\'t seem to have tidy installed. Please see https://github.com/w3c/tidy-html5.')
+        raise StandardError, 'Your system doesn\'t seem to have tidy installed. Please see https://github.com/w3c/tidy-html5.'
       end
 
       IO.popen("tidy #{options.join(' ')}", 'r+') do |io|

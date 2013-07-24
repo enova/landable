@@ -24,7 +24,7 @@ module Landable
       context 'when not tidyable' do
         it 'should raise an exception' do
           service.should_receive(:tidyable?) { false }
-          expect { service.call 'foo' }.to raise_error(Exception)
+          expect { service.call 'foo' }.to raise_error(StandardError)
         end
       end
       
