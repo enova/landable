@@ -17,15 +17,5 @@ namespace :db do
       c = cfg['test'] or raise "no database config for #{test.inspect}"
       sh "cd ../../db/test && PGUSER=postgres pg_prove -d #{c['database']} *.sql"
     end
-
-
-    desc "Install pgTap"
-    task :install => [ :read_config ] do
-      env = $env
-      cfg = $cfg
-
-      c = cfg['test'] or raise "no database config for #{test.inspect}"
-      sh "sudo -u postgres psql -f ../../db/pgtap/pgtap.sql #{c['database']} > pgtap.install.log"
-    end
   end
 end
