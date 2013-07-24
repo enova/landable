@@ -21,8 +21,11 @@ end
 require 'rspec/core'
 require 'rspec/core/rake_task'
 
+# formerly, this depended on app:db:test:prepare. this loads the schema only,
+# and - as it stands - our first migration contains needed seed data. for now,
+# it's enough to ensure that bin/redb is run before testing.
 desc "Run specs"
-RSpec::Core::RakeTask.new(:spec => 'app:db:test:prepare')
+RSpec::Core::RakeTask.new(:spec)
 task :default => :spec
 
 load File.expand_path("../lib/tasks/cucumber.rake", __FILE__)
