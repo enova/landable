@@ -47,6 +47,13 @@ module Landable
         end
       end
 
+      def screenshots
+        Landable::ScreenshotService.call Page.find(params[:id])
+
+        # "{}" is valid json, which jquery will accept as a successful response. "" is not.
+        render json: {}, status: 202
+      end
+
       private
 
       def search_params

@@ -6,8 +6,11 @@ require_dependency 'landable/status_code'
 
 module Landable
   class Page < ActiveRecord::Base
+
     self.table_name = 'landable.pages'
+
     include Landable::HasAttachments
+    include Landable::Engine.routes.url_helpers
 
     validates_presence_of   :path#, :status_code
     validates_uniqueness_of :path
@@ -17,6 +20,7 @@ module Landable
     belongs_to :published_revision, class_name: 'Landable::PageRevision'
     belongs_to :category, class_name: 'Landable::Category'
     has_many   :revisions, class_name: 'Landable::PageRevision'
+    has_many   :screenshots, class_name: 'Landable::Screenshot', as: :screenshotable
     belongs_to :status_code, class_name: 'Landable::StatusCode'
 
     scope :imported, -> { where("imported_at IS NOT NULL") }
@@ -98,6 +102,10 @@ module Landable
     def revert_to!(revision)
       attrs = revision.snapshot_attributes[:attrs]
       update_attributes! attrs
+    end
+
+    def preview_url
+      public_preview_page_url(self)
     end
   end
 end
