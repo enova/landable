@@ -38,6 +38,7 @@ module Landable
           mock_io.should_receive(:close_write).ordered
           mock_io.should_receive(:read) { output }
 
+          service.should_receive(:tidyable?) { true }
           service.should_receive(:options) { ['one', 'two', 'three'] }
 
           IO.should_receive(:popen).with('tidy one two three', 'r+').and_yield(mock_io)
