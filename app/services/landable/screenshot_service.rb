@@ -21,9 +21,33 @@ module Landable
       },
       {
         os: 'Windows',
+        os_version: 'XP',
+        browser: 'ie',
+        browser_version: '6.0',
+      },
+      {
+        os: 'Windows',
+        os_version: 'XP',
+        browser: 'ie',
+        browser_version: '7.0',
+      },
+      {
+        os: 'Windows',
+        os_version: '7',
+        browser: 'ie',
+        browser_version: '8.0',
+      },
+      {
+        os: 'Windows',
         os_version: '7',
         browser: 'ie',
         browser_version: '9.0',
+      },
+      {
+        os: 'Windows',
+        os_version: '7',
+        browser: 'ie',
+        browser_version: '10.0',
       },
       {
         os: 'OS X',
