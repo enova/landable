@@ -5,10 +5,13 @@ module Landable
     let(:service) { TidyService }
 
     describe '.tidyable?' do
+      after(:each) { service.class_variable_set :@@is_tidyable, nil }
+
       context 'when tidyable' do
         it 'should check on the availability of a `tidy` command' do
           Kernel.should_receive(:system).with('which tidy > /dev/null') { true }
           service.should be_tidyable
+          service.class_variable_get(:@@is_tidyable).should be_true
         end
       end
 
@@ -16,6 +19,7 @@ module Landable
         it 'should return false' do
           Kernel.should_receive(:system).with('which tidy > /dev/null') { false }
           service.should_not be_tidyable
+          service.class_variable_get(:@@is_tidyable).should be_false
         end
       end
     end

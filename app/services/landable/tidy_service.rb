@@ -26,7 +26,7 @@ module Landable
     end
 
     def self.tidyable?
-      Kernel.system('which tidy > /dev/null')
+      @@is_tidyable ||= Kernel.system('which tidy > /dev/null')
     end
 
   end
