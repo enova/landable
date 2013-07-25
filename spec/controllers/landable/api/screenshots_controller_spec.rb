@@ -22,9 +22,10 @@ module Landable::Api
           last_json['screenshots'].length.should == 5
         end
 
-        it "404s on page not found" do
+        it "returns an empty list if page is not found" do
           make_request random_uuid
-          response.status.should == 404
+          response.status.should == 200
+          last_json['screenshots'].length.should == 0
         end
       end
 
@@ -45,9 +46,10 @@ module Landable::Api
           last_json['screenshots'].length.should == 5
         end
 
-        it "404s on page not found" do
+        it "returns an empty list if page is not found" do
           make_request random_uuid
-          response.status.should == 404
+          response.status.should == 200
+          last_json['screenshots'].length.should == 0
         end
       end
     end

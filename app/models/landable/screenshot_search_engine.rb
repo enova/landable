@@ -15,9 +15,9 @@ module Landable
       screenshotable =
         begin
           if page_id = filters[:page_id].presence
-            Landable::Page.find(page_id)
+            Landable::Page.find_by page_id: page_id
           elsif page_revision_id = filters[:page_revision_id].presence
-            Landable::PageRevision.find(page_revision_id)
+            Landable::PageRevision.find_by page_revision_id: page_revision_id
           end
         end
 
