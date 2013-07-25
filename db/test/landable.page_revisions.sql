@@ -15,7 +15,7 @@ SELECT col_is_fk('landable', 'page_revisions', 'author_id', 'page_revisions has 
 SELECT col_is_pk('landable', 'page_revisions', 'page_revision_id', 'page_revisions has primary key');
 
 --Insert test data
-SELECT lives_ok($$INSERT INTO landable.pages (is_publishable, path, status_code) VALUES ('true', '/foo/bar', 200)$$);
+SELECT lives_ok($$INSERT INTO landable.pages (is_publishable, path, status_code_id) VALUES ('true', '/foo/bar', (SELECT status_code_id FROM landable.status_codes WHERE code = 200))$$);
 SELECT lives_ok($$INSERT INTO landable.authors (email, username, first_name, last_name) VALUES ('jdoe@test.com', 'jdoe', 'john', 'doe')$$);
 SELECT lives_ok($$INSERT INTO landable.page_revisions(page_id, author_id, snapshot_attributes) SELECT page_id, author_id, 'Test attrs' FROM landable.pages, landable.authors$$);
 

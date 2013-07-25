@@ -239,7 +239,7 @@ CREATE TABLE pages (
     status_code_id uuid NOT NULL,
     path text NOT NULL,
     title text,
-    body text NOT NULL,
+    body text,
     redirect_url text,
     meta_tags public.hstore,
     imported_at timestamp without time zone,
@@ -558,17 +558,17 @@ CREATE UNIQUE INDEX landable_pages__u_path ON pages USING btree (lower(path));
 
 
 --
+-- Name: landable_screenshots__screenshotable_id_screenshotable_type; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE INDEX landable_screenshots__screenshotable_id_screenshotable_type ON screenshots USING btree (screenshotable_id, screenshotable_type);
+
+
+--
 -- Name: landable_screenshots__u_browserstack_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX landable_screenshots__u_browserstack_id ON screenshots USING btree (browserstack_id);
-
-
---
--- Name: landable_screenshots__u_screenshotable_id_screenshotable_type; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE INDEX landable_screenshots__u_screenshotable_id_screenshotable_type ON screenshots USING btree (screenshotable_id, screenshotable_type);
 
 
 --

@@ -1,21 +1,22 @@
-require 'yaml'
-require 'erb'
-
-namespace :db do
-  namespace :pgtap do
-    task :read_config do
-      $env = ENV['env'] || ENV['RAILS_ENV'] || 'development'
-      $cfg = YAML.load(ERB.new(File.read("config/database.yml")).result)
-      puts (ENV['dbs'] || '').split(/,|\s+/).inspect
+namespace :pgtap do
+  def check_for_pgtap
+    begin
+      prove = sh "which pg_prove"
+    rescue Exception=>e
+       raise """
+         PGTap and pg_prove must be installed!
+         Reference http://pgtap.org/documentation.html#installation for installation instructions.
+         """
     end
-    
-    desc "Run pgTap unit tests"
-    task :run => [ :read_config ] do
-      env = $env
-      cfg = $cfg
+  end
 
-      c = cfg['test'] or raise "no database config for #{test.inspect}"
-      sh "cd ../../db/test && PGUSER=postgres pg_prove -d #{c['database']} *.sql"
-    end
+  desc "Run PGTap unit tests"
+  task :run => [ :environment ] do
+    dbdir = "#{Rails.root}/../../db"
+
+    check_for_pgtap
+
+    ActiveRecord::Base.connection.execute(IO.read("#{dbdir}/pgtap/pgtap.sql"))
+    sh "cd #{dbdir}/test && pg_prove -d #{ActiveRecord::Base.connection.current_database} *.sql"
   end
 end

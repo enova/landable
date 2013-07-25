@@ -12,7 +12,7 @@ BEGIN;
   SELECT col_not_null('landable', 'assets', 'mime_type', 'mime_type not null');
   SELECT col_not_null('landable', 'assets', 'basename', 'basename not null');
 
-  SELECT indexes_are('landable', 'assets', ARRAY['assets_pkey', 'landable_assets__u_data', 'landable_assets__u_md5sum', 'landable_assets__author_id'], 'Assets has indexes');
+  SELECT indexes_are('landable', 'assets', ARRAY['assets_pkey', 'landable_assets__u_data', 'landable_assets__u_md5sum', 'landable_assets__author_id', 'landable_assets__u_lower_name'], 'Assets has indexes');
 
   SELECT * FROM finish();
 
