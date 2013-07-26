@@ -33,9 +33,10 @@ module Landable
       end
       
       context 'when tidyable' do
-        it 'should invoke tidy' do
+        it 'should invoke tidy and return a Result' do
           input = double('input')
           output = double('output')
+          result = double('result')
 
           mock_io = double('io')
           mock_io.should_receive(:puts).with(input).ordered
@@ -47,7 +48,55 @@ module Landable
 
           IO.should_receive(:popen).with('tidy one two three', 'r+').and_yield(mock_io)
 
-          service.call(input).should == output
+          TidyService::Result.should_receive(:new).with(output) { result }
+
+          service.call(input).should == result
+        end
+      end
+    end
+  end
+
+  module TidyService
+    describe Result do
+
+      let(:result) { Result.new <<-eof
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet">
+    <title>sup</title>
+    <style type="text/css">
+      body {}
+    </style>
+  </head>
+  <body class="foo">
+    <div>hello</div>
+    <div>friend</div>
+  </body>
+</html>
+eof
+      }
+
+      describe '#to_s' do
+        it 'should return the string given on init' do
+          Result.new('foobar').to_s.should == 'foobar'
+        end
+      end
+
+      describe '#body' do
+        it 'should return the de-indented contents of <body>' do
+          result.body.should == "<div>hello</div>\n<div>friend</div>"
+        end
+      end
+
+      describe '#head' do
+        it 'should return the de-indented contents of <head>' do
+          result.head.should == "<link type=\"text/css\" rel=\"stylesheet\">\n<title>sup</title>\n<style type=\"text/css\">\n  body {}\n</style>"
+        end
+      end
+
+      describe '#css' do
+        it 'should return embedded and linked stylesheets from the head' do
+          result.css.should == "<link type=\"text/css\" rel=\"stylesheet\">\n<style type=\"text/css\">\n  body {}\n</style>"
         end
       end
     end
