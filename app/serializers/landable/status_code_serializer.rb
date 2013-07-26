@@ -14,5 +14,9 @@ module Landable
     def is_okay
       object.is_okay?
     end
+
+    def category
+      object.category
+    end
   end
 end

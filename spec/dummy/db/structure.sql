@@ -239,7 +239,7 @@ CREATE TABLE pages (
     status_code_id uuid NOT NULL,
     path text NOT NULL,
     title text,
-    body text NOT NULL,
+    body text,
     redirect_url text,
     meta_tags public.hstore,
     imported_at timestamp without time zone,
