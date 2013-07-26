@@ -20,11 +20,6 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "CREATE UNIQUE INDEX landable_status_code_categories__u_name ON landable.status_code_categories(lower(name))"
 
-    execute "INSERT INTO landable.status_code_categories (name) VALUES
-              ('okay')
-            , ('redirect')
-            , ('missing')"
-
     create_table 'landable.status_codes', id: :uuid, primary_key: :status_code_id do |t|
       t.uuid      :status_code_category_id, null: false
       t.integer   :code,        null: false
@@ -34,15 +29,16 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE UNIQUE INDEX landable_status_codes__u_code ON landable.status_codes(code)"
     execute "ALTER TABLE landable.status_codes ADD CONSTRAINT status_code_category_fk FOREIGN KEY(status_code_category_id) REFERENCES landable.status_code_categories(status_code_category_id)"
 
-    execute "INSERT INTO landable.status_codes(status_code_category_id, code, description)
-              SELECT status_code_category_id, 200, 'OK' FROM landable.status_code_categories WHERE name = 'okay';
-            INSERT INTO landable.status_codes(status_code_category_id, code, description)
-              SELECT status_code_category_id, 301, 'Permanent Redirect' FROM landable.status_code_categories WHERE name = 'redirect';
-            INSERT INTO landable.status_codes(status_code_category_id, code, description)
-              SELECT status_code_category_id, 302, 'Temporary Redirect' FROM landable.status_code_categories WHERE name = 'redirect';
-            INSERT INTO landable.status_codes(status_code_category_id, code, description)
-              SELECT status_code_category_id, 404, 'Not Found' FROM landable.status_code_categories WHERE name = 'missing';"
+    # Status codes seed data
 
+    okay = Landable::StatusCodeCategory.create!(name: 'okay')
+    redirect = Landable::StatusCodeCategory.create!(name: 'redirect')
+    missing = Landable::StatusCodeCategory.create!(name: 'missing')
+
+    Landable::StatusCode.create!(code: 200, description: 'OK', status_code_category: okay)
+    Landable::StatusCode.create!(code: 301, description: 'Permanent Redirect', status_code_category: redirect)
+    Landable::StatusCode.create!(code: 302, description: 'Temporary Redirect', status_code_category: redirect)
+    Landable::StatusCode.create!(code: 404, description: 'Not Found', status_code_category: missing)
 
     ## themes
 
