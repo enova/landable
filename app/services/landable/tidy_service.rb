@@ -8,7 +8,7 @@ module Landable
       '--clean true',
       '--bare true',
       '--quote-ampersand true',
-      '--show-body-only true',
+      #'--show-body-only true',
       '--break-before-br true',
       # '--vertical-space true',
     ]
