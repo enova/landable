@@ -96,7 +96,7 @@ eof
 
       describe '#css' do
         it 'should return embedded and linked stylesheets from the head' do
-          result.css.should == "<link type=\"text/css\" rel=\"stylesheet\">\n<style type=\"text/css\">\n  body {}\n</style>"
+          result.css.should == "<link type=\"text/css\" rel=\"stylesheet\">\n\n<style type=\"text/css\">\n  body {}\n</style>"
         end
       end
     end

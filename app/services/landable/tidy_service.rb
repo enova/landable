@@ -71,7 +71,7 @@ module Landable
       def css
         links = head.try :scan, /<link [^>]*type=['"]text\/css['"][^>]*>/
         styles = head.try :scan, /<style[^>]*>.*?<\/style>/m
-        [links.to_a, styles.to_a].flatten.join("\n")
+        [links.to_a, styles.to_a].flatten.join("\n\n")
       end
 
       protected
