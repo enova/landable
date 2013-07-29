@@ -26,6 +26,10 @@ module Landable
 
       # allow <div ...><div ...></div></div>
       '--merge-divs false',
+
+      # silence will fall
+      '--quiet true',
+      '--show-warnings false',
     ]
 
 
