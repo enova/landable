@@ -3,7 +3,7 @@
   "description": "A particular snapshot of a page which has, at some point, been published.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "page_id", "theme_id", "author_id", "notes", "is_published", "is_minor", "preview_url", "ordinal", "created_at", "updated_at"],
+  "required": ["id", "page_id", "author_id", "notes", "is_published", "is_minor", "preview_url", "ordinal", "created_at", "updated_at"],
 
   "properties": {
     "id": {
@@ -12,10 +12,6 @@
 
     "page_id": {
       "$ref": "uuid.json"
-    },
-
-    "theme_id": {
-      "type": [{ "$ref": "uuid.json" }, "null"]
     },
 
     "author_id": {
