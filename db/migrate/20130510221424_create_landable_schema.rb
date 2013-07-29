@@ -22,7 +22,7 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     create_table 'landable.status_codes', id: :uuid, primary_key: :status_code_id do |t|
       t.uuid      :status_code_category_id, null: false
-      t.integer   :code,        null: false
+      t.integer   :code,        null: false, limit: 2 # Creates as smallint
       t.text      :description, null: false
     end
 

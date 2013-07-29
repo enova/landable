@@ -289,7 +289,7 @@ CREATE TABLE status_code_categories (
 CREATE TABLE status_codes (
     status_code_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     status_code_category_id uuid NOT NULL,
-    code integer NOT NULL,
+    code smallint NOT NULL,
     description text NOT NULL
 );
 
