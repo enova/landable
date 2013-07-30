@@ -1,6 +1,6 @@
 BEGIN;
 
-SELECT PLAN(18);
+SELECT PLAN(17);
 
 --Verify existence of triggers and functions for page revisions
 SELECT triggers_are('landable', 'page_revisions', ARRAY['landable_page_revisions__bfr_insert', 'landable_page_revisions__no_delete', 'landable_page_revisions__no_update'], 'landable.page_revisions should have triggers');
@@ -8,7 +8,6 @@ SELECT functions_are('landable', ARRAY['pages_revision_ordinal', 'tg_disallow'],
 
 --Verify existence of foreign keys
 SELECT col_is_fk('landable', 'page_revisions', 'page_id', 'page_revisions has page_id foreign key');
-SELECT col_is_fk('landable', 'page_revisions', 'theme_id', 'page_revisions has theme_id foreign key');
 SELECT col_is_fk('landable', 'page_revisions', 'author_id', 'page_revisions has author_id foreign key');
 
 --Verify primary key
