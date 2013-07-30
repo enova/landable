@@ -232,7 +232,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    execute "CREATE INDEX landable_screenshots__u_screenshotable_id_screenshotable_type ON landable.screenshots(screenshotable_id, screenshotable_type)"
+    execute "CREATE INDEX landable_screenshots__screenshotable_id_screenshotable_type ON landable.screenshots(screenshotable_id, screenshotable_type)"
     execute "CREATE UNIQUE INDEX landable_screenshots__u_browserstack_id ON landable.screenshots(browserstack_id)"
 
 

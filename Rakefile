@@ -29,3 +29,4 @@ RSpec::Core::RakeTask.new(:spec)
 task :default => :spec
 
 load File.expand_path("../lib/tasks/cucumber.rake", __FILE__)
+load File.expand_path("../lib/tasks/pgtap.rake", __FILE__)
