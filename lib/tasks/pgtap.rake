@@ -1,7 +1,7 @@
 begin
   namespace :pgtap do
     def has_pgprove?
-      @@has_prove ||= Kernel.system('which pg_dumpy_thing > /dev/null')
+      @@has_prove ||= Kernel.system('which pg_prove > /dev/null')
     end
 
     desc "Run PGTap unit tests"
