@@ -219,7 +219,6 @@ CREATE TABLE page_revisions (
     is_published boolean DEFAULT true,
     page_id uuid NOT NULL,
     author_id uuid NOT NULL,
-    theme_id uuid,
     snapshot_attributes text NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
@@ -635,7 +634,7 @@ CREATE TRIGGER landable_page_revisions__no_delete BEFORE DELETE ON page_revision
 -- Name: landable_page_revisions__no_update; Type: TRIGGER; Schema: landable; Owner: -
 --
 
-CREATE TRIGGER landable_page_revisions__no_update BEFORE UPDATE OF notes, is_minor, page_id, author_id, theme_id, created_at, ordinal ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
+CREATE TRIGGER landable_page_revisions__no_update BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
 
 
 --
@@ -747,14 +746,6 @@ ALTER TABLE ONLY pages
 --
 
 ALTER TABLE ONLY theme_assets
-    ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES themes(theme_id);
-
-
---
--- Name: theme_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
---
-
-ALTER TABLE ONLY page_revisions
     ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES themes(theme_id);
 
 

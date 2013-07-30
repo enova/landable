@@ -22,8 +22,8 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     create_table 'landable.status_codes', id: :uuid, primary_key: :status_code_id do |t|
       t.uuid      :status_code_category_id, null: false
-      t.integer   :code,        null: false, limit: 2 # Creates as smallint
-      t.text      :description, null: false
+      t.integer   :code,                    null: false, limit: 2 # Creates as smallint
+      t.text      :description,             null: false
     end
 
     execute "CREATE UNIQUE INDEX landable_status_codes__u_code ON landable.status_codes(code)"
@@ -129,7 +129,6 @@ class CreateLandableSchema < ActiveRecord::Migration
 
       t.uuid      :page_id,   null: false
       t.uuid      :author_id, null: false
-      t.uuid      :theme_id
 
       t.text      :snapshot_attributes, null: false
 
@@ -242,7 +241,6 @@ class CreateLandableSchema < ActiveRecord::Migration
     # Constraints for page_revisions
     execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES landable.pages(page_id)"
     execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES landable.authors(author_id)"
-    execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES landable.themes(theme_id)"
 
     # Constraints for pages
     execute "ALTER TABLE landable.pages ADD CONSTRAINT revision_id_fk FOREIGN KEY (published_revision_id) REFERENCES landable.page_revisions(page_revision_id)"
@@ -300,7 +298,7 @@ class CreateLandableSchema < ActiveRecord::Migration
               FOR EACH STATEMENT EXECUTE PROCEDURE landable.tg_disallow();"
 
       execute "CREATE TRIGGER landable_page_revisions__no_update
-              BEFORE UPDATE OF notes, is_minor, page_id, author_id, theme_id, created_at, ordinal ON landable.page_revisions
+              BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal ON landable.page_revisions
               FOR EACH STATEMENT EXECUTE PROCEDURE landable.tg_disallow();"
 
   end
