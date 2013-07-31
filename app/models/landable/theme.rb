@@ -5,7 +5,7 @@ module Landable
     self.table_name = 'landable.themes'
     include Landable::HasAttachments
 
-    validates_presence_of   :name, :description, :thumbnail_url
+    validates_presence_of   :name, :description
     validates_uniqueness_of :name, case_sensitive: false
 
     has_many :pages, inverse_of: :theme
