@@ -3,8 +3,9 @@ require_dependency "landable/api_controller"
 module Landable
   module Api
     class ThemesController < ApiController
+      skip_before_filter :require_author!
       def index
-        respond_with Theme.all
+        respond_with Theme.active
       end
 
       def create
@@ -25,13 +26,16 @@ module Landable
 
       def preview
         theme = Theme.new(theme_params)
-        page = Page.example(theme: theme)
+        page  = Page.example(theme: theme)
 
         params[:theme][:asset_ids].try(:each) do |asset_id|
           theme.attachments.add Asset.find(asset_id)
         end
 
-        content = RenderService.call page
+        content = render_to_string(
+          text: RenderService.call(page),
+          layout: page.theme.file || false
+        )
 
         respond_to do |format|
           format.html do
@@ -47,7 +51,7 @@ module Landable
       private
 
       def theme_params
-        params.require(:theme).permit(:id, :name, :body, :description, :thumbnail_url)
+        params.require(:theme).permit(:id, :name, :file, :extension, :body, :description, :thumbnail_url)
       end
     end
   end

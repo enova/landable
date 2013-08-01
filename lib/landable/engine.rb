@@ -37,5 +37,9 @@ module Landable
     initializer "landable.seed_required" do |app|
       Landable::Seeds.seed(:required) rescue nil
     end
+
+    initializer "landable.create_themes" do |app|
+      Layout.all.each(&:to_theme) if Theme.table_exists?
+    end
   end
 end
