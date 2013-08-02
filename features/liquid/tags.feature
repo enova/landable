@@ -115,3 +115,13 @@ Feature: Liquid Tags
       """
       <div><span>eight</span></div>
       """
+
+  Scenario: Referencing a template that doesn't exist
+    Given the page's body is:
+      """
+      <div>{% template foo %}</div>
+      """
+    Then  the rendered content should be:
+      """
+      <div><!-- render error: missing template "foo" --></div>
+      """
