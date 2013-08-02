@@ -55,6 +55,14 @@ Given 'a theme with the body "$body"' do |body|
   @theme = Landable::Theme.new body: body
 end
 
+Given 'the template "$template_slug" with body "$template_body"' do |template_slug, template_body|
+  Landable::Template.create! name: template_slug, slug: template_slug, body: template_body, description: template_slug
+end
+
+Given 'the template "$template_slug" with the body:' do |template_slug, template_body|
+  Landable::Template.create! name: template_slug, slug: template_slug, body: template_body, description: template_slug
+end
+
 When 'this page is rendered:' do |body|
   @page = Landable::Page.new body: body
   @page.theme = @theme

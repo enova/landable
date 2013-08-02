@@ -74,3 +74,44 @@ Feature: Liquid Tags
       """
       <img alt="Site Favicon" src="https://landable.dev/_assets/fav.ico" />
       """
+
+  Scenario: Referencing a template
+    Given the page's body is:
+      """
+      <div>{% template foo %}</div>
+      """
+    And   the template "foo" with body "<span>some stuff</span>"
+    Then  the rendered content should be:
+      """
+      <div><span>some stuff</span></div>
+      """
+
+  Scenario: Referencing a template with variables
+    Given the page's body is:
+      """
+      <div>{% template foo body: "seven" footer: "the end" %}</div>
+      """
+    And   the template "foo" with the body:
+      """
+      <span>{{ body | default: "eight" }}</span>
+      <footer>{{ footer }}</footer>
+      """
+    Then  the rendered content should be:
+      """
+      <div><span>seven</span>
+      <footer>the end</footer></div>
+      """
+
+  Scenario: Referencing a template with variable defaults
+    Given the page's body is:
+      """
+      <div>{% template foo %}</div>
+      """
+    And   the template "foo" with the body:
+      """
+      <span>{{ body | default: "eight" }}</span>
+      """
+    Then  the rendered content should be:
+      """
+      <div><span>eight</span></div>
+      """

@@ -68,6 +68,25 @@ module Landable
         end
       end
     end
+
+    class Template < ::Liquid::Tag
+      def initialize(tag, param, tokens)
+        param_tokens = param.split(/\s+/)
+        @template_slug = param_tokens.shift
+        @variables = Hash[param_tokens.join(' ').scan(/([\w_]+):\s+"([^"]*)"/)]
+      end
+
+      def render(context)
+        template = Landable::Template.find_by_slug! @template_slug
+        ::Liquid::Template.parse(template.body).render @variables
+      end
+    end
+
+    module DefaultFilter
+      def default(input, default_output=nil)
+        input.presence ? input : default_output
+      end
+    end
   end
 
   # Tag generators
@@ -78,4 +97,10 @@ module Landable
   # Only called tags so we can use a function-like syntax
   ::Liquid::Template.register_tag('asset_url', Landable::Liquid::AssetAttribute)
   ::Liquid::Template.register_tag('asset_description', Landable::Liquid::AssetAttribute)
+
+  # Template references
+  ::Liquid::Template.register_tag('template', Landable::Liquid::Template)
+
+  # Helpers
+  ::Liquid::Template.register_filter(Landable::Liquid::DefaultFilter)
 end
