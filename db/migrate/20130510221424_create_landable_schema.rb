@@ -19,6 +19,8 @@ class CreateLandableSchema < ActiveRecord::Migration
     end
 
     execute "CREATE UNIQUE INDEX landable_status_code_categories__u_name ON landable.status_code_categories(lower(name))"
+    execute "COMMENT ON TABLE landable.status_code_categories IS
+              $$Categories that status codes belong to.  Used to affect behavior when viewing a page.$$"
 
     create_table 'landable.status_codes', id: :uuid, primary_key: :status_code_id do |t|
       t.uuid      :status_code_category_id, null: false
@@ -28,6 +30,8 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "CREATE UNIQUE INDEX landable_status_codes__u_code ON landable.status_codes(code)"
     execute "ALTER TABLE landable.status_codes ADD CONSTRAINT status_code_category_fk FOREIGN KEY(status_code_category_id) REFERENCES landable.status_code_categories(status_code_category_id)"
+    execute "COMMENT ON TABLE landable.status_codes IS
+              $$Allowed status codes that pages can be set to.$$"
 
     # Status codes seed data
 
@@ -51,6 +55,8 @@ class CreateLandableSchema < ActiveRecord::Migration
     end
 
     execute "CREATE UNIQUE INDEX landable_themes__u_name ON landable.themes(lower(name))"
+    execute "COMMENT ON TABLE landable.themes IS
+              $$Created themes to be consumed by pages.  Themes supply formatting (css) rules and can supply header/footer content as well.$$"
 
 
     ## templates
@@ -66,6 +72,8 @@ class CreateLandableSchema < ActiveRecord::Migration
     end
 
     execute "CREATE UNIQUE INDEX landable_templates__u_name ON landable.templates(lower(name))"
+    execute "COMMENT ON TABLE landable.templates IS
+              $$Created templates to be consumed by pages. A template supplies 'starter' code for a page. A template can also supply code to create elements on a page (sidebars, for example).$$"
 
 
     ## pages
@@ -93,6 +101,9 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "CREATE UNIQUE INDEX landable_pages__u_path ON landable.pages(lower(path))"
     execute "CREATE INDEX landable_pages__trgm_path ON landable.pages USING gin(path gin_trgm_ops)"
+    execute "COMMENT ON TABLE landable.pages IS
+              $$Pages serve as a draft, where you can make changes, preview and save those changes without having to update the live page on the website.
+              Pages also point to their published version, where applicable.$$"
 
 
     ## authors
@@ -107,6 +118,8 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "CREATE UNIQUE INDEX landable_authors__u_email ON landable.authors(lower(email))"
     execute "CREATE UNIQUE INDEX landable_authors__u_username ON landable.authors(username)"
+    execute "COMMENT ON TABLE landable.authors IS
+              $$A list of authors that have accessed the website.  Feeds foreign keys so we know which authors have published pages and updated assets.$$"
 
 
     ## access_tokens
@@ -119,6 +132,8 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "CREATE INDEX landable_access_tokens__author_id ON landable.access_tokens(author_id)"
     execute "ALTER TABLE landable.access_tokens ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES landable.authors(author_id)"
+    execute "COMMENT ON TABLE landable.access_tokens IS
+              $$Access tokens provide authentication information for specific users.$$"
 
 
     ## page_revisions
@@ -137,6 +152,11 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
+    execute "COMMENT ON TABLE landable.page_revisions IS
+              $$Page revisions serve as a historical reference to pages as they were published.
+              The attributes of the page at the time of publishing are stored in snapshot_attributes, as essentially a text representation of a hash.
+              The current/active/live revision can be identified by referring to its corresponding PAGES record, OR by looking for the max(ordinal) for a given page_id.$$"
+
 
     ## categories
 
@@ -146,6 +166,9 @@ class CreateLandableSchema < ActiveRecord::Migration
     end
 
     execute "CREATE UNIQUE INDEX landable_categories__u_name ON landable.categories(lower(name))"
+    execute "COMMENT ON TABLE landable.categories IS
+              $$Categories are used to sort pages.
+              Examples could include SEO, PPC.$$"
 
 
     ## assets
@@ -168,6 +191,10 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE INDEX landable_assets__author_id ON landable.assets(author_id)"
 
     execute "ALTER TABLE landable.assets ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES landable.authors(author_id)"
+    execute "COMMENT ON TABLE landable.assets IS
+              $$List of all assets uploaded.
+              Examples of assets include images (jpg, png, gif) and documents (PDF).
+              data, md5sum, mime_type, basename, file_size are populated via the rails gem CarrierWave when a record is created.$$"
 
 
     ## page_assets
@@ -182,6 +209,8 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE UNIQUE INDEX landable_page_assets__u_page_id_asset_id ON landable.page_assets(page_id, asset_id)"
     execute "ALTER TABLE landable.page_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
     execute "ALTER TABLE landable.page_assets ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES landable.pages(page_id)"
+    execute "COMMENT ON TABLE landable.page_assets IS
+              $$Association table between pages and assets.$$"
 
 
     ## theme_assets
@@ -196,6 +225,8 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE UNIQUE INDEX landable_theme_assets__u_theme_id_asset_id ON landable.theme_assets(theme_id, asset_id)"
     execute "ALTER TABLE landable.theme_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
     execute "ALTER TABLE landable.theme_assets ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES landable.themes(theme_id)"
+    execute "COMMENT ON TABLE landable.theme_assets IS
+              $$Association table between themes and assets.$$"
 
 
     ## page_revision_assets
@@ -210,6 +241,8 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE UNIQUE INDEX landable_page_revision_assets__u_page_revision_id_asset_id ON landable.page_revision_assets(page_revision_id, asset_id)"
     execute "ALTER TABLE landable.page_revision_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
     execute "ALTER TABLE landable.page_revision_assets ADD CONSTRAINT page_revision_id_fk FOREIGN KEY (page_revision_id) REFERENCES landable.page_revisions(page_revision_id)"
+    execute "COMMENT ON TABLE landable.page_revision_assets IS
+              $$Association table between page_revisions and assets.$$"
 
 
     ## screenshots
@@ -236,6 +269,8 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "CREATE INDEX landable_screenshots__screenshotable_id_screenshotable_type ON landable.screenshots(screenshotable_id, screenshotable_type)"
     execute "CREATE UNIQUE INDEX landable_screenshots__u_browserstack_id ON landable.screenshots(browserstack_id)"
+    execute "COMMENT ON TABLE landable.screenshots IS
+              $$Stores saved screenshots (taken of pages) and the URLs to retrieve the actual image.$$"
 
 
     ## other stuff

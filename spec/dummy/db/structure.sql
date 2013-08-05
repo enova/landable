@@ -135,6 +135,13 @@ CREATE TABLE access_tokens (
 
 
 --
+-- Name: TABLE access_tokens; Type: COMMENT; Schema: landable; Owner: -
+--
+
+COMMENT ON TABLE access_tokens IS 'Access tokens provide authentication information for specific users.';
+
+
+--
 -- Name: assets; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -154,6 +161,15 @@ CREATE TABLE assets (
 
 
 --
+-- Name: TABLE assets; Type: COMMENT; Schema: landable; Owner: -
+--
+
+COMMENT ON TABLE assets IS 'List of all assets uploaded.
+              Examples of assets include images (jpg, png, gif) and documents (PDF).
+              data, md5sum, mime_type, basename, file_size are populated via the rails gem CarrierWave when a record is created.';
+
+
+--
 -- Name: authors; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -169,6 +185,13 @@ CREATE TABLE authors (
 
 
 --
+-- Name: TABLE authors; Type: COMMENT; Schema: landable; Owner: -
+--
+
+COMMENT ON TABLE authors IS 'A list of authors that have accessed the website.  Feeds foreign keys so we know which authors have published pages and updated assets.';
+
+
+--
 -- Name: categories; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -177,6 +200,14 @@ CREATE TABLE categories (
     name text,
     description text
 );
+
+
+--
+-- Name: TABLE categories; Type: COMMENT; Schema: landable; Owner: -
+--
+
+COMMENT ON TABLE categories IS 'Categories are used to sort pages.
+              Examples could include SEO, PPC.';
 
 
 --
@@ -194,6 +225,13 @@ CREATE TABLE page_assets (
 
 
 --
+-- Name: TABLE page_assets; Type: COMMENT; Schema: landable; Owner: -
+--
+
+COMMENT ON TABLE page_assets IS 'Association table between pages and assets.';
+
+
+--
 -- Name: page_revision_assets; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -205,6 +243,13 @@ CREATE TABLE page_revision_assets (
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
+
+
+--
+-- Name: TABLE page_revision_assets; Type: COMMENT; Schema: landable; Owner: -
+--
+
+COMMENT ON TABLE page_revision_assets IS 'Association table between page_revisions and assets.';
 
 
 --
@@ -223,6 +268,15 @@ CREATE TABLE page_revisions (
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
+
+
+--
+-- Name: TABLE page_revisions; Type: COMMENT; Schema: landable; Owner: -
+--
+
+COMMENT ON TABLE page_revisions IS 'Page revisions serve as a historical reference to pages as they were published.
+              The attributes of the page at the time of publishing are stored in snapshot_attributes, as essentially a text representation of a hash.
+              The current/active/live revision can be identified by referring to its corresponding PAGES record, OR by looking for the max(ordinal) for a given page_id.';
 
 
 --
@@ -249,6 +303,14 @@ CREATE TABLE pages (
 
 
 --
+-- Name: TABLE pages; Type: COMMENT; Schema: landable; Owner: -
+--
+
+COMMENT ON TABLE pages IS 'Pages serve as a draft, where you can make changes, preview and save those changes without having to update the live page on the website.
+              Pages also point to their published version, where applicable.';
+
+
+--
 -- Name: screenshots; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -272,6 +334,13 @@ CREATE TABLE screenshots (
 
 
 --
+-- Name: TABLE screenshots; Type: COMMENT; Schema: landable; Owner: -
+--
+
+COMMENT ON TABLE screenshots IS 'Stores saved screenshots (taken of pages) and the URLs to retrieve the actual image.';
+
+
+--
 -- Name: status_code_categories; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -279,6 +348,13 @@ CREATE TABLE status_code_categories (
     status_code_category_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     name text NOT NULL
 );
+
+
+--
+-- Name: TABLE status_code_categories; Type: COMMENT; Schema: landable; Owner: -
+--
+
+COMMENT ON TABLE status_code_categories IS 'Categories that status codes belong to.  Used to affect behavior when viewing a page.';
 
 
 --
@@ -291,6 +367,13 @@ CREATE TABLE status_codes (
     code smallint NOT NULL,
     description text NOT NULL
 );
+
+
+--
+-- Name: TABLE status_codes; Type: COMMENT; Schema: landable; Owner: -
+--
+
+COMMENT ON TABLE status_codes IS 'Allowed status codes that pages can be set to.';
 
 
 --
@@ -311,6 +394,13 @@ CREATE TABLE templates (
 
 
 --
+-- Name: TABLE templates; Type: COMMENT; Schema: landable; Owner: -
+--
+
+COMMENT ON TABLE templates IS 'Created templates to be consumed by pages. A template supplies ''starter'' code for a page. A template can also supply code to create elements on a page (sidebars, for example).';
+
+
+--
 -- Name: theme_assets; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -322,6 +412,13 @@ CREATE TABLE theme_assets (
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
+
+
+--
+-- Name: TABLE theme_assets; Type: COMMENT; Schema: landable; Owner: -
+--
+
+COMMENT ON TABLE theme_assets IS 'Association table between themes and assets.';
 
 
 --
@@ -337,6 +434,13 @@ CREATE TABLE themes (
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
+
+
+--
+-- Name: TABLE themes; Type: COMMENT; Schema: landable; Owner: -
+--
+
+COMMENT ON TABLE themes IS 'Created themes to be consumed by pages.  Themes supply formatting (css) rules and can supply header/footer content as well.';
 
 
 SET search_path = public, pg_catalog;
