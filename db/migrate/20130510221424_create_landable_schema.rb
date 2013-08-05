@@ -73,7 +73,9 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     execute "CREATE UNIQUE INDEX landable_templates__u_name ON landable.templates(lower(name))"
     execute "COMMENT ON TABLE landable.templates IS
-              $$Created templates to be consumed by pages. A template supplies 'starter' code for a page. A template can also supply code to create elements on a page (sidebars, for example).$$"
+              $$Created templates to be consumed by pages. 
+              A template can supply 'starter' code for a page. 
+              A template can also supply code to create elements on a page (sidebars, for example).$$"
 
 
     ## pages

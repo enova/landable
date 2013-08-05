@@ -397,7 +397,9 @@ CREATE TABLE templates (
 -- Name: TABLE templates; Type: COMMENT; Schema: landable; Owner: -
 --
 
-COMMENT ON TABLE templates IS 'Created templates to be consumed by pages. A template supplies ''starter'' code for a page. A template can also supply code to create elements on a page (sidebars, for example).';
+COMMENT ON TABLE templates IS 'Created templates to be consumed by pages. 
+              A template can supply ''starter'' code for a page. 
+              A template can also supply code to create elements on a page (sidebars, for example).';
 
 
 --
