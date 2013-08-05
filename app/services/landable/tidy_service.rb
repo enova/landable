@@ -32,24 +32,71 @@ module Landable
       '--show-warnings false',
     ]
 
+    # list of liquid tags that also render tags - things that we should
+    # consider to be element-level, and therefore to be tidied along with the
+    # rest of the dom
+    mattr_accessor :liquid_elements
+    @@liquid_elements = [
+      'template',
+      'title_tag',
+      'meta_tags',
+      'img_tag',
+    ]
+
 
     def self.call input
       if not tidyable?
         raise StandardError, 'Your system doesn\'t seem to have tidy installed. Please see https://github.com/w3c/tidy-html5.'
       end
 
+      # wrapping known liquid in a span to allow tidy to format them nicely
+      input = wrap_liquid input
+
+      # off to tidy
       output = IO.popen("tidy #{options.join(' ')}", 'r+') do |io|
         io.puts input
         io.close_write
         io.read
       end
 
+      # unnwrapping the liquid that we wrapped earlier
+      output = unwrap_liquid output
+
+      # create and return a Result, allowing access to specific bits of the output
       Result.new output
     end
 
     def self.tidyable?
       @@is_tidyable ||= Kernel.system('which tidy > /dev/null')
     end
+
+    protected
+
+    def self.wrap_liquid input
+      output = input.dup
+
+      output.scan(/(\s*(\{% *(?:#{liquid_elements.join('|')}) *.*?%})\s*)/).each do |match, liquid|
+        # encode and stash in a div, inserted between newlines, to allow tidy
+        # to nudge this element around as appropriate
+        encoded = Base64.encode64(liquid).strip
+        output.gsub! match, " <div data-liquid=\"#{encoded}\"></div> "
+      end
+
+      output
+    end
+
+    def self.unwrap_liquid input
+      output = input.dup
+
+      output.scan(/(<div data-liquid="(.*?)"><\/div>)/).each do |match, liquid|
+        # ensure we match utf8 for utf8
+        decoded = Base64.decode64(liquid).force_encoding(match.encoding)
+        output.gsub! match, decoded
+      end
+
+      output
+    end
+
 
     class Result < Object
       def initialize source

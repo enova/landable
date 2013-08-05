@@ -38,19 +38,40 @@ module Landable
           output = double('output')
           result = double('result')
 
+
+          service.should_receive(:wrap_liquid) { |input| input }.ordered # passthrough; will test later
+
           mock_io = double('io')
           mock_io.should_receive(:puts).with(input).ordered
           mock_io.should_receive(:close_write).ordered
           mock_io.should_receive(:read) { output }
 
+          service.should_receive(:unwrap_liquid) { |input| input }.ordered # passthrough; will test later
+
+          # other setup
           service.should_receive(:tidyable?) { true }
           service.should_receive(:options) { ['one', 'two', 'three'] }
-
           IO.should_receive(:popen).with('tidy one two three', 'r+').and_yield(mock_io)
 
           TidyService::Result.should_receive(:new).with(output) { result }
 
           service.call(input).should == result
+        end
+
+        it 'should wrap known liquid tags before sending to tidy, and unwrap them after' do
+          original_string = '<div> {% template foobar title: "sixteen" %} <span> {% meta_tags "something" %} </span> </div>'
+          wrapped_string = '<div> <div data-liquid="' + Base64.encode64('{% template foobar title: "sixteen" %}').strip + '"></div> <span> <div data-liquid="' + Base64.encode64('{% meta_tags "something" %}').strip + '"></div> </span> </div>'
+
+          # mock out tidy itself, and make it a no-op
+          mock_io = double('io')
+          mock_io.should_receive(:puts).with(wrapped_string)
+          mock_io.should_receive(:close_write)
+          mock_io.should_receive(:read) { wrapped_string }
+          IO.should_receive(:popen).and_yield(mock_io)
+          service.should_receive(:tidyable?) { true }
+
+          # ensuring that the output == the input, modulo any new whitespace
+          service.call(original_string).to_s.gsub(/\s+/, ' ').should == original_string.gsub(/\s+/, ' ')
         end
       end
     end
