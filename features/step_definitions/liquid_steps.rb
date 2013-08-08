@@ -33,17 +33,9 @@ Given "the page uses a theme with the body:" do |body|
   @page.theme.body = body
 end
 
-Given "the page has these assets:" do |table|
+Given "these assets:" do |table|
   table.hashes.each do |attrs|
-    asset_alias = attrs.delete('alias')
-    @page.attachments.add build(:asset, attrs), asset_alias
-  end
-end
-
-Given 'the theme has these assets:' do |table|
-  table.hashes.each do |attrs|
-    asset_alias = attrs.delete('alias')
-    @theme.attachments.add build(:asset, attrs), asset_alias
+    create :asset, attrs
   end
 end
 

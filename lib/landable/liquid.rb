@@ -14,13 +14,8 @@ module Landable
       end
 
       def lookup_asset(context, name)
-        assets = context.registers.fetch(:assets) do
-          raise ArgumentError.new("`assets' value was never registered with the template")
-        end
-
-        assets.fetch(name) do
-          raise ArgumentError.new("No `#{name}' asset available in #{assets.inspect}")
-        end
+        # TODO scan for these ahead of time and register as a single hash of assets
+        Landable::Asset.find_by_name(name) or raise ArgumentError.new("No `#{name}' asset available")
       end
     end
 

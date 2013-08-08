@@ -7,6 +7,12 @@ Feature: Liquid Tags
   Background:
     Given the asset URI prefix is "https://landable.dev/_assets"
     And   a page under test
+    And   these assets:
+      | basename    | name    | description           |
+      | panda.png   | panda   | Baz!                  |
+      | cthulhu.jpg | cthulhu | Wisconsin Disclosures |
+      | small.pdf   | small   | Site Favicon          |
+
 
   Scenario: title_tag
     Given the page's body is "{% title_tag %}"
@@ -25,6 +31,23 @@ Feature: Liquid Tags
       """
       <meta content="noindex,nofollow" name="robots" />
       <meta content="momoney,moproblems" name="keywords" />
+      """
+
+  Scenario: img_tag
+    Given the page's body is "{% img_tag panda %}"
+    Then the rendered content should be:
+      """
+      <img alt="Baz!" src="https://landable.dev/_assets/panda.png" />
+      """
+
+  Scenario: asset_url and asset_description
+    Given the page's body is:
+      """
+      <a href="{% asset_url cthulhu %}" title="{% asset_description cthulhu %}">Disclosures</a>
+      """
+    Then the rendered content should be:
+      """
+      <a href="https://landable.dev/_assets/cthulhu.jpg" title="Wisconsin Disclosures">Disclosures</a>
       """
 
   Scenario: Referencing a template
