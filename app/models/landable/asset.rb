@@ -47,7 +47,7 @@ module Landable
       return unless data.present?
       self.md5sum    = calculate_md5sum
       self.basename  = data.filename
-      self.mime_type = data.file.content_type
+      self.mime_type = data.file.content_type.presence || 'application/octet-stream'
       self.file_size = data.file.size
     end
   end
