@@ -24,18 +24,6 @@ module Landable
         attrs = revision.snapshot_attributes[:attrs]
         attrs.should == page.attributes.except(*PageRevision.ignored_page_attributes)
       end
-
-      it "copies the page's assets, preserving aliases" do
-        page.attachments.add asset, 'alias-name'
-
-        revision.attachments.to_hash.should == {
-          'alias-name' => asset
-        }
-
-        revision.save!
-        revision.should have(1).asset
-        revision.should have(1).asset_attachment
-      end
     end
 
     describe '#snapshot' do
@@ -45,16 +33,6 @@ module Landable
         snapshot.should be_an_instance_of Page
         snapshot.title.should == 'title'
         snapshot.path.should == '/test/path'
-      end
-
-      it 'includes the persisted asset associations' do
-        page.attachments.add asset, 'alias-name'
-        revision = PageRevision.create!(page_id: page.id, author_id: author.id)
-
-        snapshot = revision.snapshot
-        snapshot.attachments.to_hash.should == {
-          'alias-name' => asset
-        }
       end
     end
 

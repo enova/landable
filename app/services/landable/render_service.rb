@@ -13,15 +13,13 @@ module Landable
 
     def render!
       content = parse(page.body).render!(nil, registers: {
-        page: page,
-        assets: assets_for_page
+        page: page
       })
 
       return content unless layout?
 
       parse(theme.body).render!({ 'body' => content }, registers: {
-        page: page,
-        assets: assets_for_theme
+        page: page
       })
     end
 
@@ -31,18 +29,6 @@ module Landable
 
     def layout?
       theme && theme.body.present?
-    end
-
-    def assets_for_page
-      @assets_for_page ||=
-        begin
-          from_theme = theme ? theme.attachments.to_hash('theme') : {}
-          from_theme.merge page.attachments
-        end
-    end
-
-    def assets_for_theme
-      @assets_for_theme ||= theme ? theme.attachments.to_hash : {}
     end
 
     def parse(body)

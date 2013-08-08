@@ -211,48 +211,6 @@ COMMENT ON TABLE categories IS 'Categories are used to sort pages.
 
 
 --
--- Name: page_assets; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE TABLE page_assets (
-    page_asset_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    asset_id uuid NOT NULL,
-    page_id uuid NOT NULL,
-    alias text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: TABLE page_assets; Type: COMMENT; Schema: landable; Owner: -
---
-
-COMMENT ON TABLE page_assets IS 'Association table between pages and assets.';
-
-
---
--- Name: page_revision_assets; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE TABLE page_revision_assets (
-    page_revision_asset_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    asset_id uuid NOT NULL,
-    page_revision_id uuid NOT NULL,
-    alias text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: TABLE page_revision_assets; Type: COMMENT; Schema: landable; Owner: -
---
-
-COMMENT ON TABLE page_revision_assets IS 'Association table between page_revisions and assets.';
-
-
---
 -- Name: page_revisions; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -403,27 +361,6 @@ COMMENT ON TABLE templates IS 'Created templates to be consumed by pages.
 
 
 --
--- Name: theme_assets; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE TABLE theme_assets (
-    theme_asset_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    asset_id uuid NOT NULL,
-    theme_id uuid NOT NULL,
-    alias text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: TABLE theme_assets; Type: COMMENT; Schema: landable; Owner: -
---
-
-COMMENT ON TABLE theme_assets IS 'Association table between themes and assets.';
-
-
---
 -- Name: themes; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -491,22 +428,6 @@ ALTER TABLE ONLY categories
 
 
 --
--- Name: page_assets_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY page_assets
-    ADD CONSTRAINT page_assets_pkey PRIMARY KEY (page_asset_id);
-
-
---
--- Name: page_revision_assets_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY page_revision_assets
-    ADD CONSTRAINT page_revision_assets_pkey PRIMARY KEY (page_revision_asset_id);
-
-
---
 -- Name: page_revisions_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -552,14 +473,6 @@ ALTER TABLE ONLY status_codes
 
 ALTER TABLE ONLY templates
     ADD CONSTRAINT templates_pkey PRIMARY KEY (template_id);
-
-
---
--- Name: theme_assets_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY theme_assets
-    ADD CONSTRAINT theme_assets_pkey PRIMARY KEY (theme_asset_id);
 
 
 --
@@ -627,20 +540,6 @@ CREATE UNIQUE INDEX landable_categories__u_name ON categories USING btree (lower
 
 
 --
--- Name: landable_page_assets__u_page_id_asset_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX landable_page_assets__u_page_id_asset_id ON page_assets USING btree (page_id, asset_id);
-
-
---
--- Name: landable_page_revision_assets__u_page_revision_id_asset_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX landable_page_revision_assets__u_page_revision_id_asset_id ON page_revision_assets USING btree (page_revision_id, asset_id);
-
-
---
 -- Name: landable_pages__trgm_path; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -690,13 +589,6 @@ CREATE UNIQUE INDEX landable_templates__u_name ON templates USING btree (lower(n
 
 
 --
--- Name: landable_theme_assets__u_theme_id_asset_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX landable_theme_assets__u_theme_id_asset_id ON theme_assets USING btree (theme_id, asset_id);
-
-
---
 -- Name: landable_themes__u_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -736,30 +628,6 @@ CREATE TRIGGER landable_page_revisions__no_update BEFORE UPDATE OF notes, is_min
 
 
 --
--- Name: asset_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
---
-
-ALTER TABLE ONLY page_assets
-    ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES assets(asset_id);
-
-
---
--- Name: asset_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
---
-
-ALTER TABLE ONLY theme_assets
-    ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES assets(asset_id);
-
-
---
--- Name: asset_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
---
-
-ALTER TABLE ONLY page_revision_assets
-    ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES assets(asset_id);
-
-
---
 -- Name: author_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
 --
 
@@ -795,24 +663,8 @@ ALTER TABLE ONLY pages
 -- Name: page_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
 --
 
-ALTER TABLE ONLY page_assets
-    ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES pages(page_id);
-
-
---
--- Name: page_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
---
-
 ALTER TABLE ONLY page_revisions
     ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES pages(page_id);
-
-
---
--- Name: page_revision_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
---
-
-ALTER TABLE ONLY page_revision_assets
-    ADD CONSTRAINT page_revision_id_fk FOREIGN KEY (page_revision_id) REFERENCES page_revisions(page_revision_id);
 
 
 --
@@ -837,14 +689,6 @@ ALTER TABLE ONLY status_codes
 
 ALTER TABLE ONLY pages
     ADD CONSTRAINT status_code_fk FOREIGN KEY (status_code_id) REFERENCES status_codes(status_code_id);
-
-
---
--- Name: theme_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
---
-
-ALTER TABLE ONLY theme_assets
-    ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES themes(theme_id);
 
 
 --

@@ -5,7 +5,6 @@ module Landable
 
     self.table_name = 'landable.page_revisions'
 
-    include Landable::HasAttachments
     include Landable::Engine.routes.url_helpers
 
     store :snapshot_attributes, accessors: [ :attrs ]
@@ -27,12 +26,11 @@ module Landable
     def page_id=(id)
       self[:page_id] = id
       snapshot_attributes[:attrs] = page.attributes.except(*self.ignored_page_attributes)
-      self.attachments = page.attachments
     end
 
     def snapshot
       attrs = snapshot_attributes[:attrs]
-      Page.new attrs.merge(attachments: attachments)
+      Page.new attrs
     end
 
     def publish!

@@ -3,7 +3,7 @@
   "description": "An uploaded asset file",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "name", "public_url", "md5sum", "file_size", "mime_type", "author_id", "theme_ids", "page_ids", "created_at", "updated_at"],
+  "required": ["id", "name", "public_url", "md5sum", "file_size", "mime_type", "author_id", "created_at", "updated_at"],
 
   "properties": {
     "id": {
@@ -40,16 +40,6 @@
 
     "author_id": {
       "type": "string"
-    },
-
-    "theme_ids": {
-      "type": "array",
-      "items": { "$ref": "uuid.json" }
-    },
-
-    "page_ids": {
-      "type": "array",
-      "items": { "$ref": "uuid.json" }
     },
 
     "created_at": {

@@ -13,10 +13,6 @@ Feature: Asset management API
       | GET    | /api/assets            |
       | GET    | /api/assets/1          |
       | POST   | /api/assets            |
-      | PUT    | /api/pages/1/assets/2  |
-      | DELETE | /api/pages/1/assets/2  |
-      | PUT    | /api/themes/1/assets/2 |
-      | DELETE | /api/themes/1/assets/2 |
 
   Scenario: Getting all assets
     Given 3 assets
@@ -48,47 +44,3 @@ Feature: Asset management API
     And   the response body should be empty
     When  I follow the "Location" header
     Then  the response should contain the original "asset"
-
-  Scenario: Attaching to a page when uploading
-    Given 2 pages
-    When  I POST an asset to "/api/assets" with both page IDs
-    Then  the response should be 201 "Created"
-    And   the response should contain an "asset"
-    And   both page IDs should be in the array at "asset/page_ids"
-
-  Scenario: Attaching to a theme when uploading
-    Given 2 themes
-    When  I POST an asset to "/api/assets" with both theme IDs
-    Then  the response should be 201 "Created"
-    And   the response should contain an "asset"
-    And   both theme IDs should be in the array at "asset/theme_ids"
-
-  Scenario: Attaching to a page after uploading
-    Given a page
-    And   an asset
-    When  I PUT "/api/pages/{{@page.id}}/assets/{{@asset.id}}"
-    Then  the response should be 200 "OK"
-    When  I GET "/api/pages/{{@page.id}}"
-    Then  the asset ID should be in the array at "page/asset_ids"
-
-  Scenario: Attaching to a theme after uploading
-    Given a theme
-    And   an asset
-    When  I PUT "/api/themes/{{@theme.id}}/assets/{{@asset.id}}"
-    Then  the response should be 200 "OK"
-    When  I GET "/api/themes/{{@theme.id}}"
-    Then  the asset ID should be in the array at "theme/asset_ids"
-
-  Scenario: Detaching an asset from a page
-    Given a page with an asset attached
-    When  I DELETE "/api/pages/{{@page.id}}/assets/{{@asset.id}}"
-    Then  the response should be 204 "No Content"
-    When  I GET "/api/pages/{{@page.id}}"
-    Then  the asset ID should not be in the array at "page/asset_ids"
-
-  Scenario: Detaching an asset from a theme
-    Given a theme with an asset attached
-    When  I DELETE "/api/themes/{{@theme.id}}/assets/{{@asset.id}}"
-    Then  the response should be 204 "No Content"
-    When  I GET "/api/themes/{{@theme.id}}"
-    Then  the asset ID should not be in the array at "theme/asset_ids"

@@ -12,7 +12,6 @@ module Landable
     has_one  :published_revision
     has_one  :category
     has_one  :status_code
-    has_many :assets
 
     def category
       object.category || Landable::Category.where(name: 'Uncategorized').first
