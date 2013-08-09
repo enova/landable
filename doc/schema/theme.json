@@ -25,11 +25,6 @@
       "minLength": 0
     },
 
-    "asset_ids": {
-      "type": "array",
-      "items": { "$ref": "uuid.json" }
-    },
-
     "thumbnail_url": {
       "type": ["string", "null"],
       "minLength": 0

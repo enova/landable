@@ -22,26 +22,11 @@ module Landable
         end
 
         Asset.transaction do
-          asset.author    = current_author
-          asset.page_ids  = params[:asset][:page_ids]  || []
-          asset.theme_ids = params[:asset][:theme_ids] || []
+          asset.author = current_author
           asset.save!
         end
 
         respond_with asset, status: :created, location: asset_url(asset)
-      end
-
-      def update
-        asset = Asset.find params[:id]
-        name  = params[:asset].try(:[], :name)
-        parent.attachments.add(asset, name)
-        respond_with parent
-      end
-
-      def destroy
-        asset = Asset.find params[:id]
-        parent.attachments.delete(asset)
-        head :no_content
       end
 
       private
@@ -56,17 +41,6 @@ module Landable
 
       def asset_params
         params.require(:asset).permit(:name, :description, :data)
-      end
-
-      def parent
-        @parent ||=
-          if params[:page_id]
-            Page.find(params[:page_id])
-          elsif params[:theme_id]
-            Theme.find(params[:theme_id])
-          else
-            raise ActiveRecord::RecordNotFound
-          end
       end
     end
   end

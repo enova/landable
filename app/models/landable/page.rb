@@ -9,7 +9,6 @@ module Landable
 
     self.table_name = 'landable.pages'
 
-    include Landable::HasAttachments
     include Landable::Engine.routes.url_helpers
 
     validates_presence_of   :path#, :status_code

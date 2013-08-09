@@ -199,54 +199,6 @@ class CreateLandableSchema < ActiveRecord::Migration
               data, md5sum, mime_type, basename, file_size are populated via the rails gem CarrierWave when a record is created.$$"
 
 
-    ## page_assets
-
-    create_table 'landable.page_assets', id: :uuid, primary_key: :page_asset_id do |t|
-      t.uuid :asset_id, null: false
-      t.uuid :page_id,  null: false
-      t.text :alias
-      t.timestamps
-    end
-
-    execute "CREATE UNIQUE INDEX landable_page_assets__u_page_id_asset_id ON landable.page_assets(page_id, asset_id)"
-    execute "ALTER TABLE landable.page_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
-    execute "ALTER TABLE landable.page_assets ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES landable.pages(page_id)"
-    execute "COMMENT ON TABLE landable.page_assets IS
-              $$Association table between pages and assets.$$"
-
-
-    ## theme_assets
-
-    create_table 'landable.theme_assets', id: :uuid, primary_key: :theme_asset_id do |t|
-      t.uuid :asset_id, null: false
-      t.uuid :theme_id, null: false
-      t.text :alias
-      t.timestamps
-    end
-
-    execute "CREATE UNIQUE INDEX landable_theme_assets__u_theme_id_asset_id ON landable.theme_assets(theme_id, asset_id)"
-    execute "ALTER TABLE landable.theme_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
-    execute "ALTER TABLE landable.theme_assets ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES landable.themes(theme_id)"
-    execute "COMMENT ON TABLE landable.theme_assets IS
-              $$Association table between themes and assets.$$"
-
-
-    ## page_revision_assets
-
-    create_table 'landable.page_revision_assets', id: :uuid, primary_key: :page_revision_asset_id do |t|
-      t.uuid :asset_id,         null: false
-      t.uuid :page_revision_id, null: false
-      t.text :alias
-      t.timestamps
-    end
-
-    execute "CREATE UNIQUE INDEX landable_page_revision_assets__u_page_revision_id_asset_id ON landable.page_revision_assets(page_revision_id, asset_id)"
-    execute "ALTER TABLE landable.page_revision_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
-    execute "ALTER TABLE landable.page_revision_assets ADD CONSTRAINT page_revision_id_fk FOREIGN KEY (page_revision_id) REFERENCES landable.page_revisions(page_revision_id)"
-    execute "COMMENT ON TABLE landable.page_revision_assets IS
-              $$Association table between page_revisions and assets.$$"
-
-
     ## screenshots
 
     create_table 'landable.screenshots', id: :uuid, primary_key: :screenshot_id do |t|

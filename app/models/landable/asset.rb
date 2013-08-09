@@ -16,11 +16,6 @@ module Landable
 
     belongs_to :author
 
-    has_many :page_assets
-    has_many :theme_assets
-    has_many :pages, through: :page_assets
-    has_many :themes, through: :theme_assets
-
     before_validation :write_metadata, on: :create
 
     validates_presence_of     :data, :author_id
