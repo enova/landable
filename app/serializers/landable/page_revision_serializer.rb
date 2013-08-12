@@ -13,7 +13,7 @@ module Landable
     has_one :author, embed_key: :username, include: true, serializer: AuthorSerializer
 
     def snapshot_attributes
-      attrs = object.snapshot_attributes[:attrs]
+      attrs = object.snapshot_attributes
       attrs[:meta_tags] ||= {}
       attrs
     end

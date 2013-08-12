@@ -12,10 +12,21 @@ module Landable
           raise ArgumentError.new("`page' value was never registered with the template")
         end
       end
+    end
+
+    class AssetTag < Tag
+      attr_accessor :asset_name
+
+      protected
 
       def lookup_asset(context, name)
-        # TODO scan for these ahead of time and register as a single hash of assets
-        Landable::Asset.find_by_name(name) or raise ArgumentError.new("No `#{name}' asset available")
+        assets = context.registers.fetch(:assets) do
+          raise ArgumentError.new("`assets' value was never registered with the template")
+        end
+
+        assets.fetch(name) do
+          raise ArgumentError.new("No `#{name}' asset available in #{assets.inspect}")
+        end
       end
     end
 
@@ -37,25 +48,25 @@ module Landable
       end
     end
 
-    class Img < Tag
+    class Img < AssetTag
       def initialize(name, param, tokens)
         @asset_name = param.strip
       end
 
       def render(context)
-        asset = lookup_asset context, @asset_name
+        asset = lookup_asset context, asset_name
         tag :img, src: asset.public_url, alt: asset.description
       end
     end
 
-    class AssetAttribute < Tag
+    class AssetAttribute < AssetTag
       def initialize(tag, param, tokens)
         @attribute  = tag.sub /^asset_/, ''
         @asset_name = param.strip
       end
 
       def render(context)
-        asset = lookup_asset context, @asset_name
+        asset = lookup_asset context, asset_name
 
         case @attribute
         when 'url' then asset.public_url

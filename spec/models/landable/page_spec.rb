@@ -3,6 +3,7 @@ require 'spec_helper'
 module Landable
   describe Page do
     it { should_not have_valid(:path).when(nil, '') }
+    it { should be_a HasAssets }
 
     it 'should set is_publishable to true on before_save' do
       page = FactoryGirl.build :page, is_publishable: false
@@ -122,7 +123,7 @@ module Landable
 
         page.revert_to! revision
 
-        page.attributes.reject { |key| PageRevision.ignored_page_attributes.include? key }.should == revision.snapshot_attributes[:attrs]
+        page.attributes.reject { |key| PageRevision.ignored_page_attributes.include? key }.should == revision.snapshot_attributes
       end
     end
 

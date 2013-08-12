@@ -32,6 +32,14 @@ module Landable
       self.class.where(md5sum: calculate_md5sum).first
     end
 
+    def associated_pages
+      paths = []
+      Page.where("body like ?", "%#{self.name}%").each do |page|
+        paths.push(page.path)
+      end
+      paths
+    end
+
     private
 
     def calculate_md5sum

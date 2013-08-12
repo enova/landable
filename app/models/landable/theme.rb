@@ -1,7 +1,9 @@
-require_dependency 'landable/has_attachments'
+require_dependency 'landable/has_assets'
 
 module Landable
   class Theme < ActiveRecord::Base
+    include Landable::HasAssets
+
     self.table_name = 'landable.themes'
 
     validates_presence_of   :name, :description

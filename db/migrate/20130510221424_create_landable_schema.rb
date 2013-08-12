@@ -227,6 +227,35 @@ class CreateLandableSchema < ActiveRecord::Migration
               $$Stores saved screenshots (taken of pages) and the URLs to retrieve the actual image.$$"
 
 
+    ## asset associations table
+
+    create_table 'landable.page_assets', id: :uuid, primary_key: :page_asset_id do |t|
+      t.uuid :page_id,    null: false
+      t.uuid :asset_id,         null: false
+    end
+
+    execute "CREATE UNIQUE INDEX landable_page_assets__u_page_id_asset_id ON landable.page_assets (page_id, asset_id)"
+    execute "ALTER TABLE landable.page_assets ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES landable.pages(page_id)"
+    execute "ALTER TABLE landable.page_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
+
+    create_table 'landable.page_revision_assets', id: :uuid, primary_key: :page_revision_asset_id do |t|
+      t.uuid :page_revision_id,    null: false
+      t.uuid :asset_id,         null: false
+    end
+
+    execute "CREATE UNIQUE INDEX landable_page_revision_assets__u_page_revision_id_asset_id ON landable.page_revision_assets (page_revision_id, asset_id)"
+    execute "ALTER TABLE landable.page_revision_assets ADD CONSTRAINT page_revision_id_fk FOREIGN KEY (page_revision_id) REFERENCES landable.page_revisions(page_revision_id)"
+    execute "ALTER TABLE landable.page_revision_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
+
+    create_table 'landable.theme_assets', id: :uuid, primary_key: :theme_asset_id do |t|
+      t.uuid :theme_id,    null: false
+      t.uuid :asset_id,         null: false
+    end
+
+    execute "CREATE UNIQUE INDEX landable_theme_assets__u_theme_id_asset_id ON landable.theme_assets (theme_id, asset_id)"
+    execute "ALTER TABLE landable.theme_assets ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES landable.themes(theme_id)"
+    execute "ALTER TABLE landable.theme_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES landable.assets(asset_id)"
+
     ## other stuff
 
     # Constraints for page_revisions

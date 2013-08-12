@@ -40,4 +40,10 @@ describe Landable::Asset do
     dupe = build(:asset, data: png)
     expect(dupe.duplicate_of).to eql(orig)
   end
+
+  it "returns a list of pages using the asset" do
+    page = create(:page, body: "panda.png", path: "/testing/assets")
+    asset = create(:asset, data:pdf, name: "panda.png")
+    asset.associated_pages.should eq(["/testing/assets"])
+  end
 end

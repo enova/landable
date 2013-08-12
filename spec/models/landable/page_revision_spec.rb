@@ -15,13 +15,15 @@ module Landable
       PageRevision.new page_id: page.id, author_id: author.id
     end
 
+    it { should be_a HasAssets }
+
     it 'defaults to is_published = true' do
       PageRevision.new.is_published.should == true
     end
 
     describe '#page_id=' do
       it 'should set page revision attributes matching the page' do
-        attrs = revision.snapshot_attributes[:attrs]
+        attrs = revision.snapshot_attributes
         attrs.should == page.attributes.except(*PageRevision.ignored_page_attributes)
       end
     end

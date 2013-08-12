@@ -1,17 +1,18 @@
 require_dependency 'landable/theme'
 require_dependency 'landable/page_revision'
 require_dependency 'landable/category'
-require_dependency 'landable/has_attachments'
 require_dependency 'landable/status_code'
+require_dependency 'landable/has_assets'
 
 module Landable
   class Page < ActiveRecord::Base
-
-    self.table_name = 'landable.pages'
-
+    include Landable::HasAssets
     include Landable::Engine.routes.url_helpers
 
     validates_presence_of   :path#, :status_code
+
+    self.table_name = 'landable.pages'
+
     validates_uniqueness_of :path
     validates_presence_of   :redirect_url, if: -> page { page.redirect? }
 
@@ -99,8 +100,7 @@ module Landable
     end
 
     def revert_to!(revision)
-      attrs = revision.snapshot_attributes[:attrs]
-      update_attributes! attrs
+      update_attributes! revision.snapshot_attributes
     end
 
     def preview_url

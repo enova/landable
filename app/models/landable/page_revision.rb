@@ -1,13 +1,13 @@
-require_dependency 'landable/has_attachments'
+require_dependency 'landable/has_assets'
 
 module Landable
   class PageRevision < ActiveRecord::Base
+    include Landable::Engine.routes.url_helpers
+    include Landable::HasAssets
 
     self.table_name = 'landable.page_revisions'
 
-    include Landable::Engine.routes.url_helpers
-
-    store :snapshot_attributes, accessors: [ :attrs ]
+    store :snapshot_attributes, accessors: [:body]
     @@ignored_page_attributes = [
       'page_id',
       'imported_at',
@@ -25,12 +25,11 @@ module Landable
 
     def page_id=(id)
       self[:page_id] = id
-      snapshot_attributes[:attrs] = page.attributes.except(*self.ignored_page_attributes)
+      self.snapshot_attributes = page.attributes.except(*self.ignored_page_attributes)
     end
 
     def snapshot
-      attrs = snapshot_attributes[:attrs]
-      Page.new attrs
+      Page.new snapshot_attributes
     end
 
     def publish!
