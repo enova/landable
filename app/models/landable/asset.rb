@@ -15,6 +15,9 @@ module Landable
     end
 
     belongs_to :author
+    has_and_belongs_to_many :pages, join_table: Page.assets_join_table_name
+    has_and_belongs_to_many :page_revisions, join_table: PageRevision.assets_join_table_name
+    has_and_belongs_to_many :themes, join_table: Theme.assets_join_table_name
 
     before_validation :write_metadata, on: :create
 
