@@ -6,87 +6,6 @@ module Landable
 
     include Landable::Engine.routes.url_helpers
 
-    DEFAULT_BROWSERS = [
-      {
-        os: 'Windows',
-        os_version: '7',
-        browser: 'chrome',
-        browser_version: '27.0',
-      },
-      {
-        os: 'Windows',
-        os_version: '7',
-        browser: 'firefox',
-        browser_version: '21.0',
-      },
-      {
-        os: 'Windows',
-        os_version: 'XP',
-        browser: 'ie',
-        browser_version: '6.0',
-      },
-      {
-        os: 'Windows',
-        os_version: 'XP',
-        browser: 'ie',
-        browser_version: '7.0',
-      },
-      {
-        os: 'Windows',
-        os_version: '7',
-        browser: 'ie',
-        browser_version: '8.0',
-      },
-      {
-        os: 'Windows',
-        os_version: '7',
-        browser: 'ie',
-        browser_version: '9.0',
-      },
-      {
-        os: 'Windows',
-        os_version: '7',
-        browser: 'ie',
-        browser_version: '10.0',
-      },
-      {
-        os: 'OS X',
-        os_version: 'Lion',
-        browser: 'safari',
-        browser_version: '6.0',
-      },
-      {
-        os: 'OS X',
-        os_version: 'Lion',
-        browser: 'opera',
-        browser_version: '12.0',
-      },
-      {
-        os: 'android',
-        os_version: '4.1',
-        browser: 'Android Browser',
-        device: 'Samsung Galaxy S III',
-      },
-      {
-        os: 'android',
-        os_version: '2.3',
-        browser: 'Android Browser',
-        device: 'Samsung Galaxy S II',
-      },
-      {
-        os: 'ios',
-        os_version: '6.0',
-        browser: 'Mobile Safari',
-        device: 'iPhone 4S (6.0)',
-      },
-      {
-        os: 'ios',
-        os_version: '5.1',
-        browser: 'Mobile Safari',
-        device: 'iPad 3rd',
-      },
-    ]
-
     def self.call screenshotable
       service = new screenshotable
       service.create_default_screenshots
@@ -121,7 +40,8 @@ module Landable
     end
 
     def create_default_screenshots
-      DEFAULT_BROWSERS.map do |browser_attributes|
+      browsers = Landable.configuration.browsers
+      browsers.map do |browser_attributes|
         screenshots.create! browser_attributes
       end
     end

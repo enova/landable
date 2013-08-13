@@ -1,6 +1,12 @@
 module Landable
   class Configuration
     attr_writer :api_namespace, :public_namespace
+    attr_accessor :browsers
+
+    def browsers
+      table = CSV.read('config/browsers.csv', headers: true, header_converters: :symbol)
+      @browsers ||= table.each_with_object([]) { |row, array| array << row.to_hash }
+    end
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")

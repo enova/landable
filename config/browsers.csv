@@ -1,0 +1,28 @@
+os,os_version,browser,browser_version,device
+Windows,XP,ie,6.0,''
+Windows,XP,ie,7.0,''
+Windows,XP,ie,8.0,''
+Windows,XP,ie,9.0,''
+Windows,XP,ie,10.0,''
+Windows,7,ie,6.0,''
+Windows,7,ie,7.0,''
+Windows,7,ie,8.0,''
+Windows,7,ie,9.0,''
+Windows,7,ie,10.0,''
+Windows,8,ie,6.0,''
+Windows,8,ie,7.0,''
+Windows,8,ie,8.0,''
+Windows,8,ie,9.0,''
+Windows,XP,chrome,27.0,''
+Windows,XP,chrome,28.0,''
+Windows,7,chrome,27.0,''
+Windows,7,chrome,28.0,''
+Windows,8,chrome,27.0,''
+Windows,8,chrome,28.0,''
+OS X,Lion,chrome,27.0,''
+OS X,Lion,chrome,28.0,''
+OS X,Lion,opera,12.0,''
+android,4.1,Android Browser,'',Samsung Galaxy SIII
+android,2.3,Android Browser,'',Samsung Galaxy SII
+iOS,6.0,Mobile Safari,'',iPhone 4S (6.0)
+iOS,5.1,Mobile Safari,'',iPad 3rd

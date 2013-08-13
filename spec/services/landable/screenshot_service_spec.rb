@@ -80,7 +80,7 @@ describe Landable::ScreenshotService do
     }
 
     it 'creates screenshots according to DEFAULT_BROWSERS' do
-      stub_const 'Landable::ScreenshotService::DEFAULT_BROWSERS', default_browsers
+      Landable.configuration.stub(:browsers).and_return(default_browsers)
 
       screenshots = double('screenshots')
       service.stub(:screenshots) { screenshots }
