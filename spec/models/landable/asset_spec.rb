@@ -13,7 +13,7 @@ describe Landable::Asset do
     pdf.close
   end
 
-  it { should_not have_valid(:name).when(nil, '') }
+  it { should_not have_valid(:filename).when(nil, '') }
   it { should_not have_valid(:author_id).when(nil) }
   it { should_not have_valid(:md5sum).when(nil, '') }
   it { should_not have_valid(:mime_type).when(nil, '') }
@@ -43,7 +43,7 @@ describe Landable::Asset do
 
   it "returns a list of pages using the asset" do
     page = create(:page, body: "panda.png", path: "/testing/assets")
-    asset = create(:asset, data:pdf, name: "panda.png")
+    asset = create(:asset, data:pdf, filename: "panda.png")
     asset.associated_pages.should eq(["/testing/assets"])
   end
 end

@@ -148,7 +148,7 @@ COMMENT ON TABLE access_tokens IS 'Access tokens provide authentication informat
 CREATE TABLE assets (
     asset_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     author_id uuid NOT NULL,
-    name text NOT NULL,
+    filename text NOT NULL,
     description text,
     data text NOT NULL,
     md5sum text NOT NULL,
@@ -562,10 +562,10 @@ CREATE UNIQUE INDEX landable_assets__u_data ON assets USING btree (data);
 
 
 --
--- Name: landable_assets__u_lower_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+-- Name: landable_assets__u_lower_filename; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX landable_assets__u_lower_name ON assets USING btree (lower(name));
+CREATE UNIQUE INDEX landable_assets__u_lower_filename ON assets USING btree (lower(filename));
 
 
 --
