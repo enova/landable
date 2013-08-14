@@ -12,8 +12,8 @@ module Landable
         @scope = @scope.where(asset_id: ids)
       end
 
-      if name = filters[:filename].presence
-        @scope = @scope.where('LOWER(filename) LIKE ?', "%#{name}%".downcase)
+      if filename = filters[:filename].presence
+        @scope = @scope.where('LOWER(filename) LIKE ?', "%#{filename}%".downcase)
       end
     end
   end
