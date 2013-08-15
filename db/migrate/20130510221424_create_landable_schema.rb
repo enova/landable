@@ -177,7 +177,7 @@ class CreateLandableSchema < ActiveRecord::Migration
 
     create_table 'landable.assets', id: :uuid, primary_key: :asset_id do |t|
       t.uuid    :author_id,   null: false
-      t.text    :name,        null: false
+      t.text    :filename,        null: false
       t.text    :description
       t.text    :data,        null: false
       t.text    :md5sum,      null: false, length: 32
@@ -187,7 +187,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    execute "CREATE UNIQUE INDEX landable_assets__u_lower_name ON landable.assets(lower(name))"
+    execute "CREATE UNIQUE INDEX landable_assets__u_lower_filename ON landable.assets(lower(filename))"
     execute "CREATE UNIQUE INDEX landable_assets__u_data ON landable.assets(data)"
     execute "CREATE UNIQUE INDEX landable_assets__u_md5sum ON landable.assets(md5sum)"
     execute "CREATE INDEX landable_assets__author_id ON landable.assets(author_id)"

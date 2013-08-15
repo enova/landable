@@ -3,14 +3,14 @@
   "description": "An uploaded asset file",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "name", "public_url", "md5sum", "file_size", "mime_type", "author_id", "theme_ids", "page_ids", "created_at", "updated_at"],
+  "required": ["id", "filename", "public_url", "md5sum", "file_size", "mime_type", "author_id", "theme_ids", "page_ids", "created_at", "updated_at"],
 
   "properties": {
     "id": {
       "$ref": "uuid.json"
     },
 
-    "name": {
+    "filename": {
       "type": "string",
       "minLength": 1
     },

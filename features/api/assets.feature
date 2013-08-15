@@ -24,11 +24,11 @@ Feature: Asset management API
     When  I GET "/api/assets?ids[]={{@assets[0].id}}&ids[]={{@assets[1].id}}"
     Then  the response should contain 2 "assets"
 
-  Scenario: Searching by asset name
+  Scenario: Searching by asset filename
     Given 2 assets named "panda" and "disclaimer"
-    When  I GET "/api/assets?search[name]=p"
+    When  I GET "/api/assets?search[filename]=p"
     Then  the response should contain 1 "assets"
-    And   the JSON at "assets/0/name" should be "panda"
+    And   the JSON at "assets/0/filename" should be "panda"
 
   Scenario: Uploading a new asset
     When I POST an asset to "/api/assets"

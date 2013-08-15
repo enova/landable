@@ -1,7 +1,7 @@
 # a bit specific eh ...
 Given '2 assets named "panda" and "disclaimer"' do
-  @assets = [create(:asset, name: 'panda', fixture: 'panda.png'),
-             create(:asset, name: 'disclaimer', fixture: 'small.pdf')]
+  @assets = [create(:asset, filename: 'panda', fixture: 'panda.png'),
+             create(:asset, filename: 'disclaimer', fixture: 'small.pdf')]
 end
 
 When 'I POST an asset to "$path"' do |path|
