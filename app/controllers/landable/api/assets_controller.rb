@@ -34,13 +34,13 @@ module Landable
       def search_params
         @search_params ||=
           begin
-            hash = params.permit(search: [:filename])
+            hash = params.permit(search: [:name])
             hash[:search] || {}
           end
       end
 
       def asset_params
-        params.require(:asset).permit(:filename, :description, :data)
+        params.require(:asset).permit(:name, :description, :data)
       end
     end
   end

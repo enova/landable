@@ -71,7 +71,7 @@ FactoryGirl.define do
       end
     end
 
-    sequence(:filename)        { |n| "asset_upload_#{n}" }
+    sequence(:name)        { |n| "asset_upload_#{n}" }
     sequence(:description) { |n| "what a useful asset #{n}" }
     author
 

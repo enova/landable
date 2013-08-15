@@ -22,10 +22,9 @@ module Landable
     before_validation :write_metadata, on: :create
 
     validates_presence_of     :data, :author_id
-    validates_presence_of     :filename, :basename, :mime_type, :md5sum, :file_size
+    validates_presence_of     :name, :basename, :mime_type, :md5sum, :file_size
     validates_uniqueness_of   :md5sum
     validates_numericality_of :file_size, only_integer: true
-    validates_format_of       :filename, :with => /^[\w\._-]+$/, :on => :create, :multiline => true
 
     def public_url
       self.class.url_generator.call(self)
@@ -38,7 +37,7 @@ module Landable
 
     def associated_pages
       paths = []
-      Page.where("body like ?", "%#{self.filename}%").each do |page|
+      Page.where("body like ?", "%#{self.name}%").each do |page|
         paths.push(page.path)
       end
       paths

@@ -9,10 +9,10 @@ module Landable
     let(:subject) {
       build :page, {
         body: "
-          <div>{% img_tag #{assets[0].filename} %}</div>
-          <div>{% asset_url #{assets[1].filename} %}</div>
-          <div>{% asset_description #{assets[2].filename} %}</div>
-          <div>{% img_tag #{assets[0].filename} %}</div>
+          <div>{% img_tag #{assets[0].name} %}</div>
+          <div>{% asset_url #{assets[1].name} %}</div>
+          <div>{% asset_description #{assets[2].name} %}</div>
+          <div>{% img_tag #{assets[0].name} %}</div>
         "
       }
     }
@@ -21,14 +21,14 @@ module Landable
       it 'should return assets matching #asset_names' do
         result = double()
         subject.should_receive(:asset_names) { ['one', 'two', 'three'] }
-        Landable::Asset.should_receive(:where).with(filename: ['one', 'two', 'three']) { result }
+        Landable::Asset.should_receive(:where).with(name: ['one', 'two', 'three']) { result }
         subject.assets.should == result
       end
     end
 
     describe '#asset_names' do
       it 'should pull asset names out of the body' do
-        subject.asset_names.sort.should == assets.map(&:filename).uniq.sort
+        subject.asset_names.sort.should == assets.map(&:name).uniq.sort
       end
     end
 
@@ -49,7 +49,7 @@ module Landable
     describe '#assets_as_hash' do
       it 'should return a hash of asset names to asset instances' do
         subject.save!
-        subject.assets_as_hash.should == Hash[assets.map { |asset| [asset.filename, asset] }]
+        subject.assets_as_hash.should == Hash[assets.map { |asset| [asset.name, asset] }]
       end
     end
 

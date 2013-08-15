@@ -8,10 +8,10 @@ Feature: Liquid Tags
     Given the asset URI prefix is "https://landable.dev/_assets"
     And   a page under test
     And   these assets:
-      | basename    | filename    | description           |
-      | panda.png   | panda       | Baz!                  |
-      | cthulhu.jpg | cthulhu     | Wisconsin Disclosures |
-      | small.pdf   | small       | Site Favicon          |
+      | basename    | name    | description           |
+      | panda.png   | panda   | Baz!                  |
+      | cthulhu.jpg | cthulhu | Wisconsin Disclosures |
+      | small.pdf   | small   | Site Favicon          |
 
 
   Scenario: title_tag

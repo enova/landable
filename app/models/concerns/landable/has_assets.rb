@@ -27,12 +27,12 @@ module Landable
       end
 
       def assets
-        Landable::Asset.where(filename: asset_names)
+        Landable::Asset.where(name: asset_names)
       end
 
       # {asset_name: asset}
       def assets_as_hash
-        Hash[assets.map { |asset| [asset.filename, asset] }]
+        Hash[assets.map { |asset| [asset.name, asset] }]
       end
 
       # passthrough for body=; clears the asset_names cache in the process
