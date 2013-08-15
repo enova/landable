@@ -182,7 +182,6 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.text    :data,        null: false
       t.text    :md5sum,      null: false, length: 32
       t.text    :mime_type,   null: false
-      t.text    :basename,    null: false
       t.integer :file_size
       t.timestamps
     end
@@ -196,7 +195,7 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "COMMENT ON TABLE landable.assets IS
               $$List of all assets uploaded.
               Examples of assets include images (jpg, png, gif) and documents (PDF).
-              data, md5sum, mime_type, basename, file_size are populated via the rails gem CarrierWave when a record is created.$$"
+              data, md5sum, mime_type, file_size are populated via the rails gem CarrierWave when a record is created.$$"
 
 
     ## screenshots

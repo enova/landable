@@ -3,7 +3,7 @@ Given 'the asset URI prefix is "$uri"' do |uri|
   Landable::Asset.stub!(:url_generator) do
     proc { |asset|
       uri = "#{uri}/" unless uri.ends_with?('/')
-      "#{uri}#{asset.basename}"
+      "#{uri}#{asset.data}"
     }
   end
 end

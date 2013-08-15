@@ -13,11 +13,10 @@ describe Landable::Asset do
     pdf.close
   end
 
-  it { should_not have_valid(:name).when(nil, '') }
+  it { should_not have_valid(:name).when(nil, '', 'No Spaces') }
   it { should_not have_valid(:author_id).when(nil) }
   it { should_not have_valid(:md5sum).when(nil, '') }
   it { should_not have_valid(:mime_type).when(nil, '') }
-  it { should_not have_valid(:basename).when(nil, '') }
   it { should_not have_valid(:file_size).when(nil, 1.5) }
 
   it "stores an md5sum of its contents" do

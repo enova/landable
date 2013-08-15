@@ -153,7 +153,6 @@ CREATE TABLE assets (
     data text NOT NULL,
     md5sum text NOT NULL,
     mime_type text NOT NULL,
-    basename text NOT NULL,
     file_size integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
@@ -166,7 +165,7 @@ CREATE TABLE assets (
 
 COMMENT ON TABLE assets IS 'List of all assets uploaded.
               Examples of assets include images (jpg, png, gif) and documents (PDF).
-              data, md5sum, mime_type, basename, file_size are populated via the rails gem CarrierWave when a record is created.';
+              data, md5sum, mime_type, file_size are populated via the rails gem CarrierWave when a record is created.';
 
 
 --

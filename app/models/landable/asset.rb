@@ -22,9 +22,10 @@ module Landable
     before_validation :write_metadata, on: :create
 
     validates_presence_of     :data, :author_id
-    validates_presence_of     :name, :basename, :mime_type, :md5sum, :file_size
+    validates_presence_of     :name, :mime_type, :md5sum, :file_size
     validates_uniqueness_of   :md5sum
     validates_numericality_of :file_size, only_integer: true
+    validates_format_of       :name, :with => /^[\w\._-]+$/, :on => :create, :multiline => true
 
     def public_url
       self.class.url_generator.call(self)
@@ -52,7 +53,6 @@ module Landable
     def write_metadata
       return unless data.present?
       self.md5sum    = calculate_md5sum
-      self.basename  = data.filename
       self.mime_type = data.file.content_type.presence || 'application/octet-stream'
       self.file_size = data.file.size
     end

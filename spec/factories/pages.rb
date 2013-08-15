@@ -64,7 +64,7 @@ FactoryGirl.define do
       all_fixtures { ['panda.png', 'cthulhu.jpg', 'small.pdf', 'sloth.png'] }
 
       sequence(:fixture) do
-        taken = Landable::Asset.pluck(:basename)
+        taken = Landable::Asset.pluck(:data)
         all_fixtures.find { |name| !taken.include?(name) }.tap do |available|
           raise "Add more files to spec/fixtures/assets; we've only got #{all_fixtures.length} available." if available.nil?
         end

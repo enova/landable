@@ -8,10 +8,10 @@ Feature: Liquid Tags
     Given the asset URI prefix is "https://landable.dev/_assets"
     And   a page under test
     And   these assets:
-      | basename    | name    | description           |
-      | panda.png   | panda   | Baz!                  |
-      | cthulhu.jpg | cthulhu | Wisconsin Disclosures |
-      | small.pdf   | small   | Site Favicon          |
+      | name    | description           |
+      | panda   | Baz!                  |
+      | cthulhu | Wisconsin Disclosures |
+      | small   | Site Favicon          |
 
 
   Scenario: title_tag
@@ -37,7 +37,7 @@ Feature: Liquid Tags
     Given the page's body is "{% img_tag panda %}"
     Then the rendered content should be:
       """
-      <img alt="Baz!" src="https://landable.dev/_assets/panda.png" />
+      <img alt="Baz!" src="https://landable.dev/_assets//uploads/panda.png" />
       """
 
   Scenario: asset_url and asset_description
@@ -47,7 +47,7 @@ Feature: Liquid Tags
       """
     Then the rendered content should be:
       """
-      <a href="https://landable.dev/_assets/cthulhu.jpg" title="Wisconsin Disclosures">Disclosures</a>
+      <a href="https://landable.dev/_assets//uploads/cthulhu.jpg" title="Wisconsin Disclosures">Disclosures</a>
       """
 
   Scenario: Referencing a template
