@@ -1,6 +1,4 @@
 begin
-  EngineModuleName::Application
-
   namespace :pgtap do
     def has_pgprove?
       @@has_prove ||= Kernel.system('which pg_prove > /dev/null')
@@ -8,7 +6,6 @@ begin
 
     desc "Run PGTap unit tests"
     task :run, [:test_file] => [ :environment ] do |t, args|
-
       dbdir = "#{Rails.root}/../../db"
 
       tests = args[:test_file] ? args[:test_file] : "*.sql"
@@ -26,6 +23,4 @@ begin
   end
   task :pgtap => 'pgtap:run'
   task :default => :pgtap
-
-  rescue NameError => e
 end

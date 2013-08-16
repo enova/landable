@@ -11,7 +11,6 @@ vendored_cucumber_bin = Dir["#{Rails.root}/vendor/{gems,plugins}/cucumber*/bin/c
 $LOAD_PATH.unshift(File.dirname(vendored_cucumber_bin) + '/../lib') unless vendored_cucumber_bin.nil?
 
 begin
-  EngineModuleName::Application
   require 'cucumber/rake/task'
 
   namespace :cucumber do
@@ -61,7 +60,6 @@ rescue LoadError
   task :cucumber do
     abort 'Cucumber rake task is not available. Be sure to install cucumber as a gem or plugin'
   end
-rescue NameError => e
 end
 
 end
