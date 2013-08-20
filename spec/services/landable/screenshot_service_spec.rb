@@ -51,13 +51,16 @@ describe Landable::ScreenshotService do
     end
   end
 
-  describe '.available_browsers' do
-    it 'should retrieve browser data from browserstack' do
-      result = {'one' => 'two'}
+  describe '.import_browserstack_browsers!' do
+    it 'should import browser data from browserstack' do
+      result = attributes_for_list :browser, 10
 
       RestClient.should_receive(:get).with('http://www.browserstack.com/screenshots/browsers.json') { result.to_json }
+      result.each do |browser_attributes|
+        Landable::Browser.should_receive(:create!).with(browser_attributes.stringify_keys)
+      end
 
-      Landable::ScreenshotService.available_browsers.should == result
+      Landable::ScreenshotService.import_browserstack_browsers!
     end
   end
 

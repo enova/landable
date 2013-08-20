@@ -32,10 +32,6 @@ module Landable
         head :ok
       end
 
-      def browsers
-        render json: {browsers: Landable::ScreenshotService.available_browsers}
-      end
-
       private
 
       def search_params

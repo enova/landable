@@ -26,9 +26,12 @@ module Landable
       end
     end
 
-    def self.available_browsers
-      result = RestClient.get 'http://www.browserstack.com/screenshots/browsers.json'
-      JSON.parse result
+    def self.import_browserstack_browsers!
+      browsers_json = RestClient.get 'http://www.browserstack.com/screenshots/browsers.json'
+
+      JSON.parse(browsers_json).each do |browsers_attributes|
+        Landable::Browser.create! browsers_attributes
+      end
     end
 
 

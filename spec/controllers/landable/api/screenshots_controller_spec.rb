@@ -149,23 +149,5 @@ module Landable::Api
         response.status.should == 200
       end
     end
-
-    describe '#browsers' do
-      include_examples 'Authenticated API controller', :make_request
-
-      def make_request
-        get :browsers
-      end
-
-      it 'should return ScreenshotService.available_browsers' do
-        result = {'one' => 'two'}
-        Landable::ScreenshotService.should_receive(:available_browsers) { result }
-
-        make_request
-
-        response.status.should == 200
-        last_json['browsers'].should == result
-      end
-    end
   end
 end
