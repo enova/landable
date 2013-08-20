@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :browser, class: 'Landable::Browser' do
-    device nil
+    device { Faker::Lorem.word }
     os { Faker::Lorem.word }
     os_version { Random.rand 100 }
     browser { Faker::Lorem.word }

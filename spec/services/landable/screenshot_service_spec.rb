@@ -127,7 +127,7 @@ describe Landable::ScreenshotService do
 
     let(:screenshots) {
       response['screenshots'].map do |s|
-        browser = create :browser, {browser: nil, browser_version: nil}.merge(s.except('url', 'id', 'state'))
+        browser = create :browser, {device: nil, browser: nil, browser_version: nil}.merge(s.except('url', 'id', 'state'))
         create :page_screenshot, browserstack_id: nil, browserstack_job_id: nil, browser: browser
       end
     }

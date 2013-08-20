@@ -27,6 +27,17 @@ module Landable
       end
     end
 
+    describe '#name' do
+      it 'should contain the relevant data' do
+        browser = build :browser
+        browser.name.should include browser.device.to_s
+        browser.name.should include browser.os.to_s
+        browser.name.should include browser.os_version.to_s
+        browser.name.should include browser.browser.to_s
+        browser.name.should include browser.browser_version.to_s
+      end
+    end
+
   end
 
 end
