@@ -79,6 +79,7 @@ module Landable::Api
       include_examples 'Authenticated API controller', :make_request
 
       let(:default_params) { {} }
+      let(:default_browser) { create :browser }
 
       def make_request params = {}
         post :create, default_params.deep_merge(screenshot: params)
@@ -89,7 +90,7 @@ module Landable::Api
 
       context 'for a page' do
         let(:page) { create :page }
-        let(:default_params) { {screenshot: attributes_for(:screenshot).merge(page_id: page.id)} }
+        let(:default_params) { {screenshot: attributes_for(:screenshot).merge(page_id: page.id, browser_id: default_browser.id)} }
 
         context 'success' do
           it 'returns 201 Created' do
@@ -110,7 +111,7 @@ module Landable::Api
 
       context 'for a page revision' do
         let(:page_revision) { create :page_revision }
-        let(:default_params) { {screenshot: attributes_for(:screenshot).merge(page_revision_id: page_revision.id)} }
+        let(:default_params) { {screenshot: attributes_for(:screenshot).merge(page_revision_id: page_revision.id, browser_id: default_browser.id)} }
 
         context 'success' do
           it 'returns 201 Created' do

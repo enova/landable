@@ -40,9 +40,8 @@ module Landable
     end
 
     def create_default_screenshots
-      browsers = Landable.configuration.browsers
-      browsers.map do |browser_attributes|
-        screenshots.create! browser_attributes
+      Landable::Browser.all.map do |browser|
+        screenshots.create! browser: browser
       end
     end
 
@@ -52,7 +51,7 @@ module Landable
       payload = {
         url: screenshotable.preview_url,
         callback_url: callback_screenshots_url,
-        browsers: target_screenshots.collect(&:browser_attributes),
+        browsers: target_screenshots.collect(&:browserstack_attributes),
       }.to_json
 
       response = RestClient.post(
@@ -73,7 +72,7 @@ module Landable
           # this is kinda crap, but it matches up by not-nil browser
           # attributes. note that browserstack doesn't return keyval pairs for
           # values that are empty.
-          s.browser_attributes.reject { |k, v| v.nil? } == screenshot_data.slice(*s.browser_attributes.keys).reject { |k, v| v.nil? }
+          s.browserstack_attributes.reject { |k, v| v.nil? } == screenshot_data.slice(*s.browserstack_attributes.keys).reject { |k, v| v.nil? }
         }.first
 
         # apply updates

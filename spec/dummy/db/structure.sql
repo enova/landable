@@ -192,6 +192,22 @@ COMMENT ON TABLE authors IS 'A list of authors that have accessed the website.  
 
 
 --
+-- Name: browsers; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE browsers (
+    browser_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    device text,
+    os text NOT NULL,
+    os_version text NOT NULL,
+    browser text,
+    browser_version text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
 -- Name: categories; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -276,11 +292,7 @@ CREATE TABLE screenshots (
     screenshot_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     screenshotable_id uuid NOT NULL,
     screenshotable_type text NOT NULL,
-    device text,
-    os text,
-    os_version text,
-    browser text,
-    browser_version text,
+    browser_id uuid,
     state text,
     thumb_url text,
     image_url text,
@@ -417,6 +429,14 @@ ALTER TABLE ONLY assets
 
 ALTER TABLE ONLY authors
     ADD CONSTRAINT authors_pkey PRIMARY KEY (author_id);
+
+
+--
+-- Name: browsers_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY browsers
+    ADD CONSTRAINT browsers_pkey PRIMARY KEY (browser_id);
 
 
 --

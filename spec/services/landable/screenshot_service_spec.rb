@@ -85,8 +85,8 @@ describe Landable::ScreenshotService do
       screenshots = double('screenshots')
       service.stub(:screenshots) { screenshots }
 
-      default_browsers.should_not be_empty
-      default_browsers.each { |browser| service.screenshots.should_receive :create!, browser }
+      create_list :browser, 5
+      Landable::Browser.all.each { |browser| service.screenshots.should_receive :create!, browser }
 
       service.create_default_screenshots
     end
@@ -124,7 +124,8 @@ describe Landable::ScreenshotService do
 
     let(:screenshots) {
       response['screenshots'].map do |s|
-        create :page_screenshot, {browserstack_id: nil, browserstack_job_id: nil, os_version: nil, browser_version: nil, browser: nil}.merge(s.except('url', 'id'))
+        browser = create :browser, {browser: nil, browser_version: nil}.merge(s.except('url', 'id', 'state'))
+        create :page_screenshot, browserstack_id: nil, browserstack_job_id: nil, browser: browser
       end
     }
 
@@ -136,7 +137,7 @@ describe Landable::ScreenshotService do
         {
           url: screenshotable.preview_url,
           callback_url: callback_screenshots_url,
-          browsers: screenshots.map(&:browser_attributes),
+          browsers: screenshots.map(&:browserstack_attributes),
         }.to_json,
         accept: :json,
         content_type: :json,

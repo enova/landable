@@ -205,11 +205,7 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.uuid :screenshotable_id,    null: false
       t.text :screenshotable_type,  null: false
 
-      t.text :device
-      t.text :os
-      t.text :os_version
-      t.text :browser
-      t.text :browser_version
+      t.uuid :browser_id
 
       t.text :state
       t.text :thumb_url
@@ -225,6 +221,19 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "CREATE UNIQUE INDEX landable_screenshots__u_browserstack_id ON landable.screenshots(browserstack_id)"
     execute "COMMENT ON TABLE landable.screenshots IS
               $$Stores saved screenshots (taken of pages) and the URLs to retrieve the actual image.$$"
+
+
+    ## browsers
+
+    create_table 'landable.browsers', id: :uuid, primary_key: :browser_id do |t|
+      t.text :device
+      t.text :os,                   null: false
+      t.text :os_version,           null: false
+      t.text :browser
+      t.text :browser_version
+
+      t.timestamps
+    end
 
 
     ## other stuff

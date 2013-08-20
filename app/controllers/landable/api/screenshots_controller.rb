@@ -39,11 +39,11 @@ module Landable
       private
 
       def search_params
-        @search_params ||= params.permit(:page_id, :page_revision_id)
+        @search_params ||= params.permit(:page_id, :page_revision_id, :browser_id)
       end
 
       def screenshot_params
-        params.require(:screenshot).permit(:page_id, :page_revision_id, :device, :os, :os_version, :browser, :browser_version)
+        params.require(:screenshot).permit(:page_id, :page_revision_id, :browser_id)
       end
     end
   end
