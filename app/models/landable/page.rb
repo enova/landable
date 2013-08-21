@@ -21,6 +21,7 @@ module Landable
     belongs_to :category, class_name: 'Landable::Category'
     has_many   :revisions, class_name: 'Landable::PageRevision'
     has_many   :screenshots, class_name: 'Landable::Screenshot', as: :screenshotable
+    has_many   :head_tags, class_name: 'Landable::HeadTag'
     belongs_to :status_code, class_name: 'Landable::StatusCode'
 
     scope :imported, -> { where("imported_at IS NOT NULL") }

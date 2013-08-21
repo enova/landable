@@ -77,6 +77,13 @@ class CreateLandableSchema < ActiveRecord::Migration
               A template can supply 'starter' code for a page. 
               A template can also supply code to create elements on a page (sidebars, for example).$$"
 
+    ## head_tags
+
+    create_table 'landable.head_tags', id: :uuid, primary_key: :head_tag_id do |t|
+      t.uuid :page_id
+      t.text :content, null: false
+      t.timestamps
+    end
 
     ## pages
 

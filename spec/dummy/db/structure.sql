@@ -210,6 +210,19 @@ COMMENT ON TABLE categories IS 'Categories are used to sort pages.
 
 
 --
+-- Name: head_tags; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE head_tags (
+    head_tag_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    page_id uuid,
+    content text NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
 -- Name: page_assets; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -457,6 +470,14 @@ ALTER TABLE ONLY authors
 
 ALTER TABLE ONLY categories
     ADD CONSTRAINT categories_pkey PRIMARY KEY (category_id);
+
+
+--
+-- Name: head_tags_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY head_tags
+    ADD CONSTRAINT head_tags_pkey PRIMARY KEY (head_tag_id);
 
 
 --
