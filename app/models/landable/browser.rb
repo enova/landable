@@ -5,23 +5,42 @@ module Landable
 
     has_many :screenshots
 
-    # TODO do this in a way that doesn't suck
     def name
-      [
-        browserstack_attributes['device'].to_s,
-        browserstack_attributes['os'].to_s,
-        browserstack_attributes['os_version'].to_s,
-        browserstack_attributes['browser'].to_s,
-        browserstack_attributes['browser_version'].to_s,
-      ].join(' ')
+      if mobile?
+        device
+      else
+        "#{browser_name} #{browser_version} (#{os_name} #{os_version})"
+      end
     end
 
     def is_mobile
       !!device.presence
     end
 
+    alias :mobile? :is_mobile
+
     def browserstack_attributes
       attributes.slice 'device', 'os', 'os_version', 'browser', 'browser_version'
+    end
+
+    # browserstack is inconsistent about this
+    def browser_name
+      if browser == 'ie'
+        'Internet Explorer'
+      else
+        browser.try(:titleize)
+      end
+    end
+
+    # browserstack is inconsistent about this
+    def os_name
+      if os == 'ios'
+        'iOS'
+      elsif os == 'OS X'
+        os
+      else
+        os.try(:titleize)
+      end
     end
 
   end

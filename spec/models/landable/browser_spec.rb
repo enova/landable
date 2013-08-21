@@ -6,16 +6,18 @@ module Landable
 
     it { should have_many :screenshots }
 
-    describe '#is_mobile' do
-      context 'mobile' do
-        it 'should be mobile' do
-          build(:browser, device: 'your tablet').is_mobile.should be_true
+    %w[is_mobile mobile?].each do |method|
+      describe "##{method}" do
+        context 'mobile' do
+          it 'should be mobile' do
+            build(:browser, device: 'your tablet').send(method).should be_true
+          end
         end
-      end
 
-      context 'not mobile' do
-        it 'should not be mobile' do
-          build(:browser, device: nil).is_mobile.should be_false
+        context 'not mobile' do
+          it 'should not be mobile' do
+            build(:browser, device: nil).send(method).should be_false
+          end
         end
       end
     end
@@ -28,13 +30,20 @@ module Landable
     end
 
     describe '#name' do
-      it 'should contain the relevant data' do
-        browser = build :browser
-        browser.name.should include browser.device.to_s
-        browser.name.should include browser.os.to_s
-        browser.name.should include browser.os_version.to_s
-        browser.name.should include browser.browser.to_s
-        browser.name.should include browser.browser_version.to_s
+      context 'mobile' do
+        let(:browser) { build :browser }
+
+        it 'should be the device' do
+          browser.name.should == browser.device
+        end
+      end
+
+      context 'not mobile' do
+        let(:browser) { build :browser, device: nil }
+
+        it 'should be the browser and os info' do
+          browser.name.should == "#{browser.browser_name} #{browser.browser_version} (#{browser.os_name} #{browser.os_version})"
+        end
       end
     end
 
