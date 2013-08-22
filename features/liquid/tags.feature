@@ -36,9 +36,9 @@ Feature: Liquid Tags
   Scenario: head_tags
     Given the page's body is "{% head_tags }"
     And the page's head_tags are:
-      | name    | description       |
-      | content | <head lang='en'>  |
-      | content | <meta test='text' |
+      | content           |
+      | <head lang='en'>  |
+      | <meta test='text' |
     Then the rendered content should be:
       """
       <head lang='en'>
