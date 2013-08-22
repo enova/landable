@@ -15,8 +15,13 @@ module Landable
         respond_with head_tag.page
       end
 
-      private
+      def destroy
+        head_tag = HeadTag.find params[:id]
+        head_tag.destroy
+        render nothing: true
+      end
 
+      private
 
       def head_tag_params
         params.require(:head_tag).permit(:id, :page_id, :content)

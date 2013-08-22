@@ -24,7 +24,7 @@ Landable::Engine.routes.draw do
 
     resources :templates, only: [:index, :show, :create, :update]
 
-    resources :head_tags, only: [:create, :update]
+    resources :head_tags, only: [:create, :update, :destroy]
 
     resources :pages, concerns: [:has_assets, :has_screenshots] do
       post 'preview', on: :collection

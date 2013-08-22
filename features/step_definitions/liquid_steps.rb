@@ -27,6 +27,10 @@ Given "the page's meta tags are:" do |table|
   end
 end
 
+Given "the page's head tags are:" do |table|
+  @page.head_tags = [HeadTag.create!(content: '<head>', page: @page, page_id: @page.id)]
+end
+
 Given "the page uses a theme with the body:" do |body|
   @page.theme ||= Landable::Theme.new
   @theme ||= @page.theme

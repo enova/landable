@@ -33,6 +33,18 @@ Feature: Liquid Tags
       <meta content="momoney,moproblems" name="keywords" />
       """
 
+  Scenario: head_tags
+    Given the page's body is "{% head_tags }"
+    And the page's head_tags are:
+      | name    | description       |
+      | content | <head lang='en'>  |
+      | content | <meta test='text' |
+    Then the rendered content should be:
+      """
+      <head lang='en'>
+      <head test='text'>
+      """
+
   Scenario: img_tag
     Given the page's body is "{% img_tag panda %}"
     Then the rendered content should be:

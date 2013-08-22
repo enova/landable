@@ -48,6 +48,14 @@ module Landable
       end
     end
 
+    class HeadTags < Tag
+      def render(context)
+        page = lookup_page context
+        head_tags = page.head_tags || {}
+        head_tags.map(&:content).join("\n")
+      end
+    end
+
     class Img < AssetTag
       def initialize(name, param, tokens)
         @asset_name = param.strip
@@ -103,6 +111,7 @@ module Landable
   # Tag generators
   ::Liquid::Template.register_tag('title_tag', Landable::Liquid::Title)
   ::Liquid::Template.register_tag('meta_tags', Landable::Liquid::MetaTags)
+  ::Liquid::Template.register_tag('head_tags', Landable::Liquid::HeadTags)
   ::Liquid::Template.register_tag('img_tag',   Landable::Liquid::Img)
 
   # Only called tags so we can use a function-like syntax
