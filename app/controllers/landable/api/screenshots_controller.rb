@@ -17,13 +17,18 @@ module Landable
       def create
         screenshot = Screenshot.new screenshot_params
         screenshot.save!
+
+        Landable::ScreenshotService.autorun if Landable.configuration.screenshots.autorun
+
         respond_with screenshot, status: :created, location: screenshot_url(screenshot)
       end
 
       def resubmit
         screenshot = Landable::Screenshot.find(params[:id])
-        service = Landable::ScreenshotService.new screenshot.screenshotable
-        service.submit_screenshots [screenshot]
+        screenshot.update_attributes! state: 'unsent', image_url: nil
+
+        Landable::ScreenshotService.autorun if Landable.configuration.screenshots.autorun
+
         respond_with screenshot
       end
 
@@ -35,11 +40,11 @@ module Landable
       private
 
       def search_params
-        @search_params ||= params.permit(:page_id, :page_revision_id, :browser_id)
+        @search_params ||= params.permit(:page_id, :screenshotable_type, :screenshotable_id)
       end
 
       def screenshot_params
-        params.require(:screenshot).permit(:page_id, :page_revision_id, :browser_id)
+        params.require(:screenshot).permit(:id, :browser_id, :screenshotable_type, :screenshotable_id)
       end
     end
   end

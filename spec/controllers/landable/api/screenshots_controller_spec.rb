@@ -4,6 +4,8 @@ module Landable::Api
   describe ScreenshotsController, json: true do
     routes { Landable::Engine.routes }
 
+    before(:each) { Landable::ScreenshotService.stub(:call) }
+
     describe '#index' do
       context 'for a page' do
         include_examples 'Authenticated API controller', :make_request
@@ -90,7 +92,15 @@ module Landable::Api
 
       context 'for a page' do
         let(:page) { create :page }
-        let(:default_params) { {screenshot: attributes_for(:screenshot).merge(page_id: page.id, browser_id: default_browser.id)} }
+        let(:default_params) {
+          {
+            screenshot: attributes_for(:screenshot).merge(
+              screenshotable_id: page.id,
+              screenshotable_type: 'page',
+              browser_id: default_browser.id
+            )
+          }
+        }
 
         context 'success' do
           it 'returns 201 Created' do
@@ -102,6 +112,22 @@ module Landable::Api
             make_request
             response.headers['Location'].should == screenshot_url(last_json['screenshot']['id'])
           end
+
+          context 'autorun on' do
+            it 'should call autorun' do
+              Landable.configuration.screenshots.stub(:autorun) { true }
+              Landable::ScreenshotService.should_receive(:autorun)
+              make_request
+            end
+          end
+
+          context 'autorun off' do
+            it 'should not call autorun' do
+              Landable.configuration.screenshots.stub(:autorun) { false }
+              Landable::ScreenshotService.should_not_receive(:autorun)
+              make_request
+            end
+          end
         end
 
         context 'invalid' do
@@ -111,7 +137,15 @@ module Landable::Api
 
       context 'for a page revision' do
         let(:page_revision) { create :page_revision }
-        let(:default_params) { {screenshot: attributes_for(:screenshot).merge(page_revision_id: page_revision.id, browser_id: default_browser.id)} }
+        let(:default_params) {
+          {
+            screenshot: attributes_for(:screenshot).merge(
+              screenshotable_id: page_revision.id,
+              screenshotable_type: 'page_revision',
+              browser_id: default_browser.id
+            )
+          }
+        }
 
         context 'success' do
           it 'returns 201 Created' do
@@ -131,14 +165,32 @@ module Landable::Api
         post :resubmit, id: screenshot.id
       end
 
-      it 'should load the ScreenshotService, and submit the screenshot in question' do
-        service = double('service')
-        Landable::ScreenshotService.should_receive(:new) { service }
-        service.should_receive(:submit_screenshots).with([screenshot])
+      it 'should call ScreenshotService with the screenshot in question, and update state/image_url' do
+        Landable::ScreenshotService.should_receive(:call).with(screenshot)
 
         make_request
 
         last_json['screenshot']['id'].should == screenshot.id
+
+        screenshot.reload
+        screenshot.state.should == 'unsent'
+        screenshot.image_url.should be_nil
+      end
+
+      context 'autorun on' do
+        it 'should call autorun' do
+          Landable.configuration.screenshots.stub(:autorun) { true }
+          Landable::ScreenshotService.should_receive(:autorun)
+          make_request
+        end
+      end
+
+      context 'autorun off' do
+        it 'should not call autorun' do
+          Landable.configuration.screenshots.stub(:autorun) { false }
+          Landable::ScreenshotService.should_not_receive(:autorun)
+          make_request
+        end
       end
     end
 

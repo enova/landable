@@ -5,6 +5,6 @@ module Landable
     attributes :browserstack_id
     attributes :created_at, :updated_at
 
-    has_one :browser
+    has_one :browser, embed: :ids
   end
 end

@@ -10,16 +10,24 @@ module Landable
 
     delegate :browserstack_attributes, to: :browser
 
-    def page_revision_id= val
-      self.screenshotable = PageRevision.find val
-    end
+    before_create :set_state
 
-    def page_id= val
-      self.screenshotable = Page.find val
+    # ember will be posting this as 'page' or 'page_revision'
+    def screenshotable_type= type
+      type = "Landable::#{type.camelize}" if type.underscore == type
+      self[:screenshotable_type] = type
     end
 
     def url
       screenshotable.try(:preview_url)
+    end
+
+    protected
+
+    def set_state
+      unless browserstack_id
+        self[:state] ||= 'unsent'
+      end
     end
 
   end

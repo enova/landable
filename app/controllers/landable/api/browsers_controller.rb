@@ -5,7 +5,7 @@ module Landable
     class BrowsersController < ApiController
 
       def index
-        respond_with Landable::Browser.all
+        respond_with Landable::Browser.order('device ASC', 'browser ASC', 'browser_version DESC')
       end
 
       def show
