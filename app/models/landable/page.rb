@@ -24,6 +24,8 @@ module Landable
     has_many   :head_tags, class_name: 'Landable::HeadTag'
     belongs_to :status_code, class_name: 'Landable::StatusCode'
 
+    accepts_nested_attributes_for :head_tags
+
     scope :imported, -> { where("imported_at IS NOT NULL") }
 
     before_validation :downcase_path
