@@ -3,6 +3,7 @@ require_dependency 'landable/page_revision'
 require_dependency 'landable/category'
 require_dependency 'landable/status_code'
 require_dependency 'landable/has_assets'
+require_dependency 'landable/head_tag'
 
 module Landable
   class Page < ActiveRecord::Base
@@ -32,7 +33,7 @@ module Landable
 
     after_initialize do |page|
       page.status_code = StatusCode.where(code: 200).first unless page.status_code
-    end
+    end 
 
     before_save -> page {
       page.is_publishable = true unless page.published_revision_id_changed?
@@ -108,6 +109,14 @@ module Landable
 
     def preview_url
       public_preview_page_url(self)
+    end
+
+    alias :head_tags_attributes_original= :head_tags_attributes= 
+
+    def head_tags_attributes=(attrs)
+      ids = attrs.map { |key| key['id'] } 
+      head_tags.where('head_tag_id NOT IN (?)', ids).delete_all
+      self.head_tags_attributes_original=attrs 
     end
   end
 end

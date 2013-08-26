@@ -126,6 +126,5 @@ module Landable
         page.attributes.reject { |key| PageRevision.ignored_page_attributes.include? key }.should == revision.snapshot_attributes
       end
     end
-
   end
 end
