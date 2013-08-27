@@ -33,7 +33,7 @@ module Landable
 
     after_initialize do |page|
       page.status_code = StatusCode.where(code: 200).first unless page.status_code
-    end 
+    end
 
     before_save -> page {
       page.is_publishable = true unless page.published_revision_id_changed?
@@ -114,8 +114,11 @@ module Landable
     alias :head_tags_attributes_original= :head_tags_attributes= 
 
     def head_tags_attributes=(attrs)
-      ids = attrs.map { |key| key['id'] } 
+      ids = attrs.to_a.empty? ? [] : attrs.map { |key| key['id'] }
+      ids.delete_if { |id| id.nil? }
+      head_tags.delete_all if ids.empty?
       head_tags.where('head_tag_id NOT IN (?)', ids).delete_all
+      attrs = attrs.nil? ? [] : attrs
       self.head_tags_attributes_original=attrs 
     end
   end
