@@ -43,5 +43,18 @@ module Landable
         @origins = Array(origins)
       end
     end
+
+    def screenshots
+      @screenshots ||= Screenshots.new
+    end
+
+    class Screenshots
+      attr_accessor :autorun
+      attr_accessor :browserstack_username, :browserstack_password
+
+      def initialize
+        @autorun = true
+      end
+    end
   end
 end

@@ -198,17 +198,31 @@ class CreateLandableSchema < ActiveRecord::Migration
               data, md5sum, mime_type, file_size are populated via the rails gem CarrierWave when a record is created.$$"
 
 
+    ## browsers
+
+    create_table 'landable.browsers', id: :uuid, primary_key: :browser_id do |t|
+      t.text :device
+      t.text :os,                   null: false
+      t.text :os_version,           null: false
+      t.text :browser
+      t.text :browser_version
+
+      t.boolean :screenshots_supported, null: false, default: false
+      t.boolean :is_primary,            null: false, default: false
+
+      t.timestamps
+    end
+
+    execute "CREATE INDEX landable_screenshots__device_browser_browser_version ON landable.browsers(device, browser, browser_version)"
+
+
     ## screenshots
 
     create_table 'landable.screenshots', id: :uuid, primary_key: :screenshot_id do |t|
       t.uuid :screenshotable_id,    null: false
       t.text :screenshotable_type,  null: false
 
-      t.text :device
-      t.text :os
-      t.text :os_version
-      t.text :browser
-      t.text :browser_version
+      t.uuid :browser_id
 
       t.text :state
       t.text :thumb_url
@@ -220,8 +234,10 @@ class CreateLandableSchema < ActiveRecord::Migration
       t.timestamps
     end
 
-    execute "CREATE INDEX landable_screenshots__screenshotable_id_screenshotable_type ON landable.screenshots(screenshotable_id, screenshotable_type)"
+    execute "CREATE INDEX landable_screenshots__screenshotable_id_screenshotable_type_state ON landable.screenshots(screenshotable_id, screenshotable_type, state)"
+    execute "CREATE INDEX landable_screenshots__state ON landable.screenshots(state)"
     execute "CREATE UNIQUE INDEX landable_screenshots__u_browserstack_id ON landable.screenshots(browserstack_id)"
+    execute "ALTER TABLE landable.screenshots ADD CONSTRAINT browser_id_fk FOREIGN KEY (browser_id) REFERENCES landable.browsers(browser_id)"
     execute "COMMENT ON TABLE landable.screenshots IS
               $$Stores saved screenshots (taken of pages) and the URLs to retrieve the actual image.$$"
 

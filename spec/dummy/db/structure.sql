@@ -191,6 +191,24 @@ COMMENT ON TABLE authors IS 'A list of authors that have accessed the website.  
 
 
 --
+-- Name: browsers; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE browsers (
+    browser_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    device text,
+    os text NOT NULL,
+    os_version text NOT NULL,
+    browser text,
+    browser_version text,
+    screenshots_supported boolean DEFAULT false NOT NULL,
+    is_primary boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
 -- Name: categories; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -297,11 +315,7 @@ CREATE TABLE screenshots (
     screenshot_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     screenshotable_id uuid NOT NULL,
     screenshotable_type text NOT NULL,
-    device text,
-    os text,
-    os_version text,
-    browser text,
-    browser_version text,
+    browser_id uuid,
     state text,
     thumb_url text,
     image_url text,
@@ -449,6 +463,14 @@ ALTER TABLE ONLY assets
 
 ALTER TABLE ONLY authors
     ADD CONSTRAINT authors_pkey PRIMARY KEY (author_id);
+
+
+--
+-- Name: browsers_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY browsers
+    ADD CONSTRAINT browsers_pkey PRIMARY KEY (browser_id);
 
 
 --
@@ -624,10 +646,24 @@ CREATE UNIQUE INDEX landable_pages__u_path ON pages USING btree (lower(path));
 
 
 --
--- Name: landable_screenshots__screenshotable_id_screenshotable_type; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+-- Name: landable_screenshots__device_browser_browser_version; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
-CREATE INDEX landable_screenshots__screenshotable_id_screenshotable_type ON screenshots USING btree (screenshotable_id, screenshotable_type);
+CREATE INDEX landable_screenshots__device_browser_browser_version ON browsers USING btree (device, browser, browser_version);
+
+
+--
+-- Name: landable_screenshots__screenshotable_id_screenshotable_type_sta; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE INDEX landable_screenshots__screenshotable_id_screenshotable_type_sta ON screenshots USING btree (screenshotable_id, screenshotable_type, state);
+
+
+--
+-- Name: landable_screenshots__state; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE INDEX landable_screenshots__state ON screenshots USING btree (state);
 
 
 --
@@ -750,6 +786,14 @@ ALTER TABLE ONLY assets
 
 ALTER TABLE ONLY page_revisions
     ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES authors(author_id);
+
+
+--
+-- Name: browser_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY screenshots
+    ADD CONSTRAINT browser_id_fk FOREIGN KEY (browser_id) REFERENCES browsers(browser_id);
 
 
 --

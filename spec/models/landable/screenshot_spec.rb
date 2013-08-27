@@ -3,21 +3,23 @@ require 'spec_helper'
 module Landable
   describe Screenshot do
 
-    describe '#page_id=' do
-      it 'should assign screenshotable' do
-        page = create :page
+    it { should belong_to :browser }
 
-        screenshot = build :screenshot, page_id: page.id
-        screenshot.screenshotable.should == page
+    describe '#screenshotable_type=' do
+      context 'something like foobar or foo_bar' do
+        it 'should assign the titleized version with a Landable namespace' do
+          screenshot = build :page_screenshot
+          screenshot.screenshotable_type = 'foobar'
+          screenshot.screenshotable_type.should == 'Landable::Foobar'
+        end
       end
-    end
 
-    describe '#page_revision_id=' do
-      it 'should assign screenshotable' do
-        page_revision = create :page_revision
-
-        screenshot = build :screenshot, page_revision_id: page_revision.id
-        screenshot.screenshotable.should == page_revision
+      context 'something else' do
+        it 'should assign it verbatim' do
+          screenshot = build :page_screenshot
+          screenshot.screenshotable_type = 'Sixteen'
+          screenshot.screenshotable_type.should == 'Sixteen'
+        end
       end
     end
 
@@ -29,38 +31,39 @@ module Landable
       end
     end
 
-    describe '#os' do
-      def os_for os
-        build(:page_screenshot, os: os).os
-      end
-
-      it 'should return "iOS" for "ios"' do
-        os_for('ios').should == 'iOS'
-      end
-
-      it 'should capitalize anything else' do
-        os_for('foobar').should == 'Foobar'
-      end
-    end
-
-    describe '#browser' do
-      def browser_for browser
-        build(:page_screenshot, browser: browser).browser
-      end
-
-      it 'should return "Internet Explorer" for "ie"' do
-        browser_for('ie').should == 'Internet Explorer'
-      end
-
-      it 'should capitalize' do
-        browser_for('foobar').should == 'Foobar'
-      end
-    end
-
-    describe '#browser_attributes' do
-      it 'returns a hash containing the keys defining the browser' do
+    describe '#browserstack_attributes' do
+      it 'should delegate to :browser' do
+        browserstack_attributes = double()
         screenshot = build(:page_screenshot)
-        screenshot.browser_attributes.keys.sort.should == ['browser', 'browser_version', 'device', 'os', 'os_version']
+
+        screenshot.browser.should_receive(:browserstack_attributes) { browserstack_attributes }
+
+        screenshot.browserstack_attributes.should == browserstack_attributes
+      end
+    end
+
+    describe 'before create' do
+      context 'no state' do
+        context 'no browserstack_id' do
+          it 'should set state ?= "unsent"' do
+            screenshot = create :page_screenshot, state: nil, browserstack_id: nil
+            screenshot.state.should == 'unsent'
+          end
+        end
+
+        context 'with browserstack_id' do
+          it 'should do nothing to state' do
+            screenshot = create :page_screenshot, state: nil, browserstack_id: 5
+            screenshot.state.should be_nil
+          end
+        end
+      end
+
+      context 'with state' do
+        it 'should keep the state' do
+          screenshot = create :page_screenshot, state: 'foobar', browserstack_id: nil
+          screenshot.state.should == 'foobar'
+        end
       end
     end
 
