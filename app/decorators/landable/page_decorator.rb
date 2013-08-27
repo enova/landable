@@ -22,7 +22,7 @@ module Landable
     def head_tags
       return if page.head_tags.empty?
 
-      page.head_tags.map(&:content).join("\n")
+      page.head_tags.map(&:content).join("\n").html_safe
     end
 
     def meta_tags
