@@ -116,7 +116,7 @@ module Landable
 
     def head_tags_attributes=(attrs)
       attrs ||= []
-      ids = attrs.map { |ht| ht['id'] }.reject(&:nil?)
+      ids = attrs.map { |ht| ht['id'] }.reject(&:blank?)
 
       if ids.empty?
         head_tags.delete_all
