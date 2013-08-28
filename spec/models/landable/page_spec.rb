@@ -123,7 +123,8 @@ module Landable
 
         page.revert_to! revision
 
-        page.attributes.reject { |key| PageRevision.ignored_page_attributes.include? key }.should == revision.snapshot_attributes
+        revision.snapshot_attributes.should include(page.attributes.reject! { |key| PageRevision.ignored_page_attributes.include? key })
+        revision.snapshot_attributes['head_tags_attributes'].should == []
       end
     end
 
