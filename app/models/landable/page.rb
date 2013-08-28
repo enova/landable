@@ -114,12 +114,16 @@ module Landable
     alias :head_tags_attributes_original= :head_tags_attributes= 
 
     def head_tags_attributes=(attrs)
-      ids = attrs.to_a.empty? ? [] : attrs.map { |key| key['id'] }
-      ids.delete_if { |id| id.nil? }
-      head_tags.delete_all if ids.empty?
-      head_tags.where('head_tag_id NOT IN (?)', ids).delete_all
-      attrs = attrs.nil? ? [] : attrs
-      self.head_tags_attributes_original=attrs 
+      attrs ||= []
+      ids = attrs.map { |ht| ht['id'] }.reject(&:nil?)
+
+      if ids.empty?
+        head_tags.delete_all
+      else
+        head_tags.where('head_tag_id NOT IN (?)', ids).delete_all
+      end
+
+      self.head_tags_attributes_original = attrs
     end
   end
 end

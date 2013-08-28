@@ -28,7 +28,10 @@ Given "the page's meta tags are:" do |table|
 end
 
 Given "the page's head tags are:" do |table|
-  @page.head_tags = [HeadTag.create!(content: '<head>', page: @page, page_id: @page.id)]
+  table.hashes.each do |attrs|
+    ht = create :head_tag, attrs
+    @page.head_tags << ht
+  end
 end
 
 Given "the page uses a theme with the body:" do |body|

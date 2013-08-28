@@ -33,7 +33,7 @@ module Landable
       def preview
         attrs = page_params
         page  = attrs[:id].present? ? Page.find(attrs[:id]) : Page.new
-        attrs['head_tags_attributes'].try(:each) { |ht| page.head_tags << HeadTag.find(ht['id']) }
+        attrs['head_tags_attributes'].try(:each) { |ht| page.head_tags << Landable::HeadTag.where(head_tag_id: ht['id']).first_or_create }
         page.attributes = page_params
 
         params[:page][:asset_ids].try(:each) do |asset_id|
