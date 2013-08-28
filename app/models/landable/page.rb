@@ -111,6 +111,7 @@ module Landable
       public_preview_page_url(self)
     end
 
+    #helps create/delete head_tags, needed because of embers issues with hasMany relationships 
     alias :head_tags_attributes_original= :head_tags_attributes= 
 
     def head_tags_attributes=(attrs)
