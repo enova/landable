@@ -46,6 +46,7 @@ module Landable
               url: screenshot.screenshotable.preview_url,
               callback_url: callback_screenshots_url,
               browsers: [screenshot.browserstack_attributes],
+              wait_time: 10, # give images a couple more seconds to load
             }.to_json,
             accept: :json,
             content_type: :json,
