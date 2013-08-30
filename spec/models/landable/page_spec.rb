@@ -21,7 +21,24 @@ module Landable
       Page.new(status_code: StatusCode.where(code: 302).first).should be_redirect
     end
 
-    context '#redirect_url' do
+    describe '#published?' do
+      context 'when published' do
+        it 'should be true' do
+          page = create :page
+          page.publish! author: create(:author), notes: 'yo'
+          page.should be_published
+        end
+      end
+
+      context 'when not published' do
+        it 'should be false' do
+          page = create :page
+          page.should_not be_published
+        end
+      end
+    end
+
+    describe '#redirect_url' do
       it 'is required if redirect?' do
         page = Page.new status_code: StatusCode.where(code: 301).first
         page.should_not have_valid(:redirect_url).when(nil, '')

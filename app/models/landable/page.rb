@@ -99,6 +99,10 @@ module Landable
       end
     end
 
+    def published?
+      published_revision.present?
+    end
+
     def revert_to!(revision)
       update_attributes! revision.snapshot_attributes
     end
