@@ -3,6 +3,7 @@ require_dependency 'landable/page_revision'
 require_dependency 'landable/category'
 require_dependency 'landable/status_code'
 require_dependency 'landable/has_assets'
+require_dependency 'landable/head_tag'
 
 module Landable
   class Page < ActiveRecord::Base
@@ -21,7 +22,10 @@ module Landable
     belongs_to :category, class_name: 'Landable::Category'
     has_many   :revisions, class_name: 'Landable::PageRevision'
     has_many   :screenshots, class_name: 'Landable::Screenshot', as: :screenshotable
+    has_many   :head_tags, class_name: 'Landable::HeadTag'
     belongs_to :status_code, class_name: 'Landable::StatusCode'
+
+    accepts_nested_attributes_for :head_tags
 
     scope :imported, -> { where("imported_at IS NOT NULL") }
 
@@ -109,6 +113,22 @@ module Landable
 
     def preview_url
       public_preview_page_url(self)
+    end
+
+    #helps create/delete head_tags, needed because of embers issues with hasMany relationships 
+    alias :head_tags_attributes_original= :head_tags_attributes= 
+
+    def head_tags_attributes=(attrs)
+      attrs ||= []
+      ids = attrs.map { |ht| ht['id'] }.reject(&:blank?)
+
+      if ids.empty?
+        head_tags.delete_all
+      else
+        head_tags.where('head_tag_id NOT IN (?)', ids).delete_all
+      end
+
+      self.head_tags_attributes_original = attrs
     end
   end
 end

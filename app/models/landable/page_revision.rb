@@ -26,6 +26,7 @@ module Landable
     def page_id=(id)
       self[:page_id] = id
       self.snapshot_attributes = page.attributes.except(*self.ignored_page_attributes)
+      self.snapshot_attributes['head_tags_attributes'] = page.head_tags.map(&:attributes)
     end
 
     def snapshot

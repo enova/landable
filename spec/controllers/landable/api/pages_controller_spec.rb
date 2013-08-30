@@ -225,6 +225,16 @@ module Landable::Api
         response.content_type.should == 'text/html'
         response.body.should match(/still here/)
       end
+
+      it 'can handle head_tags_attributes in the request' do
+        ht = create :head_tag
+        Landable::Page.any_instance.should_receive :head_tags_attributes=
+        make_request attributes_for(:page, body: 'here', theme_id: theme.id,
+                                    head_tags_attributes: [{ 'id' => ht.id,
+                                                             'content' => ht.content,
+                                                             'page_id' => ht.page_id}])
+        response.status.should == 200
+      end
     end
 
     describe '#screenshots' do

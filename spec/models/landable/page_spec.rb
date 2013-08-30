@@ -136,13 +136,51 @@ module Landable
         revision = page.published_revision
 
         page.title = 'Foo'
+        page.head_tags = [create(:head_tag)]
         page.publish! author: author
+        page.head_tags.count.should == 1
 
         page.revert_to! revision
 
-        page.attributes.reject { |key| PageRevision.ignored_page_attributes.include? key }.should == revision.snapshot_attributes
+        revision.snapshot_attributes.should include(page.attributes.reject! { |key| PageRevision.ignored_page_attributes.include? key })
+        revision.snapshot_attributes['head_tags_attributes'].should == []
+        page.head_tags.should == []
       end
     end
 
+    describe '#head_tags_attributes=' do
+      let(:head_tag) { create :head_tag }
+      let(:head_tag2) { create :head_tag }
+      let(:page) { create :page, head_tags: [head_tag, head_tag2] }
+
+      it 'does nothing if no action required' do
+        page.body = 'foobar'
+        page.save
+
+        page.head_tags_attributes=([{'id' => head_tag.id, 'content' => head_tag.content, 'page_id' => head_tag.page_id},
+                                    {'id' => head_tag2.id, 'content' => head_tag2.content,'page_id' => head_tag2.page_id}])
+        page.reload
+        page.head_tags.should include(head_tag, head_tag2)
+        page.head_tags.count.should == 2
+      end
+
+      it 'deletes head_tag if not included in head_tags' do
+        page.head_tags = [head_tag]
+        page.save
+
+        page.head_tags_attributes=(['id' => head_tag.id, 'content' => head_tag.content, 'page_id' => head_tag.page_id])
+        page.reload
+        page.head_tags.should == [head_tag]
+      end
+
+      it 'deletes head_tags if last head_tags' do
+        page.head_tags = []
+        page.save
+
+        page.head_tags_attributes=([])
+        page.reload
+        page.head_tags.should == []
+      end
+    end
   end
 end
