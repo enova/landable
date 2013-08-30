@@ -52,6 +52,11 @@
       "type": ["null", {"$ref": "uuid.json"}]
     },
 
+    "head_tags_attributes": {
+      "type": "array",
+      "items": { "$ref": "uuid.json" }
+    },
+
     "meta_tags": {
       "type": "object",
       "additionalProperties": false,
