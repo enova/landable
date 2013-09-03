@@ -829,6 +829,14 @@ ALTER TABLE ONLY pages
 -- Name: page_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
 --
 
+ALTER TABLE ONLY head_tags
+    ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES pages(page_id);
+
+
+--
+-- Name: page_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
 ALTER TABLE ONLY page_assets
     ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES pages(page_id);
 
