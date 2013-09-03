@@ -25,8 +25,8 @@ module Landable
 
     def page_id=(id)
       self[:page_id] = id
-      self.snapshot_attributes = page.attributes.except(*self.ignored_page_attributes)
-      self.snapshot_attributes['head_tags_attributes'] = page.head_tags.map(&:attributes)
+      self.snapshot_attributes = page.attributes.except(*ignored_page_attributes)
+      self.snapshot_attributes['head_tags_attributes'] = page.head_tags.map { |ht| ht.attributes.except('created_at', 'updated_at') }
     end
 
     def snapshot

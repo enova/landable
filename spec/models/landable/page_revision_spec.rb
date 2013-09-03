@@ -31,7 +31,7 @@ module Landable
         ht = create :head_tag, page_id: page.id
 
         attrs = revision.snapshot_attributes
-        attrs['head_tags_attributes'].should == [ht.attributes]
+        attrs['head_tags_attributes'].should == [ht.attributes.except('created_at', 'updated_at')]
       end
     end
 
