@@ -6,7 +6,10 @@ require 'digest/md5'
 module Landable
   class Asset < ActiveRecord::Base
     self.table_name = 'landable.assets'
+
     mount_uploader :data, Landable::AssetUploader
+    alias :file :data
+    alias :file= :data=
 
     # This bit of indirection allows us to generate predictable
     # URLs in the test environment.
