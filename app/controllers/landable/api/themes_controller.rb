@@ -31,10 +31,15 @@ module Landable
           theme.attachments.add Asset.find(asset_id)
         end
 
+        content = RenderService.call page
+
         respond_to do |format|
           format.html do
-            content = RenderService.call page
             render text: content, layout: false, content_type: 'text/html'
+          end
+
+          format.json do
+            render json: {theme: {preview: content}}
           end
         end
       end
