@@ -3,7 +3,7 @@ module Landable
     attributes :id, :path
     attributes :title, :body
     attributes :redirect_url
-    # attributes :meta_tags
+    attributes :meta_tags
     attributes :is_publishable
     attributes :preview_url
 
