@@ -52,9 +52,14 @@
       "type": ["null", {"$ref": "uuid.json"}]
     },
 
-    "head_tags_attributes": {
+    "head_tag_ids": {
       "type": "array",
       "items": { "$ref": "uuid.json" }
+    },
+
+    "head_tags_attributes": {
+      "type": "array",
+      "items": { "$ref": "head_tag.json" }
     },
 
     "meta_tags": {
