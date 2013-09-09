@@ -40,7 +40,7 @@ module Landable
       end
 
       def asset_params
-        params.require(:asset).permit(:name, :description, :data, :file)
+        params.require(:asset).permit(:id, :name, :description, :data, :file)
       end
     end
   end
