@@ -192,10 +192,11 @@ module Landable::Api
         response.content_type.should == 'text/html'
       end
 
-      it 'does not know how to return JSON' do
+      it 'renders JSON' do
         request.env['HTTP_ACCEPT'] = 'application/json'
         make_request
-        response.status.should == 406
+        response.status.should == 200
+        last_json['page']['preview'].should be_present
       end
 
       it 'renders the layout without content if the body is not present' do
