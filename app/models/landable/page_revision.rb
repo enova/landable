@@ -15,7 +15,7 @@ module Landable
       'updated_at',
       'published_revision_id',
       'is_publishable',
-      'updating_author_id',
+      'updated_by_author_id',
     ]
 
     cattr_accessor :ignored_page_attributes

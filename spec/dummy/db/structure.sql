@@ -308,7 +308,8 @@ CREATE TABLE pages (
     imported_at timestamp without time zone,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    updating_author_id uuid,
+    updated_by_author_id uuid,
+    lock_version integer DEFAULT 0 NOT NULL,
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
 
@@ -907,3 +908,5 @@ SET search_path TO "$user",public;
 INSERT INTO schema_migrations (version) VALUES ('20130510221424');
 
 INSERT INTO schema_migrations (version) VALUES ('20130909182713');
+
+INSERT INTO schema_migrations (version) VALUES ('20130909191153');

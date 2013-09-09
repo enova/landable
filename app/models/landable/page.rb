@@ -18,14 +18,14 @@ module Landable
     validates_uniqueness_of :path
     validates_presence_of   :redirect_url, if: -> page { page.redirect? }
 
-    belongs_to :theme, class_name: 'Landable::Theme', inverse_of: :pages
-    belongs_to :published_revision, class_name: 'Landable::PageRevision'
-    belongs_to :category, class_name: 'Landable::Category'
-    belongs_to :updating_author, class_name: 'Landable::Author'
-    has_many   :revisions, class_name: 'Landable::PageRevision'
-    has_many   :screenshots, class_name: 'Landable::Screenshot', as: :screenshotable
-    has_many   :head_tags, class_name: 'Landable::HeadTag'
-    belongs_to :status_code, class_name: 'Landable::StatusCode'
+    belongs_to :theme,                class_name: 'Landable::Theme',        inverse_of: :pages
+    belongs_to :published_revision,   class_name: 'Landable::PageRevision'
+    belongs_to :category,             class_name: 'Landable::Category'
+    belongs_to :updated_by_author,    class_name: 'Landable::Author'
+    has_many   :revisions,            class_name: 'Landable::PageRevision'
+    has_many   :screenshots,          class_name: 'Landable::Screenshot',   as: :screenshotable
+    has_many   :head_tags,            class_name: 'Landable::HeadTag'
+    belongs_to :status_code,          class_name: 'Landable::StatusCode'
 
     accepts_nested_attributes_for :head_tags
 

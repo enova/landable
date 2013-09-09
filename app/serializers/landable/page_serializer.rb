@@ -6,6 +6,7 @@ module Landable
     attributes :meta_tags
     attributes :is_publishable
     attributes :preview_url
+    attributes :lock_version
 
     embed    :ids
     has_one  :theme

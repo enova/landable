@@ -10,7 +10,7 @@ module Landable
 
       def create
         page = Page.new page_params
-        page.updating_author = current_author
+        page.updated_by_author = current_author
         page.save!
         respond_with page, status: :created, location: page_url(page)
       end
@@ -21,7 +21,7 @@ module Landable
 
       def update
         page = Page.find params[:id]
-        page.updating_author = current_author
+        page.updated_by_author = current_author
         page.update_attributes! page_params
         respond_with page
       end
