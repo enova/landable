@@ -137,6 +137,7 @@ module Landable
 
         page.title = 'Foo'
         page.head_tags = [create(:head_tag)]
+        page.reload
         page.publish! author: author
         page.head_tags.count.should == 1
 
@@ -154,6 +155,7 @@ module Landable
       let(:page) { create :page, head_tags: [head_tag, head_tag2] }
 
       it 'does nothing if no action required' do
+        page.reload
         page.body = 'foobar'
         page.save
 
