@@ -62,6 +62,15 @@
       "items": { "$ref": "head_tag.json" }
     },
 
+    "lock_version": {
+      "type": "integer",
+      "min": 1
+    },
+
+    "updated_by_author_id": {
+      "type": ["null", {"$ref": "uuid.json"}]
+    },
+
     "meta_tags": {
       "type": "object",
       "additionalProperties": false,

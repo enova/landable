@@ -14,6 +14,7 @@ module Landable
     has_one  :category
     has_one  :status_code
     has_many :head_tags, include: true, serializer: HeadTagSerializer
+    has_one  :updated_by_author, root: :authors, include: true, serializer: AuthorSerializer
 
     def category
       object.category || Landable::Category.where(name: 'Uncategorized').first

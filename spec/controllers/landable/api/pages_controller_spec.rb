@@ -146,7 +146,7 @@ module Landable::Api
         make_request body: 'updated body!'
         response.status.should == 200
         page.reload.body.should == 'updated body!'
-        page.reload.updating_author.should == current_author
+        page.reload.updated_by_author.should == current_author
       end
 
       it 'renders the page as JSON' do
