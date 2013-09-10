@@ -34,14 +34,18 @@ module Landable
     end
 
     initializer "landable.required_data" do |app|
-      okay = Landable::StatusCodeCategory.where(name: 'okay').first_or_create!
-      redirect = Landable::StatusCodeCategory.where(name: 'redirect').first_or_create!
-      missing = Landable::StatusCodeCategory.where(name: 'missing').first_or_create!
+      if Landable::StatusCodeCategory.table_exists?
+        okay = Landable::StatusCodeCategory.where(name: 'okay').first_or_create!
+        redirect = Landable::StatusCodeCategory.where(name: 'redirect').first_or_create!
+        missing = Landable::StatusCodeCategory.where(name: 'missing').first_or_create!
 
-      Landable::StatusCode.where(code: 200).first_or_create!(description: 'OK', status_code_category: okay)
-      Landable::StatusCode.where(code: 301).first_or_create!(description: 'Permanent Redirect', status_code_category: redirect)
-      Landable::StatusCode.where(code: 302).first_or_create!(description: 'Temporary Redirect', status_code_category: redirect)
-      Landable::StatusCode.where(code: 404).first_or_create!(description: 'Not Found', status_code_category: missing)
+        if Landable::StatusCode.table_exists?
+          Landable::StatusCode.where(code: 200).first_or_create!(description: 'OK', status_code_category: okay)
+          Landable::StatusCode.where(code: 301).first_or_create!(description: 'Permanent Redirect', status_code_category: redirect)
+          Landable::StatusCode.where(code: 302).first_or_create!(description: 'Temporary Redirect', status_code_category: redirect)
+          Landable::StatusCode.where(code: 404).first_or_create!(description: 'Not Found', status_code_category: missing)
+        end
+      end
     end
   end
 end
