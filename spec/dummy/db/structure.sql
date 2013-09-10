@@ -900,6 +900,14 @@ ALTER TABLE ONLY pages
 
 
 --
+-- Name: updated_author_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY pages
+    ADD CONSTRAINT updated_author_fk FOREIGN KEY (updated_by_author_id) REFERENCES authors(author_id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
