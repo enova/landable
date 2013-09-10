@@ -33,16 +33,6 @@ class CreateLandableSchema < ActiveRecord::Migration
     execute "COMMENT ON TABLE landable.status_codes IS
               $$Allowed status codes that pages can be set to.$$"
 
-    # Status codes seed data
-
-    okay = Landable::StatusCodeCategory.create!(name: 'okay')
-    redirect = Landable::StatusCodeCategory.create!(name: 'redirect')
-    missing = Landable::StatusCodeCategory.create!(name: 'missing')
-
-    Landable::StatusCode.create!(code: 200, description: 'OK', status_code_category: okay)
-    Landable::StatusCode.create!(code: 301, description: 'Permanent Redirect', status_code_category: redirect)
-    Landable::StatusCode.create!(code: 302, description: 'Temporary Redirect', status_code_category: redirect)
-    Landable::StatusCode.create!(code: 404, description: 'Not Found', status_code_category: missing)
 
     ## themes
 
