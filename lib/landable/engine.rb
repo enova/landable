@@ -1,6 +1,7 @@
 require "rack/cors"
 require "active_model_serializers"
 require "carrierwave"
+require "rake"
 
 module Landable
   class Engine < ::Rails::Engine
@@ -33,17 +34,17 @@ module Landable
       end
     end
 
-    initializer "landable.required_data" do |app|
-      if Landable::StatusCodeCategory.table_exists?
-        okay = Landable::StatusCodeCategory.where(name: 'okay').first_or_create!
-        redirect = Landable::StatusCodeCategory.where(name: 'redirect').first_or_create!
-        missing = Landable::StatusCodeCategory.where(name: 'missing').first_or_create!
+    initializer "landable.seed" do |app|
+      def seed_required
+        Rake::Task['landable:seed:required'].invoke
+      end
 
-        if Landable::StatusCode.table_exists?
-          Landable::StatusCode.where(code: 200).first_or_create!(description: 'OK', status_code_category: okay)
-          Landable::StatusCode.where(code: 301).first_or_create!(description: 'Permanent Redirect', status_code_category: redirect)
-          Landable::StatusCode.where(code: 302).first_or_create!(description: 'Temporary Redirect', status_code_category: redirect)
-          Landable::StatusCode.where(code: 404).first_or_create!(description: 'Not Found', status_code_category: missing)
+      if ActiveRecord::Base.connection.schema_exists? 'landable'
+        begin
+          seed_required
+        rescue RuntimeError
+          app.load_tasks
+          seed_required
         end
       end
     end

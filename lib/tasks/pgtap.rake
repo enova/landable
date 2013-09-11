@@ -21,6 +21,6 @@ begin
       end
     end
   end
+
   task :pgtap => 'pgtap:run'
-  task :default => :pgtap
 end
