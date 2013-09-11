@@ -21,12 +21,19 @@ end
 require 'rspec/core'
 require 'rspec/core/rake_task'
 
+namespace :landable do
 # formerly, this depended on app:db:test:prepare. this loads the schema only,
 # and - as it stands - our first migration contains needed seed data. for now,
 # it's enough to ensure that bin/redb is run before testing.
-desc "Run specs"
-RSpec::Core::RakeTask.new(:spec)
-task :default => :spec
+  desc "Run specs"
+  RSpec::Core::RakeTask.new(:spec)
 
-load File.expand_path("../lib/tasks/cucumber.rake", __FILE__)
-load File.expand_path("../lib/tasks/pgtap.rake", __FILE__) if Rails.root.to_s.split('/').last == 'dummy'
+  load File.expand_path("../lib/tasks/cucumber.rake", __FILE__)
+  load File.expand_path("../lib/tasks/pgtap.rake", __FILE__) if Rails.root.to_s.split('/').last == 'dummy'
+
+  desc 'Landable test suite'
+  task :test => [:spec, :cucumber, :pgtap]
+end
+
+desc 'Alias for landable:test'
+task :landable => 'landable:test'
