@@ -41,6 +41,8 @@ module Landable
       page.is_publishable = true unless page.published_revision_id_changed?
     }
 
+    before_save :clean_lock_version
+
     class << self
       def missing
         new(status_code: StatusCode.where(code: 404).first)
@@ -72,6 +74,10 @@ module Landable
 
     def downcase_path
       path.try :downcase!
+    end
+
+    def clean_lock_version
+      lock_version ||= 0
     end
 
     def directory_after(prefix)
