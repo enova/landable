@@ -1,9 +1,10 @@
 require "landable/engine"
 require "landable/configuration"
+require "landable/seeds"
 require "yaml"
 
-# This absurd configuration loading code is not intended to live long.
 module Landable
+  # This absurd configuration loading code is not intended to live long.
   def self.configuration
     @configuration ||= Landable::Configuration.new
   end

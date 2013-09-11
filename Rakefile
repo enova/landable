@@ -19,7 +19,17 @@ RDoc::Task.new(:rdoc) do |rdoc|
 end
 
 load File.expand_path('../lib/tasks/landable.rake', __FILE__)
+load File.expand_path('../lib/tasks/cucumber.rake', __FILE__)
+load File.expand_path('../lib/tasks/pgtap.rake', __FILE__) if Rails.root.to_s.split('/').last == 'dummy'
+
+require 'rspec/core'
+require 'rspec/core/rake_task'
+
+desc 'Run specs'
+RSpec::Core::RakeTask.new(:spec)
 
 # reclaim our default task
 task(:default).clear
-task :default => :landable
+
+desc 'Landable test suite'
+task :default => ['app:db:test:prepare', 'landable:seed:required', :spec, :cucumber, :pgtap]

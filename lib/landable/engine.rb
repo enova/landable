@@ -34,19 +34,8 @@ module Landable
       end
     end
 
-    initializer "landable.seed" do |app|
-      def seed_required
-        Rake::Task['landable:seed:required'].invoke
-      end
-
-      if ActiveRecord::Base.connection.schema_exists? 'landable'
-        begin
-          seed_required
-        rescue RuntimeError
-          app.load_tasks
-          seed_required
-        end
-      end
+    initializer "landable.seed_required" do |app|
+      Landable::Seeds.seed(:required)
     end
   end
 end
