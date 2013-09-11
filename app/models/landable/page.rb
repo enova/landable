@@ -38,10 +38,9 @@ module Landable
     end
 
     before_save -> page {
+      page.lock_version ||= 0
       page.is_publishable = true unless page.published_revision_id_changed?
     }
-
-    before_save :clean_lock_version
 
     class << self
       def missing
@@ -74,10 +73,6 @@ module Landable
 
     def downcase_path
       path.try :downcase!
-    end
-
-    def clean_lock_version
-      lock_version ||= 0
     end
 
     def directory_after(prefix)
