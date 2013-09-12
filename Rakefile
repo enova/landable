@@ -9,27 +9,13 @@ load 'rails/tasks/engine.rake'
 
 Bundler::GemHelper.install_tasks
 
-require 'rdoc/task'
-RDoc::Task.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'Landable'
-  rdoc.options << '--line-numbers'
-  rdoc.rdoc_files.include('README.rdoc')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
-
-load File.expand_path('../lib/tasks/landable.rake', __FILE__)
-load File.expand_path('../lib/tasks/cucumber.rake', __FILE__)
-load File.expand_path('../lib/tasks/pgtap.rake', __FILE__) if Rails.root.to_s.split('/').last == 'dummy'
-
-require 'rspec/core'
-require 'rspec/core/rake_task'
-
-desc 'Run specs'
-RSpec::Core::RakeTask.new(:spec)
-
-# reclaim our default task
-task(:default).clear
+Dir.glob(File.expand_path('../lib/tasks/landable/*.rake', __FILE__)).each { |f| load f }
 
 desc 'Landable test suite'
-task :default => ['app:db:test:prepare', 'landable:seed:required', :spec, :cucumber, :pgtap]
+task :landable => [
+  'app:db:test:prepare',
+  'landable:seed:required',
+  'landable:spec',
+  'landable:cucumber',
+  'landable:pgtap'
+]

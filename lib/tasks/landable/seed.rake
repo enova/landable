@@ -1,5 +1,4 @@
 namespace :landable do
-
   namespace :seed do
     desc 'Populate a landable database with basic categories and themes'
     task :extras => :environment do
@@ -14,5 +13,4 @@ namespace :landable do
 
   desc 'Seed required and extra data'
   task :seed => ['seed:required', 'seed:extras']
-
 end
