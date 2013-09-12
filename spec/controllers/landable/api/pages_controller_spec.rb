@@ -171,6 +171,51 @@ module Landable::Api
           response.status.should == 404
         end
       end
+
+      context 'stale page' do
+        it 'throws error when stale body update' do
+          page.save!
+          page1 = Landable::Page.first
+          page2 = Landable::Page.first
+
+          page1.body = "duh"
+          expect{ page1.save! }.to_not raise_error
+          page2.body = "something"
+          expect{ page2.save! }.to raise_error(ActiveRecord::StaleObjectError)
+        end
+
+        it 'throws error when stale meta_tags update' do
+          page.save!
+          page1 = Landable::Page.first
+          page2 = Landable::Page.first
+
+          page1.meta_tags = "duh"
+          expect{ page1.save! }.to_not raise_error
+          page2.meta_tags = "something"
+          expect{ page2.save! }.to raise_error(ActiveRecord::StaleObjectError)
+        end
+
+        it 'throws error when stale path update' do
+          page.save!
+          page1 = Landable::Page.first
+          page2 = Landable::Page.first
+
+          page1.path = "duh"
+          expect{ page1.save! }.to_not raise_error
+          page2.path = "something"
+          expect{ page2.save! }.to raise_error(ActiveRecord::StaleObjectError)
+        end
+
+        it 'throws error when stale multi-column update' do
+          page.save!
+          page1 = Landable::Page.first
+          page2 = Landable::Page.first
+          page1.body = "duh"
+          expect{ page1.save! }.to_not raise_error
+          page2.path = "/test/should_fail"
+          expect{ page2.save! }.to raise_error(ActiveRecord::StaleObjectError)
+        end
+      end
     end
 
     describe '#preview', json: false do
