@@ -308,6 +308,8 @@ CREATE TABLE pages (
     imported_at timestamp without time zone,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
+    updated_by_author_id uuid,
+    lock_version integer DEFAULT 0 NOT NULL,
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
 
@@ -898,9 +900,21 @@ ALTER TABLE ONLY pages
 
 
 --
+-- Name: updated_author_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY pages
+    ADD CONSTRAINT updated_author_fk FOREIGN KEY (updated_by_author_id) REFERENCES authors(author_id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
 SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20130510221424');
+
+INSERT INTO schema_migrations (version) VALUES ('20130909182713');
+
+INSERT INTO schema_migrations (version) VALUES ('20130909191153');

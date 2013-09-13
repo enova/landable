@@ -22,6 +22,10 @@ module Landable
       head :not_acceptable
     end
 
+    rescue_from ActiveRecord::StaleObjectError do |ex|
+      render json: { author: ex.record.updated_by_author }, status: 409
+    end
+
     rescue_from PG::Error do |ex|
       if ex.message =~ /invalid input syntax for uuid/
         head :not_found
