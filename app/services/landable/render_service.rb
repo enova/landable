@@ -2,32 +2,47 @@ require_dependency 'landable/liquid'
 
 module Landable
   class RenderService
-    def self.call(page)
-      new(page, page.theme).render!
+    def self.call(page, options = nil)
+      new(page, page.theme, options).render!
     end
 
-    def initialize(page, theme)
+    def initialize(page, theme, options = nil)
       @page  = page
       @theme = theme
+      @options = options || {}
     end
 
     def render!
-      content = parse(page.body).render!(nil, registers: {
+      content = render_template(page.body, registers: {
         page: page,
         assets: assets_for_page,
       })
 
-      return content unless layout?
+      if layout?
+        content = render_template(theme.body, {'body' => content}, registers: {
+          page: page,
+          assets: assets_for_theme,
+        })
+      end
 
-      parse(theme.body).render!({ 'body' => content }, registers: {
-        page: page,
-        assets: assets_for_theme,
-      })
+      # not completely happy about this
+      if options[:preview]
+        preview_template = File.open(Landable::Engine.root.join('app', 'views', 'templates', 'preview.liquid')).read
+
+        content = render_template(preview_template, {
+          'content' => content,
+          'is_redirect' => page.redirect?,
+          'status_code' => page.status_code.code,
+          'redirect_url' => page.redirect_url,
+        })
+      end
+
+      content
     end
 
     private
 
-    attr_reader :page, :theme
+    attr_reader :page, :theme, :options
 
     def layout?
       theme && theme.body.present?
@@ -47,6 +62,11 @@ module Landable
 
     def assets_for_theme
       @assets_for_theme ||= theme ? theme.assets_as_hash : {}
+    end
+
+    def render_template template, *args
+      options = args.extract_options!
+      parse(template).render!(*args, options)
     end
   end
 end

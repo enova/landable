@@ -1,0 +1,41 @@
+{% if is_redirect %}
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <style type="text/css">
+        body {
+          font-family: sans-serif;
+          margin: 2em auto;
+        }
+
+        p {
+          background: #eee;
+          width: 80%;
+          max-width: 400px;
+          padding: 1em;
+          margin: auto;
+          text-align: center;
+        }
+
+        .status-code, .redirect-url {
+          font-weight: bold;
+          display: block;
+          margin: 1em 0;
+          font-size: 1.2em;
+        }
+
+        a.redirect-url {
+          color: inherit;
+        }
+      </style>
+    </head>
+    <body>
+      <p>
+        This page is a
+        <span class="status-code">{{ status_code }}</span>
+        redirect to
+        <a href="<%= @page.redirect_url %>" target="_blank" class="redirect-url">{{ redirect_url }}</a>
+      </p>
+    </body>
+  </html>
+{% else %}{{ content }}{% endif %}

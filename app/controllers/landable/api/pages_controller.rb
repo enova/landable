@@ -42,7 +42,7 @@ module Landable
           page.attachments.add Asset.find(asset_id)
         end
 
-        content = RenderService.call page
+        content = RenderService.call page, preview: true
 
         respond_to do |format|
           format.html do
