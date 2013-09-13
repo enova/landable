@@ -28,7 +28,7 @@ module Landable
     validates_presence_of     :name, :mime_type, :md5sum, :file_size
     validates_uniqueness_of   :md5sum
     validates_numericality_of :file_size, only_integer: true
-    validates_format_of       :name, :with => /^[\w\._-]+$/, :on => :create, :multiline => true, :message => "Name cannot contain spaces."
+    validates_format_of       :name, :with => /^[\w\._-]+$/, :on => :create, :multiline => true, :message => 'can only contain alphanumeric characters, periods, underscores, and dashes'
 
     def public_url
       self.class.url_generator.call(self)
