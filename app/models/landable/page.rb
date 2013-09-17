@@ -30,6 +30,7 @@ module Landable
     accepts_nested_attributes_for :head_tags
 
     scope :imported, -> { where("imported_at IS NOT NULL") }
+    scope :sitemappable, -> { joins(:status_code).where(status_codes: { code: 200 }) }
 
     before_validation :downcase_path
 
@@ -68,6 +69,23 @@ module Landable
         }
 
         new defaults.merge(attrs)
+      end
+
+
+      def generate_sitemap
+        pages = Landable::Page.sitemappable
+        xml = Builder::XmlMarkup.new( :indent => 2 )
+        xml.instruct! :xml, encoding: "UTF-8"
+        xml.urlset do |xml|
+          pages.each do |page|
+            xml.url do |p|
+              p.loc page.path
+              p.lastmod page.updated_at
+              p.changefreq 'weekly'
+              p.priority '1'
+            end
+          end
+        end
       end
     end
 

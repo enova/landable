@@ -184,5 +184,25 @@ module Landable
         page.head_tags.should == []
       end
     end
+
+    describe '::sitemappable' do
+      let(:page) { create :page }
+      let(:page_2) { create :page }
+
+      it 'only returns sitemaps with a status code of 200' do
+        page_2.status_code = StatusCode.where(code: 301).first
+        page_2.save
+
+        page_2.status_code.code.should == 301
+        Landable::Page.sitemappable.count.should == 1
+      end
+    end
+
+    describe '::generate_sitemap' do
+      it 'returns a sitemap' do
+        page = create :page
+        Landable::Page.generate_sitemap.should include("<loc>#{page.path}</loc>")
+      end
+    end
   end
 end
