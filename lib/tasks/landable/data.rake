@@ -1,5 +1,6 @@
 namespace :landable do
   namespace :data do
+    desc "Pulls database from specified source"
     task restore: :environment do
        STDOUT.puts 'Enter Remote DB Host'
        host = STDIN.gets.strip
