@@ -187,14 +187,14 @@ module Landable
 
     describe '::sitemappable' do
       let(:page) { create :page }
-      let(:page_2) { create :page }
+      let(:page_2) { create :page, :redirect }
+      let(:page_3) { create :page, meta_tags: { 'robots' => 'noindex' } }
 
-      it 'only returns sitemaps with a status code of 200' do
-        page_2.status_code = StatusCode.where(code: 301).first
-        page_2.save
-
+      it 'only returns pages with a status code of 200 and dont have a noindex tag' do 
         page_2.status_code.code.should == 301
-        Landable::Page.sitemappable.count.should == 1
+
+        Landable::Page.sitemappable.should include(page)
+        Landable::Page.sitemappable.should_not include(page_2, page_3)
       end
     end
 
