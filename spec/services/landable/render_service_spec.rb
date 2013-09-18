@@ -5,8 +5,11 @@ module Landable
     let(:page)  { build  :page, body: 'render test', theme: theme }
     let(:theme) { create :theme }
 
-    def render(target = page)
-      RenderService.call(target)
+    def render(*args)
+      options = args.extract_options!
+      target = args.first || page
+
+      RenderService.call(target, options)
     end
 
     it 'returns a string' do
@@ -38,6 +41,28 @@ module Landable
         theme.body = 'foo {{body}}'
         page.body  = nil
         render.should == 'foo '
+      end
+    end
+
+    context 'for a redirect' do
+      let(:page)  { build :page, :redirect  }
+
+      context 'previewing' do
+        let(:rendered) { render(preview: true) }
+
+        it 'conveys information about the redirect' do
+          rendered.should include "#{page.status_code.code}"
+          rendered.should include "<a href=\"#{page.redirect_url}\">#{page.redirect_url}</a>"
+        end
+      end
+
+      context 'not previewing' do
+        let(:rendered) { render }
+
+        it 'should not include those things' do
+          rendered.should_not include "#{page.status_code.code}"
+          rendered.should_not include "<a href=\"#{page.redirect_url}\">#{page.redirect_url}</a>"
+        end
       end
     end
   end

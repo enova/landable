@@ -222,7 +222,7 @@ module Landable::Api
       include_examples 'Authenticated API controller', :make_request
       render_views
 
-      let(:theme) { create :theme, body: '<html><body>Theme content; page content: {{body}}</body></html>' }
+      let(:theme) { create :theme, body: '<html><head>{% head_tags %}<body>Theme content; page content: {{body}}</body></html>' }
 
       before do
         request.env['HTTP_ACCEPT'] = 'text/html'
@@ -233,6 +233,7 @@ module Landable::Api
       end
 
       it 'renders HTML' do
+        Landable::RenderService.should_receive(:call) { |page, options|}
         make_request
         response.status.should == 200
         response.content_type.should == 'text/html'
@@ -259,11 +260,12 @@ module Landable::Api
         response.body.should == 'raw content'
       end
 
-      it 'renders 30x pages as if they were 200s' do
+      it 'renders 30x pages with a link to the real thing' do
         make_request attributes_for(:page, :redirect, body: 'still here', theme_id: theme.id)
         response.status.should == 200
         response.content_type.should == 'text/html'
-        response.body.should match(/still here/)
+        response.body.should include('301')
+        response.body.should include('/redirect/somewhere/else') # briiiitle
       end
 
       it 'renders 404 pages as if they were 200s' do
@@ -274,13 +276,13 @@ module Landable::Api
       end
 
       it 'can handle head_tags_attributes in the request' do
-        ht = create :head_tag
-        Landable::Page.any_instance.should_receive :head_tags_attributes=
+        ht = build :head_tag, content: '<meta name="test" type="text/plain" content="foo">'
         make_request attributes_for(:page, body: 'here', theme_id: theme.id,
                                     head_tags_attributes: [{ 'id' => ht.id,
                                                              'content' => ht.content,
                                                              'page_id' => ht.page_id}])
         response.status.should == 200
+        response.body.should include(ht.content)
       end
     end
 

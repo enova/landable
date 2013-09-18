@@ -13,7 +13,7 @@ module Landable
     end
 
     def render!
-      content = render_template(page.body, registers: {
+      content = render_template(page.body, {}, registers: {
         page: page,
         assets: assets_for_page,
       })
@@ -64,9 +64,11 @@ module Landable
       @assets_for_theme ||= theme ? theme.assets_as_hash : {}
     end
 
-    def render_template template, *args
-      options = args.extract_options!
-      parse(template).render!(*args, options)
+    def render_template template, variables = nil, options = nil
+      options ||= {}
+      variables ||= {}
+
+      parse(template).render!(variables, options)
     end
   end
 end
