@@ -1,0 +1,84 @@
+{% if is_redirect %}
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <style type="text/css">
+        body {
+          font-family: sans-serif;
+          margin: 0;
+          background: #eee;
+        }
+
+        .message-wrapper, iframe {
+          position: absolute;
+          border: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        }
+
+        iframe {
+          z-index: 100;
+          -webkit-filter: blur(10px);
+          -moz-filter: blur(10px);
+          filter: blur(10px);
+          background: transparent;
+        }
+
+        .message-wrapper {
+          z-index: 200;
+        }
+
+        .message {
+          background: #fff;
+          width: 80%;
+          max-width: 400px;
+          padding: 1em;
+          margin: 10% auto auto auto;
+          text-align: center;
+          -moz-border-radius: 2px;
+          -webkit-border-radius: 2px;
+          border-radius: 2px;
+          border: 1px #ccc solid;
+          border-bottom-color: #aaa;
+        }
+
+        .status-code {
+          font-weight: bold;
+        }
+
+        .redirect-url {
+          display: block;
+          margin-top: 0.8em;
+          font-size: 1.2em;
+        }
+
+        .redirect-url a {
+          color: #466cd2;
+        }
+
+        .preview-mode {
+          font-size: 0.9em;
+          color: #777;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="message-wrapper">
+        <div class="message">
+          <p>
+            This page will redirect (<span class="status-code">{{ status_code }}</span>) to:
+            <span class="redirect-url">
+              <a href="{{ redirect_url }}">{{ redirect_url }}</a>
+            </span>
+          </p>
+          <p class="preview-mode">(preview mode)</p>
+        </div>
+      </div>
+      <iframe src="{{ redirect_url }}" seamless="seamless">
+    </body>
+  </html>
+{% else %}{{ content }}{% endif %}

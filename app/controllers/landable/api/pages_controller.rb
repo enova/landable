@@ -35,14 +35,9 @@ module Landable
       def preview
         attrs = page_params
         page  = attrs[:id].present? ? Page.find(attrs[:id]) : Page.new
-        attrs['head_tags_attributes'].try(:each) { |ht| page.head_tags << Landable::HeadTag.where(head_tag_id: ht['id']).first_or_create }
         page.attributes = page_params
 
-        params[:page][:asset_ids].try(:each) do |asset_id|
-          page.attachments.add Asset.find(asset_id)
-        end
-
-        content = RenderService.call page
+        content = RenderService.call page, preview: true
 
         respond_to do |format|
           format.html do
