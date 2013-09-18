@@ -184,5 +184,25 @@ module Landable
         page.head_tags.should == []
       end
     end
+
+    describe '::sitemappable' do
+      let(:page) { create :page }
+      let(:page_2) { create :page, :redirect }
+      let(:page_3) { create :page, meta_tags: { 'robots' => 'noindex' } }
+
+      it 'only returns pages with a status code of 200 and dont have a noindex tag' do 
+        page_2.status_code.code.should == 301
+
+        Landable::Page.sitemappable.should include(page)
+        Landable::Page.sitemappable.should_not include(page_2, page_3)
+      end
+    end
+
+    describe '::generate_sitemap' do
+      it 'returns a sitemap' do
+        page = create :page
+        Landable::Page.generate_sitemap.should include("<loc>#{page.path}</loc>")
+      end
+    end
   end
 end

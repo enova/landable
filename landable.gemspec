@@ -34,6 +34,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency "liquid"
   gem.add_dependency "fog"
   gem.add_dependency "rest-client"
+  gem.add_dependency "builder"
 
   gem.add_development_dependency "pg"
   gem.add_development_dependency "rspec-rails",        '~> 2.13.0'

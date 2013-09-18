@@ -49,6 +49,8 @@ Landable::Engine.routes.draw do
       resources :page_revisions, path: 'pr', only: [:show]
     end
 
+    get '/sitemap.xml' => 'sitemap#index'
+
     get '*url' => 'pages#show', as: :page, constraints: {
       url: /[a-zA-Z0-9\/_.~-]*/
     }
