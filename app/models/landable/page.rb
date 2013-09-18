@@ -18,6 +18,8 @@ module Landable
     validates_uniqueness_of :path
     validates_presence_of   :redirect_url, if: -> page { page.redirect? }
 
+    validate :forbid_changing_path, on: :update
+
     belongs_to :theme,                class_name: 'Landable::Theme',        inverse_of: :pages
     belongs_to :published_revision,   class_name: 'Landable::PageRevision'
     belongs_to :category,             class_name: 'Landable::Category'
@@ -116,6 +118,10 @@ module Landable
 
     def preview_url
       public_preview_page_url(self)
+    end
+
+    def forbid_changing_path
+      errors[:path] = "can not be changed!" if self.path_changed?
     end
 
     #helps create/delete head_tags, needed because of embers issues with hasMany relationships 
