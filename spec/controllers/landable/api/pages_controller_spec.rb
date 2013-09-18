@@ -222,7 +222,7 @@ module Landable::Api
       include_examples 'Authenticated API controller', :make_request
       render_views
 
-      let(:theme) { create :theme, body: '<html><head>{% head_tags %}<body>Theme content; page content: {{body}}</body></html>' }
+      let(:theme) { create :theme, body: '<html><head>{% head_tags %}</head><body>Theme content; page content: {{body}}</body></html>' }
 
       before do
         request.env['HTTP_ACCEPT'] = 'text/html'
