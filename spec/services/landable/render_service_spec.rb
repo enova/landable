@@ -65,5 +65,13 @@ module Landable
         end
       end
     end
+
+    context 'for non-html' do
+      let(:page) { build :page, body: 'render test', path: 'foo.txt', theme: theme }
+
+      it 'renders without a theme' do
+        render.should == 'render test'
+      end
+    end
   end
 end

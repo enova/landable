@@ -38,6 +38,52 @@ module Landable
       end
     end
 
+    specify '#path_extension' do
+      Page.new(path: 'foo').path_extension.should be_nil
+      Page.new(path: 'foo.bar').path_extension.should == 'bar'
+      Page.new(path: 'foo.bar.baz').path_extension.should == 'baz'
+      Page.new(path: 'foo.bar-baz').path_extension.should be_nil
+    end
+
+    describe '#content_type' do
+      def content_type_for path
+        Page.new(path: path).content_type
+      end
+
+      it 'should be text/html for html pages' do
+        content_type_for('asdf').should == 'text/html'
+        content_type_for('asdf.htm').should == 'text/html'
+        content_type_for('asdf.html').should == 'text/html'
+      end
+
+      it 'should be application/json for json' do
+        content_type_for('asdf.json').should == 'application/json'
+      end
+
+      it 'should be application/xml for xml' do
+        content_type_for('asdf.xml').should == 'application/xml'
+      end
+
+      it 'should be text/plain for everything else' do
+        content_type_for('foo.bar').should == 'text/plain'
+        content_type_for('foo.txt').should == 'text/plain'
+      end
+    end
+
+    describe '#html?' do
+      let(:page) { build :page }
+
+      it 'should be true if content_type is text/html' do
+        page.should_receive(:content_type) { 'text/html' }
+        page.should be_html
+      end
+
+      it 'should be false if content_type is not text/html' do
+        page.should_receive(:content_type) { 'text/plain' }
+        page.should_not be_html
+      end
+    end
+
     describe '#redirect_url' do
       it 'is required if redirect?' do
         page = Page.new status_code: StatusCode.where(code: 301).first

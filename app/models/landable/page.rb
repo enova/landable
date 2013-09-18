@@ -33,7 +33,7 @@ module Landable
     scope :sitemappable, -> { where("COALESCE(meta_tags -> 'robots' NOT LIKE '%noindex%', TRUE)")
                               .joins(:status_code).where(status_codes: { code: 200 }) }
 
-    before_validation :downcase_path
+    before_validation :downcase_path!
 
     after_initialize do |page|
       page.status_code = StatusCode.where(code: 200).first unless page.status_code
@@ -90,8 +90,29 @@ module Landable
       end
     end
 
-    def downcase_path
+    def downcase_path!
       path.try :downcase!
+    end
+
+    def path_extension
+      path.match(/\.(\w{2,})$/).try(:[], 1) if path
+    end
+
+    def content_type
+      case path_extension
+      when nil, 'htm', 'html'
+        'text/html'
+      when 'json'
+        'application/json'
+      when 'xml'
+        'application/xml'
+      else
+        'text/plain'
+      end
+    end
+
+    def html?
+      content_type == 'text/html'
     end
 
     def directory_after(prefix)
