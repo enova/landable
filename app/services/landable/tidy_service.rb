@@ -1,6 +1,8 @@
 module Landable
   module TidyService
 
+    class TidyError < StandardError; end
+
     mattr_accessor :options
     @@options = [
       # is what we have
@@ -44,9 +46,13 @@ module Landable
     ]
 
 
-    def self.call input
+    def self.call! input
+      self.call input, raise_on_error: true
+    end
+
+    def self.call input, runtime_options={}
       if not tidyable?
-        raise StandardError, 'Your system doesn\'t seem to have tidy installed. Please see https://github.com/w3c/tidy-html5.'
+        raise TidyError, 'Your system doesn\'t seem to have tidy installed. Please see https://github.com/w3c/tidy-html5.'
       end
 
       # wrapping known liquid in a span to allow tidy to format them nicely
@@ -57,6 +63,15 @@ module Landable
         io.puts input
         io.close_write
         io.read
+      end
+
+      # 0: success
+      # 1: warning
+      # 2: error
+      # 3: ???
+      # 4: profit
+      if $?.exitstatus >= 2 and runtime_options[:raise_on_error]
+        raise TidyError, "Tidy exited with status #{$?} - check stderr."
       end
 
       # unnwrapping the liquid that we wrapped earlier

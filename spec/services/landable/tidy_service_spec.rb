@@ -24,7 +24,16 @@ module Landable
       end
     end
 
-    describe '.tidy' do
+    describe '.call!' do
+      it 'should call #call with raise_on_error: true' do
+        input = double
+        output = double
+        service.should_receive(:call).with(input, raise_on_error: true) { output }
+        service.call!(input).should == output
+      end
+    end
+
+    describe '.call' do
       context 'when not tidyable' do
         it 'should raise an exception' do
           service.should_receive(:tidyable?) { false }
@@ -33,11 +42,14 @@ module Landable
       end
       
       context 'when tidyable' do
+        before(:each) do
+          service.should_receive(:tidyable?) { true }
+        end
+
         it 'should invoke tidy and return a Result' do
           input = double('input')
           output = double('output')
           result = double('result')
-
 
           service.should_receive(:wrap_liquid) { |input| input }.ordered # passthrough; will test later
 
@@ -49,7 +61,6 @@ module Landable
           service.should_receive(:unwrap_liquid) { |input| input }.ordered # passthrough; will test later
 
           # other setup
-          service.should_receive(:tidyable?) { true }
           service.should_receive(:options) { ['one', 'two', 'three'] }
           IO.should_receive(:popen).with('tidy one two three', 'r+').and_yield(mock_io)
 
@@ -68,10 +79,31 @@ module Landable
           mock_io.should_receive(:close_write)
           mock_io.should_receive(:read) { wrapped_string }
           IO.should_receive(:popen).and_yield(mock_io)
-          service.should_receive(:tidyable?) { true }
 
           # ensuring that the output == the input, modulo any new whitespace
           service.call(original_string).to_s.gsub(/\s+/, ' ').should == original_string.gsub(/\s+/, ' ')
+        end
+
+        context 'raise_on_error is enabled' do
+          it 'should raise TidyError when status is 2' do
+            IO.should_receive(:popen)
+            $?.should_receive(:exitstatus) { 2 }
+
+            # meh, shouldn't have to do this. could use a refactor.
+            service.should_receive(:wrap_liquid) { |input| input }
+
+            expect { service.call('<div>foo</div>', raise_on_error: true) }.to raise_error TidyService::TidyError
+          end
+
+          it 'should be cool when status is 1' do
+            IO.should_receive(:popen)
+            $?.should_receive(:exitstatus) { 1 }
+
+            # meh, shouldn't have to do this. could use a refactor.
+            service.should_receive(:wrap_liquid) { |input| input }
+
+            expect { service.call('<div>foo</div>', raise_on_error: true) }.to_not raise_error TidyService::TidyError
+          end
         end
       end
     end
