@@ -200,9 +200,9 @@ module Landable::Api
           page1 = Landable::Page.first
           page2 = Landable::Page.first
 
-          page1.path = "duh"
+          page1.body = "duh"
           expect{ page1.save! }.to_not raise_error
-          page2.path = "something"
+          page2.body = "something"
           expect{ page2.save! }.to raise_error(ActiveRecord::StaleObjectError)
         end
 
@@ -212,7 +212,7 @@ module Landable::Api
           page2 = Landable::Page.first
           page1.body = "duh"
           expect{ page1.save! }.to_not raise_error
-          page2.path = "/test/should_fail"
+          page2.body = "something"
           expect{ page2.save! }.to raise_error(ActiveRecord::StaleObjectError)
         end
       end

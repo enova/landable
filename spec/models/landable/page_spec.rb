@@ -149,6 +149,28 @@ module Landable
       end
     end
 
+    describe '#forbid_changing_path' do
+      context 'created_record' do
+        it 'does not allow a path to be changed' do
+          page = create :page, path: '/test'
+          page.path = '/different'
+          expect { page.save! }.to raise_error
+
+          page.reload
+          page.path.should == '/test'
+        end
+      end
+
+      context 'new_record' do
+        it 'allows the path to be changed' do
+          page = build :page, path: '/test'
+          page.save!
+
+          page.path.should == '/test'
+        end
+      end
+    end
+
     describe '#head_tags_attributes=' do
       let(:head_tag) { create :head_tag }
       let(:head_tag2) { create :head_tag }
