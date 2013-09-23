@@ -27,14 +27,21 @@ module Landable
 
       # not completely happy about this
       if options[:preview]
-        preview_template = File.open(Landable::Engine.root.join('app', 'views', 'templates', 'preview.liquid')).read
+        if page.html?
+          # fancy!
+          preview_template = File.open(Landable::Engine.root.join('app', 'views', 'templates', 'preview.liquid')).read
 
-        content = render_template(preview_template, {
-          'content' => content,
-          'is_redirect' => page.redirect?,
-          'status_code' => page.status_code.code,
-          'redirect_url' => page.redirect_url,
-        })
+          content = render_template(preview_template, {
+            'content' => content,
+            'is_redirect' => page.redirect?,
+            'is_html' => page.html?,
+            'status_code' => page.status_code.code,
+            'redirect_url' => page.redirect_url,
+          })
+        else
+          # non-html stuff just gets rendered as plaintext for a preview
+          content = '<pre>' + CGI::escapeHTML(content) + '</pre>'
+        end
       end
 
       content
@@ -45,7 +52,7 @@ module Landable
     attr_reader :page, :theme, :options
 
     def layout?
-      theme && theme.body.present?
+      theme && theme.body.present? && page.html?
     end
 
     def parse(body)
