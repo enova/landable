@@ -77,7 +77,7 @@ module Landable
         let(:rendered) { render(preview: true) }
 
         it 'renders with <pre> around the content' do
-          render.should == '<pre>render test</pre>'
+          rendered.should == '<pre>render test</pre>'
         end
       end
     end
