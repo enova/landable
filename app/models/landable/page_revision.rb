@@ -7,7 +7,7 @@ module Landable
 
     self.table_name = 'landable.page_revisions'
 
-    store :snapshot_attributes, accessors: [:body]
+    #store :snapshot_attributes, accessors: [:body]
     @@ignored_page_attributes = [
       'page_id',
       'imported_at',
