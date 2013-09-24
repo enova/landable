@@ -25,6 +25,7 @@ class LandablePageRevisionsBreakOutSnapshot < ActiveRecord::Migration
     # Go through each record and copy snapshot into new, broken-out columns
     Landable::PageRevision.all.each do |rev|
       page = rev.snapshot
+      head_tags = {}
       rev.title = page.title
       rev.body = page.body
       rev.status_code_id = page.status_code_id
@@ -32,7 +33,10 @@ class LandablePageRevisionsBreakOutSnapshot < ActiveRecord::Migration
       rev.theme_id = page.theme_id
       rev.redirect_url = page.redirect_url
       rev.path = page.path
-      rev.head_tags = page.head_tags
+      page.head_tags.each do |tag|
+        head_tags ||= tag.attributes
+      end
+      rev.head_tags = head_tags
       rev.save!
     end
 
