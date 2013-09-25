@@ -166,7 +166,6 @@ module Landable
         head_tags << HeadTag.new(head_tag_id: tag_id, content: tag_content)
       end
       save!
-      #update_attributes!(title: title, path: path, body: body, category_id: category_id, theme_id: theme_id, status_code_id: status_code_id, meta_tags: meta_tags, redirect_url: redirect_url)
     end
 
     def preview_url
