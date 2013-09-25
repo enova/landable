@@ -18,6 +18,18 @@
       "type": "string"
     },
 
+    "theme_id": {
+      "type": "uuid.json"
+    },
+
+    "category_id": {
+      "type": "uuid.json"
+    },
+
+    "status_code_id": {
+      "type": "uuid'json"
+    },
+
     "preview_url": {
       "type": "string",
       "format": "uri"
@@ -50,8 +62,43 @@
       "format": "date-time"
     },
 
-    "snapshot_attributes": {
-      "$ref": "page.json#"
+    "title": {
+      "type": "string"
+    },
+
+    "body": {
+      "type": "string"
+    },
+
+    "path": {
+      "type": "string"
+    },
+
+    "redirect_url": {
+      "type": "string"
+    },
+
+    "meta_tags": {
+      "type": "object",
+      "additionalProperties": false,
+
+      "properties": {
+        "keywords": {
+          "type": ["string", "null"]
+        },
+
+        "description": {
+          "type": ["string", "null"]
+        },
+
+        "robots": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+
+    "head_tags_attributes": {
+      "type": "object"
     }
   }
 }
