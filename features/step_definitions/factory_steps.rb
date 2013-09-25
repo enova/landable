@@ -92,6 +92,12 @@ When 'I publish the page "$path"' do |path|
   Landable::Page.by_path!(path).publish! author: create(:author)
 end
 
+When(/^I change the page to a (\d+)$/) do |code|
+  @status_code = Landable::StatusCode.where(code: code).first_or_create
+  @page.status_code = @status_code
+  @page.save
+end
+
 Then /^there should be (\d+) ([\w\s]+) in the database$/ do |count, kind|
   name  = kind.gsub(/\s+/, '_').classify
   klass = "Landable::#{name}".constantize
