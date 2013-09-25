@@ -7,7 +7,7 @@ When /^I choose another theme for the page$/ do
   @page.theme = @new_theme
 end
 
-When /^I change the theme body$/ do
+When "I change the theme's body" do
   @page.theme.body = 'new body'
   @page.save
 end
