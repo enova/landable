@@ -23,15 +23,16 @@ module Landable
 
     describe '#page_id=' do
       it 'should set page revision attributes matching the page' do
-        attrs = revision.snapshot_attributes
+        attrs = revision.attributes.except('page_revision_id','ordinal','notes','is_minor','is_published','author_id','created_at','updated_at', 'head_tags_attributes', 'page_id')
         attrs.should include(page.attributes.except(*PageRevision.ignored_page_attributes))
       end
 
       it 'should include head_tags_attributes' do
         ht = create :head_tag, page_id: page.id
 
-        attrs = revision.snapshot_attributes
-        attrs['head_tags_attributes'].should == [ht.attributes.except('created_at', 'updated_at')]
+        attrs = revision.attributes.except('page_revision_id','ordinal','notes','is_minor','is_published','author_id','created_at','updated_at', 'page_id')
+        attrs['head_tags_attributes'].should == {ht.head_tag_id => ht.content}
+        #[ht.attributes.except('created_at', 'updated_at', 'page_id')]
       end
     end
 

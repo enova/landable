@@ -7,7 +7,6 @@ module Landable
 
     self.table_name = 'landable.page_revisions'
 
-    #store :snapshot_attributes, accessors: [:body]
     @@ignored_page_attributes = [
       'page_id',
       'imported_at',
@@ -27,12 +26,23 @@ module Landable
 
     def page_id=(id)
       self[:page_id] = id
-      self.snapshot_attributes = page.attributes.except(*ignored_page_attributes)
-      self.snapshot_attributes['head_tags_attributes'] = page.head_tags.map { |ht| ht.attributes.except('created_at', 'updated_at') }
+      self.title = page.title
+      self.body = page.body
+      self.path = page.path
+      self.status_code_id = page.status_code_id
+      self.category_id = page.category_id
+      self.theme_id = page.theme_id
+      self.meta_tags = page.meta_tags
+      self.redirect_url = page.redirect_url
+      head_tags = {}
+      page.head_tags.each do |ht|
+        head_tags[ht.id] = ht.content
+      end
+      self.head_tags_attributes = head_tags
     end
 
     def snapshot
-      Page.new snapshot_attributes
+      Page.new(title: self.title, body: self.body, path: self.path, redirect_url: self.redirect_url, status_code_id: self.status_code_id, theme_id: self.theme_id, category_id: self.category_id)
     end
 
     def publish!

@@ -284,7 +284,7 @@ CREATE TABLE page_revisions (
     title text,
     path text,
     meta_tags public.hstore,
-    head_tags public.hstore
+    head_tags_attributes public.hstore
 );
 
 
@@ -768,7 +768,7 @@ CREATE TRIGGER landable_page_revisions__no_delete BEFORE DELETE ON page_revision
 -- Name: landable_page_revisions__no_update; Type: TRIGGER; Schema: landable; Owner: -
 --
 
-CREATE TRIGGER landable_page_revisions__no_update BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal, theme_id, status_code_id, category_id, redirect_url, body, title, path, meta_tags, head_tags ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
+CREATE TRIGGER landable_page_revisions__no_update BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal, theme_id, status_code_id, category_id, redirect_url, body, title, path, meta_tags, head_tags_attributes ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
 
 
 --

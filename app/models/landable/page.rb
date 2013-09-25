@@ -26,7 +26,7 @@ module Landable
     belongs_to :updated_by_author,    class_name: 'Landable::Author'
     has_many   :revisions,            class_name: 'Landable::PageRevision'
     has_many   :screenshots,          class_name: 'Landable::Screenshot',   as: :screenshotable
-    has_many   :head_tags,            class_name: 'Landable::HeadTag'
+    has_many   :head_tags,            class_name: 'Landable::HeadTag',      dependent: :destroy
     belongs_to :status_code,          class_name: 'Landable::StatusCode'
 
     accepts_nested_attributes_for :head_tags
@@ -153,7 +153,20 @@ module Landable
     end
 
     def revert_to!(revision)
-      update_attributes! revision.snapshot_attributes
+      self.head_tags = []
+      self.title = revision.title
+      self.path = revision.path
+      self.body = revision.body
+      self.category_id = revision.category_id
+      self.theme_id = revision.theme_id
+      self.status_code_id = revision.status_code_id
+      self.meta_tags = revision.meta_tags
+      self.redirect_url = revision.redirect_url
+      revision.head_tags_attributes.each do |tag_id, tag_content|
+        head_tags << HeadTag.new(head_tag_id: tag_id, content: tag_content)
+      end
+      save!
+      #update_attributes!(title: title, path: path, body: body, category_id: category_id, theme_id: theme_id, status_code_id: status_code_id, meta_tags: meta_tags, redirect_url: redirect_url)
     end
 
     def preview_url

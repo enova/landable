@@ -189,8 +189,8 @@ module Landable
 
         page.revert_to! revision
 
-        revision.snapshot_attributes.should include(page.attributes.reject! { |key| PageRevision.ignored_page_attributes.include? key })
-        revision.snapshot_attributes['head_tags_attributes'].should == []
+        revision.attributes.except('page_revision_id','ordinal','notes','is_minor','is_published','author_id','created_at','updated_at', 'head_tags_attributes', 'page_id').should include(page.attributes.reject! { |key| PageRevision.ignored_page_attributes.include? key })
+        revision.head_tags_attributes.should == {}
         page.head_tags.should == []
       end
     end
