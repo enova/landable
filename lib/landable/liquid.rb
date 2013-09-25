@@ -22,3 +22,6 @@ Liquid::Template.register_tag('template', Landable::Liquid::TemplateTag)
 
 # Helpers
 Liquid::Template.register_filter(Landable::Liquid::DefaultFilter)
+
+
+#better errors -> Raises a SyntaxError when invalid syntax is used

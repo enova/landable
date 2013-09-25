@@ -272,5 +272,20 @@ module Landable
         Landable::Page.generate_sitemap.should include("<loc>#{page.path}</loc>")
       end
     end
+
+    describe '#check_page_body' do
+      it 'raises error when syntax error' do
+        page = build :page, path: '/'
+        page.body = "{{image_tag 'poop'}}"
+        expect { page.save! }.to raise_error
+      end
+
+      it 'does not raise error when no syntax error' do
+        page = build :page, path: '/'
+        page.body = 'body'
+        page.save!
+        page.body.should == 'body'
+      end
+    end
   end
 end
