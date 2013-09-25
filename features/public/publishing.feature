@@ -25,7 +25,7 @@ Feature: Only published revisions are publicly available
 
   Scenario: Changes to the theme itself do not need to be published (for now?)
     Given a published page "/pubbed"
-    When I change the theme's body
+    When I change the theme body
     And  I GET "/pubbed"
     Then the new theme body should be shown
 
