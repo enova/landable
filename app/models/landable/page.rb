@@ -156,6 +156,10 @@ module Landable
       update_attributes! revision.snapshot_attributes
     end
 
+    def preview_path
+      public_preview_page_path(self)
+    end
+
     def preview_url
       public_preview_page_url(self)
     end

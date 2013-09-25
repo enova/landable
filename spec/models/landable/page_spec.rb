@@ -217,6 +217,22 @@ module Landable
       end
     end
 
+    describe '#preview_path' do
+      it 'should return the preview path' do
+        page = build :page
+        page.should_receive(:public_preview_page_path) { 'foo' }
+        page.preview_path.should == 'foo'
+      end
+    end
+
+    describe '#preview_url' do
+      it 'should return the preview url' do
+        page = build :page
+        page.should_receive(:public_preview_page_url) { 'foo' }
+        page.preview_url.should == 'foo'
+      end
+    end
+
     describe '#head_tags_attributes=' do
       let(:head_tag) { create :head_tag }
       let(:head_tag2) { create :head_tag }
