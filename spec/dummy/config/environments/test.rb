@@ -33,4 +33,7 @@ Dummy::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+
+  # Use asset digests
+  config.assets.digest = true
 end

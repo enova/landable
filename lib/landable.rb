@@ -1,7 +1,7 @@
-require "landable/engine"
-require "landable/configuration"
-require "landable/seeds"
-require "yaml"
+require 'landable/engine'
+require 'landable/configuration'
+require 'landable/seeds'
+require 'landable/liquid'
 
 module Landable
   # This absurd configuration loading code is not intended to live long.
