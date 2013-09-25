@@ -153,9 +153,7 @@ module Landable
     end
 
     def revert_to!(revision)
-      ActiveRecord::Base.lock_optimistically = false
       update_attributes! revision.snapshot_attributes
-      ActiveRecord::Base.lock_optimistically = true
     end
 
     def preview_url

@@ -4,6 +4,6 @@ module Landable
 
     validates_presence_of  :content
 
-    belongs_to :page, class_name: 'Landable::Page', touch: true
+    belongs_to :page, class_name: 'Landable::Page'
   end
 end
