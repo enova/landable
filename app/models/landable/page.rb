@@ -26,7 +26,7 @@ module Landable
     belongs_to :updated_by_author,    class_name: 'Landable::Author'
     has_many   :revisions,            class_name: 'Landable::PageRevision'
     has_many   :screenshots,          class_name: 'Landable::Screenshot',   as: :screenshotable
-    has_many   :head_tags,            class_name: 'Landable::HeadTag'
+    has_many   :head_tags,            class_name: 'Landable::HeadTag',      dependent: :destroy
     belongs_to :status_code,          class_name: 'Landable::StatusCode'
 
     accepts_nested_attributes_for :head_tags
@@ -153,7 +153,9 @@ module Landable
     end
 
     def revert_to!(revision)
+      ActiveRecord::Base.lock_optimistically = false
       update_attributes! revision.snapshot_attributes
+      ActiveRecord::Base.lock_optimistically = true
     end
 
     def preview_url
