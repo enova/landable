@@ -56,7 +56,7 @@ module Landable
     end
 
     def parse(body)
-      ::Liquid::Template.parse(body, error_mode: :strict)
+      ::Liquid::Template.parse(body)
     end
 
     def assets_for_page
