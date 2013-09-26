@@ -51,8 +51,9 @@ Given 'page "$path" redirects to "$url" with status $code' do |path, url, code|
 end
 
 Given 'a published page "$path"' do |path|
-  page = create :page, path: path
-  page.publish! author: create(:author)
+  @theme = create :theme
+  @page = create :page, path: path, theme: @theme
+  @page.publish! author: create(:author)
 end
 
 Given 'a published page "$path" with status $code' do |path, code|
@@ -89,6 +90,12 @@ end
 
 When 'I publish the page "$path"' do |path|
   Landable::Page.by_path!(path).publish! author: create(:author)
+end
+
+When(/^I change the page to a (\d+)$/) do |code|
+  @status_code = Landable::StatusCode.where(code: code).first_or_create
+  @page.status_code = @status_code
+  @page.save
 end
 
 Then /^there should be (\d+) ([\w\s]+) in the database$/ do |count, kind|
