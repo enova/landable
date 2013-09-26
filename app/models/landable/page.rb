@@ -20,7 +20,7 @@ module Landable
     validates_presence_of   :redirect_url, if: -> page { page.redirect? }
 
     validate :forbid_changing_path, on: :update
-    before_save :check_page_body
+    validate :body_strip_search
 
     belongs_to :theme,                class_name: 'Landable::Theme',        inverse_of: :pages
     belongs_to :published_revision,   class_name: 'Landable::PageRevision'
@@ -166,8 +166,8 @@ module Landable
       errors[:path] = "can not be changed!" if self.path_changed?
     end
 
-    def check_page_body
-      ::Liquid::Template.parse(self.body, error_mode: :strict)
+    def body_strip_search
+      RenderService.call(self)
     end
 
     #helps create/delete head_tags, needed because of embers issues with hasMany relationships 

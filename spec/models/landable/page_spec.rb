@@ -273,11 +273,12 @@ module Landable
       end
     end
 
-    describe '#check_page_body' do
-      it 'raises error when syntax error' do
+    describe 'validate#body_strip_search' do
+      it 'raises errors if errors!' do
         page = build :page, path: '/'
-        page.body = "{{image_tag 'poop'}}"
+        page.body = "{% image_tag 'bad_image' %}"
         expect { page.save! }.to raise_error
+        page.errors[:body].should_not be_empty
       end
 
       it 'does not raise error when no syntax error' do

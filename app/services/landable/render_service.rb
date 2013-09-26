@@ -56,7 +56,7 @@ module Landable
     end
 
     def parse(body)
-      ::Liquid::Template.parse(body)
+      ::Liquid::Template.parse(body, error_mode: :strict)
     end
 
     def assets_for_page
@@ -75,7 +75,16 @@ module Landable
       options ||= {}
       variables ||= {}
 
-      parse(template).render!(variables, options)
+      begin
+        parse(template).render!(variables, options)
+      rescue StandardError => error
+        error_message = "Error - #{error.class.name} - #{error.message}"
+        if options[:preview]
+          @page.errors[:preview] = error_message
+        else
+          @page.errors[:body] = error_message
+        end
+      end
     end
   end
 end
