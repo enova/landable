@@ -38,5 +38,6 @@ Feature: Only published revisions are publicly available
     And   I GET "/pubbed"
     Then  the response status should be 404
     When  I revert to the previous revision
+    And   I publish the page
     And   I GET "/pubbed"
     Then  the response status should be 200

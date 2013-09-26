@@ -33,3 +33,8 @@ end
 Then /^the new theme should now be shown$/ do
   @page.theme.should == @new_theme
 end
+
+When 'I revert to the previous revision' do
+  revision = @page.revisions.first
+  @page.revert_to! revision
+end
