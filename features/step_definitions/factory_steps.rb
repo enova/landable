@@ -93,9 +93,9 @@ When 'I publish the page "$path"' do |path|
 end
 
 When(/^I change the page to a (\d+)$/) do |code|
-  @status_code = Landable::StatusCode.where(code: code).first_or_create
+  @status_code = Landable::StatusCode.where(code: code).first_or_create!
   @page.status_code = @status_code
-  @page.save
+  @page.save!
 end
 
 Then /^there should be (\d+) ([\w\s]+) in the database$/ do |count, kind|

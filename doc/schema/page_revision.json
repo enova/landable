@@ -3,7 +3,7 @@
   "description": "A particular snapshot of a page which has, at some point, been published.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "page_id", "author_id", "notes", "is_published", "is_minor", "preview_url", "ordinal", "created_at", "updated_at"],
+  "required": ["id", "page_id", "author_id", "notes", "is_published", "is_minor", "preview_path", "ordinal", "created_at", "updated_at"],
 
   "properties": {
     "id": {
@@ -19,6 +19,11 @@
     },
 
     "preview_url": {
+      "type": "string",
+      "format": "uri"
+    },
+
+    "preview_path": {
       "type": "string",
       "format": "uri"
     },

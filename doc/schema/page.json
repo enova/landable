@@ -39,7 +39,7 @@
       "format": "uri"
     },
 
-    "preview_url": {
+    "preview_path": {
       "type": "string",
       "format": "uri"
     },

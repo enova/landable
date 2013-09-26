@@ -5,7 +5,7 @@ module Landable
     attributes :redirect_url
     attributes :meta_tags
     attributes :is_publishable
-    attributes :preview_url
+    attributes :preview_path
     attributes :lock_version
 
     embed    :ids
