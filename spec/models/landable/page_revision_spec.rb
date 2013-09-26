@@ -56,5 +56,20 @@ module Landable
         revision.is_published.should == true
       end
     end
+
+    describe '#preview_path' do
+      it 'should return the preview path' do
+        revision.should_receive(:public_preview_page_revision_path) { 'foo' }
+        revision.preview_path.should == 'foo'
+      end
+    end
+
+    describe '#preview_url' do
+      it 'should return the preview url' do
+        revision.should_receive(:public_preview_page_revision_url) { 'foo' }
+        revision.preview_url.should == 'foo'
+      end
+    end
+
   end
 end

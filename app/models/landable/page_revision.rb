@@ -46,5 +46,9 @@ module Landable
     def preview_url
       public_preview_page_revision_url(self)
     end
+
+    def preview_path
+      public_preview_page_revision_path(self)
+    end
   end
 end
