@@ -5,7 +5,6 @@ require_dependency 'landable/status_code'
 require_dependency 'landable/has_assets'
 require_dependency 'landable/head_tag'
 require_dependency 'landable/author'
-require 'liquid'
 
 module Landable
   class Page < ActiveRecord::Base
