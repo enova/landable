@@ -2,7 +2,7 @@
 Feature: Preview Page
 
   Scenario: Preview a page
-    Given I accept HTML
+    Given I accept JSON
     When I POST "/api/pages/preview":
     """
     {

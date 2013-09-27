@@ -232,13 +232,6 @@ module Landable::Api
         post :preview, page: attributes
       end
 
-      it 'renders HTML' do
-        Landable::RenderService.should_receive(:call) { |page, options|}
-        make_request
-        response.status.should == 200
-        response.content_type.should == 'text/html'
-      end
-
       it 'renders JSON' do
         request.env['HTTP_ACCEPT'] = 'application/json'
         make_request
@@ -247,42 +240,43 @@ module Landable::Api
       end
 
       it 'renders the layout without content if the body is not present' do
+        request.env['HTTP_ACCEPT'] = 'application/json'
         make_request attributes_for(:page, body: nil, theme_id: theme.id)
         response.status.should == 200
-        response.content_type.should == 'text/html'
-        response.body.should match(/Theme content/)
+        last_json['page']['preview'].should include('Theme content')
       end
 
       it 'renders without a layout if no theme is present' do
+        request.env['HTTP_ACCEPT'] = 'application/json'
         make_request attributes_for(:page, body: 'raw content', theme_id: nil)
         response.status.should == 200
-        response.content_type.should == 'text/html'
-        response.body.should == 'raw content'
+        last_json['page']['preview'].should include('raw content')
       end
 
       it 'renders 30x pages with a link to the real thing' do
+        request.env['HTTP_ACCEPT'] = 'application/json'
         make_request attributes_for(:page, :redirect, body: 'still here', theme_id: theme.id)
         response.status.should == 200
-        response.content_type.should == 'text/html'
-        response.body.should include('301')
-        response.body.should include('/redirect/somewhere/else') # briiiitle
+        last_json['page']['preview'].should include('301')
+        last_json['page']['preview'].should include('/redirect/somewhere/else') # briiiitle
       end
 
       it 'renders 404 pages as if they were 200s' do
+        request.env['HTTP_ACCEPT'] = 'application/json'
         make_request attributes_for(:page, :not_found, body: 'still here', theme_id: theme.id)
         response.status.should == 200
-        response.content_type.should == 'text/html'
-        response.body.should match(/still here/)
+        last_json['page']['preview'].should match(/still here/)
       end
 
       it 'can handle head_tags_attributes in the request' do
         ht = build :head_tag, content: '<meta name="test" type="text/plain" content="foo">'
+        request.env['HTTP_ACCEPT'] = 'application/json'
         make_request attributes_for(:page, body: 'here', theme_id: theme.id,
                                     head_tags_attributes: [{ 'id' => ht.id,
                                                              'content' => ht.content,
                                                              'page_id' => ht.page_id}])
         response.status.should == 200
-        response.body.should include(ht.content)
+        last_json['page']['preview'].should include(ht.content)
       end
     end
 
