@@ -2,36 +2,39 @@ def make_request(id = page.id)
   get :show, id: id
 end
 
-When /^I choose another theme for the page$/ do
-  @new_theme = create :theme
-  @page.theme = @new_theme
-end
-
-When "I change the theme's body" do
-  @page.theme.body = 'new body'
-  @page.save
-end
-
-When /^I publish the page$/ do
-  @page.theme = @new_theme
+Given 'a published page "$path" with a theme containing "$body"' do |path, body|
+  @theme = create :theme, body: body
+  @page = create :page, path: path, theme: @theme
   @page.publish! author: create(:author)
+end
+
+When 'I choose another theme containing "$body"' do |body|
+  @new_theme = create :theme, body: body
+  @page.theme = @new_theme
+end
+
+When 'I change the theme to contain "$body"' do |body|
+  @page.theme.body = body
+  @page.save
 end
 
 And  "I GET '/pubbed'" do
   make_request
 end
 
-Then /^the original theme should still be shown$/ do
+Then 'I should see "$body"' do |body|
   @page.reload
-  @page.theme.should == @theme
+  last_response.body.should include(@page.theme.body)
 end
 
-Then /^the new theme body should be shown$/ do
-  @page.theme.body.should == 'new body'
+When "I publish the page with another theme" do
+  @page.theme = @new_theme
+  @page.save
+  @page.publish! author: create(:author)
 end
 
-Then /^the new theme should now be shown$/ do
-  @page.theme.should == @new_theme
+When /^I publish the page$/ do
+  @page.publish! author: create(:author)
 end
 
 When 'I revert to the previous revision' do
