@@ -5,7 +5,7 @@ class LandablePageRevisionsBreakOutSnapshot < ActiveRecord::Migration
     store :snapshot_attributes, accessors: [:body]
   end
 
-  def change
+  def up
 
     # Setup new columns
     add_column "landable.page_revisions", :theme_id,                  :uuid
@@ -52,5 +52,9 @@ class LandablePageRevisionsBreakOutSnapshot < ActiveRecord::Migration
             ON landable.page_revisions
             FOR EACH STATEMENT EXECUTE PROCEDURE landable.tg_disallow();"
 
+  end
+
+  def down
+    raise ActiveRecord::IrreversibleMigration
   end
 end
