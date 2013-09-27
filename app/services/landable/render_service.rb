@@ -75,16 +75,7 @@ module Landable
       options ||= {}
       variables ||= {}
 
-      begin
-        parse(template).render!(variables, options)
-      rescue StandardError => error
-        error_message = "Error - #{error.class.name} - #{error.message}"
-        if options[:preview]
-          @page.errors[:preview] = error_message
-        else
-          @page.errors[:body] = error_message
-        end
-      end
+      parse(template).render!(variables, options)
     end
   end
 end

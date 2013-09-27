@@ -166,7 +166,13 @@ module Landable
     end
 
     def body_strip_search
-      RenderService.call(self)
+      begin
+        RenderService.call(self)
+      rescue ::Liquid::Error => error
+        errors[:body] = 'contains a Liquid syntax error'
+      rescue StandardError => error
+        errors[:body] = 'had a problem: ' + error.message
+      end
     end
 
     #helps create/delete head_tags, needed because of embers issues with hasMany relationships 
