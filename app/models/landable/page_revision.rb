@@ -25,20 +25,21 @@ module Landable
     has_many   :screenshots, class_name: 'Landable::Screenshot', as: :screenshotable
 
     def page_id=(id)
+      # set the value
       self[:page_id] = id
-      self.title = page.title
-      self.body = page.body
-      self.path = page.path
+
+      # copy grab attributes from the page
+      self.title          = page.title
+      self.body           = page.body
+      self.path           = page.path
       self.status_code_id = page.status_code_id
-      self.category_id = page.category_id
-      self.theme_id = page.theme_id
-      self.meta_tags = page.meta_tags
-      self.redirect_url = page.redirect_url
-      head_tags = {}
-      page.head_tags.each do |ht|
-        head_tags[ht.id] = ht.content
-      end
-      self.head_tags_attributes = head_tags
+      self.category_id    = page.category_id
+      self.theme_id       = page.theme_id
+      self.meta_tags      = page.meta_tags
+      self.redirect_url   = page.redirect_url
+
+      # copy the Page#head_tags relation as a simple id => content hash
+      self.head_tags = Hash[page.head_tags.map { |ht| [ht.id, ht.content] }]
     end
 
     def snapshot

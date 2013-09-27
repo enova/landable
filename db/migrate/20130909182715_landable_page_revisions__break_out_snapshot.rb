@@ -16,7 +16,7 @@ class LandablePageRevisionsBreakOutSnapshot < ActiveRecord::Migration
     add_column "landable.page_revisions", :title,                     :text
     add_column "landable.page_revisions", :path,                      :text
     add_column "landable.page_revisions", :meta_tags,                 :hstore
-    add_column "landable.page_revisions", :head_tags_attributes,      :hstore
+    add_column "landable.page_revisions", :head_tags,                 :hstore
 
     execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT theme_id_fk FOREIGN KEY(theme_id) REFERENCES landable.themes(theme_id)"
     execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT status_code_id_fk FOREIGN KEY(status_code_id) REFERENCES landable.status_codes(status_code_id)"
@@ -33,10 +33,10 @@ class LandablePageRevisionsBreakOutSnapshot < ActiveRecord::Migration
       rev.redirect_url = rev.snapshot_attributes['redirect_url']
       rev.path = rev.snapshot_attributes['path']
       rev.meta_tags = rev.snapshot_attributes['meta_tags']
-      rev.snapshot_attributes['head_tags_attributes'].each do |tag|
+      rev.snapshot_attributes['head_tags'].each do |tag|
         head_tags[tag['head_tag_id']] = tag['content']
       end
-      rev.head_tags_attributes = head_tags
+      rev.head_tags = head_tags
       rev.save!
     end
 
@@ -48,7 +48,7 @@ class LandablePageRevisionsBreakOutSnapshot < ActiveRecord::Migration
     execute "CREATE TRIGGER landable_page_revisions__no_update
             BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal
               , theme_id, status_code_id, category_id, redirect_url, body
-              , title, path, meta_tags, head_tags_attributes
+              , title, path, meta_tags, head_tags
             ON landable.page_revisions
             FOR EACH STATEMENT EXECUTE PROCEDURE landable.tg_disallow();"
 

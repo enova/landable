@@ -27,22 +27,19 @@ module Landable
         attrs.should include(page.attributes.except(*PageRevision.ignored_page_attributes))
       end
 
-      it 'should include head_tags_attributes' do
+      it 'should include head_tags as a hash' do
         ht = create :head_tag, page_id: page.id
-
-        attrs = revision.attributes.except('page_revision_id','ordinal','notes','is_minor','is_published','author_id','created_at','updated_at', 'page_id')
-        attrs['head_tags_attributes'].should == {ht.head_tag_id => ht.content}
-        #[ht.attributes.except('created_at', 'updated_at', 'page_id')]
+        revision.head_tags.should == {ht.head_tag_id => ht.content}
       end
     end
 
     describe '#snapshot' do
-      it 'should build a page based on snapshot_attribute' do
+      it 'should build a page based on the cached page attributes' do
         snapshot = revision.snapshot
         snapshot.should be_new_record
         snapshot.should be_an_instance_of Page
-        snapshot.title.should == 'title'
-        snapshot.path.should == '/test/path'
+        snapshot.title.should == page.title
+        snapshot.path.should == page.path
       end
     end
 

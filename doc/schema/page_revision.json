@@ -60,45 +60,6 @@
     "updated_at": {
       "type": "string",
       "format": "date-time"
-    },
-
-    "title": {
-      "type": "string"
-    },
-
-    "body": {
-      "type": "string"
-    },
-
-    "path": {
-      "type": "string"
-    },
-
-    "redirect_url": {
-      "type": "string"
-    },
-
-    "meta_tags": {
-      "type": "object",
-      "additionalProperties": false,
-
-      "properties": {
-        "keywords": {
-          "type": ["string", "null"]
-        },
-
-        "description": {
-          "type": ["string", "null"]
-        },
-
-        "robots": {
-          "type": ["string", "null"]
-        }
-      }
-    },
-
-    "head_tags_attributes": {
-      "type": "object"
     }
   }
 }
