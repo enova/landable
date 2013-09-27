@@ -176,21 +176,27 @@ module Landable
         page.published_revision.id.should_not == revision.id
       end
 
-      it 'should copy snapshot_attributes into the page model' do
+      it 'should copy revision attributes into the page model' do
         page.title = 'Bar'
         page.publish! author: author
+
         revision = page.published_revision
 
         page.title = 'Foo'
-        page.head_tags = [create(:head_tag)]
-        page.reload
+        page.head_tags = [build(:head_tag)]
+        page.save!
         page.publish! author: author
         page.head_tags.count.should == 1
 
+        # ensure assignment for all copied attributes
+        keys = %w(title path body category_id theme_id status_code_id meta_tags redirect_url)
+        keys.each do |key|
+          page.should_receive("#{key}=").with(revision.send(key))
+        end
+
         page.revert_to! revision
 
-        revision.snapshot_attributes.should include(page.attributes.reject! { |key| PageRevision.ignored_page_attributes.include? key })
-        revision.snapshot_attributes['head_tags_attributes'].should == []
+        # ensure head tags have been clobbered
         page.head_tags.should == []
       end
     end

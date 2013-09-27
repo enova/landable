@@ -153,7 +153,20 @@ module Landable
     end
 
     def revert_to!(revision)
-      update_attributes! revision.snapshot_attributes
+      self.title          = revision.title
+      self.path           = revision.path
+      self.body           = revision.body
+      self.category_id    = revision.category_id
+      self.theme_id       = revision.theme_id
+      self.status_code_id = revision.status_code_id
+      self.meta_tags      = revision.meta_tags
+      self.redirect_url   = revision.redirect_url
+
+      self.head_tags = revision.head_tags.map do |tag_id, tag_content|
+        HeadTag.new(head_tag_id: tag_id, content: tag_content)
+      end
+
+      save!
     end
 
     def preview_path

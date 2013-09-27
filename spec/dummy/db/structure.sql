@@ -274,9 +274,17 @@ CREATE TABLE page_revisions (
     is_published boolean DEFAULT true,
     page_id uuid NOT NULL,
     author_id uuid NOT NULL,
-    snapshot_attributes text NOT NULL,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    theme_id uuid,
+    status_code_id uuid,
+    category_id uuid,
+    redirect_url text,
+    body text,
+    title text,
+    path text,
+    meta_tags public.hstore,
+    head_tags public.hstore
 );
 
 
@@ -760,7 +768,7 @@ CREATE TRIGGER landable_page_revisions__no_delete BEFORE DELETE ON page_revision
 -- Name: landable_page_revisions__no_update; Type: TRIGGER; Schema: landable; Owner: -
 --
 
-CREATE TRIGGER landable_page_revisions__no_update BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
+CREATE TRIGGER landable_page_revisions__no_update BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal, theme_id, status_code_id, category_id, redirect_url, body, title, path, meta_tags, head_tags ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
 
 
 --
@@ -828,6 +836,14 @@ ALTER TABLE ONLY pages
 
 
 --
+-- Name: category_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY page_revisions
+    ADD CONSTRAINT category_id_fk FOREIGN KEY (category_id) REFERENCES categories(category_id);
+
+
+--
 -- Name: page_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
 --
 
@@ -884,6 +900,14 @@ ALTER TABLE ONLY pages
 
 
 --
+-- Name: status_code_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY page_revisions
+    ADD CONSTRAINT status_code_id_fk FOREIGN KEY (status_code_id) REFERENCES status_codes(status_code_id);
+
+
+--
 -- Name: theme_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
 --
 
@@ -896,6 +920,14 @@ ALTER TABLE ONLY theme_assets
 --
 
 ALTER TABLE ONLY pages
+    ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES themes(theme_id);
+
+
+--
+-- Name: theme_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
+--
+
+ALTER TABLE ONLY page_revisions
     ADD CONSTRAINT theme_id_fk FOREIGN KEY (theme_id) REFERENCES themes(theme_id);
 
 
@@ -916,5 +948,7 @@ SET search_path TO "$user",public;
 INSERT INTO schema_migrations (version) VALUES ('20130510221424');
 
 INSERT INTO schema_migrations (version) VALUES ('20130909182713');
+
+INSERT INTO schema_migrations (version) VALUES ('20130909182715');
 
 INSERT INTO schema_migrations (version) VALUES ('20130909191153');
