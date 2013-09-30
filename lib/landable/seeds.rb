@@ -48,6 +48,9 @@ module Landable
       Landable::Category.where(name: 'Affiliates').first_or_create!(description: 'Affiliates')
       Landable::Category.where(name: 'PPC').first_or_create!(description: 'Pay-per-click')
       Landable::Category.where(name: 'SEO').first_or_create!(description: 'Search engine optimization')
+      Landable::Category.where(name: 'Social').first_or_create!(description: 'Social')
+      Landable::Category.where(name: 'Email').first_or_create!(description: 'Email')
+      Landable::Category.where(name: 'Traditional').first_or_create!(description: 'Traditional')
     end
 
   end
