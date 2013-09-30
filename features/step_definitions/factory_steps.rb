@@ -51,8 +51,7 @@ Given 'page "$path" redirects to "$url" with status $code' do |path, url, code|
 end
 
 Given 'a published page "$path"' do |path|
-  @theme = create :theme
-  @page = create :page, path: path, theme: @theme
+  @page = create :page, path: path
   @page.publish! author: create(:author)
 end
 

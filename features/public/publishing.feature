@@ -15,19 +15,19 @@ Feature: Only published revisions are publicly available
     And  the response body should include the body of page "/pubbed"
 
   Scenario: Unpublished change from one theme to another
-    Given a published page "/pubbed"
-    When I choose another theme for the page
+    Given a published page "/pubbed" with a theme containing "foo"
+    When I choose another theme containing "bar"
     And  I GET "/pubbed"
-    Then the original theme should still be shown
-    When I publish the page
+    Then I should see "foo"
+    When I publish the page with another theme
     And  I GET "/pubbed"
-    Then the new theme should now be shown
+    Then I should see "bar"
 
   Scenario: Changes to the theme itself do not need to be published (for now?)
-    Given a published page "/pubbed"
-    When I change the theme's body
+    Given a published page "/pubbed" with a theme containing "foo"
+    When I change the theme to contain "bar"
     And  I GET "/pubbed"
-    Then the new theme body should be shown
+    Then I should see "bar"
 
   Scenario: Unpublished status change
     Given a published page "/pubbed"
