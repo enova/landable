@@ -14,6 +14,10 @@ Landable.configure do |config|
   #   ssl: 'start_tls',
   #   base: 'ou=user,dc=acme,dc=corp',
   # )
+
+  # Categories to create (can also be given as a hash to provide descriptions,
+  # e.g. {'SEO' => 'Search engine optimization', 'PPC' => 'Pay-per-click'})
+  config.categories = %w(Affiliates PPC SEO Social Email Traditional)
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.

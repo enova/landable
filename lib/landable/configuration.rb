@@ -1,6 +1,6 @@
 module Landable
   class Configuration
-    attr_writer :api_namespace, :public_namespace
+    attr_writer :api_namespace, :public_namespace, :categories
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -19,6 +19,18 @@ module Landable
     def public_namespace
       raise NotImplementedError
       @public_namespace ||= '/'
+    end
+
+    def categories
+      # default categories
+      @categories ||= {
+        'Affiliates' => '',
+        'PPC' => 'Pay-per-click',
+        'SEO' => 'Search engine optimization',
+        'Social' => '',
+        'Email' => '',
+        'Traditional' => '',
+      }
     end
 
     def cors

@@ -26,6 +26,12 @@ module Landable
       Landable::StatusCode.where(code: 301).first_or_create!(description: 'Permanent Redirect', status_code_category: redirect)
       Landable::StatusCode.where(code: 302).first_or_create!(description: 'Temporary Redirect', status_code_category: redirect)
       Landable::StatusCode.where(code: 404).first_or_create!(description: 'Not Found', status_code_category: missing)
+
+      # categories ('Uncategorized' is mandatory)
+      Landable::Category.where(name: 'Uncategorized').first_or_create!
+      Landable.configuration.categories.each do |category_name, category_description|
+        Landable::Category.where(name: category_name).first_or_create!(description: category_description)
+      end
     end
 
     # Less required data.
@@ -42,15 +48,6 @@ module Landable
         description: 'A minimal HTML5 template',
         thumbnail_url: 'http://placehold.it/300x200',
       )
-
-      # categories
-      Landable::Category.where(name: 'Uncategorized').first_or_create!(description: 'No category')
-      Landable::Category.where(name: 'Affiliates').first_or_create!(description: 'Affiliates')
-      Landable::Category.where(name: 'PPC').first_or_create!(description: 'Pay-per-click')
-      Landable::Category.where(name: 'SEO').first_or_create!(description: 'Search engine optimization')
-      Landable::Category.where(name: 'Social').first_or_create!(description: 'Social')
-      Landable::Category.where(name: 'Email').first_or_create!(description: 'Email')
-      Landable::Category.where(name: 'Traditional').first_or_create!(description: 'Traditional')
     end
 
   end
