@@ -28,18 +28,17 @@ module Landable::Api
     describe '#index' do
       include_examples 'Authenticated API controller', :make_request
 
-      let(:categories) { create_list :category, 5 }
-
       def make_request
         get :index
       end
 
       it 'returns all categories' do
-        categories
+        Landable::Category.delete_all
+        create_list :category, 5
 
         make_request
         response.status.should == 200
-        last_json['categories'].size.should == categories.size
+        last_json['categories'].size.should == 5
       end
     end
   end
