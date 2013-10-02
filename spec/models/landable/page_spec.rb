@@ -294,5 +294,22 @@ module Landable
         Landable::Page.generate_sitemap.should include("<loc>#{page.path}</loc>")
       end
     end
+
+    describe 'validate#body_strip_search' do
+      it 'raises errors if errors!' do
+        page = build :page, path: '/'
+        page.body = "{% image_tag 'bad_image' %}"
+        page.should_not be_valid
+        page.errors[:body].should_not be_empty
+      end
+
+      it 'does not raise error when no syntax error' do
+        page = build :page, path: '/'
+        page.body = 'body'
+        page.should be_valid
+        page.save!
+        page.body.should == 'body'
+      end
+    end
   end
 end

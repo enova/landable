@@ -37,15 +37,17 @@ module Landable
         page  = attrs[:id].present? ? Page.find(attrs[:id]) : Page.new
         page.attributes = page_params
 
-        content = RenderService.call page, preview: true
+        # run the validators
+        content = page.valid? && RenderService.call(page, preview: true)
 
         respond_to do |format|
-          format.html do
-            render text: content, layout: false, content_type: 'text/html'
-          end
-
           format.json do
-            render json: {page: {preview: content}}
+            render json: {
+              page: {
+                preview: content,
+                errors: page.errors,
+              }
+            }
           end
         end
       end
