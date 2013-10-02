@@ -47,6 +47,10 @@ Given 'I accept HTML' do
   header 'Accept',      'text/html'
 end
 
+Given 'I accept JSON' do
+  header 'Accept',      'application/json'
+end
+
 Given 'my API requests include a valid access token' do
   basic_authorize!
 end
