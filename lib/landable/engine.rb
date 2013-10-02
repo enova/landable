@@ -47,5 +47,13 @@ module Landable
     initializer "landable.create_themes" do |app|
       Theme.create_from_layouts! rescue nil
     end
+
+    initializer "landable.action_controller" do
+      ActiveSupport.on_load :action_controller do
+        include Landable::Tracking
+
+        prepend_around_action :track_with_landable!
+      end
+    end
   end
 end
