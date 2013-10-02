@@ -29,6 +29,14 @@ module Landable
         respond_with asset, status: :created, location: asset_url(asset)
       end
 
+      def update
+        asset = Asset.find(params[:id])
+
+        asset.update_attributes! asset_params
+
+        respond_with asset
+      end
+
       private
 
       def search_params
