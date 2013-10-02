@@ -38,6 +38,6 @@ When /^I publish the page$/ do
 end
 
 When 'I revert to the previous revision' do
-  revision = @page.revisions.first
+  revision = @page.revisions.order('created_at asc').first
   @page.revert_to! revision
 end
