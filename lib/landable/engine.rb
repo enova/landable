@@ -35,7 +35,7 @@ module Landable
     end
 
     initializer "landable.seed_required" do |app|
-      Landable::Seeds.seed(:required)
+      Landable::Seeds.seed(:required) rescue nil
     end
   end
 end
