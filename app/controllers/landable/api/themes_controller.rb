@@ -4,8 +4,9 @@ module Landable
   module Api
     class ThemesController < ApiController
       skip_before_filter :require_author!
+
       def index
-        respond_with Theme.active
+        respond_with Theme.all
       end
 
       def create
@@ -51,7 +52,7 @@ module Landable
       private
 
       def theme_params
-        params.require(:theme).permit(:id, :name, :file, :extension, :body, :description, :thumbnail_url)
+        params.require(:theme).permit(:id, :name, :body, :description, :thumbnail_url)
       end
     end
   end

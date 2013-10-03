@@ -12,12 +12,8 @@ module Landable
     has_many :pages, inverse_of: :theme
 
     class << self
-      def active
-        (where(file: nil).to_a + layouts).sort_by(&:name)
-      end
-
-    private
-      def layouts
+      def create_from_layouts!
+        return unless table_exists?
         Layout.all.map(&:to_theme)
       end
     end

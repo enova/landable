@@ -1,5 +1,6 @@
 # TODO: Custom resolver for db themes: http://blog.jgarciam.net/post/21098440864/database-stored-templates-on-ruby-on-rails
 # TODO: Multiple extentions with tilt
+# TODO: Allow converting db-backed Theme to file-backed Theme
 
 module Landable
   class Layout
@@ -25,32 +26,21 @@ module Landable
     def to_theme
       process unless @processed
 
-      if theme = Theme.where(file: @path.downcase).first
-        theme.extension   = @extension
-        theme.description = description if theme.description =~ /^Defined in/
-        theme.body        = @body
-        theme.editable    = false
+      theme = Theme.where(file: @path).first_or_initialize
+      theme.name          ||= @path.gsub('/', ' ').titlecase
+      theme.extension       = @extension
+      theme.description     = description if theme.description.blank? || theme.description =~ /^Defined in/
+      theme.body            = @body
+      theme.editable        = false
+      theme.thumbnail_url ||= "http://placehold.it/300x200"
 
-        theme.save! if theme.changed?
-      else
-        theme = Theme.create(defaults)
-      end
+      theme.save!
 
       theme
     end
 
     def description
       "Defined in #@path.html.#@extension"
-    end
-
-    def defaults
-      {
-        name: @path.gsub('/', ' ').titlecase,
-        file: @path.downcase,
-        body: File.read(@file),
-        description: description,
-        thumbnail_url: "http://placehold.it/300x200"
-      }
     end
 
     class << self
@@ -63,7 +53,7 @@ module Landable
       end
 
       def paths
-        @paths ||= Dir[*ActionController::Base.view_paths.map { |path| path.to_s + "/layouts" }]
+        @paths ||= Dir[Rails.root.join('app/views/layouts').to_s]
       end
     end
   end

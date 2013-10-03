@@ -1,4 +1,7 @@
 Given /^(\d+) ([\w\s]+)$/ do |count, kind|
+  klass = kind.gsub(/\s+/, '_').singularize.classify.gsub(/^/, 'Landable::').constantize
+  klass.destroy_all
+
   result = Integer(count).times.map do
     create kind.gsub(/\s+/, '_').singularize.to_sym
   end

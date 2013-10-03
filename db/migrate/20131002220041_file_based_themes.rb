@@ -1,5 +1,5 @@
 class FileBasedThemes < ActiveRecord::Migration
-  def change
+  def up
     change_table 'landable.themes' do |t|
       t.text    :file
       t.text    :extension

@@ -13,7 +13,7 @@ describe Landable::PageRenderResponder do
         Landable::RenderService.should_receive(:call) { content }
         page.should_receive(:content_type) { content_type }
 
-        responder.should_receive(:render).with(text: content, content_type: content_type)
+        responder.should_receive(:render).with(text: content, content_type: content_type, layout: false)
 
         responder.to_html
       end

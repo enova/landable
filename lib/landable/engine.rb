@@ -45,7 +45,7 @@ module Landable
     end
 
     initializer "landable.create_themes" do |app|
-      Layout.all.each(&:to_theme) if Theme.table_exists?
+      Theme.create_from_layouts!
     end
   end
 end
