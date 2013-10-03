@@ -1,12 +1,15 @@
 require 'landable/engine'
-require 'landable/configuration'
-require 'landable/seeds'
 require 'landable/liquid'
 
 module Landable
   # This absurd configuration loading code is not intended to live long.
+
+  autoload :Configuration, 'landable/configuration'
+  autoload :Layout,        'landable/layout'
+  autoload :Seeds,         'landable/seeds'
+
   def self.configuration
-    @configuration ||= Landable::Configuration.new
+    @configuration ||= Configuration.new
   end
 
   def self.configure

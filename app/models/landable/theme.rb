@@ -10,5 +10,12 @@ module Landable
     validates_uniqueness_of :name, case_sensitive: false
 
     has_many :pages, inverse_of: :theme
+
+    class << self
+      def create_from_layouts!
+        return unless table_exists?
+        Layout.all.map(&:to_theme)
+      end
+    end
   end
 end

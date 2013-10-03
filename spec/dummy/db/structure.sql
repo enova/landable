@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -440,7 +441,10 @@ CREATE TABLE themes (
     description text NOT NULL,
     thumbnail_url text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    file text,
+    extension text,
+    editable boolean DEFAULT true NOT NULL
 );
 
 
@@ -733,6 +737,13 @@ CREATE UNIQUE INDEX landable_theme_assets__u_theme_id_asset_id ON theme_assets U
 
 
 --
+-- Name: landable_themes__u_file; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX landable_themes__u_file ON themes USING btree (lower(file));
+
+
+--
 -- Name: landable_themes__u_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -945,10 +956,12 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20130510221424');
+INSERT INTO schema_migrations (version) VALUES ('20131003175807');
 
-INSERT INTO schema_migrations (version) VALUES ('20130909182713');
+INSERT INTO schema_migrations (version) VALUES ('20131003175808');
 
-INSERT INTO schema_migrations (version) VALUES ('20130909182715');
+INSERT INTO schema_migrations (version) VALUES ('20131003175809');
 
-INSERT INTO schema_migrations (version) VALUES ('20130909191153');
+INSERT INTO schema_migrations (version) VALUES ('20131003175810');
+
+INSERT INTO schema_migrations (version) VALUES ('20131003175811');

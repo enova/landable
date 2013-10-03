@@ -28,6 +28,10 @@
     "thumbnail_url": {
       "type": ["string", "null"],
       "minLength": 0
+    },
+
+    "editable": {
+      "type": "boolean"
     }
   }
 }

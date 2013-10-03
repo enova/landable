@@ -25,13 +25,16 @@ module Landable
 
       def preview
         theme = Theme.new(theme_params)
-        page = Page.example(theme: theme)
+        page  = Page.example(theme: theme)
 
         params[:theme][:asset_ids].try(:each) do |asset_id|
           theme.attachments.add Asset.find(asset_id)
         end
 
-        content = RenderService.call page
+        content = render_to_string(
+          text: RenderService.call(page),
+          layout: page.theme.file || false
+        )
 
         respond_to do |format|
           format.html do

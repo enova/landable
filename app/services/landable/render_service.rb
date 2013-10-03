@@ -52,7 +52,7 @@ module Landable
     attr_reader :page, :theme, :options
 
     def layout?
-      theme && theme.body.present? && page.html?
+      theme && theme.body.present? && theme.file.blank? && page.html?
     end
 
     def parse(body)
