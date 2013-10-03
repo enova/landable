@@ -3,8 +3,6 @@ require_dependency "landable/api_controller"
 module Landable
   module Api
     class ThemesController < ApiController
-      skip_before_filter :require_author!
-
       def index
         respond_with Theme.all
       end
