@@ -45,7 +45,7 @@ module Landable
     end
 
     initializer "landable.create_themes" do |app|
-      Theme.create_from_layouts!
+      Theme.create_from_layouts! rescue nil
     end
   end
 end
