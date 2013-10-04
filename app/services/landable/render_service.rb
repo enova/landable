@@ -1,3 +1,5 @@
+# TODO Handle layouts-as-themes here
+
 require_dependency 'landable/liquid'
 
 module Landable
