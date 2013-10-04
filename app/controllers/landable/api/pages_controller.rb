@@ -37,11 +37,15 @@ module Landable
         page.attributes = page_params
 
         # run the validators and render
-        content = page.valid? && render_to_string(
-          text: RenderService.call(page, preview: true),
-          layout: page.theme.try(:file) || false,
-          formats: [:html],
-        )
+        if page.valid?
+          if layout = page.theme.try(:file) || false
+            content = with_format(:html) do
+              render_to_string text: RenderService.call(page), layout: layout
+            end
+          else
+            content = RenderService.call(page, preview: true)
+          end
+        end
 
         respond_to do |format|
           format.json do
@@ -76,6 +80,17 @@ module Landable
         params.require(:page).permit(:id, :path, :head_tags_attributes, :theme_id, :category_id, :title, :body, :status_code_id, :redirect_url, :lock_version,
                                      meta_tags: [:description, :keywords, :robots],
                                      head_tags_attributes: [:id, :page_id, :content])
+      end
+
+      def with_format(format, &block)
+        old_formats = formats
+
+        begin
+          self.formats = [format]
+          return block.call
+        ensure
+          self.formats = old_formats
+        end
       end
     end
   end
