@@ -33,12 +33,15 @@ module Landable
       end
 
       def preview
-        attrs = page_params
-        page  = attrs[:id].present? ? Page.find(attrs[:id]) : Page.new
+        page  = Page.where(page_id: page_params[:id]).first_or_initialize
         page.attributes = page_params
 
-        # run the validators
-        content = page.valid? && RenderService.call(page, preview: true)
+        # run the validators and render
+        content = page.valid? && render_to_string(
+          text: RenderService.call(page, preview: true),
+          layout: page.theme.try(:file) || false,
+          formats: [:html],
+        )
 
         respond_to do |format|
           format.json do
