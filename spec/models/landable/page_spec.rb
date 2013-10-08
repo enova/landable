@@ -4,6 +4,9 @@ module Landable
   describe Page do
     it { should_not have_valid(:path).when(nil, '') }
     it { should be_a HasAssets }
+    it { should_not have_valid(:status_code).when(nil,'') }
+    it { should have_valid(:status_code).when(200, 301, 302, 404) }
+    it { should_not have_valid(:status_code).when(201, 303, 405, 500) }
 
     it 'should set is_publishable to true on before_save' do
       page = FactoryGirl.build :page, is_publishable: false
@@ -14,11 +17,11 @@ module Landable
     specify "#redirect?" do
       Page.new.should_not be_redirect
       Page.new().should_not be_redirect
-      Page.new(status_code: StatusCode.where(code: 200).first).should_not be_redirect
-      Page.new(status_code: StatusCode.where(code: 404).first).should_not be_redirect
+      Page.new(status_code: 200).should_not be_redirect
+      Page.new(status_code: 404).should_not be_redirect
 
-      Page.new(status_code: StatusCode.where(code: 301).first).should be_redirect
-      Page.new(status_code: StatusCode.where(code: 302).first).should be_redirect
+      Page.new(status_code: 301).should be_redirect
+      Page.new(status_code: 302).should be_redirect
     end
 
     describe '#published?' do
@@ -86,7 +89,7 @@ module Landable
 
     describe '#redirect_url' do
       it 'is required if redirect?' do
-        page = Page.new status_code: StatusCode.where(code: 301).first
+        page = Page.new status_code: 301
         page.should_not have_valid(:redirect_url).when(nil, '')
         page.should have_valid(:redirect_url).when('http://example.com', '/some/path')
       end
@@ -201,7 +204,7 @@ module Landable
         page.publish! author: author
 
         # ensure assignment for all copied attributes
-        keys = %w(title path body category_id theme_id status_code_id meta_tags redirect_url)
+        keys = %w(title path body category_id theme_id status_code meta_tags redirect_url)
         keys.each do |key|
           page.should_receive("#{key}=").with(revision.send(key))
         end
@@ -254,7 +257,7 @@ module Landable
       let(:page_3) { create :page, meta_tags: { 'robots' => 'noindex' } }
 
       it 'only returns pages with a status code of 200 and dont have a noindex tag' do 
-        page_2.status_code.code.should == 301
+        page_2.status_code.should == 301
 
         Landable::Page.sitemappable.should include(page)
         Landable::Page.sitemappable.should_not include(page_2, page_3)

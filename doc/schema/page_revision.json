@@ -26,8 +26,8 @@
       "type": "uuid.json"
     },
 
-    "status_code_id": {
-      "type": "uuid'json"
+    "status_code": {
+      "type": "integer"
     },
 
     "preview_url": {

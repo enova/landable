@@ -37,7 +37,7 @@ module Landable
             'content' => content,
             'is_redirect' => page.redirect?,
             'is_html' => page.html?,
-            'status_code' => page.status_code.code,
+            'status_code' => page.status_code,
             'redirect_url' => page.redirect_url,
           })
         else

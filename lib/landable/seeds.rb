@@ -16,17 +16,6 @@ module Landable
 
     # Required data.
     def self.seed_required
-      # status code categories
-      okay = Landable::StatusCodeCategory.where(name: 'okay').first_or_create!
-      redirect = Landable::StatusCodeCategory.where(name: 'redirect').first_or_create!
-      missing = Landable::StatusCodeCategory.where(name: 'missing').first_or_create!
-
-      # status codes
-      Landable::StatusCode.where(code: 200).first_or_create!(description: 'OK', status_code_category: okay)
-      Landable::StatusCode.where(code: 301).first_or_create!(description: 'Permanent Redirect', status_code_category: redirect)
-      Landable::StatusCode.where(code: 302).first_or_create!(description: 'Temporary Redirect', status_code_category: redirect)
-      Landable::StatusCode.where(code: 404).first_or_create!(description: 'Not Found', status_code_category: missing)
-
       # categories ('Uncategorized' is mandatory)
       Landable::Category.where(name: 'Uncategorized').first_or_create!
       Landable.configuration.categories.each do |category_name, category_description|

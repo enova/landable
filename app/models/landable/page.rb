@@ -1,7 +1,6 @@
 require_dependency 'landable/theme'
 require_dependency 'landable/page_revision'
 require_dependency 'landable/category'
-require_dependency 'landable/status_code'
 require_dependency 'landable/has_assets'
 require_dependency 'landable/author'
 
@@ -10,10 +9,11 @@ module Landable
     include Landable::HasAssets
     include Landable::Engine.routes.url_helpers
 
-    validates_presence_of   :path#, :status_code
+    validates_presence_of   :path, :status_code
 
     self.table_name = 'landable.pages'
 
+    validates_inclusion_of  :status_code, in: [200, 301, 302, 404]
     validates_uniqueness_of :path
     validates_presence_of   :redirect_url, if: -> page { page.redirect? }
 
@@ -26,17 +26,12 @@ module Landable
     belongs_to :updated_by_author,    class_name: 'Landable::Author'
     has_many   :revisions,            class_name: 'Landable::PageRevision'
     has_many   :screenshots,          class_name: 'Landable::Screenshot',   as: :screenshotable
-    belongs_to :status_code,          class_name: 'Landable::StatusCode'
 
     scope :imported, -> { where("imported_at IS NOT NULL") }
-    scope :sitemappable, -> { where("COALESCE(meta_tags -> 'robots' NOT LIKE '%noindex%', TRUE)")
-                              .joins(:status_code).where(status_codes: { code: 200 }) }
+    scope :sitemappable, -> { where("COALESCE(meta_tags -> 'robots' NOT LIKE '%noindex%', TRUE)") 
+                              .where(status_code: 200)}
 
     before_validation :downcase_path!
-
-    after_initialize do |page|
-      page.status_code = StatusCode.where(code: 200).first unless page.status_code
-    end
 
     before_save -> page {
       page.lock_version ||= 0
@@ -45,7 +40,7 @@ module Landable
 
     class << self
       def missing
-        new(status_code: StatusCode.where(code: 404).first)
+        new(status_code: 404)
       end
 
       def by_path(path)
@@ -125,7 +120,7 @@ module Landable
     end
 
     def redirect?
-      status_code.is_redirect?
+      status_code == 301 || status_code == 302
     end
 
     def path=(name)
@@ -156,7 +151,7 @@ module Landable
       self.head_content   = revision.head_content
       self.category_id    = revision.category_id
       self.theme_id       = revision.theme_id
-      self.status_code_id = revision.status_code_id
+      self.status_code    = revision.status_code
       self.meta_tags      = revision.meta_tags
       self.redirect_url   = revision.redirect_url
 

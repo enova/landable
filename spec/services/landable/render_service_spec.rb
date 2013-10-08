@@ -51,7 +51,7 @@ module Landable
         let(:rendered) { render(preview: true) }
 
         it 'conveys information about the redirect' do
-          rendered.should include "#{page.status_code.code}"
+          rendered.should include "#{page.status_code}"
           rendered.should include "<a href=\"#{page.redirect_url}\">#{page.redirect_url}</a>"
         end
       end
@@ -60,7 +60,7 @@ module Landable
         let(:rendered) { render }
 
         it 'should not include those things' do
-          rendered.should_not include "#{page.status_code.code}"
+          rendered.should_not include "#{page.status_code}"
           rendered.should_not include "<a href=\"#{page.redirect_url}\">#{page.redirect_url}</a>"
         end
       end

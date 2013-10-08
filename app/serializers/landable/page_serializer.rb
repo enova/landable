@@ -10,12 +10,12 @@ module Landable
     attributes :is_publishable
     attributes :preview_path
     attributes :lock_version
+    attributes :status_code
 
     embed    :ids
     has_one  :theme
     has_one  :published_revision
     has_one  :category
-    has_one  :status_code
     has_one  :updated_by_author, root: :authors, include: true, serializer: AuthorSerializer
 
     def category
@@ -26,8 +26,5 @@ module Landable
       object.meta_tags || {}
     end
 
-    def status_code
-      object.status_code
-    end
   end
 end

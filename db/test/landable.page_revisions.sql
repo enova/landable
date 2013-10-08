@@ -1,6 +1,6 @@
 BEGIN;
 
-SELECT PLAN(19);
+SELECT PLAN(18);
 
 --Verify existence of triggers and functions for page revisions
 SELECT triggers_are('landable', 'page_revisions', ARRAY['landable_page_revisions__bfr_insert', 'landable_page_revisions__no_delete', 'landable_page_revisions__no_update'], 'landable.page_revisions should have triggers');
@@ -11,13 +11,12 @@ SELECT col_is_fk('landable', 'page_revisions', 'page_id', 'page_revisions has pa
 SELECT col_is_fk('landable', 'page_revisions', 'author_id', 'page_revisions has author_id foreign key');
 SELECT col_is_fk('landable', 'page_revisions', 'theme_id', 'page_revisions has theme_id foreign key');
 SELECT col_is_fk('landable', 'page_revisions', 'category_id', 'page_revisions has category_id foreign key');
-SELECT col_is_fk('landable', 'page_revisions', 'status_code_id', 'page_revisions has status_code_id foreign key');
 
 --Verify primary key
 SELECT col_is_pk('landable', 'page_revisions', 'page_revision_id', 'page_revisions has primary key');
 
 --Insert test data
-SELECT lives_ok($$INSERT INTO landable.pages (is_publishable, path, status_code_id) VALUES ('true', '/foo/bar', (SELECT status_code_id FROM landable.status_codes WHERE code = 200))$$);
+SELECT lives_ok($$INSERT INTO landable.pages (is_publishable, path, status_code) VALUES ('true', '/foo/bar', 200)$$);
 SELECT lives_ok($$INSERT INTO landable.authors (email, username, first_name, last_name) VALUES ('jdoe@test.com', 'jdoe', 'john', 'doe')$$);
 SELECT lives_ok($$INSERT INTO landable.page_revisions(page_id, author_id) SELECT page_id, author_id FROM landable.pages, landable.authors$$);
 

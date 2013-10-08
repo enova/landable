@@ -33,7 +33,7 @@ module Landable
       self.body           = page.body
       self.head_content   = page.head_content
       self.path           = page.path
-      self.status_code_id = page.status_code_id
+      self.status_code    = page.status_code
       self.category_id    = page.category_id
       self.theme_id       = page.theme_id
       self.meta_tags      = page.meta_tags
@@ -41,7 +41,7 @@ module Landable
     end
 
     def snapshot
-      Page.new(title: self.title, body: self.body, path: self.path, redirect_url: self.redirect_url, status_code_id: self.status_code_id, theme_id: self.theme_id, category_id: self.category_id)
+      Page.new(title: self.title, body: self.body, path: self.path, redirect_url: self.redirect_url, status_code: self.status_code, theme_id: self.theme_id, category_id: self.category_id)
     end
 
     def publish!
