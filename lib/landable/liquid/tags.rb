@@ -32,7 +32,7 @@ module Landable
       end
     end
 
-    class HeadTags < Tag
+    class HeadContent < Tag
       def render(context)
         page = lookup_page context
         page.head_content
