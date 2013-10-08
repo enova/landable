@@ -28,7 +28,7 @@ Given "the page's meta tags are:" do |table|
 end
 
 Given "the page's head tag is \"$tag\"" do |tag|
-    @page.head_tag = tag
+  @page.head_content = tag
 end
 
 Given "the page uses a theme with the body:" do |body|

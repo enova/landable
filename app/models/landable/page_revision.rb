@@ -31,7 +31,7 @@ module Landable
       # copy grab attributes from the page
       self.title          = page.title
       self.body           = page.body
-      self.head_tag       = page.head_tag
+      self.head_content   = page.head_content
       self.path           = page.path
       self.status_code_id = page.status_code_id
       self.category_id    = page.category_id

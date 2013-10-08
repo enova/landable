@@ -19,8 +19,8 @@ module Landable
       page.body
     end
 
-    def head_tag
-      page.head_tag
+    def head_content
+      page.head_content
     end
 
     def meta_tags

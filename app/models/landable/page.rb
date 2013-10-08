@@ -153,7 +153,7 @@ module Landable
       self.title          = revision.title
       self.path           = revision.path
       self.body           = revision.body
-      self.head_tag       = revision.head_tag
+      self.head_content   = revision.head_content
       self.category_id    = revision.category_id
       self.theme_id       = revision.theme_id
       self.status_code_id = revision.status_code_id

@@ -112,17 +112,17 @@ module Landable
       end
     end
 
-    describe '#head_tag' do
+    describe '#head_content' do
       it { subject.should have_valid(:meta_tags).when(nil) }
 
       it 'works as a basic text area' do
-        page = create :page, head_tag: "<head en='en'/>"
-        page.head_tag.should ==  "<head en='en'/>"
+        page = create :page, head_content: "<head en='en'/>"
+        page.head_content.should ==  "<head en='en'/>"
         
-        page.head_tag = "<head en='magic'/>"
+        page.head_content = "<head en='magic'/>"
         page.save
 
-        page.head_tag.should == "<head en='magic'/>"
+        page.head_content.should == "<head en='magic'/>"
       end
     end
 

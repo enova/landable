@@ -34,7 +34,7 @@
       "type": ["string"]
     },
 
-    "head_tag": {
+    "head_content": {
       "type": ["string", "null"]
     },
 

@@ -271,7 +271,7 @@ CREATE TABLE page_revisions (
     title text,
     path text,
     meta_tags public.hstore,
-    head_tag text
+    head_content text
 );
 
 
@@ -305,7 +305,7 @@ CREATE TABLE pages (
     updated_at timestamp without time zone,
     updated_by_author_id uuid,
     lock_version integer DEFAULT 0 NOT NULL,
-    head_tag text,
+    head_content text,
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
 
@@ -758,7 +758,7 @@ CREATE TRIGGER landable_page_revisions__no_delete BEFORE DELETE ON page_revision
 -- Name: landable_page_revisions__no_update; Type: TRIGGER; Schema: landable; Owner: -
 --
 
-CREATE TRIGGER landable_page_revisions__no_update BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal, theme_id, status_code_id, category_id, redirect_url, body, title, path, meta_tags, head_tag ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
+CREATE TRIGGER landable_page_revisions__no_update BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal, theme_id, status_code_id, category_id, redirect_url, body, title, path, meta_tags, head_content ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
 
 
 --

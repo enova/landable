@@ -4,7 +4,7 @@ module Landable
     attributes :path
     attributes :title
     attributes :body
-    attributes :head_tag
+    attributes :head_content
     attributes :redirect_url
     attributes :meta_tags
     attributes :is_publishable
