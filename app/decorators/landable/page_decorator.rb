@@ -19,10 +19,8 @@ module Landable
       page.body
     end
 
-    def head_tags
-      return if page.head_tags.empty?
-
-      page.head_tags.map(&:content).join("\n").html_safe
+    def head_content
+      page.head_content
     end
 
     def meta_tags

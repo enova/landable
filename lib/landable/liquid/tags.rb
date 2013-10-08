@@ -32,11 +32,10 @@ module Landable
       end
     end
 
-    class HeadTags < Tag
+    class HeadContent < Tag
       def render(context)
         page = lookup_page context
-        head_tags = page.head_tags
-        head_tags.map(&:content).join("\n")
+        page.head_content
       end
     end
 

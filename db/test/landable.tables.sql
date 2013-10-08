@@ -7,7 +7,6 @@ BEGIN;
                           'pages'
                           , 'page_revisions'
                           , 'assets'
-                          , 'head_tags'
                           , 'status_code_categories'
                           , 'status_codes'
                           , 'themes'

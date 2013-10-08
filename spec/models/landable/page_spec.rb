@@ -112,6 +112,20 @@ module Landable
       end
     end
 
+    describe '#head_content' do
+      it { subject.should have_valid(:meta_tags).when(nil) }
+
+      it 'works as a basic text area' do
+        page = create :page, head_content: "<head en='en'/>"
+        page.head_content.should ==  "<head en='en'/>"
+        
+        page.head_content = "<head en='magic'/>"
+        page.save
+
+        page.head_content.should == "<head en='magic'/>"
+      end
+    end
+
     describe '#path=' do
       it 'ensures a leading "/" on path' do
         Page.new(path: 'foo/bar').path.should == '/foo/bar'
@@ -183,10 +197,8 @@ module Landable
         revision = page.published_revision
 
         page.title = 'Foo'
-        page.head_tags = [build(:head_tag)]
         page.save!
         page.publish! author: author
-        page.head_tags.count.should == 1
 
         # ensure assignment for all copied attributes
         keys = %w(title path body category_id theme_id status_code_id meta_tags redirect_url)
@@ -195,9 +207,6 @@ module Landable
         end
 
         page.revert_to! revision
-
-        # ensure head tags have been clobbered
-        page.head_tags.should == []
       end
     end
 
@@ -236,42 +245,6 @@ module Landable
         page = build :page
         page.should_receive(:public_preview_page_url) { 'foo' }
         page.preview_url.should == 'foo'
-      end
-    end
-
-    describe '#head_tags_attributes=' do
-      let(:head_tag) { create :head_tag }
-      let(:head_tag2) { create :head_tag }
-      let(:page) { create :page, head_tags: [head_tag, head_tag2] }
-
-      it 'does nothing if no action required' do
-        page.reload
-        page.body = 'foobar'
-        page.save
-
-        page.head_tags_attributes=([{'id' => head_tag.id, 'content' => head_tag.content, 'page_id' => head_tag.page_id},
-                                    {'id' => head_tag2.id, 'content' => head_tag2.content,'page_id' => head_tag2.page_id}])
-        page.reload
-        page.head_tags.should include(head_tag, head_tag2)
-        page.head_tags.count.should == 2
-      end
-
-      it 'deletes head_tag if not included in head_tags' do
-        page.head_tags = [head_tag]
-        page.save
-
-        page.head_tags_attributes=(['id' => head_tag.id, 'content' => head_tag.content, 'page_id' => head_tag.page_id])
-        page.reload
-        page.head_tags.should == [head_tag]
-      end
-
-      it 'deletes head_tags if last head_tags' do
-        page.head_tags = []
-        page.save
-
-        page.head_tags_attributes=([])
-        page.reload
-        page.head_tags.should == []
       end
     end
 

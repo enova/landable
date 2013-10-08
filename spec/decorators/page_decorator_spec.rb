@@ -2,14 +2,12 @@ require 'spec_helper'
 
 module Landable
   describe PageDecorator do
-    describe '#head_tag' do
-      let(:head_tag) { create :head_tag }
-      let(:page) { head_tag.page }
+    describe '#head_content' do
+      let(:page) { create :page, head_content: "<head lang='en' />" }
 
       it 'lists the head_tags seperated by a new line' do
-        head_tag2 = create :head_tag, page: head_tag.page
         decorated_page = Landable::PageDecorator.new(page)
-        decorated_page.head_tags.should == "#{head_tag.content}\n#{head_tag2.content}"
+        decorated_page.head_content.should == "<head lang='en' />"
       end
     end
   end
