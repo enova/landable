@@ -3,7 +3,6 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -229,19 +228,6 @@ COMMENT ON TABLE categories IS 'Categories are used to sort pages.
 
 
 --
--- Name: head_tags; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE TABLE head_tags (
-    head_tag_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    page_id uuid,
-    content text NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
 -- Name: page_assets; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -285,7 +271,7 @@ CREATE TABLE page_revisions (
     title text,
     path text,
     meta_tags public.hstore,
-    head_tags public.hstore
+    head_tag text
 );
 
 
@@ -319,6 +305,7 @@ CREATE TABLE pages (
     updated_at timestamp without time zone,
     updated_by_author_id uuid,
     lock_version integer DEFAULT 0 NOT NULL,
+    head_tag text,
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
 
@@ -506,14 +493,6 @@ ALTER TABLE ONLY browsers
 
 ALTER TABLE ONLY categories
     ADD CONSTRAINT categories_pkey PRIMARY KEY (category_id);
-
-
---
--- Name: head_tags_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY head_tags
-    ADD CONSTRAINT head_tags_pkey PRIMARY KEY (head_tag_id);
 
 
 --
@@ -779,7 +758,7 @@ CREATE TRIGGER landable_page_revisions__no_delete BEFORE DELETE ON page_revision
 -- Name: landable_page_revisions__no_update; Type: TRIGGER; Schema: landable; Owner: -
 --
 
-CREATE TRIGGER landable_page_revisions__no_update BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal, theme_id, status_code_id, category_id, redirect_url, body, title, path, meta_tags, head_tags ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
+CREATE TRIGGER landable_page_revisions__no_update BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal, theme_id, status_code_id, category_id, redirect_url, body, title, path, meta_tags, head_tag ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
 
 
 --
@@ -852,14 +831,6 @@ ALTER TABLE ONLY pages
 
 ALTER TABLE ONLY page_revisions
     ADD CONSTRAINT category_id_fk FOREIGN KEY (category_id) REFERENCES categories(category_id);
-
-
---
--- Name: page_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
---
-
-ALTER TABLE ONLY head_tags
-    ADD CONSTRAINT page_id_fk FOREIGN KEY (page_id) REFERENCES pages(page_id);
 
 
 --
@@ -956,12 +927,14 @@ ALTER TABLE ONLY pages
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20131003175807');
+INSERT INTO schema_migrations (version) VALUES ('20130510221424');
 
-INSERT INTO schema_migrations (version) VALUES ('20131003175808');
+INSERT INTO schema_migrations (version) VALUES ('20130909182713');
 
-INSERT INTO schema_migrations (version) VALUES ('20131003175809');
+INSERT INTO schema_migrations (version) VALUES ('20130909182715');
 
-INSERT INTO schema_migrations (version) VALUES ('20131003175810');
+INSERT INTO schema_migrations (version) VALUES ('20130909191153');
 
-INSERT INTO schema_migrations (version) VALUES ('20131003175811');
+INSERT INTO schema_migrations (version) VALUES ('20131002220041');
+
+INSERT INTO schema_migrations (version) VALUES ('20131008164204');

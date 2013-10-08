@@ -34,6 +34,8 @@ FactoryGirl.define do
 
     body "<div>Page body</div>"
 
+    head_tag "<link rel='alternate' type='application/rss+xml' title='RSS' href='/rss'>"
+
     # Anyone see a more reasonable way to unset these attributes?
     trait :redirect do
       status_code_id Landable::StatusCode.where(code: 301).first.id

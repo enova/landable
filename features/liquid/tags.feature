@@ -35,14 +35,10 @@ Feature: Liquid Tags
 
   Scenario: head_tags
     Given the page's body is "{% head_tags %}"
-    And the page's head tags are:
-      | content           |
-      | <head lang='en'>  |
-      | <meta test='text'>|
+    And the page's head tag is "<head lang='en'><meta test='text'>"  
     Then the rendered content should be:
       """
-      <head lang='en'>
-      <meta test='text'>
+      <head lang='en'><meta test='text'>
       """
 
   Scenario: img_tag

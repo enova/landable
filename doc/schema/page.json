@@ -34,6 +34,10 @@
       "type": ["string"]
     },
 
+    "head_tag": {
+      "type": ["string", "null"]
+    },
+
     "redirect_url": {
       "type": ["string", "null"],
       "format": "uri"
@@ -50,16 +54,6 @@
 
     "published_revision_id": {
       "type": ["null", {"$ref": "uuid.json"}]
-    },
-
-    "head_tag_ids": {
-      "type": "array",
-      "items": { "$ref": "uuid.json" }
-    },
-
-    "head_tags_attributes": {
-      "type": "array",
-      "items": { "$ref": "head_tag.json" }
     },
 
     "lock_version": {

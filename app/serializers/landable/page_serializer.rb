@@ -1,7 +1,10 @@
 module Landable
   class PageSerializer < ActiveModel::Serializer
-    attributes :id, :path
-    attributes :title, :body
+    attributes :id
+    attributes :path
+    attributes :title
+    attributes :body
+    attributes :head_tag
     attributes :redirect_url
     attributes :meta_tags
     attributes :is_publishable
@@ -13,7 +16,6 @@ module Landable
     has_one  :published_revision
     has_one  :category
     has_one  :status_code
-    has_many :head_tags, include: true, serializer: HeadTagSerializer
     has_one  :updated_by_author, root: :authors, include: true, serializer: AuthorSerializer
 
     def category

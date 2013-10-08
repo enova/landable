@@ -267,17 +267,6 @@ module Landable::Api
         response.status.should == 200
         last_json['page']['preview'].should match(/still here/)
       end
-
-      it 'can handle head_tags_attributes in the request' do
-        ht = build :head_tag, content: '<meta name="test" type="text/plain" content="foo">'
-        request.env['HTTP_ACCEPT'] = 'application/json'
-        make_request attributes_for(:page, body: 'here', theme_id: theme.id,
-                                    head_tags_attributes: [{ 'id' => ht.id,
-                                                             'content' => ht.content,
-                                                             'page_id' => ht.page_id}])
-        response.status.should == 200
-        last_json['page']['preview'].should include(ht.content)
-      end
     end
 
     describe '#screenshots' do
