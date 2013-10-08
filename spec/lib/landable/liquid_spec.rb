@@ -5,7 +5,7 @@ describe Landable::Liquid do
   specify 'registered tags' do
     Liquid::Template.tags['title_tag'].should              == Landable::Liquid::TitleTag
     Liquid::Template.tags['meta_tags'].should              == Landable::Liquid::MetaTags
-    Liquid::Template.tags['head_conent'].should            == Landable::Liquid::HeadContent
+    Liquid::Template.tags['head_content'].should           == Landable::Liquid::HeadContent
     Liquid::Template.tags['img_tag'].should                == Landable::Liquid::AssetTag
     Liquid::Template.tags['image_tag'].should              == Landable::Liquid::AssetTag
     Liquid::Template.tags['javascript_include_tag'].should == Landable::Liquid::AssetTag
