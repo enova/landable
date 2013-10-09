@@ -1,20 +1,8 @@
 require_dependency 'landable/page'
 class DropStatusCodesModel < ActiveRecord::Migration
 
-  class Landable::StatusCodeCategory < ActiveRecord::Base
-    self.table_name = "landable.status_code_categories"
-    has_many :status_codes, inverse_of: :status_code_category
-  end
-
   class Landable::StatusCode < ActiveRecord::Base
     self.table_name = "landable.status_codes"
-    has_many :page, inverse_of: :status_code
-    belongs_to :status_code_category, class_name: 'Landable::StatusCodeCategory'
-  end
-
-  class Landable::Page < ActiveRecord::Base
-    self.table_name = "landable.pages"
-    has_one :status_code
   end
 
   def change
