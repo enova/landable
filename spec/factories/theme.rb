@@ -6,8 +6,8 @@ FactoryGirl.define do
 
     body <<-HTML
     <html>
-      <head>{% title_tag %}{% meta_tags %}</head>
-      <body><header>header</header><article>{{body}}</article></body>
+      <head>{% head %}</head>
+      <body><header>header</header><article>{% body %}</article></body>
     </html>
     HTML
   end
