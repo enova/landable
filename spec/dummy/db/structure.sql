@@ -270,8 +270,8 @@ CREATE TABLE page_revisions (
     title text,
     path text,
     meta_tags public.hstore,
-    head_content text
-    status_code integer
+    head_content text,
+    status_code smallint
 );
 
 
@@ -305,7 +305,7 @@ CREATE TABLE pages (
     updated_by_author_id uuid,
     lock_version integer DEFAULT 0 NOT NULL,
     head_content text,
-    status_code integer DEFAULT 200 NOT NULL,
+    status_code smallint DEFAULT 200 NOT NULL,
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
 
