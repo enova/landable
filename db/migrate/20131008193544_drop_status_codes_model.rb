@@ -12,12 +12,14 @@ class DropStatusCodesModel < ActiveRecord::Migration
 
     # Backfill existing pages
     Landable::Page.all.each do |page|
-      page.status_code = Landable::StatusCode.where(id: page.status_code_id).first.code
+      page.status_code = Landable::StatusCode.where(status_code_id: page.status_code_id).first.code
+      page.save!
     end
 
     # Backfill existing pages
-    Landable::PageRevision.all.each do |page|
-      rev.status_code = Landable::StatusCode.where(id: rev.status_code_id).first.code
+    Landable::PageRevision.all.each do |rev|
+      rev.status_code = Landable::StatusCode.where(status_code_id: rev.status_code_id).first.code
+      rev.save!
     end
 
     # Remove constraints, update trigger

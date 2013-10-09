@@ -161,7 +161,7 @@ module Landable::Api
         end
 
         it 'includes the errors in the JSON response' do
-          make_request status_code_id: 302, redirect_url: nil
+          make_request status_code: 302, redirect_url: nil
         end
       end
 

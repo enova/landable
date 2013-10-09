@@ -95,8 +95,7 @@ When 'I publish the page "$path"' do |path|
 end
 
 When(/^I change the page to a (\d+)$/) do |code|
-  @status_code = code
-  @page.status_code = @status_code
+  @page.status_code = code
   @page.save!
 end
 
