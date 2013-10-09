@@ -179,16 +179,12 @@ module Landable
     def head
       head = []
 
-      # Grab the Title Tag, Meta Tag, Additional Head Content
       head << content_tag(:title, title)   if title.present?
       head << meta_tags.map { |name, value| tag(:meta, name: name, content: value) }
                        .join("\n")         if meta_tags.present?
       head << head_content                 if head_content.present?
 
-      # Display Beautifully
       head.join("\n")
-
-      # Profit!
     end
 
     def body_strip_search
