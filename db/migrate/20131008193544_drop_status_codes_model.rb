@@ -19,8 +19,8 @@ class DropStatusCodesModel < ActiveRecord::Migration
 
   def change
     # Add the column
-    add_column "landable.pages", :status_code, :integer, null: false, default: 200
-    add_column "landable.page_revisions", :status_code, :integer
+    add_column "landable.pages", :status_code, :integer, null: false, default: 200, limit: 2
+    add_column "landable.page_revisions", :status_code, :integer, limit: 2
 
     # Backfill existing pages
     Landable::Page.all.each do |page|
