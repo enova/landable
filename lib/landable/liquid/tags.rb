@@ -47,7 +47,7 @@ module Landable
         head = []
 
         ['title_tag', 'meta_tags', 'head_content'].each do |tag_name|
-           tag = eval("Landable::Liquid::#{tag_name.classify}").new('tag_name', nil, nil)
+           tag = eval("Landable::Liquid::#{tag_name.classify}").new(tag_name, nil, nil)
            head << tag.render(context) if tag.render(context).present?
          end
 
