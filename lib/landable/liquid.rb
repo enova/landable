@@ -6,7 +6,7 @@ require 'landable/liquid/filters'
 
 # Tag generators
 Liquid::Template.register_tag('title_tag',    Landable::Liquid::TitleTag)
-Liquid::Template.register_tag('meta_tags',    Landable::Liquid::MetaTags)
+Liquid::Template.register_tag('meta_tags',    Landable::Liquid::MetaTag)
 Liquid::Template.register_tag('head_content', Landable::Liquid::HeadContent)
 Liquid::Template.register_tag('head',         Landable::Liquid::Head)
 Liquid::Template.register_tag('body',         Landable::Liquid::Body)

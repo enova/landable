@@ -21,7 +21,7 @@ module Landable
       end
     end
 
-    class MetaTags < Tag
+    class MetaTag < Tag
       def render(context)
         page = lookup_page context
         tags = page.meta_tags || {}
@@ -35,6 +35,7 @@ module Landable
     class HeadContent < Tag
       def render(context)
         page = lookup_page context
+
         page.head_content
       end
     end
@@ -42,7 +43,20 @@ module Landable
     class Head < Tag
       def render(context)
         page = lookup_page context
-        page.head
+
+        head = []
+
+        tag = TitleTag.new('title_tag', nil, nil)
+        head << tag.render(context) if tag.render(context).present?
+
+        tag = MetaTag.new('meta_tags', nil, nil)
+        head << tag.render(context) if tag.render(context).present?
+
+
+        tag = HeadContent.new('head_content', nil, nil)
+        head << tag.render(context) if tag.render(context).present?
+
+        head.join("\n")
       end
     end
 

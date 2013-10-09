@@ -176,17 +176,6 @@ module Landable
       errors[:path] = "can not be changed!" if self.path_changed?
     end
 
-    def head
-      head = []
-
-      head << content_tag(:title, title)   if title.present?
-      head << meta_tags.map { |name, value| tag(:meta, name: name, content: value) }
-                       .join("\n")         if meta_tags.present?
-      head << head_content                 if head_content.present?
-
-      head.join("\n")
-    end
-
     def body_strip_search
       begin
         RenderService.call(self)
