@@ -8,6 +8,7 @@ require 'landable/liquid/filters'
 Liquid::Template.register_tag('title_tag',    Landable::Liquid::TitleTag)
 Liquid::Template.register_tag('meta_tags',    Landable::Liquid::MetaTags)
 Liquid::Template.register_tag('head_content', Landable::Liquid::HeadContent)
+Liquid::Template.register_tag('head',         Landable::Liquid::Head)
 
 %w(img_tag image_tag javascript_include_tag stylesheet_link_tag).each do |tag|
   Liquid::Template.register_tag(tag, Landable::Liquid::AssetTag)

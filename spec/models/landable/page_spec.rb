@@ -248,6 +248,40 @@ module Landable
       end
     end
 
+    describe '#head' do
+      context 'all present - head_content, meta_tags, and title' do
+        it 'returns all in a string' do
+          page = create :page, head_content: '<head></head>',
+                               meta_tags: { 'robots' => 'noindex' },
+                               title: 'great'
+
+          page.head.should include("<meta content=\"noindex\" name=\"robots\" />")
+          page.head.should include("<title>great</title>")
+          page.head.should include("<head></head>")
+        end
+      end
+
+      context 'some included' do
+        it 'returns all included in a string' do
+          page = create :page, head_content: '<head></head>',
+                               meta_tags: { 'robots' => 'noindex' },
+                               title: nil
+
+          page.head.should include("<meta content=\"noindex\" name=\"robots\" />")
+          page.head.should include("<head></head>")
+          page.head.should_not include("<title></title>")
+
+        end
+      end
+
+      context 'none present' do
+        it 'returns a empty string' do
+          page = create :page, meta_tags: nil, head_content: nil, title: nil
+          page.head.should == ''
+        end
+      end
+    end
+
     describe '::sitemappable' do
       let(:page) { create :page }
       let(:page_2) { create :page, :redirect }

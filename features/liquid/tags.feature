@@ -41,6 +41,21 @@ Feature: Liquid Tags
       <head lang='en'><meta test='text'>
       """
 
+  Scenario: head
+    Given the page's body is "{% head %}"
+    And the page's head tag is "<head lang='en'><meta test='text'>"
+    And the page's meta tags are:
+      | name     | content            |
+      | robots   | noindex,nofollow   |
+      | keywords | momoney,moproblems |
+    Then the rendered content should be:
+      """
+      <title>Page Under Test</title>
+      <meta content="noindex,nofollow" name="robots" />
+      <meta content="momoney,moproblems" name="keywords" />
+      <head lang='en'><meta test='text'>
+      """
+
   Scenario: img_tag
     Given the page's body is "{% img_tag panda %}"
     Then the rendered content should be:

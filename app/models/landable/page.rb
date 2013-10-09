@@ -7,6 +7,7 @@ require_dependency 'landable/author'
 
 module Landable
   class Page < ActiveRecord::Base
+    include ActionView::Helpers::TagHelper
     include Landable::HasAssets
     include Landable::Engine.routes.url_helpers
 
@@ -173,6 +174,21 @@ module Landable
 
     def forbid_changing_path
       errors[:path] = "can not be changed!" if self.path_changed?
+    end
+
+    def head
+      head = []
+
+      # Grab the Title Tag, Meta Tag, Additional Head Content
+      head << content_tag(:title, title)   if title.present?
+      head << meta_tags.map { |name, value| tag(:meta, name: name, content: value) }
+                       .join("\n")         if meta_tags.present?
+      head << head_content                 if head_content.present?
+
+      # Display Beautifully
+      head.join("\n")
+
+      # Profit!
     end
 
     def body_strip_search
