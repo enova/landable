@@ -1,9 +1,11 @@
 module Landable
   class ApiResponder < ActionController::Responder
     def to_format
+      controller.response.headers['X-Landable-Media-Type'] = api_media_type
+
       if serializer = resource_serializer
         options[collection_resource? ? :each_serializer : :serializer] = serializer
-        controller.response.headers['X-Serializer'] = serializer.name if leaky?
+        controller.response.headers['X-Landable-Serializer'] = serializer.name if leaky?
       end
 
       if leaky? && format == :json && schema = json_schema
@@ -58,6 +60,17 @@ module Landable
     rescue NameError
       @resource_serializer = false
       nil
+    end
+
+    def api_media_type
+      api_media = controller.api_media
+
+      h = []
+      h << "landable.v#{api_media[:version]}"
+      h << "param=#{api_media[:param]}" if api_media[:param]
+      h << "format=#{api_media[:format]}"
+
+      h.join('; ')
     end
   end
 end
