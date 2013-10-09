@@ -6,6 +6,8 @@ describe Landable::Liquid do
     Liquid::Template.tags['title_tag'].should              == Landable::Liquid::TitleTag
     Liquid::Template.tags['meta_tags'].should              == Landable::Liquid::MetaTags
     Liquid::Template.tags['head_content'].should           == Landable::Liquid::HeadContent
+    Liquid::Template.tags['head'].should                   == Landable::Liquid::Head
+    Liquid::Template.tags['body'].should                   == Landable::Liquid::Body
     Liquid::Template.tags['img_tag'].should                == Landable::Liquid::AssetTag
     Liquid::Template.tags['image_tag'].should              == Landable::Liquid::AssetTag
     Liquid::Template.tags['javascript_include_tag'].should == Landable::Liquid::AssetTag

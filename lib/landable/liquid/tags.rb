@@ -46,6 +46,13 @@ module Landable
       end
     end
 
+    class Body < Tag
+      def render(context)
+        page = lookup_page context
+        page.body
+      end
+    end
+
     class TemplateTag < Tag
       def initialize(tag, param, tokens)
         param_tokens = param.split(/\s+/)

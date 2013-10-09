@@ -56,6 +56,14 @@ Feature: Liquid Tags
       <head lang='en'><meta test='text'>
       """
 
+  Scenario: body
+    Given the page's body is "{% body %}"
+    And the page's body is "<div>Page body</div>"
+    Then the rendered content should be:
+      """
+      <div>Page body</div>
+      """
+
   Scenario: img_tag
     Given the page's body is "{% img_tag panda %}"
     Then the rendered content should be:
