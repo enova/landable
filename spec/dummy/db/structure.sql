@@ -264,14 +264,14 @@ CREATE TABLE page_revisions (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     theme_id uuid,
-    status_code_id uuid,
     category_id uuid,
     redirect_url text,
     body text,
     title text,
     path text,
     meta_tags public.hstore,
-    head_content text
+    head_content text,
+    status_code smallint
 );
 
 
@@ -294,7 +294,6 @@ CREATE TABLE pages (
     is_publishable boolean DEFAULT true NOT NULL,
     theme_id uuid,
     category_id uuid,
-    status_code_id uuid NOT NULL,
     path text NOT NULL,
     title text,
     body text,
@@ -306,6 +305,7 @@ CREATE TABLE pages (
     updated_by_author_id uuid,
     lock_version integer DEFAULT 0 NOT NULL,
     head_content text,
+    status_code smallint DEFAULT 200 NOT NULL,
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
 
@@ -342,42 +342,6 @@ CREATE TABLE screenshots (
 --
 
 COMMENT ON TABLE screenshots IS 'Stores saved screenshots (taken of pages) and the URLs to retrieve the actual image.';
-
-
---
--- Name: status_code_categories; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE TABLE status_code_categories (
-    status_code_category_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    name text NOT NULL
-);
-
-
---
--- Name: TABLE status_code_categories; Type: COMMENT; Schema: landable; Owner: -
---
-
-COMMENT ON TABLE status_code_categories IS 'Categories that status codes belong to.  Used to affect behavior when viewing a page.';
-
-
---
--- Name: status_codes; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE TABLE status_codes (
-    status_code_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    status_code_category_id uuid NOT NULL,
-    code smallint NOT NULL,
-    description text NOT NULL
-);
-
-
---
--- Name: TABLE status_codes; Type: COMMENT; Schema: landable; Owner: -
---
-
-COMMENT ON TABLE status_codes IS 'Allowed status codes that pages can be set to.';
 
 
 --
@@ -536,22 +500,6 @@ ALTER TABLE ONLY screenshots
 
 
 --
--- Name: status_code_categories_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY status_code_categories
-    ADD CONSTRAINT status_code_categories_pkey PRIMARY KEY (status_code_category_id);
-
-
---
--- Name: status_codes_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY status_codes
-    ADD CONSTRAINT status_codes_pkey PRIMARY KEY (status_code_id);
-
-
---
 -- Name: templates_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -688,20 +636,6 @@ CREATE UNIQUE INDEX landable_screenshots__u_browserstack_id ON screenshots USING
 
 
 --
--- Name: landable_status_code_categories__u_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX landable_status_code_categories__u_name ON status_code_categories USING btree (lower(name));
-
-
---
--- Name: landable_status_codes__u_code; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX landable_status_codes__u_code ON status_codes USING btree (code);
-
-
---
 -- Name: landable_templates__u_name; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -758,7 +692,7 @@ CREATE TRIGGER landable_page_revisions__no_delete BEFORE DELETE ON page_revision
 -- Name: landable_page_revisions__no_update; Type: TRIGGER; Schema: landable; Owner: -
 --
 
-CREATE TRIGGER landable_page_revisions__no_update BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal, theme_id, status_code_id, category_id, redirect_url, body, title, path, meta_tags, head_content ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
+CREATE TRIGGER landable_page_revisions__no_update BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal, theme_id, status_code, category_id, redirect_url, body ON page_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
 
 
 --
@@ -866,30 +800,6 @@ ALTER TABLE ONLY pages
 
 
 --
--- Name: status_code_category_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
---
-
-ALTER TABLE ONLY status_codes
-    ADD CONSTRAINT status_code_category_fk FOREIGN KEY (status_code_category_id) REFERENCES status_code_categories(status_code_category_id);
-
-
---
--- Name: status_code_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
---
-
-ALTER TABLE ONLY pages
-    ADD CONSTRAINT status_code_fk FOREIGN KEY (status_code_id) REFERENCES status_codes(status_code_id);
-
-
---
--- Name: status_code_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
---
-
-ALTER TABLE ONLY page_revisions
-    ADD CONSTRAINT status_code_id_fk FOREIGN KEY (status_code_id) REFERENCES status_codes(status_code_id);
-
-
---
 -- Name: theme_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
 --
 
@@ -938,3 +848,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130909191153');
 INSERT INTO schema_migrations (version) VALUES ('20131002220041');
 
 INSERT INTO schema_migrations (version) VALUES ('20131008164204');
+
+INSERT INTO schema_migrations (version) VALUES ('20131008193544');

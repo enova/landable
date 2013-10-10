@@ -49,7 +49,7 @@ Given /^a page "([^"]+)" with title "(.+)"$/ do |path, title|
 end
 
 Given 'page "$path" redirects to "$url" with status $code' do |path, url, code|
-  page = create :page, :redirect, path: path, redirect_url: url, status_code: Landable::StatusCode.where(code: code).first, body: "BODY"
+  page = create :page, :redirect, path: path, redirect_url: url, status_code: code, body: "BODY"
   page.publish! author: create(:author)
 end
 
@@ -61,7 +61,7 @@ end
 Given 'a published page "$path" with status $code' do |path, code|
   code = Integer(code)
   page = case code
-         when 301, 302 then create :page, :redirect, path: path, status_code: Landable::StatusCode.where(code: code).first, body: "BODY"
+         when 301, 302 then create :page, :redirect, path: path, status_code: code, body: "BODY"
          when 404 then create :page, :not_found, path: path, body: "BODY"
          else create :page, path: path, body: "BODY"
          end
@@ -95,8 +95,7 @@ When 'I publish the page "$path"' do |path|
 end
 
 When(/^I change the page to a (\d+)$/) do |code|
-  @status_code = Landable::StatusCode.where(code: code).first_or_create!
-  @page.status_code = @status_code
+  @page.status_code = code
   @page.save!
 end
 

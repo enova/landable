@@ -7,8 +7,6 @@ BEGIN;
                           'pages'
                           , 'page_revisions'
                           , 'assets'
-                          , 'status_code_categories'
-                          , 'status_codes'
                           , 'themes'
                           , 'templates'
                           , 'authors'

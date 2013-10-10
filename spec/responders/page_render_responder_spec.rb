@@ -23,7 +23,7 @@ describe Landable::PageRenderResponder do
       let(:page) { build :page, :redirect }
 
       it 'should render a redirect' do
-        responder.should_receive(:redirect_to).with(page.redirect_url, status: page.status_code.code)
+        responder.should_receive(:redirect_to).with(page.redirect_url, status: page.status_code)
         responder.should_not_receive(:render)
 
         responder.to_html
