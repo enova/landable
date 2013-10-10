@@ -261,6 +261,34 @@ module Landable
       end
     end
 
+    describe '#redirect_url' do
+      context 'validater' do
+        before(:each) { @page = build :page, path: '/' }
+
+        it 'should correctly validate http://' do
+          @page.redirect_url = 'http://www.google.com'
+          @page.should be_valid
+        end
+
+        it 'should correctly validate https://' do
+          @page.redirect_url = 'http://www.google.com'
+          @page.should be_valid
+        end
+
+        it 'should correctly invalidate www' do
+          @page.redirect_url = 'www.google.com' 
+          @page.should_not be_valid
+          @page.errors[:redirect_url].should_not be_empty
+        end
+
+        it 'should correctly invalidate bad urls' do
+          @page.redirect_url = 'httpsaasd' 
+          @page.should_not be_valid
+          @page.errors[:redirect_url].should_not be_empty
+        end
+      end
+    end
+
     describe '::generate_sitemap' do
       it 'returns a sitemap' do
         page = create :page
