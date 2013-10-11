@@ -14,7 +14,7 @@ FactoryGirl.define do
     # Anyone see a more reasonable way to unset these attributes?
     trait :redirect do
       status_code 301
-      redirect_url "/redirect/somewhere/else"
+      redirect_url "http://www.redirect.com"
 
       theme nil
       title nil
