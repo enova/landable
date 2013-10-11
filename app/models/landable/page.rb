@@ -6,6 +6,7 @@ require_dependency 'landable/author'
 
 module Landable
   class Page < ActiveRecord::Base
+    include ActionView::Helpers::TagHelper
     include Landable::HasAssets
     include Landable::Engine.routes.url_helpers
 

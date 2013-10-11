@@ -21,7 +21,7 @@ module Landable
       end
     end
 
-    class MetaTags < Tag
+    class MetaTag < Tag
       def render(context)
         page = lookup_page context
         tags = page.meta_tags || {}
@@ -35,7 +35,30 @@ module Landable
     class HeadContent < Tag
       def render(context)
         page = lookup_page context
+
         page.head_content
+      end
+    end
+
+    class Head < Tag
+      def render(context)
+        page = lookup_page context
+
+        head = []
+
+        ['title_tag', 'meta_tags', 'head_content'].each do |tag_name|
+           tag = eval("Landable::Liquid::#{tag_name.classify}").new(tag_name, nil, nil)
+           head << tag.render(context) if tag.render(context).present?
+         end
+
+        head.join("\n")
+      end
+    end
+
+    class Body < Tag
+      def render(context)
+        page = lookup_page context
+        page.body
       end
     end
 
