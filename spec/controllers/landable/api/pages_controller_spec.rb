@@ -258,7 +258,6 @@ module Landable::Api
         make_request attributes_for(:page, :redirect, body: 'still here', theme_id: theme.id)
         response.status.should == 200
         last_json['page']['preview'].should include('301')
-        last_json['page']['preview'].should include('/redirect/somewhere/else') # briiiitle
       end
 
       it 'renders 404 pages as if they were 200s' do

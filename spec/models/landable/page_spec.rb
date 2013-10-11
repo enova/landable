@@ -91,7 +91,7 @@ module Landable
       it 'is required if redirect?' do
         page = Page.new status_code: 301
         page.should_not have_valid(:redirect_url).when(nil, '')
-        page.should have_valid(:redirect_url).when('http://example.com', '/some/path')
+        page.should have_valid(:redirect_url).when('http://example.com', 'http://www.somepath.com')
       end
 
       it 'not required for 200, 404' do
