@@ -1,5 +1,5 @@
 class UrlValidator < ActiveModel::EachValidator
- 
+
   def validate_each(record, attribute, value)
     valid = begin
       URI.parse(value).kind_of?(URI::HTTP)
@@ -7,8 +7,8 @@ class UrlValidator < ActiveModel::EachValidator
       false
     end
     unless valid
-      record.errors[attribute] << ("Invalid url! Make sure url starts with http:// or https://")
+      record.errors[attribute] << ("Invalid URL! Make sure it starts with http:// or https://")
     end
   end
- 
+
 end
