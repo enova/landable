@@ -8,7 +8,7 @@ module Landable
     embed :ids
 
     has_one  :author, include: true, serializer: AuthorSerializer
-    has_many :pages, include: true, serializer: PageSerializer
-    has_many :themes, include: true, serializer: ThemeSerializer
+    has_many :pages
+    has_many :themes
   end
 end
