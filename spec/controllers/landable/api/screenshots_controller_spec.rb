@@ -2,6 +2,8 @@ require 'spec_helper'
 
 module Landable::Api
   describe ScreenshotsController, json: true do
+    before { pending }
+
     routes { Landable::Engine.routes }
 
     before(:each) { Landable::ScreenshotService.stub(:call) }
