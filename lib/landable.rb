@@ -1,3 +1,4 @@
+require 'landable/version'
 require 'landable/engine'
 require 'landable/liquid'
 require 'landable/mime_types'
