@@ -1,5 +1,6 @@
 require 'landable/engine'
 require 'landable/liquid'
+require 'landable/mime_types'
 
 module Landable
   # This absurd configuration loading code is not intended to live long.

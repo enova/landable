@@ -8,6 +8,14 @@ describe Landable::ApiController, json: true do
       render nothing: true
     end
 
+    def responder
+      respond_with @resource
+    end
+
+    def update_responder
+      respond_with @resource
+    end
+
     def not_found
       raise ActiveRecord::RecordNotFound
     end
@@ -34,6 +42,9 @@ describe Landable::ApiController, json: true do
   before do
     routes.draw do
       get 'index' => 'anonymous#index'
+      get 'responder' => 'anonymous#responder'
+      patch 'responder' => 'anonymous#responder'
+      put 'responder' => 'anonymous#responder'
       get 'not_found' => 'anonymous#not_found'
       get 'xml_only'  => 'anonymous#xml_only'
       get 'record_invalid' => 'anonymous#record_invalid'
@@ -121,6 +132,71 @@ describe Landable::ApiController, json: true do
       expect {
         get :other_pg_error
       }.to raise_error(PG::Error)
+    end
+  end
+
+  describe '#api_media' do
+    let(:headers) { {} }
+
+    def make_request
+      request.env.merge!(headers)
+      get :index
+    end
+
+    context 'a specific API version requested' do
+      let(:headers) { {'HTTP_ACCEPT' => "application/vnd.landable.v3+json"} }
+
+      it 'populates accordingly' do
+        make_request
+
+        controller.api_media.should == {
+          format: :json,
+          version: 3,
+          param: nil,
+        }
+      end
+    end
+
+    context 'no specific API version requested' do
+      let(:headers) { {'HTTP_ACCEPT' => "application/json"} }
+
+      it 'should select defaults' do
+        make_request
+
+        controller.api_media.should == {
+          format: :json,
+          version: Landable::API_VERSION,
+          param: nil,
+        }
+      end
+    end
+  end
+
+  describe 'responder' do
+    before(:each) do
+      controller.instance_variable_set :@resource, resource
+    end
+
+    let(:resource) { build :author }
+
+    it 'should set X-Landable-Media-Type' do
+      get :responder
+      response.status.should == 200
+      response.headers['X-Landable-Media-Type'].should == 'landable.v0; format=json'
+    end
+
+    context 'patch' do
+      it 'should display the resource' do
+        put :responder
+        response.body.should_not be_empty
+      end
+    end
+
+    context 'put' do
+      it 'should display the resource' do
+        put :responder
+        response.body.should_not be_empty
+      end
     end
   end
 end

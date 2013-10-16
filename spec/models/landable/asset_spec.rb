@@ -14,7 +14,7 @@ describe Landable::Asset do
   end
 
   it { should_not have_valid(:name).when(nil, '', 'No Spaces') }
-  it { should_not have_valid(:author_id).when(nil) }
+  it { should_not have_valid(:author).when(nil) }
   it { should_not have_valid(:md5sum).when(nil, '') }
   it { should_not have_valid(:mime_type).when(nil, '') }
   it { should_not have_valid(:file_size).when(nil, 1.5) }

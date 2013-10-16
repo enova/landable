@@ -37,6 +37,24 @@ module Landable
       end
     end
 
+
+    # here's looking at you, http://developer.github.com/v3/media/
+    # mime type matching is still handled by rails - see lib/landable/mime_types.rb
+
+    API_MEDIA_REGEX = /^application\/vnd\.landable(\.v(?<version>[\w\-]+))?(\.(?<param>(?:[\w\-]+)))?(\+(?<format>[\w\-]+))?/
+
+    def api_media
+      @api_media ||= begin
+        accept = request.headers['Accept'].match(API_MEDIA_REGEX) || {}
+
+        {
+          version: accept['version'].presence.try(:to_i) || Landable::API_VERSION,
+          format:  accept['format'].presence.try(:to_sym) || :json,
+          param:   accept['param'].presence,
+        }
+      end
+    end
+
     protected
 
     def require_author!
@@ -49,5 +67,6 @@ module Landable
         @current_author = Author.authenticate!(username, token)
       end
     end
+
   end
 end
