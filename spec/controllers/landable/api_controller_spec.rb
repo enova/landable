@@ -182,7 +182,7 @@ describe Landable::ApiController, json: true do
     it 'should set X-Landable-Media-Type' do
       get :responder
       response.status.should == 200
-      response.headers['X-Landable-Media-Type'].should == 'landable.v0; format=json'
+      response.headers['X-Landable-Media-Type'].should == "landable.v#{Landable::API_VERSION}; format=json"
     end
 
     context 'patch' do

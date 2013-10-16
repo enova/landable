@@ -6,7 +6,7 @@ Feature: Access Tokens API
     And   "someone" has an unexpired access token
     When I POST to "/api/access_tokens" with:
       """
-      { "username": "someone", "password": "anything" }
+      { "access_token": { "username": "someone", "password": "anything" } }
       """
     Then the response status should be 201 "Created"
     And  there should be 2 access tokens in the database
@@ -14,7 +14,7 @@ Feature: Access Tokens API
   Scenario: Invalid username or password
     When I POST to "/api/access_tokens" with:
       """
-      { "username": "anything", "password": "fail" }
+      { "access_token": { "username": "anything", "password": "fail" } }
       """
     Then the response status should be 401 "Not Authorized"
     And  the response body should be empty
@@ -23,7 +23,7 @@ Feature: Access Tokens API
     Given there are no authors in the database
     When I POST to "/api/access_tokens" with:
       """
-      { "username": "someone", "password": "anything" }
+      { "access_token": { "username": "someone", "password": "anything" } }
       """
     Then an author "someone" should exist
     And  the author "someone" should have 1 access token
@@ -32,7 +32,7 @@ Feature: Access Tokens API
     Given an author "someone"
     When I POST to "/api/access_tokens" with:
       """
-      { "username": "someone", "password": "anything" }
+      { "access_token": { "username": "someone", "password": "anything" } }
       """
     Then there should be 1 author in the database
     And  the author "someone" should have 1 access token

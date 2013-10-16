@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Landable::ScreenshotService do
+  before { pending }
 
   include Landable::Engine.routes.url_helpers
 

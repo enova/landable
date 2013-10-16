@@ -2,6 +2,8 @@ require 'spec_helper'
 
 module Landable::Api
   describe BrowsersController, json: true do
+    before { pending }
+
     routes { Landable::Engine.routes }
 
     describe '#index' do
