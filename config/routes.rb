@@ -33,14 +33,17 @@ Landable::Engine.routes.draw do
       post 'revert_to', on: :member
     end
 
-    resources :screenshots, only: [:index, :show, :create] do
-      post 'callback', on: :collection
-      post 'resubmit', on: :member
-    end
-
-    resources :browsers, only: [:index, :show]
-
     resources :access_tokens, only: [:create, :destroy, :show]
+
+
+    # coming soon: screenshots!
+
+    # resources :screenshots, only: [:index, :show, :create] do
+    #   post 'callback', on: :collection
+    #   post 'resubmit', on: :member
+    # end
+
+    # resources :browsers, only: [:index, :show]
   end
 
   scope module: 'public', as: :public do
