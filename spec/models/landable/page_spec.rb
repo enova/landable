@@ -278,16 +278,16 @@ module Landable
           @page.should be_valid
         end
 
-        it 'should correctly invalidate www' do
+        it 'should correctly allow www' do
           @page.redirect_url = 'www.google.com' 
-          @page.should_not be_valid
-          @page.errors[:redirect_url].should_not be_empty
+          @page.should be_valid
+          @page.errors[:redirect_url].should be_empty
         end
 
-        it 'should correctly invalidate bad urls' do
+        it 'should not invalidate bad urls' do
           @page.redirect_url = 'httpsaasd' 
-          @page.should_not be_valid
-          @page.errors[:redirect_url].should_not be_empty
+          @page.should be_valid
+          @page.errors[:redirect_url].should be_empty
         end
       end
     end
