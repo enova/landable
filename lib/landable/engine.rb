@@ -21,7 +21,7 @@ module Landable
     initializer "landable.enable_cors" do |app|
       config = Landable.configuration
       if config.cors.enabled?
-        app.middleware.use Rack::Cors do
+        app.middleware.insert 0, Rack::Cors do
           allow do
             origins config.cors.origins
             resource "#{config.api_namespace}/*", methods: [:get, :post, :put, :patch, :delete],
