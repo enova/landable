@@ -278,6 +278,21 @@ module Landable
           @page.should be_valid
         end
 
+        it 'should correctly validate /' do
+          @page.redirect_url = '/some/uri'
+          @page.should be_valid
+        end
+
+        it 'should not validate www' do
+          @page.redirect_url = 'www.google.com'
+          @page.should_not be_valid
+        end
+
+        it 'should not validate bad urls' do
+          @page.redirect_url = 'hdasdfpou'
+          @page.should_not be_valid
+        end
+
       end
     end
 
