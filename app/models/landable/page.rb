@@ -20,7 +20,6 @@ module Landable
 
     validate :forbid_changing_path, on: :update
     validate :body_strip_search
-
     validates :redirect_url, url: true, allow_blank: true
 
     belongs_to :theme,                class_name: 'Landable::Theme',        inverse_of: :pages
