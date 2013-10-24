@@ -2,7 +2,7 @@ require 'landable'
 
 Landable.configure do |config|
   # Specify the hostname(s) of your Publicist instance
-  config.cors.origins = %w(publicist.dev)
+  config.cors.origins = %w(publicist.dev http://publicist.10.224.109.244.xip.io/)
 
   # Simple singleton user authenticator
   config.authenticator = Landable::AuthenticationService::EchoAuthenticator.new('trogdor', 'trogdor')
