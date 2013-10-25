@@ -5,7 +5,7 @@ source "https://rubygems.org"
 # development dependencies will be added by default to the :development group.
 gemspec
 
-gem 'lookup_by', path: '~/code/gems/lookup_by'
+gem 'lookup_by', '>= 0.3.0', github: 'companygardener/lookup_by'
 
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
