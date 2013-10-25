@@ -5,8 +5,6 @@ module Landable
         load
         cookie
         record_visit
-        record_page_view
-        save
       end
 
       def load
@@ -14,24 +12,42 @@ module Landable
 
         @cookie_id        = cookies[:landable]
 
-        @visit_id         = hash[VISIT_ID]
-        @last_visit_time  = hash[VISIT_TIME]
-        @visitor_id       = hash[VISITOR_ID]
-        @visitor_hash     = hash[VISITOR_HASH]
-        @attribution_hash = hash[ATTRIBUTION_HASH]
+        @visit_id         = hash[KEYS[:visit_id]]
+        @last_visit_time  = hash[KEYS[:visit_time]]
+        @visitor_id       = hash[KEYS[:visitor_id]]
+        @visitor_hash     = hash[KEYS[:visitor_hash]]
+        @attribution_hash = hash[KEYS[:attribution_hash]]
+        @referer_hash     = hash[KEYS[:referer_hash]]
       end
 
       def record_page_view
-        PageView.create(path: Path[request.path], visit_id: @visit_id, request_id: request.uuid)
+        PageView.create do |p|
+          p.http_method  = request.method
+          p.mime_type    = request.format.to_s
+          p.path         = request.path
+          p.query_string = untracked_parameters.to_query
+          p.request_id   = request.uuid
+
+          p.click_id     = tracking_parameters["click_id"]
+
+          p.http_status  = response.status
+
+          p.visit_id     = @visit_id
+        end
       end
 
       def save
+        record_page_view
+
+        binding.pry
+
         session[:landable] = {
-          VISIT_ID         => @visit_id,
-          VISIT_TIME       => Time.current,
-          VISITOR_ID       => @visitor_id,
-          VISITOR_HASH     => visitor_hash,
-          ATTRIBUTION_HASH => attribution? ? attribution_hash : @attribution_hash
+          KEYS[:visit_id]         => @visit_id,
+          KEYS[:visit_time]       => Time.current,
+          KEYS[:visitor_id]       => @visitor_id,
+          KEYS[:visitor_hash]     => visitor_hash,
+          KEYS[:attribution_hash] => attribution? ? attribution_hash : @attribution_hash,
+          KEYS[:referer_hash]     => referer_changed? ? referer_hash : @referer_hash
         }
       end
 

@@ -1,31 +1,34 @@
 require 'digest/sha2'
+require 'uri'
 
 module Landable
   module Tracking
     class Tracker
-      QUERY_PARAMS = {
+      TRACKING_PARAMS = {
         "ad_type"        => %w[ad_type adtype],
+        "ad_group"       => %w[ad_group adgroup ovadgrpid ysmadgrpid],
         "bid_match_type" => %w[bidmatchtype bid_match_type bmt],
         "campaign"       => %w[campaign utm_campaign ovcampgid ysmcampgid],
         "content"        => %w[content utm_content],
-        "creative"       => %w[creative],
-        "device_type"    => %w[device_type devicetype],
+        "creative"       => %w[creative adid ovadid],
+        "device_type"    => %w[device_type devicetype device],
+        "click_id"       => %w[gclid click_id],
+        "experiment"     => %w[experiment aceid],
         "keyword"        => %w[keyword kw utm_term ovkey ysmkey],
         "match_type"     => %w[match_type matchtype match ovmtc ysmmtc],
         "medium"         => %w[medium utm_medium],
         "network"        => %w[network],
         "placement"      => %w[placement],
         "position"       => %w[position adposition ad_position],
-        "search_term"    => %w[search_term querystring ovraw ysmraw],
+        "search_term"    => %w[search_term searchterm q querystring ovraw ysmraw],
         "source"         => %w[source utm_source],
         "target"         => %w[target],
-      }
+      }.freeze
 
-      REFERER_PARAMS = {
-        "search_term" => %w[q]
-      }
+      TRACKING_KEYS    = TRACKING_PARAMS.values.flatten.freeze
+      ATTRIBUTION_KEYS = TRACKING_PARAMS.except("click_id").keys
 
-      QUERY_PARAMS_TRANSFORM = {
+      TRACKING_PARAMS_TRANSFORM = {
         "ad_type"        => { 'pe'  => 'product_extensions',
                               'pla' => 'product_listing' },
 
@@ -41,31 +44,41 @@ module Landable
         "match_type"     => { 'b'   => 'broad',
                               'c'   => 'content',
                               'e'   => 'exact',
-                              'p'   => 'phrase' },
+                              'p'   => 'phrase',
+                              'std' => 'standard',
+                              'adv' => 'advanced',
+                              'cnt' => 'content' },
 
         "network"        => { 'g'   => 'google_search',
                               's'   => 'search_partner',
                               'd'   => 'display_network' },
-      }
+      }.freeze
 
       UUID_REGEX       = /\A\h{8}-\h{4}-\h{4}-\h{4}-\h{12}\Z/
       UUID_REGEX_V4    = /\A\h{8}-\h{4}-4\h{3}-[89aAbB]\h{3}-\h{12}\Z/
 
       # Save space in the session by shortening names
-      VISIT_ID         = 'vid'
-      VISITOR_ID       = 'vsid'
-      VISIT_TIME       = 'vt'
-      VISITOR_HASH     = 'vh'
-      ATTRIBUTION_HASH = 'ah'
+      KEYS = {
+        visit_id:         'vid',
+        visitor_id:       'vsid',
+        visit_time:       'vt',
+        visitor_hash:     'vh',
+        attribution_hash: 'ah',
+        referer_hash:     'rh'
+      }.freeze
 
       attr_reader :controller
 
-      delegate :request, :session, to: :controller
+      delegate :request, :response, :session, to: :controller
       delegate :headers, :path, :query_parameters, :referer, :remote_ip, to: :request
 
       class << self
         def for(controller)
-          "#{user_agent.user_agent_type.classify}Tracker".constantize.new(controller)
+          type = Landable::Tracking::UserAgent[controller.request.user_agent].user_agent_type
+          type = 'user'if type.nil?
+          type = 'user'if controller.request.query_parameters.slice(*TRACKING_KEYS).any?
+
+          "Landable::Tracking::#{type.classify}Tracker".constantize.new(controller)
         end
       end
 
@@ -76,11 +89,19 @@ module Landable
         @controller = controller
       end
 
-      def track; raise NotImplementedError, "You must subclass Tracker"; end
+      def track
+        raise NotImplementedError, "You must subclass Tracker" if self.class == Tracker
+      end
 
       def visitor_id
         @visitor_id = visitor.id if visitor_changed?
         @visitor_id
+      end
+
+      def create_event(type, meta = {})
+        return unless @visit_id
+
+        Event.create(visit_id: @visit_id, event_type: type)
       end
 
     protected
@@ -98,7 +119,7 @@ module Landable
 
       def validate_cookie
         return unless @cookie_id
-        return if @cookie_id =~ UUID_REGEX_V4 && Cookie.exists?(@cookie_id)
+        return if @cookie_id =~ UUID_REGEX_V4 && Cookie[@cookie_id]
 
         # add_ip_to_graylist
         @cookie_id = nil
@@ -122,6 +143,20 @@ module Landable
         @user_agent ||= UserAgent[request.user_agent]
       end
 
+      def referer
+        return @referer if @referer
+        return unless referer_uri
+
+        params      = Rack::Utils.parse_query referer_uri.query
+        attribution = Attribution.lookup params.slice(*ATTRIBUTION_KEYS)
+        query       = params.except(*ATTRIBUTION_KEYS)
+
+        @referer = Referer.where(domain_id:       Domain[referer_uri.host],
+                                 path_id:         Path[referer_uri.path],
+                                 query_string_id: QueryString[query.to_query],
+                                 attribution_id:  attribution.id).first_or_create
+      end
+
       def ip_address
         @ip_address ||= IpAddress[remote_ip]
       end
@@ -134,7 +169,14 @@ module Landable
         Digest::SHA2.base64digest [remote_ip, request.user_agent].join
       end
 
-      # TODO: Fix this
+      def referer_hash
+        Digest::SHA2.base64digest request.referer
+      end
+
+      def tracking?
+        tracking_parameters.any?
+      end
+
       def attribution?
         attribution_parameters.any?
       end
@@ -143,10 +185,17 @@ module Landable
         create_visit if new_visit?
       end
 
+      def record_access
+        access = Access.where(visitor_id: visitor_id, path_id: Path[request.path]).first_or_initialize
+        access.last_accessed_at = Time.current
+        access.save!
+      end
+
       def create_visit
         visit = Visit.new
         visit.attribution = attribution
         visit.cookie_id   = @cookie_id
+        visit.referer_id  = referer.id
         visit.visitor_id  = visitor_id
         visit.save!
 
@@ -154,7 +203,19 @@ module Landable
       end
 
       def new_visit?
-        @visit_id.nil? || attribution_changed? || visitor_changed? || visit_stale?
+        @visit_id.nil? || referer_changed? || attribution_changed? || visitor_changed? || visit_stale?
+      end
+
+      def referer_changed?
+        external_referer? && referer_hash != @referer_hash
+      end
+
+      def referer_uri
+        @referer_uri ||= URI(request.referer) if request.referer
+      end
+
+      def external_referer?
+        referer_uri && referer_uri.host != request.host
       end
 
       def visitor_changed?
@@ -171,27 +232,33 @@ module Landable
         Time.current - @last_visit_time > 30.minutes
       end
 
-      def mapped_parameters
-        return @mapped_parameters if @mapped_parameters
-
+      def extract_tracking(params)
         hash = {}
 
-        QUERY_PARAMS.each do |key, names|
-          next unless name = names.find { |name| query_parameters.key?(name) }
-          hash[key] = query_parameters[name]
+        TRACKING_PARAMS.each do |key, names|
+          next unless param = names.find { |name| params.key?(name) }
+          hash[key] = params[param]
         end
 
-        QUERY_PARAMS_TRANSFORM.each do |k, transform|
-          next unless hash.key? k
+        TRACKING_PARAMS_TRANSFORM.each do |key, transform|
+          next unless hash.key? key
 
-          hash[k] = transform[hash[k]] if transform.key? hash[k]
+          hash[key] = transform[hash[key]] if transform.key? hash[key]
         end
 
-        @mapped_parameters = hash
+        hash
+      end
+
+      def tracking_parameters
+        @tracking_parameters ||= extract_tracking(query_parameters)
+      end
+
+      def untracked_parameters
+        query_parameters.except(*TRACKING_PARAMS.values.flatten)
       end
 
       def attribution_parameters
-        mapped_parameters
+        @attribution_parameters ||= tracking_parameters.slice(*ATTRIBUTION_KEYS)
       end
 
       def attribution
