@@ -39,8 +39,6 @@ module Landable
       def save
         record_page_view
 
-        binding.pry
-
         session[:landable] = {
           KEYS[:visit_id]         => @visit_id,
           KEYS[:visit_time]       => Time.current,

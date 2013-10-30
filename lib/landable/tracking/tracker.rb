@@ -195,7 +195,7 @@ module Landable
         visit = Visit.new
         visit.attribution = attribution
         visit.cookie_id   = @cookie_id
-        visit.referer_id  = referer.id
+        visit.referer_id  = referer.try(:id)
         visit.visitor_id  = visitor_id
         visit.save!
 
