@@ -8,12 +8,20 @@ require 'landable/tracking/user_tracker'
 module Landable
   module Tracking
     def track_with_landable!
-      @tracker = Tracker.for self
-      @tracker.track
+      begin
+        @tracker = Tracker.for self
+        @tracker.track
+      rescue => e
+        Rails.logger.error e
+      end
 
       yield
 
-      @tracker.save
+      begin
+        @tracker.save
+      rescue => e
+        Rails.logger.error e
+      end
     end
   end
 end
