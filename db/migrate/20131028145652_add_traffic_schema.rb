@@ -159,7 +159,7 @@ class AddTrafficSchema < ActiveRecord::Migration
       CREATE INDEX ON ip_lookups (location_id);
 
 
-      -- User Tracking
+      -- User Traffic
 
       CREATE TABLE cookies (
           cookie_id          UUID        PRIMARY KEY DEFAULT uuid_generate_v4()

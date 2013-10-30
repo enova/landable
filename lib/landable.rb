@@ -3,7 +3,7 @@ require "landable/engine"
 require 'landable/liquid'
 require 'landable/mime_types'
 require "landable/inflections"
-require "landable/tracking"
+require "landable/traffic"
 
 require "landable/core_ext/ipaddr"
 

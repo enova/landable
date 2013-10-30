@@ -47,7 +47,7 @@ module Landable
         helper Landable::PagesHelper
 
         # tracking
-        include Landable::Tracking
+        include Landable::Traffic
         prepend_around_action :track_with_landable!
       end
     end
