@@ -54,8 +54,8 @@ Landable::Engine.routes.draw do
 
     get '/sitemap.xml' => 'sitemap#index', as: :sitemap
 
-    get '*url' => 'pages#show', as: :page, constraints: {
-      url: /[a-zA-Z0-9\/_.~-]*/
+    get '*url' => 'pages#show', as: :page, constraints: lambda { |request|
+      Landable::PageRevision.table_exists? and Landable::PageRevision.where('status_code != 404').where(path: request.path).any?
     }
   end
 end
