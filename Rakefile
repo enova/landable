@@ -7,6 +7,7 @@ end
 APP_RAKEFILE = File.expand_path("../spec/dummy/Rakefile", __FILE__)
 load 'rails/tasks/engine.rake'
 
+require "bundler_geminabox/gem_tasks"
 Bundler::GemHelper.install_tasks
 
 Dir.glob(File.expand_path('../lib/tasks/landable/*.rake', __FILE__)).each { |f| load f }
