@@ -8,7 +8,7 @@ module Landable
     end
 
     def title
-      content_tag('title', title) if page.title?
+      content_tag('title', page.title) if page.title?
     end
 
     def path
