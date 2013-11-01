@@ -8,6 +8,7 @@ module Landable
       it 'lists the head_tags seperated by a new line' do
         decorated_page = Landable::PageDecorator.new(page)
         decorated_page.head_content.should == "<head lang='en' />"
+        decorated_page.head_content.should be_html_safe
       end
     end
 
