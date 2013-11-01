@@ -1,5 +1,5 @@
 module Landable
-  VERSION     = '1.0.5'
+  VERSION     = '1.0.6'
 
   # The API version is always the same as the gem's major version.
   API_VERSION = VERSION.split('.')[0].to_i
