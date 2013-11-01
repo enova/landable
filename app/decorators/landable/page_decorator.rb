@@ -20,7 +20,7 @@ module Landable
     end
 
     def head_content
-      page.head_content.html_safe
+      page.head_content.try(:html_safe)
     end
 
     def meta_tags
