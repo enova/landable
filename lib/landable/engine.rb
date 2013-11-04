@@ -48,7 +48,9 @@ module Landable
 
         # tracking
         include Landable::Traffic
-        prepend_around_action :track_with_landable!
+        if Landable.configuration.traffic_enabled
+          prepend_around_action :track_with_landable!
+        end
       end
     end
   end
