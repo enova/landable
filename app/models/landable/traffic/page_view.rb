@@ -10,6 +10,15 @@ module Landable
       lookup_for :http_method,  class_name: HTTPMethod
       lookup_for :path,         class_name: Path
       lookup_for :query_string, class_name: QueryString
+
+      before_create :set_page_revision
+
+      protected
+
+      def set_page_revision
+        page = Landable::Page.where(path: path).select(:published_revision_id).first
+        self.published_revision_id = page.try(:published_revision_id)
+      end
     end
   end
 end
