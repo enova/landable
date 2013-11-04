@@ -193,10 +193,11 @@ module Landable
 
       def create_visit
         visit = Visit.new
-        visit.attribution = attribution
-        visit.cookie_id   = @cookie_id
-        visit.referer_id  = referer.try(:id)
-        visit.visitor_id  = visitor_id
+        visit.attribution  = attribution
+        visit.cookie_id    = @cookie_id
+        visit.referer_id   = referer.try(:id)
+        visit.visitor_id   = visitor_id
+        visit.do_not_track = do_not_track
         visit.save!
 
         @visit_id = visit.id
