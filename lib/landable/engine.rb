@@ -12,12 +12,6 @@ module Landable
       g.fixture_replacement :factory_girl, :dir => 'spec/factories'
     end
 
-    initializer "landable.action_controller" do
-      ActiveSupport.on_load :action_controller do
-        helper Landable::PagesHelper
-      end
-    end
-
     initializer "landable.enable_cors" do |app|
       config = Landable.configuration
       if config.cors.enabled?
@@ -46,6 +40,18 @@ module Landable
 
     initializer "landable.create_themes" do |app|
       Theme.create_from_layouts! rescue nil
+    end
+
+    initializer "landable.action_controller" do
+      ActiveSupport.on_load :action_controller do
+        helper Landable::PagesHelper
+
+        # tracking
+        include Landable::Traffic
+        if Landable.configuration.traffic_enabled
+          prepend_around_action :track_with_landable!
+        end
+      end
     end
   end
 end

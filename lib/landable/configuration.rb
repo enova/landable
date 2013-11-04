@@ -1,6 +1,6 @@
 module Landable
   class Configuration
-    attr_writer :api_namespace, :public_namespace, :categories
+    attr_writer :api_namespace, :public_namespace, :categories, :traffic_enabled
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -31,6 +31,10 @@ module Landable
         'Email' => '',
         'Traditional' => '',
       }
+    end
+
+    def traffic_enabled
+      @traffic_enabled ||= false
     end
 
     def cors

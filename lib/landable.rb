@@ -1,7 +1,13 @@
 require 'landable/version'
-require 'landable/engine'
+require "landable/engine"
 require 'landable/liquid'
 require 'landable/mime_types'
+require "landable/inflections"
+require "landable/traffic"
+
+require "landable/core_ext/ipaddr"
+
+require "lookup_by"
 
 module Landable
   # This absurd configuration loading code is not intended to live long.
