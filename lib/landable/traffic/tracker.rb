@@ -101,7 +101,7 @@ module Landable
       def create_event(type, meta = {})
         return unless @visit_id
 
-        Event.create(visit_id: @visit_id, event_type: type)
+        Event.create(visit_id: @visit_id, event_type: type, meta: meta)
       end
 
     protected
