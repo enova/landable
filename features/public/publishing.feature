@@ -1,5 +1,6 @@
 Feature: Only published revisions are publicly available
 
+  @allow-rescue
   Scenario: Never-published page
     Given a page "/unpub"
     When I GET "/unpub"

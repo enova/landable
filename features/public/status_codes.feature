@@ -1,5 +1,6 @@
 Feature: Page status codes
 
+  @allow-rescue
   Scenario Outline: HTTP response status
     Given a published page "/foo" with status <code>
     When  I GET "/foo"
