@@ -34,6 +34,9 @@ Dummy::Application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  # Use asset digests
+  # Asset digests - yep.
   config.assets.digest = true
+
+  # Disable the pipeline itself, as in production
+  config.assets.compile = false
 end

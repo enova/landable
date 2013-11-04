@@ -50,7 +50,13 @@ module Landable
       end
 
       # stuff for sprockets
-      delegate :assets_environment, :assets_prefix, :digest_assets, to: 'ActionView::Base'
+      delegate :assets_prefix, :digest_assets, to: 'ActionView::Base'
+
+      # ActionView::Base.assets_environment will be nil if the pipeline is
+      # disabled - use this instead
+      def assets_environment
+        Rails.application.assets
+      end
     end
 
     class AssetAttributeTag < AssetTag
