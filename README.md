@@ -1,26 +1,26 @@
 # Landable
+
 Rails engine providing an API and such for managing mostly static content.
 
-It will likely also contain CSS and JS assets which provide common component implementations.
 
 ## Installation
-Mount the engine, typically as your final, catch-all route:
 
-~~~~ruby
+Add `gem 'landable'` to your project's Gemfile.
+
+Run `rails g landable:install`, and update the new landable initializer to taste.
+
+Open your routes file, and ensure that the engine is mounted properly. Typically, this will be your final, catch-all route:
+
+```ruby
 My::Application.routes.draw do
   mount Landable::Engine => '/'
 end
-~~~~
+```
 
-To enable asset management, you will also have to configure [CarrierWave][carrierwave] and,
-typically, [Fog][fog]:
+Asset storage defaults to the local filesystem. To modify this, configure [CarrierWave][carrierwave] and [Fog][fog]:
 
-~~~~ruby
-# config/initializers/landable.rb, perhaps
-Landable.configure do |config|
-  config.api_namespace = '/my/custom/namespace'
-end
-
+```ruby
+# config/initializers/carrier_wave.rb, perhaps
 CarrierWave.configure do |config|
   config.root      = Rails.root.join('public/uploads')
   config.cache_dir = Rails.root.join('tmp/carrierwave')
@@ -35,21 +35,51 @@ CarrierWave.configure do |config|
   # Or, in development or test, maybe just store locally:
   config.store = :file
 end
-~~~~
+```
+
+Finally, install Landable's migrations:
+
+```sh
+rake landable:install:migrations
+rake db:migrate
+```
 
 
 ## Development
+
 Refreshing `spec/internal/db/structure.sql`:
 
-~~~~sh
+```sh
 ./bin/redb
-~~~~
+```
+
+Run the test suite with `rake landable`.
+
+To contribute code, open a pull request.
+
+* Do include specs to back up all code changes.
+* Do add your changes to the "unreleased" section of CHANGELOG.md.
+* Don't bump the version number.
+
+
+## Releases
+
+The Landable gem may be built and released by a maintainer at any time. (If you are not a maintainer, skip the rest of this section. Extra top secret.)
+
+1. Ensure all required pull requests have been merged.
+4. Ensure `rake landable` succeeds.
+2. Update `lib/landable/version.rb` according to [semantic versioning](http://semver.org/) rules.
+3. Rename the unreleased section of `CHANGELOG.md` to the release version number. Include a Github compare link.
+4. `commit -a -m "Release vX.Y.Z"`, and push to master.
+5. `rake release`
+
+If this is your first time running a release, configure geminabox first:
+
+```sh
+gem inabox -c # when prompted, enter http://gems.enova.com as the host
+```
 
 ## See Also
-Documentation:
-
-1. [doc/DOMAIN.md](http://git.cashnetusa.com/trogdor/landable/blob/rails4/doc/DOMAIN.md)
-1. [doc/API.md](http://git.cashnetusa.com/trogdor/landable/blob/rails4/doc/API.md)
 
 Related projects we are also building:
 
