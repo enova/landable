@@ -36,7 +36,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency "rest-client"
   gem.add_dependency "builder"
   gem.add_dependency "lookup_by", "~> 0.3.0"
-  gem.add_dependency "json",      "~> 1.7.7"
 
   gem.add_development_dependency "pg"
   gem.add_development_dependency "rspec-rails",        '~> 2.13.0'
