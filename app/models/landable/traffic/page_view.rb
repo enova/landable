@@ -17,7 +17,7 @@ module Landable
 
       def set_page_revision
         page = Landable::Page.where(path: path).select(:published_revision_id).first
-        self.published_revision_id = page.try(:published_revision_id)
+        self.page_revision_id = page.try(:published_revision_id)
       end
     end
   end
