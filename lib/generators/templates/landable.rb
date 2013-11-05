@@ -18,6 +18,9 @@ Landable.configure do |config|
   # Categories to create (can also be given as a hash to provide descriptions,
   # e.g. {'SEO' => 'Search engine optimization', 'PPC' => 'Pay-per-click'})
   config.categories = %w(Affiliates PPC SEO Social Email Traditional)
+
+  # Uncomment to enable tracking.
+  # config.traffic_enabled = true
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.
