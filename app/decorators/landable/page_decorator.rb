@@ -16,7 +16,7 @@ module Landable
     end
 
     def body
-      page.body
+      page.body.try(:html_safe)
     end
 
     def head_content

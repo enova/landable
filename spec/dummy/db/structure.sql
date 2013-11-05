@@ -16,6 +16,13 @@ CREATE SCHEMA landable;
 
 
 --
+-- Name: traffic; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA traffic;
+
+
+--
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -417,6 +424,1568 @@ CREATE TABLE schema_migrations (
 );
 
 
+SET search_path = traffic, pg_catalog;
+
+--
+-- Name: accesses; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE accesses (
+    access_id integer NOT NULL,
+    path_id integer NOT NULL,
+    visitor_id integer NOT NULL,
+    last_accessed_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: accesses_access_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE accesses_access_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: accesses_access_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE accesses_access_id_seq OWNED BY accesses.access_id;
+
+
+--
+-- Name: ad_groups; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ad_groups (
+    ad_group_id integer NOT NULL,
+    ad_group text NOT NULL
+);
+
+
+--
+-- Name: ad_groups_ad_group_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE ad_groups_ad_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ad_groups_ad_group_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE ad_groups_ad_group_id_seq OWNED BY ad_groups.ad_group_id;
+
+
+--
+-- Name: ad_types; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ad_types (
+    ad_type_id smallint NOT NULL,
+    ad_type text NOT NULL
+);
+
+
+--
+-- Name: ad_types_ad_type_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE ad_types_ad_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ad_types_ad_type_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE ad_types_ad_type_id_seq OWNED BY ad_types.ad_type_id;
+
+
+--
+-- Name: attributions; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE attributions (
+    attribution_id integer NOT NULL,
+    ad_type_id smallint,
+    ad_group_id integer,
+    bid_match_type_id smallint,
+    campaign_id integer,
+    content_id integer,
+    creative_id integer,
+    device_type_id smallint,
+    experiment_id integer,
+    keyword_id integer,
+    match_type_id smallint,
+    medium_id integer,
+    network_id integer,
+    placement_id integer,
+    position_id smallint,
+    search_term_id integer,
+    source_id integer,
+    target_id integer,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: attributions_attribution_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE attributions_attribution_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: attributions_attribution_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE attributions_attribution_id_seq OWNED BY attributions.attribution_id;
+
+
+--
+-- Name: bid_match_types; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE bid_match_types (
+    bid_match_type_id smallint NOT NULL,
+    bid_match_type text NOT NULL
+);
+
+
+--
+-- Name: bid_match_types_bid_match_type_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE bid_match_types_bid_match_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: bid_match_types_bid_match_type_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE bid_match_types_bid_match_type_id_seq OWNED BY bid_match_types.bid_match_type_id;
+
+
+--
+-- Name: browsers; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE browsers (
+    browser_id smallint NOT NULL,
+    browser text NOT NULL
+);
+
+
+--
+-- Name: browsers_browser_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE browsers_browser_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: browsers_browser_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE browsers_browser_id_seq OWNED BY browsers.browser_id;
+
+
+--
+-- Name: campaigns; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE campaigns (
+    campaign_id integer NOT NULL,
+    campaign text NOT NULL
+);
+
+
+--
+-- Name: campaigns_campaign_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE campaigns_campaign_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: campaigns_campaign_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE campaigns_campaign_id_seq OWNED BY campaigns.campaign_id;
+
+
+--
+-- Name: cities; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE cities (
+    city_id integer NOT NULL,
+    city text NOT NULL
+);
+
+
+--
+-- Name: cities_city_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE cities_city_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cities_city_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE cities_city_id_seq OWNED BY cities.city_id;
+
+
+--
+-- Name: contents; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE contents (
+    content_id integer NOT NULL,
+    content text NOT NULL
+);
+
+
+--
+-- Name: contents_content_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE contents_content_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: contents_content_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE contents_content_id_seq OWNED BY contents.content_id;
+
+
+--
+-- Name: cookies; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE cookies (
+    cookie_id uuid DEFAULT public.uuid_generate_v4() NOT NULL
+);
+
+
+--
+-- Name: countries; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE countries (
+    country_id integer NOT NULL,
+    country text NOT NULL
+);
+
+
+--
+-- Name: countries_country_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE countries_country_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: countries_country_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE countries_country_id_seq OWNED BY countries.country_id;
+
+
+--
+-- Name: creatives; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE creatives (
+    creative_id integer NOT NULL,
+    creative text NOT NULL
+);
+
+
+--
+-- Name: creatives_creative_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE creatives_creative_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: creatives_creative_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE creatives_creative_id_seq OWNED BY creatives.creative_id;
+
+
+--
+-- Name: device_types; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE device_types (
+    device_type_id smallint NOT NULL,
+    device_type text NOT NULL
+);
+
+
+--
+-- Name: device_types_device_type_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE device_types_device_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: device_types_device_type_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE device_types_device_type_id_seq OWNED BY device_types.device_type_id;
+
+
+--
+-- Name: devices; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE devices (
+    device_id integer NOT NULL,
+    device text NOT NULL
+);
+
+
+--
+-- Name: devices_device_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE devices_device_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: devices_device_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE devices_device_id_seq OWNED BY devices.device_id;
+
+
+--
+-- Name: domains; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE domains (
+    domain_id integer NOT NULL,
+    domain text NOT NULL
+);
+
+
+--
+-- Name: domains_domain_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE domains_domain_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: domains_domain_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE domains_domain_id_seq OWNED BY domains.domain_id;
+
+
+--
+-- Name: event_types; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE event_types (
+    event_type_id integer NOT NULL,
+    event_type text NOT NULL
+);
+
+
+--
+-- Name: event_types_event_type_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE event_types_event_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: event_types_event_type_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE event_types_event_type_id_seq OWNED BY event_types.event_type_id;
+
+
+--
+-- Name: events; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE events (
+    event_id integer NOT NULL,
+    event_type_id integer NOT NULL,
+    visit_id integer NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    meta public.hstore
+);
+
+
+--
+-- Name: events_event_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE events_event_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: events_event_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE events_event_id_seq OWNED BY events.event_id;
+
+
+--
+-- Name: experiments; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE experiments (
+    experiment_id integer NOT NULL,
+    experiment text NOT NULL
+);
+
+
+--
+-- Name: experiments_experiment_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE experiments_experiment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: experiments_experiment_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE experiments_experiment_id_seq OWNED BY experiments.experiment_id;
+
+
+--
+-- Name: http_methods; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE http_methods (
+    http_method_id smallint NOT NULL,
+    http_method text NOT NULL
+);
+
+
+--
+-- Name: http_methods_http_method_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE http_methods_http_method_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: http_methods_http_method_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE http_methods_http_method_id_seq OWNED BY http_methods.http_method_id;
+
+
+--
+-- Name: ip_addresses; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ip_addresses (
+    ip_address_id integer NOT NULL,
+    ip_address inet NOT NULL
+);
+
+
+--
+-- Name: ip_addresses_ip_address_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE ip_addresses_ip_address_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ip_addresses_ip_address_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE ip_addresses_ip_address_id_seq OWNED BY ip_addresses.ip_address_id;
+
+
+--
+-- Name: ip_lookups; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ip_lookups (
+    ip_lookup_id integer NOT NULL,
+    ip_address_id integer NOT NULL,
+    domain_id integer,
+    location_id integer,
+    latitude real,
+    longitude real,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: ip_lookups_ip_lookup_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE ip_lookups_ip_lookup_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ip_lookups_ip_lookup_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE ip_lookups_ip_lookup_id_seq OWNED BY ip_lookups.ip_lookup_id;
+
+
+--
+-- Name: keywords; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE keywords (
+    keyword_id integer NOT NULL,
+    keyword text NOT NULL
+);
+
+
+--
+-- Name: keywords_keyword_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE keywords_keyword_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: keywords_keyword_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE keywords_keyword_id_seq OWNED BY keywords.keyword_id;
+
+
+--
+-- Name: locations; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE locations (
+    location_id integer NOT NULL,
+    country_id integer,
+    region_id integer,
+    city_id integer
+);
+
+
+--
+-- Name: locations_location_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE locations_location_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: locations_location_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE locations_location_id_seq OWNED BY locations.location_id;
+
+
+--
+-- Name: match_types; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE match_types (
+    match_type_id smallint NOT NULL,
+    match_type text NOT NULL
+);
+
+
+--
+-- Name: match_types_match_type_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE match_types_match_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: match_types_match_type_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE match_types_match_type_id_seq OWNED BY match_types.match_type_id;
+
+
+--
+-- Name: mediums; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE mediums (
+    medium_id integer NOT NULL,
+    medium text NOT NULL
+);
+
+
+--
+-- Name: mediums_medium_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE mediums_medium_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: mediums_medium_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE mediums_medium_id_seq OWNED BY mediums.medium_id;
+
+
+--
+-- Name: mime_types; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE mime_types (
+    mime_type_id smallint NOT NULL,
+    mime_type text NOT NULL
+);
+
+
+--
+-- Name: mime_types_mime_type_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE mime_types_mime_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: mime_types_mime_type_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE mime_types_mime_type_id_seq OWNED BY mime_types.mime_type_id;
+
+
+--
+-- Name: networks; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE networks (
+    network_id integer NOT NULL,
+    network text NOT NULL
+);
+
+
+--
+-- Name: networks_network_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE networks_network_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: networks_network_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE networks_network_id_seq OWNED BY networks.network_id;
+
+
+--
+-- Name: owners; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE owners (
+    owner_id integer NOT NULL,
+    owner integer NOT NULL
+);
+
+
+--
+-- Name: ownerships; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ownerships (
+    owner_id integer NOT NULL,
+    cookie_id uuid NOT NULL
+);
+
+
+--
+-- Name: page_views; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE page_views (
+    page_view_id integer NOT NULL,
+    visit_id integer NOT NULL,
+    path_id integer NOT NULL,
+    query_string_id integer NOT NULL,
+    mime_type_id smallint NOT NULL,
+    http_method_id smallint NOT NULL,
+    page_revision_id uuid,
+    request_id uuid,
+    click_id text,
+    content_length integer,
+    http_status integer,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: page_views_page_view_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE page_views_page_view_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: page_views_page_view_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE page_views_page_view_id_seq OWNED BY page_views.page_view_id;
+
+
+--
+-- Name: paths; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE paths (
+    path_id integer NOT NULL,
+    path text NOT NULL
+);
+
+
+--
+-- Name: paths_path_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE paths_path_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: paths_path_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE paths_path_id_seq OWNED BY paths.path_id;
+
+
+--
+-- Name: placements; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE placements (
+    placement_id integer NOT NULL,
+    placement text NOT NULL
+);
+
+
+--
+-- Name: placements_placement_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE placements_placement_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: placements_placement_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE placements_placement_id_seq OWNED BY placements.placement_id;
+
+
+--
+-- Name: platforms; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE platforms (
+    platform_id smallint NOT NULL,
+    platform text NOT NULL
+);
+
+
+--
+-- Name: platforms_platform_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE platforms_platform_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: platforms_platform_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE platforms_platform_id_seq OWNED BY platforms.platform_id;
+
+
+--
+-- Name: positions; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE positions (
+    position_id smallint NOT NULL,
+    "position" text NOT NULL
+);
+
+
+--
+-- Name: positions_position_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE positions_position_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: positions_position_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE positions_position_id_seq OWNED BY positions.position_id;
+
+
+--
+-- Name: query_strings; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE query_strings (
+    query_string_id integer NOT NULL,
+    query_string text NOT NULL
+);
+
+
+--
+-- Name: query_strings_query_string_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE query_strings_query_string_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: query_strings_query_string_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE query_strings_query_string_id_seq OWNED BY query_strings.query_string_id;
+
+
+--
+-- Name: referers; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE referers (
+    referer_id integer NOT NULL,
+    domain_id integer NOT NULL,
+    path_id integer NOT NULL,
+    query_string_id integer NOT NULL,
+    attribution_id integer NOT NULL
+);
+
+
+--
+-- Name: referers_referer_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE referers_referer_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: referers_referer_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE referers_referer_id_seq OWNED BY referers.referer_id;
+
+
+--
+-- Name: regions; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE regions (
+    region_id integer NOT NULL,
+    region text NOT NULL
+);
+
+
+--
+-- Name: regions_region_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE regions_region_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: regions_region_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE regions_region_id_seq OWNED BY regions.region_id;
+
+
+--
+-- Name: search_terms; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE search_terms (
+    search_term_id integer NOT NULL,
+    search_term text NOT NULL
+);
+
+
+--
+-- Name: search_terms_search_term_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE search_terms_search_term_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: search_terms_search_term_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE search_terms_search_term_id_seq OWNED BY search_terms.search_term_id;
+
+
+--
+-- Name: sources; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE sources (
+    source_id integer NOT NULL,
+    source text NOT NULL
+);
+
+
+--
+-- Name: sources_source_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE sources_source_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sources_source_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE sources_source_id_seq OWNED BY sources.source_id;
+
+
+--
+-- Name: targets; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE targets (
+    target_id integer NOT NULL,
+    target text NOT NULL
+);
+
+
+--
+-- Name: targets_target_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE targets_target_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: targets_target_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE targets_target_id_seq OWNED BY targets.target_id;
+
+
+--
+-- Name: user_agent_types; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE user_agent_types (
+    user_agent_type_id smallint NOT NULL,
+    user_agent_type text NOT NULL
+);
+
+
+--
+-- Name: user_agent_types_user_agent_type_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE user_agent_types_user_agent_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: user_agent_types_user_agent_type_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE user_agent_types_user_agent_type_id_seq OWNED BY user_agent_types.user_agent_type_id;
+
+
+--
+-- Name: user_agents; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE user_agents (
+    user_agent_id integer NOT NULL,
+    user_agent_type_id smallint,
+    device_id integer,
+    platform_id smallint,
+    browser_id smallint,
+    browser_version text,
+    user_agent text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: user_agents_user_agent_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE user_agents_user_agent_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: user_agents_user_agent_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE user_agents_user_agent_id_seq OWNED BY user_agents.user_agent_id;
+
+
+--
+-- Name: visitors; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE visitors (
+    visitor_id integer NOT NULL,
+    ip_address_id integer NOT NULL,
+    user_agent_id integer NOT NULL
+);
+
+
+--
+-- Name: visitors_visitor_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE visitors_visitor_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: visitors_visitor_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE visitors_visitor_id_seq OWNED BY visitors.visitor_id;
+
+
+--
+-- Name: visits; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE visits (
+    visit_id integer NOT NULL,
+    cookie_id uuid NOT NULL,
+    visitor_id integer NOT NULL,
+    attribution_id integer NOT NULL,
+    referer_id integer,
+    owner_id integer,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    do_not_track boolean
+);
+
+
+--
+-- Name: visits_visit_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE visits_visit_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: visits_visit_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE visits_visit_id_seq OWNED BY visits.visit_id;
+
+
+--
+-- Name: access_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY accesses ALTER COLUMN access_id SET DEFAULT nextval('accesses_access_id_seq'::regclass);
+
+
+--
+-- Name: ad_group_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY ad_groups ALTER COLUMN ad_group_id SET DEFAULT nextval('ad_groups_ad_group_id_seq'::regclass);
+
+
+--
+-- Name: ad_type_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY ad_types ALTER COLUMN ad_type_id SET DEFAULT nextval('ad_types_ad_type_id_seq'::regclass);
+
+
+--
+-- Name: attribution_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions ALTER COLUMN attribution_id SET DEFAULT nextval('attributions_attribution_id_seq'::regclass);
+
+
+--
+-- Name: bid_match_type_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY bid_match_types ALTER COLUMN bid_match_type_id SET DEFAULT nextval('bid_match_types_bid_match_type_id_seq'::regclass);
+
+
+--
+-- Name: browser_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY browsers ALTER COLUMN browser_id SET DEFAULT nextval('browsers_browser_id_seq'::regclass);
+
+
+--
+-- Name: campaign_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY campaigns ALTER COLUMN campaign_id SET DEFAULT nextval('campaigns_campaign_id_seq'::regclass);
+
+
+--
+-- Name: city_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY cities ALTER COLUMN city_id SET DEFAULT nextval('cities_city_id_seq'::regclass);
+
+
+--
+-- Name: content_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY contents ALTER COLUMN content_id SET DEFAULT nextval('contents_content_id_seq'::regclass);
+
+
+--
+-- Name: country_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY countries ALTER COLUMN country_id SET DEFAULT nextval('countries_country_id_seq'::regclass);
+
+
+--
+-- Name: creative_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY creatives ALTER COLUMN creative_id SET DEFAULT nextval('creatives_creative_id_seq'::regclass);
+
+
+--
+-- Name: device_type_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY device_types ALTER COLUMN device_type_id SET DEFAULT nextval('device_types_device_type_id_seq'::regclass);
+
+
+--
+-- Name: device_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY devices ALTER COLUMN device_id SET DEFAULT nextval('devices_device_id_seq'::regclass);
+
+
+--
+-- Name: domain_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY domains ALTER COLUMN domain_id SET DEFAULT nextval('domains_domain_id_seq'::regclass);
+
+
+--
+-- Name: event_type_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY event_types ALTER COLUMN event_type_id SET DEFAULT nextval('event_types_event_type_id_seq'::regclass);
+
+
+--
+-- Name: event_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY events ALTER COLUMN event_id SET DEFAULT nextval('events_event_id_seq'::regclass);
+
+
+--
+-- Name: experiment_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY experiments ALTER COLUMN experiment_id SET DEFAULT nextval('experiments_experiment_id_seq'::regclass);
+
+
+--
+-- Name: http_method_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY http_methods ALTER COLUMN http_method_id SET DEFAULT nextval('http_methods_http_method_id_seq'::regclass);
+
+
+--
+-- Name: ip_address_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY ip_addresses ALTER COLUMN ip_address_id SET DEFAULT nextval('ip_addresses_ip_address_id_seq'::regclass);
+
+
+--
+-- Name: ip_lookup_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY ip_lookups ALTER COLUMN ip_lookup_id SET DEFAULT nextval('ip_lookups_ip_lookup_id_seq'::regclass);
+
+
+--
+-- Name: keyword_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY keywords ALTER COLUMN keyword_id SET DEFAULT nextval('keywords_keyword_id_seq'::regclass);
+
+
+--
+-- Name: location_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY locations ALTER COLUMN location_id SET DEFAULT nextval('locations_location_id_seq'::regclass);
+
+
+--
+-- Name: match_type_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY match_types ALTER COLUMN match_type_id SET DEFAULT nextval('match_types_match_type_id_seq'::regclass);
+
+
+--
+-- Name: medium_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY mediums ALTER COLUMN medium_id SET DEFAULT nextval('mediums_medium_id_seq'::regclass);
+
+
+--
+-- Name: mime_type_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY mime_types ALTER COLUMN mime_type_id SET DEFAULT nextval('mime_types_mime_type_id_seq'::regclass);
+
+
+--
+-- Name: network_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY networks ALTER COLUMN network_id SET DEFAULT nextval('networks_network_id_seq'::regclass);
+
+
+--
+-- Name: page_view_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY page_views ALTER COLUMN page_view_id SET DEFAULT nextval('page_views_page_view_id_seq'::regclass);
+
+
+--
+-- Name: path_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY paths ALTER COLUMN path_id SET DEFAULT nextval('paths_path_id_seq'::regclass);
+
+
+--
+-- Name: placement_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY placements ALTER COLUMN placement_id SET DEFAULT nextval('placements_placement_id_seq'::regclass);
+
+
+--
+-- Name: platform_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY platforms ALTER COLUMN platform_id SET DEFAULT nextval('platforms_platform_id_seq'::regclass);
+
+
+--
+-- Name: position_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY positions ALTER COLUMN position_id SET DEFAULT nextval('positions_position_id_seq'::regclass);
+
+
+--
+-- Name: query_string_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY query_strings ALTER COLUMN query_string_id SET DEFAULT nextval('query_strings_query_string_id_seq'::regclass);
+
+
+--
+-- Name: referer_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY referers ALTER COLUMN referer_id SET DEFAULT nextval('referers_referer_id_seq'::regclass);
+
+
+--
+-- Name: region_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY regions ALTER COLUMN region_id SET DEFAULT nextval('regions_region_id_seq'::regclass);
+
+
+--
+-- Name: search_term_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY search_terms ALTER COLUMN search_term_id SET DEFAULT nextval('search_terms_search_term_id_seq'::regclass);
+
+
+--
+-- Name: source_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY sources ALTER COLUMN source_id SET DEFAULT nextval('sources_source_id_seq'::regclass);
+
+
+--
+-- Name: target_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY targets ALTER COLUMN target_id SET DEFAULT nextval('targets_target_id_seq'::regclass);
+
+
+--
+-- Name: user_agent_type_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY user_agent_types ALTER COLUMN user_agent_type_id SET DEFAULT nextval('user_agent_types_user_agent_type_id_seq'::regclass);
+
+
+--
+-- Name: user_agent_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY user_agents ALTER COLUMN user_agent_id SET DEFAULT nextval('user_agents_user_agent_id_seq'::regclass);
+
+
+--
+-- Name: visitor_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY visitors ALTER COLUMN visitor_id SET DEFAULT nextval('visitors_visitor_id_seq'::regclass);
+
+
+--
+-- Name: visit_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY visits ALTER COLUMN visit_id SET DEFAULT nextval('visits_visit_id_seq'::regclass);
+
+
 SET search_path = landable, pg_catalog;
 
 --
@@ -522,6 +2091,418 @@ ALTER TABLE ONLY theme_assets
 ALTER TABLE ONLY themes
     ADD CONSTRAINT themes_pkey PRIMARY KEY (theme_id);
 
+
+SET search_path = traffic, pg_catalog;
+
+--
+-- Name: accesses_path_id_visitor_id_key; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY accesses
+    ADD CONSTRAINT accesses_path_id_visitor_id_key UNIQUE (path_id, visitor_id);
+
+
+--
+-- Name: accesses_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY accesses
+    ADD CONSTRAINT accesses_pkey PRIMARY KEY (access_id);
+
+
+--
+-- Name: ad_groups_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ad_groups
+    ADD CONSTRAINT ad_groups_pkey PRIMARY KEY (ad_group_id);
+
+
+--
+-- Name: ad_types_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ad_types
+    ADD CONSTRAINT ad_types_pkey PRIMARY KEY (ad_type_id);
+
+
+--
+-- Name: attributions_ad_type_id_ad_group_id_bid_match_type_id_campa_key; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_ad_type_id_ad_group_id_bid_match_type_id_campa_key UNIQUE (ad_type_id, ad_group_id, bid_match_type_id, campaign_id, content_id, creative_id, device_type_id, experiment_id, keyword_id, match_type_id, medium_id, network_id, placement_id, position_id, search_term_id, source_id, target_id);
+
+
+--
+-- Name: attributions_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_pkey PRIMARY KEY (attribution_id);
+
+
+--
+-- Name: bid_match_types_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY bid_match_types
+    ADD CONSTRAINT bid_match_types_pkey PRIMARY KEY (bid_match_type_id);
+
+
+--
+-- Name: browsers_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY browsers
+    ADD CONSTRAINT browsers_pkey PRIMARY KEY (browser_id);
+
+
+--
+-- Name: campaigns_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY campaigns
+    ADD CONSTRAINT campaigns_pkey PRIMARY KEY (campaign_id);
+
+
+--
+-- Name: cities_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY cities
+    ADD CONSTRAINT cities_pkey PRIMARY KEY (city_id);
+
+
+--
+-- Name: contents_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY contents
+    ADD CONSTRAINT contents_pkey PRIMARY KEY (content_id);
+
+
+--
+-- Name: cookies_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY cookies
+    ADD CONSTRAINT cookies_pkey PRIMARY KEY (cookie_id);
+
+
+--
+-- Name: countries_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY countries
+    ADD CONSTRAINT countries_pkey PRIMARY KEY (country_id);
+
+
+--
+-- Name: creatives_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY creatives
+    ADD CONSTRAINT creatives_pkey PRIMARY KEY (creative_id);
+
+
+--
+-- Name: device_types_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY device_types
+    ADD CONSTRAINT device_types_pkey PRIMARY KEY (device_type_id);
+
+
+--
+-- Name: devices_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY devices
+    ADD CONSTRAINT devices_pkey PRIMARY KEY (device_id);
+
+
+--
+-- Name: domains_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY domains
+    ADD CONSTRAINT domains_pkey PRIMARY KEY (domain_id);
+
+
+--
+-- Name: event_types_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY event_types
+    ADD CONSTRAINT event_types_pkey PRIMARY KEY (event_type_id);
+
+
+--
+-- Name: events_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY events
+    ADD CONSTRAINT events_pkey PRIMARY KEY (event_id);
+
+
+--
+-- Name: experiments_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY experiments
+    ADD CONSTRAINT experiments_pkey PRIMARY KEY (experiment_id);
+
+
+--
+-- Name: http_methods_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY http_methods
+    ADD CONSTRAINT http_methods_pkey PRIMARY KEY (http_method_id);
+
+
+--
+-- Name: ip_addresses_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ip_addresses
+    ADD CONSTRAINT ip_addresses_pkey PRIMARY KEY (ip_address_id);
+
+
+--
+-- Name: ip_lookups_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ip_lookups
+    ADD CONSTRAINT ip_lookups_pkey PRIMARY KEY (ip_lookup_id);
+
+
+--
+-- Name: keywords_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY keywords
+    ADD CONSTRAINT keywords_pkey PRIMARY KEY (keyword_id);
+
+
+--
+-- Name: locations_country_id_region_id_city_id_key; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY locations
+    ADD CONSTRAINT locations_country_id_region_id_city_id_key UNIQUE (country_id, region_id, city_id);
+
+
+--
+-- Name: locations_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY locations
+    ADD CONSTRAINT locations_pkey PRIMARY KEY (location_id);
+
+
+--
+-- Name: match_types_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY match_types
+    ADD CONSTRAINT match_types_pkey PRIMARY KEY (match_type_id);
+
+
+--
+-- Name: mediums_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY mediums
+    ADD CONSTRAINT mediums_pkey PRIMARY KEY (medium_id);
+
+
+--
+-- Name: mime_types_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY mime_types
+    ADD CONSTRAINT mime_types_pkey PRIMARY KEY (mime_type_id);
+
+
+--
+-- Name: networks_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY networks
+    ADD CONSTRAINT networks_pkey PRIMARY KEY (network_id);
+
+
+--
+-- Name: owners_owner_key; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY owners
+    ADD CONSTRAINT owners_owner_key UNIQUE (owner);
+
+
+--
+-- Name: owners_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY owners
+    ADD CONSTRAINT owners_pkey PRIMARY KEY (owner_id);
+
+
+--
+-- Name: ownerships_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ownerships
+    ADD CONSTRAINT ownerships_pkey PRIMARY KEY (owner_id, cookie_id);
+
+
+--
+-- Name: page_views_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY page_views
+    ADD CONSTRAINT page_views_pkey PRIMARY KEY (page_view_id);
+
+
+--
+-- Name: paths_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY paths
+    ADD CONSTRAINT paths_pkey PRIMARY KEY (path_id);
+
+
+--
+-- Name: placements_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY placements
+    ADD CONSTRAINT placements_pkey PRIMARY KEY (placement_id);
+
+
+--
+-- Name: platforms_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY platforms
+    ADD CONSTRAINT platforms_pkey PRIMARY KEY (platform_id);
+
+
+--
+-- Name: positions_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY positions
+    ADD CONSTRAINT positions_pkey PRIMARY KEY (position_id);
+
+
+--
+-- Name: query_strings_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY query_strings
+    ADD CONSTRAINT query_strings_pkey PRIMARY KEY (query_string_id);
+
+
+--
+-- Name: referers_domain_id_path_id_query_string_id_key; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY referers
+    ADD CONSTRAINT referers_domain_id_path_id_query_string_id_key UNIQUE (domain_id, path_id, query_string_id);
+
+
+--
+-- Name: referers_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY referers
+    ADD CONSTRAINT referers_pkey PRIMARY KEY (referer_id);
+
+
+--
+-- Name: regions_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY regions
+    ADD CONSTRAINT regions_pkey PRIMARY KEY (region_id);
+
+
+--
+-- Name: search_terms_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY search_terms
+    ADD CONSTRAINT search_terms_pkey PRIMARY KEY (search_term_id);
+
+
+--
+-- Name: sources_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY sources
+    ADD CONSTRAINT sources_pkey PRIMARY KEY (source_id);
+
+
+--
+-- Name: targets_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY targets
+    ADD CONSTRAINT targets_pkey PRIMARY KEY (target_id);
+
+
+--
+-- Name: user_agent_types_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY user_agent_types
+    ADD CONSTRAINT user_agent_types_pkey PRIMARY KEY (user_agent_type_id);
+
+
+--
+-- Name: user_agents_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY user_agents
+    ADD CONSTRAINT user_agents_pkey PRIMARY KEY (user_agent_id);
+
+
+--
+-- Name: user_agents_user_agent_key; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY user_agents
+    ADD CONSTRAINT user_agents_user_agent_key UNIQUE (user_agent);
+
+
+--
+-- Name: visitors_ip_address_id_user_agent_id_key; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY visitors
+    ADD CONSTRAINT visitors_ip_address_id_user_agent_id_key UNIQUE (ip_address_id, user_agent_id);
+
+
+--
+-- Name: visitors_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY visitors
+    ADD CONSTRAINT visitors_pkey PRIMARY KEY (visitor_id);
+
+
+--
+-- Name: visits_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY visits
+    ADD CONSTRAINT visits_pkey PRIMARY KEY (visit_id);
+
+
+SET search_path = landable, pg_catalog;
 
 --
 -- Name: landable_access_tokens__author_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
@@ -670,6 +2651,533 @@ SET search_path = public, pg_catalog;
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+SET search_path = traffic, pg_catalog;
+
+--
+-- Name: accesses_visitor_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX accesses_visitor_id_idx ON accesses USING btree (visitor_id);
+
+
+--
+-- Name: ad_groups__u_ad_group; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX ad_groups__u_ad_group ON ad_groups USING btree (ad_group);
+
+
+--
+-- Name: ad_types__u_ad_type; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX ad_types__u_ad_type ON ad_types USING btree (ad_type);
+
+
+--
+-- Name: attributions_ad_group_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_ad_group_id_idx ON attributions USING btree (ad_group_id);
+
+
+--
+-- Name: attributions_ad_type_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_ad_type_id_idx ON attributions USING btree (ad_type_id);
+
+
+--
+-- Name: attributions_bid_match_type_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_bid_match_type_id_idx ON attributions USING btree (bid_match_type_id);
+
+
+--
+-- Name: attributions_campaign_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_campaign_id_idx ON attributions USING btree (campaign_id);
+
+
+--
+-- Name: attributions_content_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_content_id_idx ON attributions USING btree (content_id);
+
+
+--
+-- Name: attributions_creative_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_creative_id_idx ON attributions USING btree (creative_id);
+
+
+--
+-- Name: attributions_device_type_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_device_type_id_idx ON attributions USING btree (device_type_id);
+
+
+--
+-- Name: attributions_experiment_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_experiment_id_idx ON attributions USING btree (experiment_id);
+
+
+--
+-- Name: attributions_keyword_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_keyword_id_idx ON attributions USING btree (keyword_id);
+
+
+--
+-- Name: attributions_match_type_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_match_type_id_idx ON attributions USING btree (match_type_id);
+
+
+--
+-- Name: attributions_medium_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_medium_id_idx ON attributions USING btree (medium_id);
+
+
+--
+-- Name: attributions_network_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_network_id_idx ON attributions USING btree (network_id);
+
+
+--
+-- Name: attributions_placement_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_placement_id_idx ON attributions USING btree (placement_id);
+
+
+--
+-- Name: attributions_position_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_position_id_idx ON attributions USING btree (position_id);
+
+
+--
+-- Name: attributions_search_term_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_search_term_id_idx ON attributions USING btree (search_term_id);
+
+
+--
+-- Name: attributions_source_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_source_id_idx ON attributions USING btree (source_id);
+
+
+--
+-- Name: attributions_target_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX attributions_target_id_idx ON attributions USING btree (target_id);
+
+
+--
+-- Name: bid_match_types__u_bid_match_type; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX bid_match_types__u_bid_match_type ON bid_match_types USING btree (bid_match_type);
+
+
+--
+-- Name: browsers__u_browser; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX browsers__u_browser ON browsers USING btree (browser);
+
+
+--
+-- Name: campaigns__u_campaign; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX campaigns__u_campaign ON campaigns USING btree (campaign);
+
+
+--
+-- Name: cities__u_city; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX cities__u_city ON cities USING btree (city);
+
+
+--
+-- Name: contents__u_content; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX contents__u_content ON contents USING btree (content);
+
+
+--
+-- Name: countries__u_country; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX countries__u_country ON countries USING btree (country);
+
+
+--
+-- Name: creatives__u_creative; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX creatives__u_creative ON creatives USING btree (creative);
+
+
+--
+-- Name: device_types__u_device_type; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX device_types__u_device_type ON device_types USING btree (device_type);
+
+
+--
+-- Name: devices__u_device; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX devices__u_device ON devices USING btree (device);
+
+
+--
+-- Name: domains__u_domain; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX domains__u_domain ON domains USING btree (domain);
+
+
+--
+-- Name: event_types__u_event_type; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX event_types__u_event_type ON event_types USING btree (event_type);
+
+
+--
+-- Name: events_event_type_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX events_event_type_id_idx ON events USING btree (event_type_id);
+
+
+--
+-- Name: events_visit_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX events_visit_id_idx ON events USING btree (visit_id);
+
+
+--
+-- Name: experiments__u_experiment; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX experiments__u_experiment ON experiments USING btree (experiment);
+
+
+--
+-- Name: http_methods__u_http_method; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX http_methods__u_http_method ON http_methods USING btree (http_method);
+
+
+--
+-- Name: ip_addresses__u_ip_address; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX ip_addresses__u_ip_address ON ip_addresses USING btree (ip_address);
+
+
+--
+-- Name: ip_lookups_domain_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX ip_lookups_domain_id_idx ON ip_lookups USING btree (domain_id);
+
+
+--
+-- Name: ip_lookups_ip_address_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX ip_lookups_ip_address_id_idx ON ip_lookups USING btree (ip_address_id);
+
+
+--
+-- Name: ip_lookups_location_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX ip_lookups_location_id_idx ON ip_lookups USING btree (location_id);
+
+
+--
+-- Name: keywords__u_keyword; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX keywords__u_keyword ON keywords USING btree (keyword);
+
+
+--
+-- Name: locations_city_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX locations_city_id_idx ON locations USING btree (city_id);
+
+
+--
+-- Name: locations_country_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX locations_country_id_idx ON locations USING btree (country_id);
+
+
+--
+-- Name: locations_region_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX locations_region_id_idx ON locations USING btree (region_id);
+
+
+--
+-- Name: match_types__u_match_type; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX match_types__u_match_type ON match_types USING btree (match_type);
+
+
+--
+-- Name: mediums__u_medium; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX mediums__u_medium ON mediums USING btree (medium);
+
+
+--
+-- Name: mime_types__u_mime_type; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX mime_types__u_mime_type ON mime_types USING btree (mime_type);
+
+
+--
+-- Name: networks__u_network; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX networks__u_network ON networks USING btree (network);
+
+
+--
+-- Name: page_views_click_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX page_views_click_id_idx ON page_views USING btree (click_id);
+
+
+--
+-- Name: page_views_page_revision_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX page_views_page_revision_id_idx ON page_views USING btree (page_revision_id);
+
+
+--
+-- Name: page_views_path_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX page_views_path_id_idx ON page_views USING btree (path_id);
+
+
+--
+-- Name: page_views_query_string_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX page_views_query_string_id_idx ON page_views USING btree (query_string_id);
+
+
+--
+-- Name: page_views_request_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX page_views_request_id_idx ON page_views USING btree (request_id);
+
+
+--
+-- Name: page_views_visit_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX page_views_visit_id_idx ON page_views USING btree (visit_id);
+
+
+--
+-- Name: paths__u_path; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX paths__u_path ON paths USING btree (path);
+
+
+--
+-- Name: placements__u_placement; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX placements__u_placement ON placements USING btree (placement);
+
+
+--
+-- Name: platforms__u_platform; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX platforms__u_platform ON platforms USING btree (platform);
+
+
+--
+-- Name: positions__u_position; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX positions__u_position ON positions USING btree ("position");
+
+
+--
+-- Name: query_strings__u_query_string; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX query_strings__u_query_string ON query_strings USING btree (query_string);
+
+
+--
+-- Name: referers_domain_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX referers_domain_id_idx ON referers USING btree (domain_id);
+
+
+--
+-- Name: referers_path_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX referers_path_id_idx ON referers USING btree (path_id);
+
+
+--
+-- Name: referers_query_string_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX referers_query_string_id_idx ON referers USING btree (query_string_id);
+
+
+--
+-- Name: regions__u_region; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX regions__u_region ON regions USING btree (region);
+
+
+--
+-- Name: search_terms__u_search_term; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX search_terms__u_search_term ON search_terms USING btree (search_term);
+
+
+--
+-- Name: sources__u_source; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX sources__u_source ON sources USING btree (source);
+
+
+--
+-- Name: targets__u_target; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX targets__u_target ON targets USING btree (target);
+
+
+--
+-- Name: user_agent_types__u_user_agent_type; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX user_agent_types__u_user_agent_type ON user_agent_types USING btree (user_agent_type);
+
+
+--
+-- Name: user_agents_browser_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX user_agents_browser_id_idx ON user_agents USING btree (browser_id);
+
+
+--
+-- Name: user_agents_device_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX user_agents_device_id_idx ON user_agents USING btree (device_id);
+
+
+--
+-- Name: user_agents_platform_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX user_agents_platform_id_idx ON user_agents USING btree (platform_id);
+
+
+--
+-- Name: visitors_user_agent_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX visitors_user_agent_id_idx ON visitors USING btree (user_agent_id);
+
+
+--
+-- Name: visits_attribution_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX visits_attribution_id_idx ON visits USING btree (attribution_id);
+
+
+--
+-- Name: visits_cookie_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX visits_cookie_id_idx ON visits USING btree (cookie_id);
+
+
+--
+-- Name: visits_owner_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX visits_owner_id_idx ON visits USING btree (owner_id);
+
+
+--
+-- Name: visits_referer_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX visits_referer_id_idx ON visits USING btree (referer_id);
+
+
+--
+-- Name: visits_visitor_id_idx; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE INDEX visits_visitor_id_idx ON visits USING btree (visitor_id);
 
 
 SET search_path = landable, pg_catalog;
@@ -831,6 +3339,408 @@ ALTER TABLE ONLY pages
     ADD CONSTRAINT updated_author_fk FOREIGN KEY (updated_by_author_id) REFERENCES authors(author_id);
 
 
+SET search_path = traffic, pg_catalog;
+
+--
+-- Name: accesses_path_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY accesses
+    ADD CONSTRAINT accesses_path_id_fkey FOREIGN KEY (path_id) REFERENCES paths(path_id);
+
+
+--
+-- Name: accesses_visitor_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY accesses
+    ADD CONSTRAINT accesses_visitor_id_fkey FOREIGN KEY (visitor_id) REFERENCES visitors(visitor_id);
+
+
+--
+-- Name: attributions_ad_group_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_ad_group_id_fkey FOREIGN KEY (ad_group_id) REFERENCES ad_groups(ad_group_id);
+
+
+--
+-- Name: attributions_ad_type_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_ad_type_id_fkey FOREIGN KEY (ad_type_id) REFERENCES ad_types(ad_type_id);
+
+
+--
+-- Name: attributions_bid_match_type_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_bid_match_type_id_fkey FOREIGN KEY (bid_match_type_id) REFERENCES bid_match_types(bid_match_type_id);
+
+
+--
+-- Name: attributions_campaign_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_campaign_id_fkey FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id);
+
+
+--
+-- Name: attributions_content_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_content_id_fkey FOREIGN KEY (content_id) REFERENCES contents(content_id);
+
+
+--
+-- Name: attributions_creative_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_creative_id_fkey FOREIGN KEY (creative_id) REFERENCES creatives(creative_id);
+
+
+--
+-- Name: attributions_device_type_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_device_type_id_fkey FOREIGN KEY (device_type_id) REFERENCES device_types(device_type_id);
+
+
+--
+-- Name: attributions_experiment_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_experiment_id_fkey FOREIGN KEY (experiment_id) REFERENCES experiments(experiment_id);
+
+
+--
+-- Name: attributions_keyword_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_keyword_id_fkey FOREIGN KEY (keyword_id) REFERENCES keywords(keyword_id);
+
+
+--
+-- Name: attributions_match_type_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_match_type_id_fkey FOREIGN KEY (match_type_id) REFERENCES match_types(match_type_id);
+
+
+--
+-- Name: attributions_medium_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_medium_id_fkey FOREIGN KEY (medium_id) REFERENCES mediums(medium_id);
+
+
+--
+-- Name: attributions_network_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_network_id_fkey FOREIGN KEY (network_id) REFERENCES networks(network_id);
+
+
+--
+-- Name: attributions_placement_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_placement_id_fkey FOREIGN KEY (placement_id) REFERENCES placements(placement_id);
+
+
+--
+-- Name: attributions_position_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_position_id_fkey FOREIGN KEY (position_id) REFERENCES positions(position_id);
+
+
+--
+-- Name: attributions_search_term_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_search_term_id_fkey FOREIGN KEY (search_term_id) REFERENCES search_terms(search_term_id);
+
+
+--
+-- Name: attributions_source_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_source_id_fkey FOREIGN KEY (source_id) REFERENCES sources(source_id);
+
+
+--
+-- Name: attributions_target_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY attributions
+    ADD CONSTRAINT attributions_target_id_fkey FOREIGN KEY (target_id) REFERENCES targets(target_id);
+
+
+--
+-- Name: events_event_type_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY events
+    ADD CONSTRAINT events_event_type_id_fkey FOREIGN KEY (event_type_id) REFERENCES event_types(event_type_id);
+
+
+--
+-- Name: events_visit_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY events
+    ADD CONSTRAINT events_visit_id_fkey FOREIGN KEY (visit_id) REFERENCES visits(visit_id);
+
+
+--
+-- Name: ip_lookups_domain_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY ip_lookups
+    ADD CONSTRAINT ip_lookups_domain_id_fkey FOREIGN KEY (domain_id) REFERENCES domains(domain_id);
+
+
+--
+-- Name: ip_lookups_ip_address_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY ip_lookups
+    ADD CONSTRAINT ip_lookups_ip_address_id_fkey FOREIGN KEY (ip_address_id) REFERENCES ip_addresses(ip_address_id);
+
+
+--
+-- Name: ip_lookups_location_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY ip_lookups
+    ADD CONSTRAINT ip_lookups_location_id_fkey FOREIGN KEY (location_id) REFERENCES locations(location_id);
+
+
+--
+-- Name: locations_city_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY locations
+    ADD CONSTRAINT locations_city_id_fkey FOREIGN KEY (city_id) REFERENCES cities(city_id);
+
+
+--
+-- Name: locations_country_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY locations
+    ADD CONSTRAINT locations_country_id_fkey FOREIGN KEY (country_id) REFERENCES countries(country_id);
+
+
+--
+-- Name: locations_region_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY locations
+    ADD CONSTRAINT locations_region_id_fkey FOREIGN KEY (region_id) REFERENCES regions(region_id);
+
+
+--
+-- Name: ownerships_cookie_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY ownerships
+    ADD CONSTRAINT ownerships_cookie_id_fkey FOREIGN KEY (cookie_id) REFERENCES cookies(cookie_id);
+
+
+--
+-- Name: ownerships_owner_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY ownerships
+    ADD CONSTRAINT ownerships_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES owners(owner_id);
+
+
+--
+-- Name: page_views_http_method_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY page_views
+    ADD CONSTRAINT page_views_http_method_id_fkey FOREIGN KEY (http_method_id) REFERENCES http_methods(http_method_id);
+
+
+--
+-- Name: page_views_mime_type_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY page_views
+    ADD CONSTRAINT page_views_mime_type_id_fkey FOREIGN KEY (mime_type_id) REFERENCES mime_types(mime_type_id);
+
+
+--
+-- Name: page_views_page_revision_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY page_views
+    ADD CONSTRAINT page_views_page_revision_id_fkey FOREIGN KEY (page_revision_id) REFERENCES landable.page_revisions(page_revision_id);
+
+
+--
+-- Name: page_views_path_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY page_views
+    ADD CONSTRAINT page_views_path_id_fkey FOREIGN KEY (path_id) REFERENCES paths(path_id);
+
+
+--
+-- Name: page_views_query_string_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY page_views
+    ADD CONSTRAINT page_views_query_string_id_fkey FOREIGN KEY (query_string_id) REFERENCES query_strings(query_string_id);
+
+
+--
+-- Name: page_views_visit_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY page_views
+    ADD CONSTRAINT page_views_visit_id_fkey FOREIGN KEY (visit_id) REFERENCES visits(visit_id);
+
+
+--
+-- Name: referers_attribution_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY referers
+    ADD CONSTRAINT referers_attribution_id_fkey FOREIGN KEY (attribution_id) REFERENCES attributions(attribution_id);
+
+
+--
+-- Name: referers_domain_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY referers
+    ADD CONSTRAINT referers_domain_id_fkey FOREIGN KEY (domain_id) REFERENCES domains(domain_id);
+
+
+--
+-- Name: referers_path_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY referers
+    ADD CONSTRAINT referers_path_id_fkey FOREIGN KEY (path_id) REFERENCES paths(path_id);
+
+
+--
+-- Name: referers_query_string_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY referers
+    ADD CONSTRAINT referers_query_string_id_fkey FOREIGN KEY (query_string_id) REFERENCES query_strings(query_string_id);
+
+
+--
+-- Name: user_agents_browser_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY user_agents
+    ADD CONSTRAINT user_agents_browser_id_fkey FOREIGN KEY (browser_id) REFERENCES browsers(browser_id);
+
+
+--
+-- Name: user_agents_device_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY user_agents
+    ADD CONSTRAINT user_agents_device_id_fkey FOREIGN KEY (device_id) REFERENCES devices(device_id);
+
+
+--
+-- Name: user_agents_platform_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY user_agents
+    ADD CONSTRAINT user_agents_platform_id_fkey FOREIGN KEY (platform_id) REFERENCES platforms(platform_id);
+
+
+--
+-- Name: user_agents_user_agent_type_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY user_agents
+    ADD CONSTRAINT user_agents_user_agent_type_id_fkey FOREIGN KEY (user_agent_type_id) REFERENCES user_agent_types(user_agent_type_id);
+
+
+--
+-- Name: visitors_ip_address_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY visitors
+    ADD CONSTRAINT visitors_ip_address_id_fkey FOREIGN KEY (ip_address_id) REFERENCES ip_addresses(ip_address_id);
+
+
+--
+-- Name: visitors_user_agent_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY visitors
+    ADD CONSTRAINT visitors_user_agent_id_fkey FOREIGN KEY (user_agent_id) REFERENCES user_agents(user_agent_id);
+
+
+--
+-- Name: visits_attribution_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY visits
+    ADD CONSTRAINT visits_attribution_id_fkey FOREIGN KEY (attribution_id) REFERENCES attributions(attribution_id);
+
+
+--
+-- Name: visits_cookie_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY visits
+    ADD CONSTRAINT visits_cookie_id_fkey FOREIGN KEY (cookie_id) REFERENCES cookies(cookie_id);
+
+
+--
+-- Name: visits_owner_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY visits
+    ADD CONSTRAINT visits_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES owners(owner_id);
+
+
+--
+-- Name: visits_referer_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY visits
+    ADD CONSTRAINT visits_referer_id_fkey FOREIGN KEY (referer_id) REFERENCES referers(referer_id);
+
+
+--
+-- Name: visits_visitor_id_fkey; Type: FK CONSTRAINT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY visits
+    ADD CONSTRAINT visits_visitor_id_fkey FOREIGN KEY (visitor_id) REFERENCES visitors(visitor_id);
+
+
 --
 -- PostgreSQL database dump complete
 --
@@ -850,3 +3760,9 @@ INSERT INTO schema_migrations (version) VALUES ('20131002220041');
 INSERT INTO schema_migrations (version) VALUES ('20131008164204');
 
 INSERT INTO schema_migrations (version) VALUES ('20131008193544');
+
+INSERT INTO schema_migrations (version) VALUES ('20131028145652');
+
+INSERT INTO schema_migrations (version) VALUES ('20131101213623');
+
+INSERT INTO schema_migrations (version) VALUES ('20131104224120');

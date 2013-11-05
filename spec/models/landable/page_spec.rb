@@ -264,6 +264,20 @@ module Landable
       end
     end
 
+    describe '#downcase_path' do
+      it 'should force a path to be lowercase' do
+        page = build :page, path: '/SEO'
+        page.should be_valid
+        page.path.should == '/seo'
+      end
+
+      it 'doesnt change a downcase path' do
+        page = build :page, path: '/seo'
+        page.should be_valid
+        page.path.should == '/seo'
+      end
+    end
+
     describe '#redirect_url' do
       context 'validater' do
         before(:each) { @page = build :page, path: '/' }
@@ -300,6 +314,13 @@ module Landable
       it 'returns a sitemap' do
         page = create :page
         Landable::Page.generate_sitemap.should include("<loc>#{page.path}</loc>")
+      end
+    end
+
+    describe '::by_path' do
+      it 'returns first page with path name' do
+        page  = create :page, path: '/seo'
+        Landable::Page.by_path('/seo').should == page
       end
     end
 
