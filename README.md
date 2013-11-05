@@ -54,7 +54,7 @@ Run the test suite with `rake landable`.
 Contributions are welcome - submit a pull request.
 
 * Do include specs to back up all code changes.
-* Do add your changes to the "unreleased" section of CHANGELOG.md. Include the pull request number.
+* Do add your changes to the "unreleased" section of [CHANGELOG.md](CHANGELOG.md) (adding this section if it does not exist). Include the pull request number.
 * Don't bump Landable's version number.
 
 
@@ -65,7 +65,7 @@ The Landable gem may be built and released by a maintainer at any time. (If you 
 1. Ensure all required pull requests have been merged.
 4. Ensure `rake landable` succeeds.
 2. Update `lib/landable/version.rb` according to [semantic versioning](http://semver.org/) rules.
-3. Rename the unreleased section of `CHANGELOG.md` to the release version number. Include a Github compare link against the previous version.
+3. Rename the unreleased section of [CHANGELOG.md](CHANGELOG.md) to the release version number. Include a Github compare link against the previous version.
 4. `commit -a -m "Release vX.Y.Z"`, and push to master.
 5. `rake release`
 
