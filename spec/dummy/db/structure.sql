@@ -2575,6 +2575,14 @@ CREATE UNIQUE INDEX landable_page_revision_assets__u_page_revision_id_asset_id O
 
 
 --
+=======
+-- Name: landable_page_revisions__path_status_code; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
+--
+
+CREATE INDEX landable_page_revisions__path_status_code ON page_revisions USING btree (path, status_code);
+
+
+--
 -- Name: landable_pages__trgm_path; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -3766,3 +3774,7 @@ INSERT INTO schema_migrations (version) VALUES ('20131028145652');
 INSERT INTO schema_migrations (version) VALUES ('20131101213623');
 
 INSERT INTO schema_migrations (version) VALUES ('20131104224120');
+
+INSERT INTO schema_migrations (version) VALUES ('20131106185946');
+
+INSERT INTO schema_migrations (version) VALUES ('20131106193021');

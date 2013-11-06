@@ -31,13 +31,6 @@ module Landable
         description: 'A completely blank theme; only the page body will be rendered.',
         thumbnail_url: 'http://placehold.it/300x200',
       )
-
-      Landable::Theme.where(name: 'Minimal').first_or_create!(
-        body: File.read(File.expand_path('../../minimal_theme.liquid', __FILE__)),
-        description: 'A minimal HTML5 template',
-        thumbnail_url: 'http://placehold.it/300x200',
-      )
     end
-
   end
 end
