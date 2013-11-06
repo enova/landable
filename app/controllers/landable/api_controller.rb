@@ -8,6 +8,9 @@ module Landable
     skip_before_filter :protect_from_forgery
     skip_before_action :verify_authenticity_token
 
+    # tracking is not necessary for API calls
+    skip_around_action :track_with_landable!
+
     before_filter :require_author!
 
     respond_to :json
