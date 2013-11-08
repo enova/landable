@@ -4,8 +4,7 @@ module Landable
       self.table_name = 'traffic.ownerships'
 
       belongs_to :cookie
-
-      lookup_for :owner, class_name: Owner
+      belongs_to :owner
     end
   end
 end
