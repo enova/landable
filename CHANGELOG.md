@@ -3,7 +3,11 @@
 See README.md before updating this file.
 
 
-<!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.1...master) -->
+<!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.2...master) -->
+
+## v1.1.2 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.1...v1.1.2)
+
+* Traffic owner and lookup_by fixes [#61]
 
 ## v1.1.1 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.0...v1.1.1)
 
