@@ -166,7 +166,7 @@ class AddTrafficSchema < ActiveRecord::Migration
       );
 
       CREATE TABLE owners (
-          owner_id           INTEGER     PRIMARY KEY
+          owner_id           SERIAL     PRIMARY KEY
         , owner            #{OWNER_TYPE} NOT NULL UNIQUE
       );
 
