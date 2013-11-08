@@ -3,7 +3,11 @@
 See README.md before updating this file.
 
 
-<!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.2...master) -->
+<!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.3...master) -->
+
+## v1.1.2 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.2...v1.1.3)
+
+* The traffic owners table needs a pk with a sequence [#62]
 
 ## v1.1.2 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.1...v1.1.2)
 
