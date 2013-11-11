@@ -41,7 +41,15 @@ module Landable
     end
 
     def snapshot
-      Page.new(title: self.title, body: self.body, path: self.path, redirect_url: self.redirect_url, status_code: self.status_code, theme_id: self.theme_id, category_id: self.category_id)
+      Page.new(title: self.title, 
+               meta_tags: page.meta_tags, 
+               head_content: page.head_content,
+               body: self.body, 
+               path: self.path, 
+               redirect_url: self.redirect_url, 
+               status_code: self.status_code, 
+               theme_id: self.theme_id, 
+               category_id: self.category_id)
     end
 
     def publish!

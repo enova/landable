@@ -1229,6 +1229,25 @@ CREATE TABLE owners (
 
 
 --
+-- Name: owners_owner_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
+--
+
+CREATE SEQUENCE owners_owner_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: owners_owner_id_seq; Type: SEQUENCE OWNED BY; Schema: traffic; Owner: -
+--
+
+ALTER SEQUENCE owners_owner_id_seq OWNED BY owners.owner_id;
+
+
+--
 -- Name: ownerships; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
 --
 
@@ -1879,6 +1898,13 @@ ALTER TABLE ONLY mime_types ALTER COLUMN mime_type_id SET DEFAULT nextval('mime_
 --
 
 ALTER TABLE ONLY networks ALTER COLUMN network_id SET DEFAULT nextval('networks_network_id_seq'::regclass);
+
+
+--
+-- Name: owner_id; Type: DEFAULT; Schema: traffic; Owner: -
+--
+
+ALTER TABLE ONLY owners ALTER COLUMN owner_id SET DEFAULT nextval('owners_owner_id_seq'::regclass);
 
 
 --
@@ -3777,3 +3803,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131104224120');
 INSERT INTO schema_migrations (version) VALUES ('20131106185946');
 
 INSERT INTO schema_migrations (version) VALUES ('20131106193021');
+
+INSERT INTO schema_migrations (version) VALUES ('20131108212501');
