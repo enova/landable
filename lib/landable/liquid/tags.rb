@@ -58,7 +58,7 @@ module Landable
     class Body < Tag
       def render(context)
         page = lookup_page context
-        page.body
+        ::Liquid::Template.parse(page.body).render!
       end
     end
 
