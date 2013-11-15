@@ -4,6 +4,7 @@ See README.md before updating this file.
 
 
 <!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.3...master) -->
+* Add denormalized views over traffic tables.
 
 ## v1.1.2 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.2...v1.1.3)
 
