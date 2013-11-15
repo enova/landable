@@ -2,10 +2,10 @@ require 'spec_helper'
  
 module Landable
 
-  class TrackError < Exception
+  class TrackError < StandardError
   end
 
-  class SaveError < Exception
+  class SaveError < StandardError
   end
  
 describe Traffic, type: :controller do
@@ -32,11 +32,11 @@ describe Traffic, type: :controller do
     stub_const("NewRelic::Agent::Transaction", transaction, :defined? => true)
 
     Landable::Traffic::Tracker.stub(:for).and_return(tracker)
-    tracker.stub(:track).and_raise(Landable::TrackError)
-    tracker.stub(:save).and_raise(Landable::SaveError)
+    tracker.stub(:track).and_raise(TrackError)
+    tracker.stub(:save).and_raise(SaveError)
 
-    transaction.should_receive(:notice_error).with(Landable::TrackError)
-    transaction.should_receive(:notice_error).with(Landable::SaveError)
+    transaction.should_receive(:notice_error) { |error| error.should be_an_instance_of TrackError }
+    transaction.should_receive(:notice_error) { |error| error.should be_an_instance_of SaveError }
 
     get :my_method
    end
