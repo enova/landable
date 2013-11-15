@@ -2,11 +2,11 @@
 
 See README.md before updating this file.
 
-
 <!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.4...master) -->
 
 ## v1.1.3 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.3...v1.1.4)
 * Liquid Body Tag can Handle Liquid Templates [#64]
+* Add denormalized views over traffic tables. [#65]
 
 ## v1.1.2 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.2...v1.1.3)
 

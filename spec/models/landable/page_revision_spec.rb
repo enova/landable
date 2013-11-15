@@ -6,9 +6,9 @@ module Landable
     let(:asset)  { create(:asset)  }
 
     let(:page) do
-      create(:page, path: '/test/path', title: 'title',
+      create(:page, path: '/test/path', title: 'title', status_code: 200,
              body: 'body', redirect_url: 'http://www.redirect.com/here',
-             meta_tags: {'key'=>'value'})
+             meta_tags: {'key'=>'value'}, head_content: 'head_content')
     end
 
     let(:revision) do
@@ -33,8 +33,15 @@ module Landable
         snapshot = revision.snapshot
         snapshot.should be_new_record
         snapshot.should be_an_instance_of Page
-        snapshot.title.should == page.title
-        snapshot.path.should == page.path
+        snapshot.title.should        == page.title
+        snapshot.path.should         == page.path
+        snapshot.head_content.should == page.head_content
+        snapshot.meta_tags.should    == page.meta_tags
+        snapshot.body.should         == page.body
+        snapshot.redirect_url.should == page.redirect_url
+        snapshot.category_id.should  == page.category_id
+        snapshot.theme_id.should     == page.theme_id
+        snapshot.status_code.should  == page.status_code
       end
     end
 
