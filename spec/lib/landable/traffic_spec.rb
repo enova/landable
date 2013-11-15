@@ -31,7 +31,7 @@ describe Traffic, type: :controller do
     transaction = double('transaction')
     stub_const("NewRelic::Agent::Transaction", transaction, :defined? => true)
 
-    Landable::Traffic::Tracker.stub(:new).and_return(tracker)
+    Landable::Traffic::Tracker.stub(:for).and_return(tracker)
     tracker.stub(:track).and_raise(Landable::TrackError)
     tracker.stub(:save).and_raise(Landable::SaveError)
 
