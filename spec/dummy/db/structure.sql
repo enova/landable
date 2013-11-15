@@ -458,6 +458,109 @@ ALTER SEQUENCE accesses_access_id_seq OWNED BY accesses.access_id;
 
 
 --
+-- Name: browsers; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE browsers (
+    browser_id smallint NOT NULL,
+    browser text NOT NULL
+);
+
+
+--
+-- Name: devices; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE devices (
+    device_id integer NOT NULL,
+    device text NOT NULL
+);
+
+
+--
+-- Name: ip_addresses; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ip_addresses (
+    ip_address_id integer NOT NULL,
+    ip_address inet NOT NULL
+);
+
+
+--
+-- Name: paths; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE paths (
+    path_id integer NOT NULL,
+    path text NOT NULL
+);
+
+
+--
+-- Name: platforms; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE platforms (
+    platform_id smallint NOT NULL,
+    platform text NOT NULL
+);
+
+
+--
+-- Name: user_agent_types; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE user_agent_types (
+    user_agent_type_id smallint NOT NULL,
+    user_agent_type text NOT NULL
+);
+
+
+--
+-- Name: user_agents; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE user_agents (
+    user_agent_id integer NOT NULL,
+    user_agent_type_id smallint,
+    device_id integer,
+    platform_id smallint,
+    browser_id smallint,
+    browser_version text,
+    user_agent text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: visitors; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE visitors (
+    visitor_id integer NOT NULL,
+    ip_address_id integer NOT NULL,
+    user_agent_id integer NOT NULL
+);
+
+
+--
+-- Name: visitors_v; Type: VIEW; Schema: traffic; Owner: -
+--
+
+CREATE VIEW visitors_v AS
+    SELECT v.visitor_id, ip_addresses.ip_address, ua.user_agent, uat.user_agent_type, d.device, p.platform, b.browser, ua.browser_version FROM ((((((visitors v JOIN ip_addresses USING (ip_address_id)) JOIN user_agents ua USING (user_agent_id)) LEFT JOIN user_agent_types uat USING (user_agent_type_id)) LEFT JOIN devices d USING (device_id)) LEFT JOIN platforms p USING (platform_id)) LEFT JOIN browsers b USING (browser_id));
+
+
+--
+-- Name: accesses_v; Type: VIEW; Schema: traffic; Owner: -
+--
+
+CREATE VIEW accesses_v AS
+    SELECT a.access_id, p.path, a.visitor_id, v.ip_address, v.user_agent_type, v.device, v.platform, v.browser, v.browser_version, v.user_agent FROM ((accesses a JOIN paths p USING (path_id)) JOIN visitors_v v USING (visitor_id));
+
+
+--
 -- Name: ad_groups; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
 --
 
@@ -572,6 +675,154 @@ CREATE TABLE bid_match_types (
 
 
 --
+-- Name: campaigns; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE campaigns (
+    campaign_id integer NOT NULL,
+    campaign text NOT NULL
+);
+
+
+--
+-- Name: contents; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE contents (
+    content_id integer NOT NULL,
+    content text NOT NULL
+);
+
+
+--
+-- Name: creatives; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE creatives (
+    creative_id integer NOT NULL,
+    creative text NOT NULL
+);
+
+
+--
+-- Name: device_types; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE device_types (
+    device_type_id smallint NOT NULL,
+    device_type text NOT NULL
+);
+
+
+--
+-- Name: experiments; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE experiments (
+    experiment_id integer NOT NULL,
+    experiment text NOT NULL
+);
+
+
+--
+-- Name: keywords; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE keywords (
+    keyword_id integer NOT NULL,
+    keyword text NOT NULL
+);
+
+
+--
+-- Name: match_types; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE match_types (
+    match_type_id smallint NOT NULL,
+    match_type text NOT NULL
+);
+
+
+--
+-- Name: mediums; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE mediums (
+    medium_id integer NOT NULL,
+    medium text NOT NULL
+);
+
+
+--
+-- Name: networks; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE networks (
+    network_id integer NOT NULL,
+    network text NOT NULL
+);
+
+
+--
+-- Name: placements; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE placements (
+    placement_id integer NOT NULL,
+    placement text NOT NULL
+);
+
+
+--
+-- Name: positions; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE positions (
+    position_id smallint NOT NULL,
+    "position" text NOT NULL
+);
+
+
+--
+-- Name: search_terms; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE search_terms (
+    search_term_id integer NOT NULL,
+    search_term text NOT NULL
+);
+
+
+--
+-- Name: sources; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE sources (
+    source_id integer NOT NULL,
+    source text NOT NULL
+);
+
+
+--
+-- Name: targets; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE targets (
+    target_id integer NOT NULL,
+    target text NOT NULL
+);
+
+
+--
+-- Name: attributions_v; Type: VIEW; Schema: traffic; Owner: -
+--
+
+CREATE VIEW attributions_v AS
+    SELECT a.attribution_id, at.ad_type, ag.ad_group, bmt.bid_match_type, c.campaign, cs.content, ct.creative, dt.device_type, e.experiment, k.keyword, mt.match_type, m.medium, n.network, p.placement, ps."position", st.search_term, s.source, t.target, a.created_at FROM (((((((((((((((((attributions a LEFT JOIN ad_types at USING (ad_type_id)) LEFT JOIN ad_groups ag USING (ad_group_id)) LEFT JOIN bid_match_types bmt USING (bid_match_type_id)) LEFT JOIN campaigns c USING (campaign_id)) LEFT JOIN contents cs USING (content_id)) LEFT JOIN creatives ct USING (creative_id)) LEFT JOIN device_types dt USING (device_type_id)) LEFT JOIN experiments e USING (experiment_id)) LEFT JOIN keywords k USING (keyword_id)) LEFT JOIN match_types mt USING (match_type_id)) LEFT JOIN mediums m USING (medium_id)) LEFT JOIN networks n USING (network_id)) LEFT JOIN placements p USING (placement_id)) LEFT JOIN positions ps USING (position_id)) LEFT JOIN search_terms st USING (search_term_id)) LEFT JOIN sources s USING (source_id)) LEFT JOIN targets t USING (target_id));
+
+
+--
 -- Name: bid_match_types_bid_match_type_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
 --
 
@@ -591,16 +842,6 @@ ALTER SEQUENCE bid_match_types_bid_match_type_id_seq OWNED BY bid_match_types.bi
 
 
 --
--- Name: browsers; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE browsers (
-    browser_id smallint NOT NULL,
-    browser text NOT NULL
-);
-
-
---
 -- Name: browsers_browser_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
 --
 
@@ -617,16 +858,6 @@ CREATE SEQUENCE browsers_browser_id_seq
 --
 
 ALTER SEQUENCE browsers_browser_id_seq OWNED BY browsers.browser_id;
-
-
---
--- Name: campaigns; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE campaigns (
-    campaign_id integer NOT NULL,
-    campaign text NOT NULL
-);
 
 
 --
@@ -675,16 +906,6 @@ CREATE SEQUENCE cities_city_id_seq
 --
 
 ALTER SEQUENCE cities_city_id_seq OWNED BY cities.city_id;
-
-
---
--- Name: contents; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE contents (
-    content_id integer NOT NULL,
-    content text NOT NULL
-);
 
 
 --
@@ -745,16 +966,6 @@ ALTER SEQUENCE countries_country_id_seq OWNED BY countries.country_id;
 
 
 --
--- Name: creatives; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE creatives (
-    creative_id integer NOT NULL,
-    creative text NOT NULL
-);
-
-
---
 -- Name: creatives_creative_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
 --
 
@@ -774,16 +985,6 @@ ALTER SEQUENCE creatives_creative_id_seq OWNED BY creatives.creative_id;
 
 
 --
--- Name: device_types; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE device_types (
-    device_type_id smallint NOT NULL,
-    device_type text NOT NULL
-);
-
-
---
 -- Name: device_types_device_type_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
 --
 
@@ -800,16 +1001,6 @@ CREATE SEQUENCE device_types_device_type_id_seq
 --
 
 ALTER SEQUENCE device_types_device_type_id_seq OWNED BY device_types.device_type_id;
-
-
---
--- Name: devices; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE devices (
-    device_id integer NOT NULL,
-    device text NOT NULL
-);
 
 
 --
@@ -922,16 +1113,6 @@ ALTER SEQUENCE events_event_id_seq OWNED BY events.event_id;
 
 
 --
--- Name: experiments; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE experiments (
-    experiment_id integer NOT NULL,
-    experiment text NOT NULL
-);
-
-
---
 -- Name: experiments_experiment_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
 --
 
@@ -977,16 +1158,6 @@ CREATE SEQUENCE http_methods_http_method_id_seq
 --
 
 ALTER SEQUENCE http_methods_http_method_id_seq OWNED BY http_methods.http_method_id;
-
-
---
--- Name: ip_addresses; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE ip_addresses (
-    ip_address_id integer NOT NULL,
-    ip_address inet NOT NULL
-);
 
 
 --
@@ -1043,16 +1214,6 @@ ALTER SEQUENCE ip_lookups_ip_lookup_id_seq OWNED BY ip_lookups.ip_lookup_id;
 
 
 --
--- Name: keywords; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE keywords (
-    keyword_id integer NOT NULL,
-    keyword text NOT NULL
-);
-
-
---
 -- Name: keywords_keyword_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
 --
 
@@ -1103,16 +1264,6 @@ ALTER SEQUENCE locations_location_id_seq OWNED BY locations.location_id;
 
 
 --
--- Name: match_types; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE match_types (
-    match_type_id smallint NOT NULL,
-    match_type text NOT NULL
-);
-
-
---
 -- Name: match_types_match_type_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
 --
 
@@ -1129,16 +1280,6 @@ CREATE SEQUENCE match_types_match_type_id_seq
 --
 
 ALTER SEQUENCE match_types_match_type_id_seq OWNED BY match_types.match_type_id;
-
-
---
--- Name: mediums; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE mediums (
-    medium_id integer NOT NULL,
-    medium text NOT NULL
-);
 
 
 --
@@ -1187,16 +1328,6 @@ CREATE SEQUENCE mime_types_mime_type_id_seq
 --
 
 ALTER SEQUENCE mime_types_mime_type_id_seq OWNED BY mime_types.mime_type_id;
-
-
---
--- Name: networks; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE networks (
-    network_id integer NOT NULL,
-    network text NOT NULL
-);
 
 
 --
@@ -1297,13 +1428,37 @@ ALTER SEQUENCE page_views_page_view_id_seq OWNED BY page_views.page_view_id;
 
 
 --
--- Name: paths; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+-- Name: query_strings; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
 --
 
-CREATE TABLE paths (
-    path_id integer NOT NULL,
-    path text NOT NULL
+CREATE TABLE query_strings (
+    query_string_id integer NOT NULL,
+    query_string text NOT NULL
 );
+
+
+--
+-- Name: visits; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE visits (
+    visit_id integer NOT NULL,
+    cookie_id uuid NOT NULL,
+    visitor_id integer NOT NULL,
+    attribution_id integer NOT NULL,
+    referer_id integer,
+    owner_id integer,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    do_not_track boolean
+);
+
+
+--
+-- Name: page_views_v; Type: VIEW; Schema: traffic; Owner: -
+--
+
+CREATE VIEW page_views_v AS
+    SELECT pv.page_view_id, pv.visit_id, p.path, qs.query_string, mt.mime_type, http_methods.http_method, pr.ordinal AS page_revision, pv.content_length, pv.http_status, pv.request_id, pv.click_id FROM ((((((page_views pv JOIN visits v USING (visit_id)) JOIN paths p USING (path_id)) LEFT JOIN query_strings qs USING (query_string_id)) LEFT JOIN mime_types mt USING (mime_type_id)) LEFT JOIN http_methods USING (http_method_id)) JOIN landable.page_revisions pr USING (page_revision_id));
 
 
 --
@@ -1326,16 +1481,6 @@ ALTER SEQUENCE paths_path_id_seq OWNED BY paths.path_id;
 
 
 --
--- Name: placements; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE placements (
-    placement_id integer NOT NULL,
-    placement text NOT NULL
-);
-
-
---
 -- Name: placements_placement_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
 --
 
@@ -1352,16 +1497,6 @@ CREATE SEQUENCE placements_placement_id_seq
 --
 
 ALTER SEQUENCE placements_placement_id_seq OWNED BY placements.placement_id;
-
-
---
--- Name: platforms; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE platforms (
-    platform_id smallint NOT NULL,
-    platform text NOT NULL
-);
 
 
 --
@@ -1384,16 +1519,6 @@ ALTER SEQUENCE platforms_platform_id_seq OWNED BY platforms.platform_id;
 
 
 --
--- Name: positions; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE positions (
-    position_id smallint NOT NULL,
-    "position" text NOT NULL
-);
-
-
---
 -- Name: positions_position_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
 --
 
@@ -1410,16 +1535,6 @@ CREATE SEQUENCE positions_position_id_seq
 --
 
 ALTER SEQUENCE positions_position_id_seq OWNED BY positions.position_id;
-
-
---
--- Name: query_strings; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE query_strings (
-    query_string_id integer NOT NULL,
-    query_string text NOT NULL
-);
 
 
 --
@@ -1503,16 +1618,6 @@ ALTER SEQUENCE regions_region_id_seq OWNED BY regions.region_id;
 
 
 --
--- Name: search_terms; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE search_terms (
-    search_term_id integer NOT NULL,
-    search_term text NOT NULL
-);
-
-
---
 -- Name: search_terms_search_term_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
 --
 
@@ -1529,16 +1634,6 @@ CREATE SEQUENCE search_terms_search_term_id_seq
 --
 
 ALTER SEQUENCE search_terms_search_term_id_seq OWNED BY search_terms.search_term_id;
-
-
---
--- Name: sources; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE sources (
-    source_id integer NOT NULL,
-    source text NOT NULL
-);
 
 
 --
@@ -1561,16 +1656,6 @@ ALTER SEQUENCE sources_source_id_seq OWNED BY sources.source_id;
 
 
 --
--- Name: targets; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE targets (
-    target_id integer NOT NULL,
-    target text NOT NULL
-);
-
-
---
 -- Name: targets_target_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
 --
 
@@ -1587,16 +1672,6 @@ CREATE SEQUENCE targets_target_id_seq
 --
 
 ALTER SEQUENCE targets_target_id_seq OWNED BY targets.target_id;
-
-
---
--- Name: user_agent_types; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE user_agent_types (
-    user_agent_type_id smallint NOT NULL,
-    user_agent_type text NOT NULL
-);
 
 
 --
@@ -1619,22 +1694,6 @@ ALTER SEQUENCE user_agent_types_user_agent_type_id_seq OWNED BY user_agent_types
 
 
 --
--- Name: user_agents; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE user_agents (
-    user_agent_id integer NOT NULL,
-    user_agent_type_id smallint,
-    device_id integer,
-    platform_id smallint,
-    browser_id smallint,
-    browser_version text,
-    user_agent text NOT NULL,
-    created_at timestamp with time zone DEFAULT now() NOT NULL
-);
-
-
---
 -- Name: user_agents_user_agent_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
 --
 
@@ -1651,17 +1710,6 @@ CREATE SEQUENCE user_agents_user_agent_id_seq
 --
 
 ALTER SEQUENCE user_agents_user_agent_id_seq OWNED BY user_agents.user_agent_id;
-
-
---
--- Name: visitors; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE visitors (
-    visitor_id integer NOT NULL,
-    ip_address_id integer NOT NULL,
-    user_agent_id integer NOT NULL
-);
 
 
 --
@@ -1684,19 +1732,11 @@ ALTER SEQUENCE visitors_visitor_id_seq OWNED BY visitors.visitor_id;
 
 
 --
--- Name: visits; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+-- Name: visits_v; Type: VIEW; Schema: traffic; Owner: -
 --
 
-CREATE TABLE visits (
-    visit_id integer NOT NULL,
-    cookie_id uuid NOT NULL,
-    visitor_id integer NOT NULL,
-    attribution_id integer NOT NULL,
-    referer_id integer,
-    owner_id integer,
-    created_at timestamp with time zone DEFAULT now() NOT NULL,
-    do_not_track boolean
-);
+CREATE VIEW visits_v AS
+    SELECT v.visit_id, v.attribution_id, v.cookie_id AS cookie, vs.ip_address, vs.user_agent, vs.user_agent_type, vs.device, vs.platform, vs.browser, vs.browser_version, o.owner AS customer_id, v.do_not_track, v.created_at, et.event_type FROM (((((visits v JOIN attributions a USING (attribution_id)) JOIN visitors_v vs USING (visitor_id)) LEFT JOIN owners o USING (owner_id)) LEFT JOIN events e USING (visit_id)) LEFT JOIN event_types et USING (event_type_id));
 
 
 --
@@ -3805,3 +3845,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131106185946');
 INSERT INTO schema_migrations (version) VALUES ('20131106193021');
 
 INSERT INTO schema_migrations (version) VALUES ('20131108212501');
+
+INSERT INTO schema_migrations (version) VALUES ('20131115152418');
