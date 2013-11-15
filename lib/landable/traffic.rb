@@ -13,6 +13,9 @@ module Landable
         @tracker.track
       rescue => e
         Rails.logger.error e
+        if defined? NewRelic::Agent::Transaction
+          NewRelic::Agent::Transaction.notice_error e
+        end
       end
 
       yield
@@ -21,6 +24,9 @@ module Landable
         @tracker.save
       rescue => e
         Rails.logger.error e
+        if defined? NewRelic::Agent::Transaction
+          NewRelic::Agent::Transaction.notice_error e
+        end
       end
     end
   end
