@@ -2,7 +2,9 @@
 
 See README.md before updating this file.
 
-<!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.3...master) -->
+<!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.0...master) -->
+
+## v1.2.0 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.3...v1.2.0)
 * Add error logging for NewRelic when @tracker.track or @tracker.save are rescued [#67]
 * Liquid Body Tag can Handle Liquid Templates [#64]
 * Add denormalized views over traffic tables. [#65]
