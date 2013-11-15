@@ -64,6 +64,19 @@ Feature: Liquid Tags
       <div>Page body</div>
       """
 
+  Scenario: body with nested liquid tag
+    Given the page's body is "{% body %}"
+    And the page's body is "<div>Page body</div>{% meta_tags %}"
+    And the page's meta tags are:
+      | name     | content            |
+      | robots   | noindex,nofollow   |
+      | keywords | momoney,moproblems |
+    Then the rendered content should be:
+      """
+      <div>Page body</div><meta content="noindex,nofollow" name="robots" />
+      <meta content="momoney,moproblems" name="keywords" />
+      """
+
   Scenario: img_tag
     Given the page's body is "{% img_tag panda %}"
     Then the rendered content should be:
