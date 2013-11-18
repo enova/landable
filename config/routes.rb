@@ -55,8 +55,8 @@ Landable::Engine.routes.draw do
     get '/sitemap.xml' => 'sitemap#index', as: :sitemap
 
     get '*url' => 'pages#show', as: :page, constraints: lambda { |request|
-      # Published Page that is Not Currently A 404
-      Landable::PageRevision.where(path: request.path).any? && Landable::Page.where('status_code != 404').where(path: request.path).any?
+      # Published Page that is Not Currently A 404 
+      Landable::PageRevision.where(path: request.path, is_published: true).where('status_code != 404').any?
     }
   end
 end
