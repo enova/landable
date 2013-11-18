@@ -20,6 +20,17 @@ describe 'public page routes' do
         expect(get: page.path).to route_to(controller: 'landable/public/pages', action: 'show', url: page.path[1..-1])
       end
     end
+
+    specify 'not currently a 404' do
+      page = create :page, status_code: 404
+      page.publish! author: create(:author)
+
+      page.status_code = 200
+      page.save
+      page.publish! author: create(:author)
+
+      expect(get: page.path).to be_routable
+    end
   end
 
   context 'should not match' do
@@ -39,5 +50,4 @@ describe 'public page routes' do
       expect(get: page.path).to_not be_routable
     end
   end
-
 end
