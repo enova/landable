@@ -25,7 +25,7 @@ module Landable
 
     def meta_tags
       return unless tags = page.meta_tags
-      #return if tags.empty? || tags.instance_of?(String)
+      Rails.logger.info "Meta tags string: #{tags}" if tags.is_a? String
       return if tags.empty? or !tags.is_a? Hash
 
       tags.map { |name, value|
