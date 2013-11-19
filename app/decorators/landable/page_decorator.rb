@@ -25,7 +25,8 @@ module Landable
 
     def meta_tags
       return unless tags = page.meta_tags
-      return if tags.empty?
+      #return if tags.empty? || tags.instance_of?(String)
+      return if tags.empty? or !tags.is_a? Hash
 
       tags.map { |name, value|
         tag('meta', name: name, content: value) if value.present?

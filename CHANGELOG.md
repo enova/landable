@@ -2,6 +2,9 @@
 
 See README.md before updating this file.
 
+<!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.1...master) -->
+* Return if meta_tags is not a Hash
+
 ## v1.2.1 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.0...v1.2.1)
 * Handling Landable Published 404 Pages in the Route Constraint [#68, #69]
 

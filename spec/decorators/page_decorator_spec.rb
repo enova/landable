@@ -77,6 +77,14 @@ module Landable
           page_decorator.meta_tags.should be_nil
         end
       end
+
+      context 'string' do
+        let(:page) { create :page, meta_tags: "I should be a hash!" }
+
+        it 'returns nil' do
+          page_decorator.meta_tags.should be_nil
+        end
+      end
     end
   end
 end
