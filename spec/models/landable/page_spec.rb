@@ -313,7 +313,13 @@ module Landable
     describe '::generate_sitemap' do
       it 'returns a sitemap' do
         page = create :page
-        Landable::Page.generate_sitemap.should include("<loc>#{page.path}</loc>")
+        Landable::Page.generate_sitemap('example.com').should include("<loc>http://example.com#{page.path}</loc>")
+      end
+
+      it 'does not include Testing Category' do
+        cat = create :category, name: 'Testing'
+        page = create :page, category: cat
+        Landable::Page.generate_sitemap('example.com').should_not include("<loc>http://example.com#{page.path}</loc>")
       end
     end
 
