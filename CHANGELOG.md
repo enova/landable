@@ -3,7 +3,7 @@
 See README.md before updating this file.
 
 <!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.0...master) -->
-* Handling Landable Published 404 Pages in the Route Constraint [#68]
+* Handling Landable Published 404 Pages in the Route Constraint [#68, #69]
 
 ## v1.2.0 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.1.3...v1.2.0)
 * Add error logging for NewRelic when @tracker.track or @tracker.save are rescued [#67]

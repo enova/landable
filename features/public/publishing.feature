@@ -30,6 +30,7 @@ Feature: Only published revisions are publicly available
     And  I GET "/pubbed"
     Then I should see "bar"
 
+  @allow-rescue
   Scenario: Unpublished status change
     Given a published page "/pubbed"
     When  I change the page to a 404
