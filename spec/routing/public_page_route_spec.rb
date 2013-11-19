@@ -49,5 +49,16 @@ describe 'public page routes' do
 
       expect(get: page.path).to_not be_routable
     end
+
+    specify 'becoming a 404' do
+      page = create :page, status_code: 200
+      page.publish! author: create(:author)
+
+      page.status_code = 404
+      page.save
+      page.publish! author: create(:author)
+
+      expect(get: page.path).to_not be_routable
+    end
   end
 end
