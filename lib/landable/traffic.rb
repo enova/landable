@@ -11,11 +11,9 @@ module Landable
       begin
         @tracker = Tracker.for self
         @tracker.track
-        raise "Broke 1"
       rescue => e
         Rails.logger.error e
         if respond_to? :newrelic_notice_error
-          Rails.logger.info "Rescued #1"
           newrelic_notice_error e
         end
       end
@@ -24,11 +22,9 @@ module Landable
 
       begin
         @tracker.save
-        raise "Broke 2"
       rescue => e
         Rails.logger.error e
         if respond_to? :newrelic_notice_error
-          Rails.logger.info "Rescued #2"
           newrelic_notice_error e
         end
       end
