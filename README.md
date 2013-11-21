@@ -44,6 +44,17 @@ rake landable:install:migrations
 rake db:migrate
 ```
 
+### Sitemap 
+
+Landable comes with an automatic sitemap generator that you can config in your initializer. See your Sitemap at ```/sitemap.xml```
+
+```ruby
+Landable.configure do |config|
+  config.sitemap_exclude_categories = %w(Testing) # Keeps Pages with Testing Category Out of Sitemap (Defaults to [])
+  config.sitemap_protocol = "https" # Configures Protocol to be used in Sitmap (Defaults to 'http')
+  config.sitemap_host = "www.example.com" # Configures Host Name to be used in Sitmap (Defaults to 'request.host')
+end
+```
 
 ## Development
 
