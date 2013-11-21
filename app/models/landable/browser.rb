@@ -4,6 +4,7 @@ module Landable
     self.table_name = 'landable.browsers'
 
     has_many :screenshots
+    lookup_by :browser, cache: 50, find_or_create: true
 
     def name
       if mobile?
