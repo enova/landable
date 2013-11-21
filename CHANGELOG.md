@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 <!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.2...master) -->
+* Adding attribution_id to unique index on referers table
 
 ## v1.2.3 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.2...v1.2.3)
 * Can Exclude Pages from Sitemap via Category [#73]
