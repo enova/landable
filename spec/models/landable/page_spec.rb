@@ -313,13 +313,24 @@ module Landable
     describe '::generate_sitemap' do
       it 'returns a sitemap' do
         page = create :page
-        Landable::Page.generate_sitemap('example.com').should include("<loc>http://example.com#{page.path}</loc>")
+        Landable::Page.generate_sitemap(host: 'example.com',
+                                        protocol: 'http',
+                                        exclude_categories: []).should include("<loc>http://example.com#{page.path}</loc>")
       end
 
-      it 'does not include Testing Category' do
+      it 'does not include excluded categories' do
         cat = create :category, name: 'Testing'
         page = create :page, category: cat
-        Landable::Page.generate_sitemap('example.com').should_not include("<loc>http://example.com#{page.path}</loc>")
+        Landable::Page.generate_sitemap(host: 'example.com',
+                                        protocol: 'http',
+                                        exclude_categories: ['Testing']).should_not include("<loc>http://example.com#{page.path}</loc>")
+      end
+
+      it 'can handle https protocol' do
+        page = create :page
+        Landable::Page.generate_sitemap(host: 'example.com',
+                                        protocol: 'https',
+                                        exclude_categories: []).should include("<loc>https://example.com#{page.path}</loc>")
       end
     end
 
