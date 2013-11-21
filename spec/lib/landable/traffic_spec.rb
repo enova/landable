@@ -28,15 +28,13 @@ describe Traffic, type: :controller do
   describe 'track_with_landable!' do
    it 'should log errors' do
     tracker = double('tracker')
-    transaction = double('transaction')
-    stub_const("NewRelic::Agent::Transaction", transaction, :defined? => true)
 
     Landable::Traffic::Tracker.stub(:for).and_return(tracker)
     tracker.stub(:track).and_raise(TrackError)
     tracker.stub(:save).and_raise(SaveError)
 
-    transaction.should_receive(:notice_error) { |error| error.should be_an_instance_of TrackError }
-    transaction.should_receive(:notice_error) { |error| error.should be_an_instance_of SaveError }
+    controller.should_receive(:newrelic_notice_error) { |error| error.should be_an_instance_of TrackError }
+    controller.should_receive(:newrelic_notice_error) { |error| error.should be_an_instance_of SaveError }
 
     get :my_method
    end
