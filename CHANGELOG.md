@@ -2,7 +2,9 @@
 
 See README.md before updating this file.
 
-<!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.2...master) -->
+<!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.4...master) -->
+
+## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.3...v1.2.4)
 * Adding attribution_id to unique index on referers table [#74]
 * Check for presence of user_agent before attempting to determine type [#77]
 * Update to newrelic logging re: tracking [#75]
