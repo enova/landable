@@ -4,4 +4,5 @@ Landable.configure do |config|
 
   Landable::Engine.routes.default_url_options = { host: 'test.landable.dev' }
   config.sitemap_exclude_categories = %w(Testing)
+  config.sitemap_protocol = 'https'
 end
