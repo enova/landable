@@ -2473,14 +2473,6 @@ ALTER TABLE ONLY query_strings
 
 
 --
--- Name: referers_domain_id_path_id_query_string_id_key; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY referers
-    ADD CONSTRAINT referers_domain_id_path_id_query_string_id_key UNIQUE (domain_id, path_id, query_string_id);
-
-
---
 -- Name: referers_pkey; Type: CONSTRAINT; Schema: traffic; Owner: -; Tablespace: 
 --
 
@@ -3139,6 +3131,13 @@ CREATE UNIQUE INDEX query_strings__u_query_string ON query_strings USING btree (
 --
 
 CREATE INDEX referers_domain_id_idx ON referers USING btree (domain_id);
+
+
+--
+-- Name: referers_domain_id_path_id_query_string_id_attribution_id; Type: INDEX; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX referers_domain_id_path_id_query_string_id_attribution_id ON referers USING btree (domain_id, path_id, query_string_id, attribution_id);
 
 
 --
@@ -3847,3 +3846,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131106193021');
 INSERT INTO schema_migrations (version) VALUES ('20131108212501');
 
 INSERT INTO schema_migrations (version) VALUES ('20131115152418');
+
+INSERT INTO schema_migrations (version) VALUES ('20131121150902');
