@@ -9,7 +9,7 @@ module Landable
       lookup_for :user_agent_type, class_name: UserAgentType
       lookup_for :device,          class_name: Device
       lookup_for :platform,        class_name: Platform
-      lookup_for :browser,         class_name: Browser
+      lookup_for :browser,         class_name: Traffic::Browser
 
       has_many :visitors
 

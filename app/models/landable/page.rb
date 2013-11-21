@@ -69,15 +69,15 @@ module Landable
       end
 
 
-      def generate_sitemap(host)
+      def generate_sitemap(options = {})
         pages = Landable::Page.sitemappable
         xml = Builder::XmlMarkup.new( :indent => 2 )
         xml.instruct! :xml, encoding: "UTF-8"
         xml.urlset(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9") do |xml|
           pages.each do |page|
-            next if Landable.configuration.sitemap_exclude_categories.include? page.category.try(:name)
+            next if options[:exclude_categories].to_a.include? page.category.try(:name)
             xml.url do |p|
-              p.loc "http://#{host}#{page.path}"
+              p.loc "#{options[:protocol]}://#{options[:host]}#{page.path}"
               p.lastmod page.updated_at
               p.changefreq 'weekly'
               p.priority '1'
