@@ -13,5 +13,10 @@ module Landable::Public
       get :index
       response.content_type.should == 'application/xml'
     end
+
+    it 'calls generate_sitemap with appropriate arguments' do
+      Landable::Page.should_receive(:generate_sitemap).with(host: 'test.host', protocol: 'https', exclude_categories: ['Testing']).and_call_original
+      get :index, format: :xml
+    end
   end
 end

@@ -13,8 +13,8 @@ module Landable
         @tracker.track
       rescue => e
         Rails.logger.error e
-        if defined? NewRelic::Agent::Transaction
-          NewRelic::Agent::Transaction.notice_error e
+        if respond_to? :newrelic_notice_error
+          newrelic_notice_error e
         end
       end
 
@@ -24,8 +24,8 @@ module Landable
         @tracker.save
       rescue => e
         Rails.logger.error e
-        if defined? NewRelic::Agent::Transaction
-          NewRelic::Agent::Transaction.notice_error e
+        if respond_to? :newrelic_notice_error
+          newrelic_notice_error e
         end
       end
     end

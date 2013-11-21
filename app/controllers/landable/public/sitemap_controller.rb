@@ -4,8 +4,11 @@ module Landable
   module Public
     class SitemapController < ApplicationController
       def index
-        host = request.host
-        sitemap = Landable::Page.generate_sitemap(host)
+        sitemap = Landable::Page.generate_sitemap(
+          host: Landable.configuration.sitemap_host || request.host,
+          protocol: Landable.configuration.sitemap_protocol,
+          exclude_categories: Landable.configuration.sitemap_exclude_categories,
+        )
 
         render xml: sitemap
       end

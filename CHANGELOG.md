@@ -4,6 +4,8 @@ See README.md before updating this file.
 
 <!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.2...master) -->
 * Check for presence of user_agent before attempting to determine type [#77]
+* Update to newrelic logging re: tracking [#75]
+* Add host, protocol sitemap config options [#76]
 
 ## v1.2.3 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.2...v1.2.3)
 * Can Exclude Pages from Sitemap via Category [#73]

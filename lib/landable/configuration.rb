@@ -1,6 +1,7 @@
 module Landable
   class Configuration
-    attr_writer :api_namespace, :public_namespace, :categories, :traffic_enabled, :sitemap_exclude_categories
+    attr_writer :api_namespace, :public_namespace, :categories, :traffic_enabled
+    attr_writer :sitemap_exclude_categories, :sitemap_protocol, :sitemap_host
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -35,6 +36,14 @@ module Landable
 
     def sitemap_exclude_categories
       @sitemap_exclude_categories ||= []
+    end
+
+    def sitemap_protocol
+      @sitemap_protocol ||= "http"
+    end
+
+    def sitemap_host
+      @sitemap_host
     end
 
     def traffic_enabled
