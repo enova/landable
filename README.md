@@ -7,7 +7,7 @@ Rails engine providing an API and such for managing mostly static content.
 
 Add `gem 'landable'` to your project's Gemfile.
 
-Run `rails g landable:install`, and update the new landable initializer to taste.
+Run `bundle exec rails g landable:install`, and update the new landable initializer to taste.
 
 Open your routes file, and ensure that the engine is mounted properly. Typically, this will be your final, catch-all route:
 
