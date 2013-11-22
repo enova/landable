@@ -6,7 +6,7 @@ module Landable
     end
 
     def current_page
-      if Landable::Page.exists?(params[:id]) == true
+      if Page.exists?(params[:id]) == true
         current_page = Page.find(params[:id])
       else
         current_page = Page.by_path(request.path)
