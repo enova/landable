@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 <!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.4...master) -->
+* URI.encode request.referer url
 
 ## v1.2.4 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.3...v1.2.4)
 * Adding attribution_id to unique index on referers table [#74]
