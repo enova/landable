@@ -7,7 +7,7 @@ module Landable::Public::Preview
     describe '#show' do
 
       let(:author) { create :author }
-      let(:page) { create :page, body: '<p>hello</p>' }
+      let(:page) { create :page, body: '<p>hello</p>', head_content: '<head_content></head_content>' }
       let(:page_revision) do
         page.publish! author: author
         page.revisions.first
@@ -32,10 +32,14 @@ module Landable::Public::Preview
         response.body.should include '<p>hello</p>'
       end
 
+      it 'redners the page revision with the head_content' do
+        make_request
+        response.body.should include '<head_content></head_content>'
+      end
+
       it 'is available at /-/pr/:id' do
         assert_recognizes({controller: 'landable/public/preview/page_revisions', action: 'show', id: page_revision.id}, "/-/pr/#{page_revision.id}")
       end
-
     end
   end
 end

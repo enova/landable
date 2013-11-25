@@ -6,10 +6,10 @@ module Landable
     end
 
     def current_page
-      if Page.exists?(params[:id])
-        current_page = Page.find(params[:id])
-      elsif PageRevision.exists?(params[:id])
+      if params[:controller] == "landable/public/preview/page_revisions"
         current_page = PageRevision.find(params[:id])
+      elsif params[:controller] == "landable/public/preview/pages"
+        current_page = Page.find(params[:id])
       else
         current_page = Page.by_path(request.path)
       end

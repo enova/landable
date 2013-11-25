@@ -6,7 +6,7 @@ module Landable::Public::Preview
 
     describe '#show' do
 
-      let(:page) { create :page, body: '<p>hello</p>' }
+      let(:page) { create :page, body: '<p>hello</p>', head_content: '<head_content></head_content>' }
 
       before(:each) do
         page.publish! author: create(:author)
@@ -20,6 +20,11 @@ module Landable::Public::Preview
       it 'renders the page in situ' do
         make_request
         response.body.should include '<p>why hello there</p>'
+      end
+
+      it 'redners the page preview with the head_content' do
+        make_request
+        response.body.should include '<head_content></head_content>'
       end
 
       it 'is available at /-/p/:id' do

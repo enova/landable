@@ -103,7 +103,7 @@ module Landable::Api
 
     describe '#show' do
       include_examples 'Authenticated API controller', :make_request
-      let(:page) { @page || create(:page) }
+      let(:page) { create :page, body: '<p>hello</p>', head_content: '<head_content></head_content>' }
 
       def make_request(id = page.id)
         get :show, id: id
@@ -118,6 +118,11 @@ module Landable::Api
         page.update_attributes meta_tags: nil
         make_request
         last_json['page']['meta_tags'].should == {}
+      end
+
+      it 'includes the head_content' do
+        make_request
+        last_json['page']['head_content'].should == page.head_content
       end
 
 
