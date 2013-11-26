@@ -85,9 +85,7 @@ module Landable
           end
 
           if options[:include_pages].present?
-            p options[:include_pages]
             options[:include_pages].each do |page|
-              p page
               xml.url do |p|
                 p.loc "#{options[:protocol]}://#{options[:host]}#{page}"
                 p.changefreq 'weekly'
