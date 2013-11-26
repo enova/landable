@@ -15,7 +15,10 @@ module Landable::Public
     end
 
     it 'calls generate_sitemap with appropriate arguments' do
-      Landable::Page.should_receive(:generate_sitemap).with(host: 'test.host', protocol: 'https', exclude_categories: ['Testing']).and_call_original
+      Landable::Page.should_receive(:generate_sitemap).with(host: 'test.host', 
+                                                            protocol: 'https', 
+                                                            exclude_categories: ['Testing'], 
+                                                            include_pages: ['/terms.html']).and_call_original
       get :index, format: :xml
     end
   end

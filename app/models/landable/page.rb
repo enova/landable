@@ -83,6 +83,18 @@ module Landable
               p.priority '1'
             end
           end
+
+          if options[:include_pages].present?
+            p options[:include_pages]
+            options[:include_pages].each do |page|
+              p page
+              xml.url do |p|
+                p.loc "#{options[:protocol]}://#{options[:host]}#{page}"
+                p.changefreq 'weekly'
+                p.priority '1'
+              end
+            end
+          end
         end
       end
     end

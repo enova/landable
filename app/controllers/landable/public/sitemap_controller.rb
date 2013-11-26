@@ -8,6 +8,7 @@ module Landable
           host: Landable.configuration.sitemap_host || request.host,
           protocol: Landable.configuration.sitemap_protocol,
           exclude_categories: Landable.configuration.sitemap_exclude_categories,
+          include_pages: Landable.configuration.include_pages,
         )
 
         render xml: sitemap
