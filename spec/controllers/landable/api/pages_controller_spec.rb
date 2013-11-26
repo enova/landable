@@ -103,7 +103,7 @@ module Landable::Api
 
     describe '#show' do
       include_examples 'Authenticated API controller', :make_request
-      let(:page) { create :page, body: '<p>hello</p>', head_content: '<head_content></head_content>' }
+      let(:page) { create :page, body: '<p>hello</p>' }
 
       def make_request(id = page.id)
         get :show, id: id
@@ -119,12 +119,6 @@ module Landable::Api
         make_request
         last_json['page']['meta_tags'].should == {}
       end
-
-      it 'includes the head_content' do
-        make_request
-        last_json['page']['head_content'].should == page.head_content
-      end
-
 
       context 'no such page' do
         it 'returns 404' do
