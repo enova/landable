@@ -316,7 +316,7 @@ module Landable
         Landable::Page.generate_sitemap(host: 'example.com',
                                         protocol: 'http',
                                         exclude_categories: [],
-                                        include_pages: []).should include("<loc>http://example.com#{page.path}</loc>")
+                                        sitemap_additional_paths: []).should include("<loc>http://example.com#{page.path}</loc>")
       end
 
       it 'does not include excluded categories' do
@@ -325,7 +325,7 @@ module Landable
         Landable::Page.generate_sitemap(host: 'example.com',
                                         protocol: 'http',
                                         exclude_categories: ['Testing'],
-                                        include_pages: []).should_not include("<loc>http://example.com#{page.path}</loc>")
+                                        sitemap_additional_paths: []).should_not include("<loc>http://example.com#{page.path}</loc>")
       end
 
       it 'can handle https protocol' do
@@ -333,14 +333,14 @@ module Landable
         Landable::Page.generate_sitemap(host: 'example.com',
                                         protocol: 'https',
                                         exclude_categories: [],
-                                        include_pages: []).should include("<loc>https://example.com#{page.path}</loc>")
+                                        sitemap_additional_paths: []).should include("<loc>https://example.com#{page.path}</loc>")
       end
 
       it 'can handle additional pages' do
         Landable::Page.generate_sitemap(host: 'example.com',
                                         protocol: 'https',
                                         exclude_categories: [],
-                                        include_pages: ['/terms.html']).should include("<loc>https://example.com/terms.html</loc>")
+                                        sitemap_additional_paths: ['/terms.html']).should include("<loc>https://example.com/terms.html</loc>")
       end
     end
 

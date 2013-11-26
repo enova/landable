@@ -18,7 +18,7 @@ module Landable::Public
       Landable::Page.should_receive(:generate_sitemap).with(host: 'test.host', 
                                                             protocol: 'https', 
                                                             exclude_categories: ['Testing'], 
-                                                            include_pages: ['/terms.html']).and_call_original
+                                                            sitemap_additional_paths: ['/terms.html']).and_call_original
       get :index, format: :xml
     end
   end
