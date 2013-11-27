@@ -103,7 +103,7 @@ module Landable::Api
 
     describe '#show' do
       include_examples 'Authenticated API controller', :make_request
-      let(:page) { create :page, body: '<p>hello</p>' }
+      let(:page) {  @page || create(:page) }
 
       def make_request(id = page.id)
         get :show, id: id

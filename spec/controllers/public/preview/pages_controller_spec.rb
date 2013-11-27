@@ -6,7 +6,7 @@ module Landable::Public::Preview
 
     describe '#show' do
 
-      let(:page) { create :page, body: '<p>hello</p' }
+      let(:page) { create :page, body: '<p>hello</p>' }
 
       before(:each) do
         page.publish! author: create(:author)
