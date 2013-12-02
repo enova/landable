@@ -11,14 +11,16 @@ module Landable
     include Landable::Engine.routes.url_helpers
 
     validates_presence_of   :path, :status_code
+    validates_presence_of   :redirect_url, if: -> page { page.redirect? }
 
     self.table_name = 'landable.pages'
 
     validates_inclusion_of  :status_code, in: [200, 301, 302, 404]
-    validates_uniqueness_of :path
-    validates_presence_of   :redirect_url, if: -> page { page.redirect? }
 
+    validates_uniqueness_of :path
+    validates :path, exclusion: { in: Landable.configuration.reserved_paths, message: "%{value} is reserved!" }
     validate :forbid_changing_path, on: :update
+
     validate :body_strip_search
     validates :redirect_url, url: true, allow_blank: true
 

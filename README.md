@@ -57,6 +57,15 @@ Landable.configure do |config|
 end
 ```
 
+### Reserving Page Paths
+Landable allows you to reserve paths in your initalizer preventing users from creating pages with these paths.
+
+```ruby
+Landable.configure do |config|
+  config.reserved_paths = %w(/ /terms-of-use.html /privacy-policy.html) # Users will not be able to create Publicist Pages with these paths 
+end
+```
+
 ## Development
 
 Run `./bin/redb` to refresh the dummy app's database.

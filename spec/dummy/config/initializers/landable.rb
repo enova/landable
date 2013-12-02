@@ -6,4 +6,6 @@ Landable.configure do |config|
   config.sitemap_exclude_categories = %w(Testing)
   config.sitemap_protocol = 'https'
   config.sitemap_additional_paths = %w(/terms.html)
+
+  config.reserved_paths = %w(/reserved_path_set_in_initializer)
 end
