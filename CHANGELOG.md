@@ -2,7 +2,8 @@
 
 See README.md before updating this file.
 
-<!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.4...master) -->
+## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.4...master)
+* current_page returns correct page for previews and published pages [#79]
 
 ## v1.2.4 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.3...v1.2.4)
 * Adding attribution_id to unique index on referers table [#74]

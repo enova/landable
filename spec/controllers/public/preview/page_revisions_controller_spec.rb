@@ -35,6 +35,7 @@ module Landable::Public::Preview
       it 'is available at /-/pr/:id' do
         assert_recognizes({controller: 'landable/public/preview/page_revisions', action: 'show', id: page_revision.id}, "/-/pr/#{page_revision.id}")
       end
+
     end
   end
 end
