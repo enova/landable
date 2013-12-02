@@ -53,6 +53,7 @@ Landable.configure do |config|
   config.sitemap_exclude_categories = %w(Testing) # Keeps pages with testing category out of sitemap (defaults to [])
   config.sitemap_protocol = "https" # Configures protocol to be used in sitemap (defaults to 'http')
   config.sitemap_host = "www.example.com" # Configures host name to be used in sitemap (defaults to 'request.host')
+  config.sitemap_additional_paths = %w(/ /terms-of-use.html /privacy-policy.html) # Landable sitemap generator only includes pages in Landable.  To include other pages, add them as an array like so in your initializer. 
 end
 ```
 

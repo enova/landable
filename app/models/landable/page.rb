@@ -83,6 +83,16 @@ module Landable
               p.priority '1'
             end
           end
+
+          if options[:sitemap_additional_paths].present?
+            options[:sitemap_additional_paths].each do |page|
+              xml.url do |p|
+                p.loc "#{options[:protocol]}://#{options[:host]}#{page}"
+                p.changefreq 'weekly'
+                p.priority '1'
+              end
+            end
+          end
         end
       end
     end
