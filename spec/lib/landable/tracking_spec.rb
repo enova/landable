@@ -2,12 +2,12 @@ require 'spec_helper'
 
 module Landable
   describe Landable::Traffic::Tracker do
+    let(:referer) { "/something/ valid" }
+    let(:user_agent) { "type" }
+    let(:request) { double('request', { query_parameters: {}, user_agent: user_agent, referer: referer }) }
+    let(:controller) { double('controller', { request: request }) }
 
     describe "#for" do
-      let(:user_agent) { "type" }
-      let(:request) { double('request', { query_parameters: {}, user_agent: user_agent }) }
-      let(:controller) { double('controller', { request: request }) }
-
       it 'should default to UserTracker if user_agent does not exist' do
         Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::UserTracker)
       end
@@ -30,5 +30,14 @@ module Landable
       end
     end
 
+    describe '#referer_uri' do
+      it 'should encode special characters' do
+        tracker = Landable::Traffic::UserTracker.new controller
+
+        tracker.send(:referer_uri).path.should == "/something/%20valid"
+      end
+    end
+
   end
+
 end

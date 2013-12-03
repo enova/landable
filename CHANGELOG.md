@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.1...master)
+* Re-encode URI, properly [#87]
 
 ## v1.3.1[#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.0...v1.3.1)
 * Remove URI encoding until fixed [#86]
