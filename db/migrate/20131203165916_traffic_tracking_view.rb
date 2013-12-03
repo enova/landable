@@ -71,8 +71,6 @@ class TrafficTrackingView < ActiveRecord::Migration
         traffic.visits_v v
         JOIN traffic.page_views_v pv USING(visit_id)
         JOIN traffic.attributions_v av USING(attribution_id);
-
-      GRANT SELECT ON traffic.tracking TO reporting_role;
     SQL
   end
 end
