@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.0...master)
+* Remove URI encoding until fixed
 
 ## v1.3.0[#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.4...v1.3.0)
 * Ability to prevent users from creating pages with reserved paths [#82]
