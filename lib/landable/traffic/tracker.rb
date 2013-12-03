@@ -212,7 +212,7 @@ module Landable
       end
 
       def referer_uri
-        @referer_uri ||= URI.encode(request.referer) if request.referer
+        @referer_uri ||= URI(URI.encode(request.referer)) if request.referer
       end
 
       def external_referer?

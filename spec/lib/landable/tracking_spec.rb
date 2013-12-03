@@ -34,7 +34,7 @@ module Landable
       it 'should encode special characters' do
         tracker = Landable::Traffic::UserTracker.new controller
 
-        tracker.send(:referer_uri).should == "/something/%20valid"
+        tracker.send(:referer_uri).path.should == "/something/%20valid"
       end
     end
 
