@@ -2,7 +2,9 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.1...master)
+## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.2...master)
+
+## v1.3.2[#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.1...v1.3.2)
 * Re-encode URI, properly [#87]
 
 ## v1.3.1[#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.0...v1.3.1)
