@@ -5,7 +5,7 @@ See README.md before updating this file.
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.0...master)
 
 ## v1.3.0[#](https://git.cashnetusa.com/trogdor/landable/compare/v1.2.4...v1.3.0)
-* Ability to prevent users from creating pages with reserved paths
+* Ability to prevent users from creating pages with reserved paths [#82]
 * Ability to add other non-Landable pages to the sitemap [#81]
 * current_page returns correct page for previews and published pages [#79]
 * URI.encode request.referer url [#80]
