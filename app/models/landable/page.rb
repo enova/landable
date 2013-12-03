@@ -80,7 +80,7 @@ module Landable
             next if options[:exclude_categories].to_a.include? page.category.try(:name)
             xml.url do |p|
               p.loc "#{options[:protocol]}://#{options[:host]}#{page.path}"
-              p.lastmod page.updated_at
+              p.lastmod page.updated_at.to_time.iso8601
               p.changefreq 'weekly'
               p.priority '1'
             end
