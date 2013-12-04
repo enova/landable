@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.2...master)
+* Exclude stylesheets, javascripts and images paths from tracking view [#88]
 
 ## v1.3.2[#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.1...v1.3.2)
 * Re-encode URI, properly [#87]
