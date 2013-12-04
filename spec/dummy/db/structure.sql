@@ -1687,7 +1687,7 @@ CREATE VIEW visits_v AS
 --
 
 CREATE VIEW tracking AS
-    SELECT v.customer_id, v.visit_id AS visit, v.cookie, v.ip_address, v.user_agent, v.user_agent_type, v.device, v.platform, v.browser, v.browser_version, v.do_not_track, v.created_at AS visit_created_at, pv.path, pv.query_string, pv.mime_type, pv.http_method, pv.page_revision, pv.content_length, pv.http_status, pv.request_id, pv.click_id, pv.created_at AS page_view_created_at, av.ad_type, av.ad_group, av.bid_match_type, av.campaign, av.content, av.creative, av.device_type, av.experiment, av.keyword, av.match_type, av.medium, av.network, av.placement, av."position", av.search_term, av.source, av.target, av.created_at AS attribution_created_at FROM ((visits_v v JOIN page_views_v pv USING (visit_id)) JOIN attributions_v av USING (attribution_id));
+    SELECT v.customer_id, v.visit_id AS visit, v.cookie, v.ip_address, v.user_agent, v.user_agent_type, v.device, v.platform, v.browser, v.browser_version, v.do_not_track, v.created_at AS visit_created_at, pv.path, pv.query_string, pv.mime_type, pv.http_method, pv.page_revision, pv.content_length, pv.http_status, pv.request_id, pv.click_id, pv.created_at AS page_view_created_at, av.ad_type, av.ad_group, av.bid_match_type, av.campaign, av.content, av.creative, av.device_type, av.experiment, av.keyword, av.match_type, av.medium, av.network, av.placement, av."position", av.search_term, av.source, av.target, av.created_at AS attribution_created_at FROM ((visits_v v JOIN page_views_v pv USING (visit_id)) JOIN attributions_v av USING (attribution_id)) WHERE (((pv.path !~~ '%stylesheets%'::text) AND (pv.path !~~ '%javascript%'::text)) AND (pv.path !~~ '%images%'::text));
 
 
 --
@@ -3858,3 +3858,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131115152418');
 INSERT INTO schema_migrations (version) VALUES ('20131121150902');
 
 INSERT INTO schema_migrations (version) VALUES ('20131203165916');
+
+INSERT INTO schema_migrations (version) VALUES ('20131204160433');
