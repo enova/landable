@@ -2,7 +2,9 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.2...master)
+## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.3...master)
+
+## v1.3.3[#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.2...v1.3.3)
 * Exclude stylesheets, javascripts and images paths from tracking view [#88]
 
 ## v1.3.2[#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.1...v1.3.2)
