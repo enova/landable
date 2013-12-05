@@ -2,7 +2,7 @@ module Landable
   class Configuration
     attr_writer :api_namespace, :public_namespace, :categories, :traffic_enabled
     attr_writer :sitemap_exclude_categories, :sitemap_protocol, :sitemap_host
-    attr_writer :sitemap_additional_paths, :reserved_paths
+    attr_writer :sitemap_additional_paths, :reserved_paths, :tracker_allowed_mimes
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -41,6 +41,10 @@ module Landable
 
     def sitemap_exclude_categories
       @sitemap_exclude_categories ||= []
+    end
+
+    def tracker_allowed_mimes
+      @tracker_allowed_mimes ||= ['text/html', '*/*']
     end
 
     def sitemap_additional_paths

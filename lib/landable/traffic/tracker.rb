@@ -75,6 +75,7 @@ module Landable
       class << self
         def for(controller)
           type = controller.request.user_agent.presence && Landable::Traffic::UserAgent[controller.request.user_agent].user_agent_type
+          type = 'asset' if Landable.configuration.tracker_allowed_mimes and not Landable.configuration.tracker_allowed_mimes.any? { |mime| controller.request.format.to_s == mime}
           type = 'user'if type.nil?
           type = 'user'if controller.request.query_parameters.slice(*TRACKING_KEYS).any?
 
