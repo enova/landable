@@ -105,7 +105,6 @@ module Landable
         Event.create(visit_id: @visit_id, event_type: type, meta: meta)
       end
 
-
     protected
       def cookies
         request.cookie_jar
