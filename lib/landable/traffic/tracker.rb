@@ -75,7 +75,7 @@ module Landable
       class << self
         def for(controller)
           type = controller.request.user_agent.presence && Landable::Traffic::UserAgent[controller.request.user_agent].user_agent_type
-          type = 'asset' if Landable.configuration.tracker_allowed_mimes and not Landable.configuration.tracker_allowed_mimes.any? { |mime| controller.request.format.to_s == mime}
+          type = 'noop' if Landable.configuration.only_track_html_mime_types and not controller.request.format.html?
           type = 'user'if type.nil?
           type = 'user'if controller.request.query_parameters.slice(*TRACKING_KEYS).any?
 
@@ -104,6 +104,7 @@ module Landable
 
         Event.create(visit_id: @visit_id, event_type: type, meta: meta)
       end
+
 
     protected
       def cookies
@@ -270,6 +271,7 @@ module Landable
       def visitor
         @visitor ||= Visitor.with_ip_address(ip_address).with_user_agent(user_agent).first_or_create
       end
+
     end
   end
 end

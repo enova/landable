@@ -1,6 +1,6 @@
 module Landable
   module Traffic
-    class AssetTracker < Tracker
+    class NoopTracker < Tracker
       def save
       end
     end

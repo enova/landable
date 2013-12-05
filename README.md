@@ -66,6 +66,15 @@ Landable.configure do |config|
 end
 ```
 
+### Only Tracking HTML MIME Types
+Landable supports tracking all MIME types, or only tracking HTML types.
+
+```ruby
+Landable.configure do |config|
+  config.only_track_html_mime_types = true # Will not track non-HTML based MIME types. (This is the default behavior)
+end
+```
+
 ## Development
 
 Run `./bin/redb` to refresh the dummy app's database.
