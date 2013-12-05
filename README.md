@@ -66,7 +66,7 @@ Landable.configure do |config|
 end
 ```
 
-### Only Tracking HTML MIME Types
+### Filtering out non-HTML based MIME types
 Landable supports tracking all MIME types, or only tracking HTML types.
 
 ```ruby
