@@ -3,7 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.3...master)
-* Config option to support only tracking HTML content
+* Config option to support only tracking HTML requests
 
 ## v1.3.3[#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.2...v1.3.3)
 * Exclude stylesheets, javascripts and images paths from tracking view [#88]
