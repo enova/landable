@@ -75,7 +75,7 @@ module Landable
       class << self
         def for(controller)
           type = controller.request.user_agent.presence && Landable::Traffic::UserAgent[controller.request.user_agent].user_agent_type
-          type = 'noop' if Landable.configuration.only_track_html_mime_types and not controller.request.format.html?
+          type = 'noop' if Landable.configuration.traffic_track_html_only and not controller.request.format.html?
           type = 'user'if type.nil?
           type = 'user'if controller.request.query_parameters.slice(*TRACKING_KEYS).any?
 

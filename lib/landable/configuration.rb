@@ -2,7 +2,7 @@ module Landable
   class Configuration
     attr_writer :api_namespace, :public_namespace, :categories, :traffic_enabled
     attr_writer :sitemap_exclude_categories, :sitemap_protocol, :sitemap_host
-    attr_writer :sitemap_additional_paths, :reserved_paths, :only_track_html_mime_types
+    attr_writer :sitemap_additional_paths, :reserved_paths, :traffic_track_html_only
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -59,8 +59,8 @@ module Landable
       @traffic_enabled ||= false
     end
 
-    def only_track_html_mime_types
-      @only_track_html_mime_types ||= true
+    def traffic_track_html_only
+      @traffic_track_html_only ||= true
     end
 
     def cors

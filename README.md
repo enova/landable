@@ -66,12 +66,12 @@ Landable.configure do |config|
 end
 ```
 
-### Filtering out non-HTML based MIME types
-Landable supports tracking all MIME types, or only tracking HTML types.
+### Filtering out non-HTML content
+Landable supports tracking all requests, or only tracking requests for HTML content
 
 ```ruby
 Landable.configure do |config|
-  config.only_track_html_mime_types = true # Will not track non-HTML based MIME types. (This is the default behavior)
+  config.traffic_track_html_only = true # Will NOT track non-HTML based content. (This is the default behavior)
 end
 ```
 

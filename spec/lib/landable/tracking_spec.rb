@@ -30,7 +30,7 @@ module Landable
         Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::UserTracker)
       end
 
-      it 'should set type to noop when non-html mime type' do
+      it 'should set type to noop when non-html content' do
         user_agent = nil
         format = double('format', { html?: false })
         request = double('request', { query_parameters: {}, user_agent: user_agent, format: format })
@@ -39,8 +39,8 @@ module Landable
         Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::NoopTracker)
       end
 
-      it 'should allow non-html mime types if config says so' do
-        Landable.configuration.stub(:only_track_html_mime_types).and_return(false)
+      it 'should allow non-html content if config says so' do
+        Landable.configuration.stub(:traffic_track_html_only).and_return(false)
         format = double('format', { html?: false})
         request = double('request', { query_parameters: {}, user_agent: user_agent, format: format })
         controller = double('controller', { request: request })
