@@ -32,6 +32,7 @@ module Landable
 
       it 'should set type to noop when non-html content' do
         user_agent = nil
+        Landable.configuration.stub(:traffic_enabled).and_return(:html)
         format = double('format', { html?: false })
         request = double('request', { query_parameters: {}, user_agent: user_agent, format: format })
         controller = double('controller', { request: request })
@@ -40,7 +41,6 @@ module Landable
       end
 
       it 'should allow non-html content if config says so' do
-        Landable.configuration.stub(:traffic_track_html_only).and_return(false)
         format = double('format', { html?: false})
         request = double('request', { query_parameters: {}, user_agent: user_agent, format: format })
         controller = double('controller', { request: request })

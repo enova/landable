@@ -59,6 +59,11 @@ module Landable
       @traffic_enabled ||= false
     end
 
+    def traffic_enabled=(val)
+      raise ArgumentError.new("Landable::Configuration#traffic_enabled accepts false, true, :all or :html") unless [true, false, :all, :html].include? val
+      @traffic_enabled = false
+    end
+
     def traffic_track_html_only
       @traffic_track_html_only ||= true
     end

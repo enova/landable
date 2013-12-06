@@ -66,13 +66,14 @@ Landable.configure do |config|
 end
 ```
 
-### Only Track HTML Requests
-Landable supports tracking all requests, or tracking only HTML requests.
+## Visit Tracking
+Landable includes the ability to track visits.
 
 ```ruby
 Landable.configure do |config|
-  # Will track all requests. (Defaults to true)
-  config.traffic_track_html_only = false
+  # To enable tracking, put one of the following in your Landable initializer:
+  config.traffic_enabled = true  # Enables tracking for all requests.  (:all is also accepted here.)
+  config.traffic_enabled = :html # Enables tracking for only HTML requests.
 end
 ```
 
