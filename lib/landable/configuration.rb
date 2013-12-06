@@ -2,7 +2,7 @@ module Landable
   class Configuration
     attr_writer :api_namespace, :public_namespace, :categories, :traffic_enabled
     attr_writer :sitemap_exclude_categories, :sitemap_protocol, :sitemap_host
-    attr_writer :sitemap_additional_paths, :reserved_paths, :traffic_track_html_only
+    attr_writer :sitemap_additional_paths, :reserved_paths
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -62,10 +62,6 @@ module Landable
     def traffic_enabled=(val)
       raise ArgumentError.new("Landable::Configuration#traffic_enabled accepts false, true, :all or :html") unless [true, false, :all, :html].include? val
       @traffic_enabled = false
-    end
-
-    def traffic_track_html_only
-      @traffic_track_html_only ||= true
     end
 
     def cors
