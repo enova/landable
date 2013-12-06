@@ -61,7 +61,7 @@ module Landable
 
     def traffic_enabled=(val)
       raise ArgumentError.new("Landable::Configuration#traffic_enabled accepts false, true, :all or :html") unless [true, false, :all, :html].include? val
-      @traffic_enabled = false
+      @traffic_enabled = val
     end
 
     def cors
