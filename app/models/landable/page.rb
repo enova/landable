@@ -150,7 +150,6 @@ module Landable
     def publish!(options)
       transaction do
         published_revision.unpublish! if published_revision
-        Rails.logger.info "Publish! Options hash: #{options}"
         revision = revisions.create! options
         update_attributes!(published_revision: revision, is_publishable: false)
       end
