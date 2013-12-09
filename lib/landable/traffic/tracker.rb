@@ -75,6 +75,7 @@ module Landable
       class << self
         def for(controller)
           type = controller.request.user_agent.presence && Landable::Traffic::UserAgent[controller.request.user_agent].user_agent_type
+          type = 'noop' if Landable.configuration.traffic_enabled == :html and not controller.request.format.html?
           type = 'user'if type.nil?
           type = 'user'if controller.request.query_parameters.slice(*TRACKING_KEYS).any?
 
@@ -269,6 +270,7 @@ module Landable
       def visitor
         @visitor ||= Visitor.with_ip_address(ip_address).with_user_agent(user_agent).first_or_create
       end
+
     end
   end
 end

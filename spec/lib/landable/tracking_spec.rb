@@ -4,7 +4,8 @@ module Landable
   describe Landable::Traffic::Tracker do
     let(:referer) { "/something/ valid" }
     let(:user_agent) { "type" }
-    let(:request) { double('request', { query_parameters: {}, user_agent: user_agent, referer: referer }) }
+    let(:format) { double('format', { html?: true}) }
+    let(:request) { double('request', { query_parameters: {}, user_agent: user_agent, referer: referer, format: format }) }
     let(:controller) { double('controller', { request: request }) }
 
     describe "#for" do
@@ -23,7 +24,25 @@ module Landable
 
       it 'should not bark if user_agent is nil' do
         user_agent = nil
-        request = double('request', { query_parameters: {}, user_agent: user_agent })
+        request = double('request', { query_parameters: {}, user_agent: user_agent, format: format })
+        controller = double('controller', { request: request })
+
+        Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::UserTracker)
+      end
+
+      it 'should set type to noop when non-html content' do
+        user_agent = nil
+        Landable.configuration.stub(:traffic_enabled).and_return(:html)
+        format = double('format', { html?: false })
+        request = double('request', { query_parameters: {}, user_agent: user_agent, format: format })
+        controller = double('controller', { request: request })
+
+        Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::NoopTracker)
+      end
+
+      it 'should allow non-html content if config says so' do
+        format = double('format', { html?: false})
+        request = double('request', { query_parameters: {}, user_agent: user_agent, format: format })
         controller = double('controller', { request: request })
 
         Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::UserTracker)

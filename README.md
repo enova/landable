@@ -66,6 +66,17 @@ Landable.configure do |config|
 end
 ```
 
+## Visit Tracking
+Landable includes the ability to track visits.
+
+```ruby
+Landable.configure do |config|
+  # To enable tracking, put one of the following in your Landable initializer:
+  config.traffic_enabled = true  # Enables tracking for all requests.  (:all is also accepted here.)
+  config.traffic_enabled = :html # Enables tracking for only HTML requests.
+end
+```
+
 ## Development
 
 Run `./bin/redb` to refresh the dummy app's database.

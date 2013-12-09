@@ -4,6 +4,7 @@ require 'landable/traffic/ping_tracker'
 require 'landable/traffic/scan_tracker'
 require 'landable/traffic/scrape_tracker'
 require 'landable/traffic/user_tracker'
+require 'landable/traffic/noop_tracker'
 
 module Landable
   module Traffic

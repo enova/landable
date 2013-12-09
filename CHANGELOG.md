@@ -2,7 +2,8 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.4...master)
+## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.5...master)
+* Config option to support only tracking HTML requests
 
 ## v1.3.5[#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.4...v1.3.5)
 * Use author_id to publish (instead of author object) [#91]

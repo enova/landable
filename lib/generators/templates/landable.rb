@@ -19,7 +19,8 @@ Landable.configure do |config|
   # e.g. {'SEO' => 'Search engine optimization', 'PPC' => 'Pay-per-click'})
   config.categories = %w(Affiliates PPC SEO Social Email Traditional)
 
-  # Uncomment to enable tracking.
+  # Uncomment to enable tracking of all requests.
+  # Set to :html to track only HTML requests.
   # config.traffic_enabled = true
 end
 
