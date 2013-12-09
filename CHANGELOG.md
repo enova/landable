@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.4...master)
+* Use author_id to publish (instead of author object) [#90]
 
 ## v1.3.4[#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.3...v1.3.4)
 * Log options sent with page publish
