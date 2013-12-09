@@ -28,7 +28,7 @@ module Landable
 
       def publish
         page = Page.find params[:id]
-        page.publish! author: current_author, notes: params[:notes], is_minor: !!params[:is_minor]
+        page.publish! author_id: current_author.id, notes: params[:notes], is_minor: !!params[:is_minor]
         respond_with page
       end
 
