@@ -2,7 +2,9 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.5...master)
+## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.4.0...master)
+
+## v1.4.0 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.5...v1.4.0)
 * Config option to support only tracking HTML requests
 
 ## v1.3.5[#](https://git.cashnetusa.com/trogdor/landable/compare/v1.3.4...v1.3.5)
