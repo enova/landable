@@ -44,8 +44,16 @@ rake landable:install:migrations
 rake db:migrate
 ```
 
-### Sitemap 
+### Categories
+Landable comes with default categories that you can see [here](https://git.cashnetusa.com/trogdor/landable/blob/master/lib/landable/configuration.rb#L26). You can overwrite these categories in your initializer.
 
+```ruby
+Landable.configure do |config|
+  config.categories.merge!({ ‘CatName’ => ‘Description’, 'CatName2' => 'Description2'})
+end
+```
+
+### Sitemap
 Landable comes with an automatic sitemap generator that you can configure in your initializer. See your sitemap at ```/sitemap.xml```
 
 ```ruby
