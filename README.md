@@ -49,7 +49,7 @@ Landable comes with default categories that you can see [here](https://git.cashn
 
 ```ruby
 Landable.configure do |config|
-  config.categories.merge!({ ‘CatName’ => ‘Description’, 
+  config.categories.merge!({ 'CatName' => 'Description', 
                              'CatName2' => 'Description2' })
 end
 ```
