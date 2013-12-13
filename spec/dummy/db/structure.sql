@@ -1659,38 +1659,6 @@ ALTER SEQUENCE targets_target_id_seq OWNED BY targets.target_id;
 
 
 --
--- Name: visits; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE visits (
-    visit_id integer NOT NULL,
-    cookie_id uuid NOT NULL,
-    visitor_id integer NOT NULL,
-    attribution_id integer NOT NULL,
-    referer_id integer,
-    owner_id integer,
-    created_at timestamp with time zone DEFAULT now() NOT NULL,
-    do_not_track boolean
-);
-
-
---
--- Name: visits_v; Type: VIEW; Schema: traffic; Owner: -
---
-
-CREATE VIEW visits_v AS
-    SELECT v.visit_id, v.attribution_id, v.cookie_id AS cookie, vs.ip_address, vs.user_agent, vs.user_agent_type, vs.device, vs.platform, vs.browser, vs.browser_version, o.owner AS customer_id, v.do_not_track, v.created_at, et.event_type FROM ((((visits v JOIN visitors_v vs USING (visitor_id)) LEFT JOIN owners o USING (owner_id)) LEFT JOIN events e USING (visit_id)) LEFT JOIN event_types et USING (event_type_id));
-
-
---
--- Name: tracking; Type: VIEW; Schema: traffic; Owner: -
---
-
-CREATE VIEW tracking AS
-    SELECT v.customer_id, v.visit_id AS visit, v.cookie, v.ip_address, v.user_agent, v.user_agent_type, v.device, v.platform, v.browser, v.browser_version, v.do_not_track, v.created_at AS visit_created_at, pv.path, pv.query_string, pv.mime_type, pv.http_method, pv.page_revision, pv.content_length, pv.http_status, pv.request_id, pv.click_id, pv.created_at AS page_view_created_at, av.ad_type, av.ad_group, av.bid_match_type, av.campaign, av.content, av.creative, av.device_type, av.experiment, av.keyword, av.match_type, av.medium, av.network, av.placement, av."position", av.search_term, av.source, av.target, av.created_at AS attribution_created_at FROM ((visits_v v JOIN page_views_v pv USING (visit_id)) JOIN attributions_v av USING (attribution_id)) WHERE (((pv.path !~~ '%stylesheets%'::text) AND (pv.path !~~ '%javascript%'::text)) AND (pv.path !~~ '%images%'::text));
-
-
---
 -- Name: user_agent_types_user_agent_type_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
 --
 
@@ -1745,6 +1713,30 @@ CREATE SEQUENCE visitors_visitor_id_seq
 --
 
 ALTER SEQUENCE visitors_visitor_id_seq OWNED BY visitors.visitor_id;
+
+
+--
+-- Name: visits; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE visits (
+    visit_id integer NOT NULL,
+    cookie_id uuid NOT NULL,
+    visitor_id integer NOT NULL,
+    attribution_id integer NOT NULL,
+    referer_id integer,
+    owner_id integer,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    do_not_track boolean
+);
+
+
+--
+-- Name: visits_v; Type: VIEW; Schema: traffic; Owner: -
+--
+
+CREATE VIEW visits_v AS
+    SELECT v.visit_id, v.attribution_id, v.cookie_id AS cookie, vs.ip_address, vs.user_agent, vs.user_agent_type, vs.device, vs.platform, vs.browser, vs.browser_version, o.owner AS customer_id, v.do_not_track, v.created_at, et.event_type FROM ((((visits v JOIN visitors_v vs USING (visitor_id)) LEFT JOIN owners o USING (owner_id)) LEFT JOIN events e USING (visit_id)) LEFT JOIN event_types et USING (event_type_id));
 
 
 --
@@ -3856,9 +3848,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131108212501');
 INSERT INTO schema_migrations (version) VALUES ('20131115152418');
 
 INSERT INTO schema_migrations (version) VALUES ('20131121150902');
-
-INSERT INTO schema_migrations (version) VALUES ('20131203165916');
-
-INSERT INTO schema_migrations (version) VALUES ('20131204160433');
 
 INSERT INTO schema_migrations (version) VALUES ('20131213141218');
