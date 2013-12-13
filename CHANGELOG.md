@@ -2,7 +2,9 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.4.0...master)
+## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.4.1...master)
+
+## v1.4.1 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.4.0...v1.4.1)
 * Remove references to tracking view
 * Remove a big, unused join from two reporting views
 
