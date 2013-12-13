@@ -1438,27 +1438,11 @@ CREATE TABLE query_strings (
 
 
 --
--- Name: visits; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE visits (
-    visit_id integer NOT NULL,
-    cookie_id uuid NOT NULL,
-    visitor_id integer NOT NULL,
-    attribution_id integer NOT NULL,
-    referer_id integer,
-    owner_id integer,
-    created_at timestamp with time zone DEFAULT now() NOT NULL,
-    do_not_track boolean
-);
-
-
---
 -- Name: page_views_v; Type: VIEW; Schema: traffic; Owner: -
 --
 
 CREATE VIEW page_views_v AS
-    SELECT pv.page_view_id, pv.visit_id, p.path, qs.query_string, mt.mime_type, http_methods.http_method, pr.ordinal AS page_revision, pv.content_length, pv.http_status, pv.request_id, pv.click_id, pv.created_at FROM ((((((page_views pv JOIN visits v USING (visit_id)) JOIN paths p USING (path_id)) LEFT JOIN query_strings qs USING (query_string_id)) LEFT JOIN mime_types mt USING (mime_type_id)) LEFT JOIN http_methods USING (http_method_id)) LEFT JOIN landable.page_revisions pr USING (page_revision_id));
+    SELECT pv.page_view_id, pv.visit_id, p.path, qs.query_string, mt.mime_type, http_methods.http_method, pr.ordinal AS page_revision, pv.content_length, pv.http_status, pv.request_id, pv.click_id, pv.created_at FROM (((((page_views pv JOIN paths p USING (path_id)) LEFT JOIN query_strings qs USING (query_string_id)) LEFT JOIN mime_types mt USING (mime_type_id)) LEFT JOIN http_methods USING (http_method_id)) LEFT JOIN landable.page_revisions pr USING (page_revision_id));
 
 
 --
@@ -1675,11 +1659,27 @@ ALTER SEQUENCE targets_target_id_seq OWNED BY targets.target_id;
 
 
 --
+-- Name: visits; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE visits (
+    visit_id integer NOT NULL,
+    cookie_id uuid NOT NULL,
+    visitor_id integer NOT NULL,
+    attribution_id integer NOT NULL,
+    referer_id integer,
+    owner_id integer,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    do_not_track boolean
+);
+
+
+--
 -- Name: visits_v; Type: VIEW; Schema: traffic; Owner: -
 --
 
 CREATE VIEW visits_v AS
-    SELECT v.visit_id, v.attribution_id, v.cookie_id AS cookie, vs.ip_address, vs.user_agent, vs.user_agent_type, vs.device, vs.platform, vs.browser, vs.browser_version, o.owner AS customer_id, v.do_not_track, v.created_at, et.event_type FROM (((((visits v JOIN attributions a USING (attribution_id)) JOIN visitors_v vs USING (visitor_id)) LEFT JOIN owners o USING (owner_id)) LEFT JOIN events e USING (visit_id)) LEFT JOIN event_types et USING (event_type_id));
+    SELECT v.visit_id, v.attribution_id, v.cookie_id AS cookie, vs.ip_address, vs.user_agent, vs.user_agent_type, vs.device, vs.platform, vs.browser, vs.browser_version, o.owner AS customer_id, v.do_not_track, v.created_at, et.event_type FROM ((((visits v JOIN visitors_v vs USING (visitor_id)) LEFT JOIN owners o USING (owner_id)) LEFT JOIN events e USING (visit_id)) LEFT JOIN event_types et USING (event_type_id));
 
 
 --
@@ -3860,3 +3860,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131121150902');
 INSERT INTO schema_migrations (version) VALUES ('20131203165916');
 
 INSERT INTO schema_migrations (version) VALUES ('20131204160433');
+
+INSERT INTO schema_migrations (version) VALUES ('20131213141218');
