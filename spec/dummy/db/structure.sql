@@ -198,24 +198,6 @@ COMMENT ON TABLE authors IS 'A list of authors that have accessed the website.  
 
 
 --
--- Name: browsers; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE TABLE browsers (
-    browser_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    device text,
-    os text NOT NULL,
-    os_version text NOT NULL,
-    browser text,
-    browser_version text,
-    screenshots_supported boolean DEFAULT false NOT NULL,
-    is_primary boolean DEFAULT false NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
 -- Name: categories; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -323,32 +305,6 @@ CREATE TABLE pages (
 
 COMMENT ON TABLE pages IS 'Pages serve as a draft, where you can make changes, preview and save those changes without having to update the live page on the website.
               Pages also point to their published version, where applicable.';
-
-
---
--- Name: screenshots; Type: TABLE; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE TABLE screenshots (
-    screenshot_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    screenshotable_id uuid NOT NULL,
-    screenshotable_type text NOT NULL,
-    browser_id uuid,
-    state text,
-    thumb_url text,
-    image_url text,
-    browserstack_id text,
-    browserstack_job_id text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: TABLE screenshots; Type: COMMENT; Schema: landable; Owner: -
---
-
-COMMENT ON TABLE screenshots IS 'Stores saved screenshots (taken of pages) and the URLs to retrieve the actual image.';
 
 
 --
@@ -1659,6 +1615,38 @@ ALTER SEQUENCE targets_target_id_seq OWNED BY targets.target_id;
 
 
 --
+-- Name: visits; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
+--
+
+CREATE TABLE visits (
+    visit_id integer NOT NULL,
+    cookie_id uuid NOT NULL,
+    visitor_id integer NOT NULL,
+    attribution_id integer NOT NULL,
+    referer_id integer,
+    owner_id integer,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    do_not_track boolean
+);
+
+
+--
+-- Name: visits_v; Type: VIEW; Schema: traffic; Owner: -
+--
+
+CREATE VIEW visits_v AS
+    SELECT v.visit_id, v.attribution_id, v.cookie_id AS cookie, vs.ip_address, vs.user_agent, vs.user_agent_type, vs.device, vs.platform, vs.browser, vs.browser_version, o.owner AS customer_id, v.do_not_track, v.created_at, et.event_type FROM ((((visits v JOIN visitors_v vs USING (visitor_id)) LEFT JOIN owners o USING (owner_id)) LEFT JOIN events e USING (visit_id)) LEFT JOIN event_types et USING (event_type_id));
+
+
+--
+-- Name: tracking; Type: VIEW; Schema: traffic; Owner: -
+--
+
+CREATE VIEW tracking AS
+    SELECT v.customer_id, v.visit_id AS visit, v.cookie, v.ip_address, v.user_agent, v.user_agent_type, v.device, v.platform, v.browser, v.browser_version, v.do_not_track, v.created_at AS visit_created_at, pv.path, pv.query_string, pv.mime_type, pv.http_method, pv.page_revision, pv.content_length, pv.http_status, pv.request_id, pv.click_id, pv.created_at AS page_view_created_at, av.ad_type, av.ad_group, av.bid_match_type, av.campaign, av.content, av.creative, av.device_type, av.experiment, av.keyword, av.match_type, av.medium, av.network, av.placement, av."position", av.search_term, av.source, av.target, av.created_at AS attribution_created_at FROM ((visits_v v JOIN page_views_v pv USING (visit_id)) JOIN attributions_v av USING (attribution_id)) WHERE (((pv.path !~~ '%stylesheets%'::text) AND (pv.path !~~ '%javascript%'::text)) AND (pv.path !~~ '%images%'::text));
+
+
+--
 -- Name: user_agent_types_user_agent_type_id_seq; Type: SEQUENCE; Schema: traffic; Owner: -
 --
 
@@ -1713,30 +1701,6 @@ CREATE SEQUENCE visitors_visitor_id_seq
 --
 
 ALTER SEQUENCE visitors_visitor_id_seq OWNED BY visitors.visitor_id;
-
-
---
--- Name: visits; Type: TABLE; Schema: traffic; Owner: -; Tablespace: 
---
-
-CREATE TABLE visits (
-    visit_id integer NOT NULL,
-    cookie_id uuid NOT NULL,
-    visitor_id integer NOT NULL,
-    attribution_id integer NOT NULL,
-    referer_id integer,
-    owner_id integer,
-    created_at timestamp with time zone DEFAULT now() NOT NULL,
-    do_not_track boolean
-);
-
-
---
--- Name: visits_v; Type: VIEW; Schema: traffic; Owner: -
---
-
-CREATE VIEW visits_v AS
-    SELECT v.visit_id, v.attribution_id, v.cookie_id AS cookie, vs.ip_address, vs.user_agent, vs.user_agent_type, vs.device, vs.platform, vs.browser, vs.browser_version, o.owner AS customer_id, v.do_not_track, v.created_at, et.event_type FROM ((((visits v JOIN visitors_v vs USING (visitor_id)) LEFT JOIN owners o USING (owner_id)) LEFT JOIN events e USING (visit_id)) LEFT JOIN event_types et USING (event_type_id));
 
 
 --
@@ -2079,14 +2043,6 @@ ALTER TABLE ONLY authors
 
 
 --
--- Name: browsers_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY browsers
-    ADD CONSTRAINT browsers_pkey PRIMARY KEY (browser_id);
-
-
---
 -- Name: categories_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
 --
 
@@ -2124,14 +2080,6 @@ ALTER TABLE ONLY page_revisions
 
 ALTER TABLE ONLY pages
     ADD CONSTRAINT pages_pkey PRIMARY KEY (page_id);
-
-
---
--- Name: screenshots_pkey; Type: CONSTRAINT; Schema: landable; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY screenshots
-    ADD CONSTRAINT screenshots_pkey PRIMARY KEY (screenshot_id);
 
 
 --
@@ -2651,34 +2599,6 @@ CREATE INDEX landable_pages__trgm_path ON pages USING gin (path public.gin_trgm_
 --
 
 CREATE UNIQUE INDEX landable_pages__u_path ON pages USING btree (lower(path));
-
-
---
--- Name: landable_screenshots__device_browser_browser_version; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE INDEX landable_screenshots__device_browser_browser_version ON browsers USING btree (device, browser, browser_version);
-
-
---
--- Name: landable_screenshots__screenshotable_id_screenshotable_type_sta; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE INDEX landable_screenshots__screenshotable_id_screenshotable_type_sta ON screenshots USING btree (screenshotable_id, screenshotable_type, state);
-
-
---
--- Name: landable_screenshots__state; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE INDEX landable_screenshots__state ON screenshots USING btree (state);
-
-
---
--- Name: landable_screenshots__u_browserstack_id; Type: INDEX; Schema: landable; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX landable_screenshots__u_browserstack_id ON screenshots USING btree (browserstack_id);
 
 
 --
@@ -3324,14 +3244,6 @@ ALTER TABLE ONLY page_revisions
 
 
 --
--- Name: browser_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
---
-
-ALTER TABLE ONLY screenshots
-    ADD CONSTRAINT browser_id_fk FOREIGN KEY (browser_id) REFERENCES browsers(browser_id);
-
-
---
 -- Name: category_id_fk; Type: FK CONSTRAINT; Schema: landable; Owner: -
 --
 
@@ -3849,4 +3761,10 @@ INSERT INTO schema_migrations (version) VALUES ('20131115152418');
 
 INSERT INTO schema_migrations (version) VALUES ('20131121150902');
 
+INSERT INTO schema_migrations (version) VALUES ('20131203165916');
+
+INSERT INTO schema_migrations (version) VALUES ('20131204160433');
+
 INSERT INTO schema_migrations (version) VALUES ('20131213141218');
+
+INSERT INTO schema_migrations (version) VALUES ('20131216214027');
