@@ -105,6 +105,10 @@ module Landable
         Event.create(visit_id: @visit_id, event_type: type, meta: meta)
       end
 
+      def landing_path
+        visit && visit.page_views.order(:page_view_id).first.path
+      end
+
     protected
       def cookies
         request.cookie_jar
@@ -271,6 +275,9 @@ module Landable
         @visitor ||= Visitor.with_ip_address(ip_address).with_user_agent(user_agent).first_or_create
       end
 
+      def visit
+        @visit ||= @visit_id && Visit.find(@visit_id)
+      end
     end
   end
 end
