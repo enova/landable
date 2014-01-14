@@ -106,7 +106,7 @@ module Landable
       end
 
       def landing_path
-        visit && visit.page_views.order(:page_view_id).first.path
+        @visit_id and PageView.where(visit_id: @visit_id).order(:page_view_id).first.try(:path)
       end
 
     protected
