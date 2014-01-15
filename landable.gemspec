@@ -41,7 +41,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rspec-rails",        '~> 2.13.0'
   gem.add_development_dependency "shoulda-matchers",   '~> 2.2.0'
   gem.add_development_dependency "factory_girl_rails", '~> 4.2.0'
-  gem.add_development_dependency "json-schema"
+  gem.add_development_dependency "json-schema",        '= 2.1.3'
   gem.add_development_dependency "rack-schema"
   gem.add_development_dependency "cucumber",           '= 1.3.2'
   gem.add_development_dependency "cucumber-rails"
