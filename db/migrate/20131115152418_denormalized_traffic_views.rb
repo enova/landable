@@ -1,4 +1,4 @@
-class DenormalizedTrafficViews < ActiveRecord::Migration
+class DenormalizedTrafficViews < Landable::Migration
   def up
     execute <<-SQL
       SET search_path TO traffic, public;

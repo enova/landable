@@ -1,5 +1,5 @@
 require_dependency 'landable/page_revision'
-class LandablePageRevisionsBreakOutSnapshot < ActiveRecord::Migration
+class LandablePageRevisionsBreakOutSnapshot < Landable::Migration
 
   class Landable::PageRevision < ActiveRecord::Base
     store :snapshot_attributes, accessors: [:body]

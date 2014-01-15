@@ -1,4 +1,4 @@
-class LandablePagesAddUpdatedBy < ActiveRecord::Migration
+class LandablePagesAddUpdatedBy < Landable::Migration
   def change
     add_column "landable.pages", :updated_by_author_id, :uuid
 

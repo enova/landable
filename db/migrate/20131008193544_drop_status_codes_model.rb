@@ -1,5 +1,5 @@
 require_dependency 'landable/page'
-class DropStatusCodesModel < ActiveRecord::Migration
+class DropStatusCodesModel < Landable::Migration
 
   class Landable::StatusCode < ActiveRecord::Base
     self.table_name = "landable.status_codes"

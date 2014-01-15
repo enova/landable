@@ -1,4 +1,4 @@
-class CreateLandableSchema < ActiveRecord::Migration
+class CreateLandableSchema < Landable::Migration
   def change
     # This really should not be in this migration, but it's a convenient location
     # while everything's still under development.
