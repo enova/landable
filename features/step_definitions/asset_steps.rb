@@ -48,3 +48,13 @@ Then 'both $assoc IDs should be in the array at "$json_path"' do |assoc, json_pa
   ids = instance_variable_get("@#{assoc}s").map &:id
   at_json(json_path).should include(*ids)
 end
+
+Then 'the rendered body should be the correct assets' do
+  <<-eos
+    <link href="/assets/application-/#{/./}.css" media="screen" rel="stylesheet" />
+    <script src="/assets/application-#{/./}.js"></script>
+    <img alt="Foo" src="/assets/foo-#{/./}.jpg" />
+    <img alt="Foo" src="/assets/foo-#{/./}.jpg" />
+    <img alt="Baz!" src="https://landable.dev/_assets//uploads/panda.png" />
+  eos
+end

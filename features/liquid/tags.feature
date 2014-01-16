@@ -154,11 +154,4 @@ Feature: Liquid Tags
       {% img_tag foo.jpg %}
       {% image_tag panda %}
       """
-    Then  the rendered content should be:
-      """
-      <link href="/assets/application-b0e2d92d99f376767be5340011972ec4.css" media="screen" rel="stylesheet" />
-      <script src="/assets/application-a3245f6a27df1a1c0c1de99cf6e3d9bb.js"></script>
-      <img alt="Foo" src="/assets/foo-ad5851230fbdd4f8a862674697158df2.jpg" />
-      <img alt="Foo" src="/assets/foo-ad5851230fbdd4f8a862674697158df2.jpg" />
-      <img alt="Baz!" src="https://landable.dev/_assets//uploads/panda.png" />
-      """
+    Then  the rendered body should be the correct assets
