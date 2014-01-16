@@ -1,4 +1,4 @@
-class AddTrafficSchema < ActiveRecord::Migration
+class AddTrafficSchema < Landable::Migration
   # "owners"."owner" records your application's user/account/person identifier.
   # Change the following line if your identifiers' data type is not INTEGER.
 

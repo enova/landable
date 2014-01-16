@@ -1,4 +1,4 @@
-class TrafficOwnerIdsAreSerials < ActiveRecord::Migration
+class TrafficOwnerIdsAreSerials < Landable::Migration
   def up
     execute <<-SQL
       SET search_path TO traffic,public;

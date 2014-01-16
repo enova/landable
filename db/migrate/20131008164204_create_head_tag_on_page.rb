@@ -1,4 +1,4 @@
-class CreateHeadTagOnPage < ActiveRecord::Migration
+class CreateHeadTagOnPage < Landable::Migration
   def up
     execute "DROP TRIGGER landable_page_revisions__no_update ON landable.page_revisions"
 

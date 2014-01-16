@@ -1,4 +1,4 @@
-class FixViews < ActiveRecord::Migration
+class FixViews < Landable::Migration
   def up
     execute <<-SQL
       -- Visits
