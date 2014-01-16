@@ -4,6 +4,7 @@ See README.md before updating this file.
 
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.4.1...master)
 * Add Landable::Migration class, reverts to original search_path after migrating.
+* Cleanup DB Tests
 
 ## v1.4.1 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.4.0...v1.4.1)
 * Remove references to tracking view
