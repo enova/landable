@@ -267,22 +267,5 @@ module Landable::Api
         last_json['page']['preview'].should match(/still here/)
       end
     end
-
-    describe '#screenshots' do
-      include_examples 'Authenticated API controller', :make_request
-
-      let(:page) { create :page }
-
-      def make_request
-        post :screenshots, id: page.id
-      end
-
-      it 'invokes ScreenshotService and returns a 202 with an empty json document' do
-        Landable::ScreenshotService.should_receive(:call).with(page)
-        make_request
-        response.status.should == 202
-        last_json.should == {}
-      end
-    end
   end
 end
