@@ -59,10 +59,17 @@ Landable comes with an automatic sitemap generator that you can configure in you
 
 ```ruby
 Landable.configure do |config|
-  config.sitemap_exclude_categories = %w(Testing) # Keeps pages with testing category out of sitemap (defaults to [])
-  config.sitemap_protocol = "https" # Configures protocol to be used in sitemap (defaults to 'http')
-  config.sitemap_host = "www.example.com" # Configures host name to be used in sitemap (defaults to 'request.host')
-  config.sitemap_additional_paths = %w(/ /terms-of-use.html /privacy-policy.html) # Landable sitemap generator only includes pages in Landable.  To include other pages, add them as an array like so in your initializer. 
+  # Keeps pages with testing category out of sitemap (defaults to [])
+  config.sitemap_exclude_categories = %w(Testing) 
+  
+  # Configures protocol to be used in sitemap (defaults to 'http')
+  config.sitemap_protocol = "https" 
+  
+  # Configures host name to be used in sitemap (defaults to 'request.host')
+  config.sitemap_host = "www.example.com" 
+  
+  # Landable sitemap generator only includes pages in Landable.  To include other pages, add them as an array like so in your initializer. 
+  config.sitemap_additional_paths = %w(/ /terms-of-use.html /privacy-policy.html) 
 end
 ```
 
@@ -71,7 +78,8 @@ Landable allows you to reserve paths in your initalizer preventing users from cr
 
 ```ruby
 Landable.configure do |config|
-  config.reserved_paths = %w(/ /terms-of-use.html /privacy-policy.html) # Users will not be able to create Publicist Pages with these paths 
+  # Users will not be able to create Publicist Pages with these paths 
+  config.reserved_paths = %w(/ /terms-of-use.html /privacy-policy.html)
 end
 ```
 
