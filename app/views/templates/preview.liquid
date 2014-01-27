@@ -1,4 +1,4 @@
-{% if is_redirect %}
+  {% if is_redirect %}
   <!DOCTYPE html>
   <html lang="en">
     <head>
@@ -82,38 +82,25 @@
     </body>
   </html>
 {% else %}
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <style type="text/css">
-        body {
-          padding-top: 60px;
-        }
+  <style type="text/css">
+    body {
+      padding-top: 50px;
+    }
 
-        .preview-bar {
-          text-align: center;
-          background-color: #FFDA73;
-          font-family: Roboto;
-          width: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-          font-size: 20px;
-          padding: 10px 0;
-          border: 1px solid #f6f6f6;
-          border-radius: 15px;
-        }
-
-        .content {
-          padding-left: 10px;
-        }
-      </style>
-    </head>
-    <body>
-      <div class='preview-bar'>
-        <b>Preview</b> <span class='content'>Test your unpublished changes with this page. Share this URL!</span>
-      </div>
-    </body>
-  </html>
+    body:before {
+      text-align: center;
+      font-weight: bold;
+      background-color: #FFDA73;
+      font-family: Roboto;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-size: 20px;
+      padding: 5px 0;
+      border: 1px solid #f6f6f6;
+      content: "Test your unpublished changes with this page. Share this URL!";
+    }
+  </style>
   {{ content }}
 {% endif %}

@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.4.2...master)
+* Adding Preview Message [#102]
 
 ## v1.4.2 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.4.1...v1.4.2)
 * Add Landable::Migration class, reverts to original search_path after migrating.
