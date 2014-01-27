@@ -81,4 +81,39 @@
       <iframe src="{{ redirect_url }}" seamless="seamless">
     </body>
   </html>
-{% else %}{{ content }}{% endif %}
+{% else %}
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <style type="text/css">
+        body {
+          padding-top: 60px;
+        }
+
+        .preview-bar {
+          text-align: center;
+          background-color: #FFDA73;
+          font-family: Roboto;
+          width: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          font-size: 20px;
+          padding: 10px 0;
+          border: 1px solid #f6f6f6;
+          border-radius: 15px;
+        }
+
+        .content {
+          padding-left: 10px;
+        }
+      </style>
+    </head>
+    <body>
+      <div class='preview-bar'>
+        <b>Preview</b> <span class='content'>Test your unpublished changes with this page. Share this URL!</span>
+      </div>
+    </body>
+  </html>
+  {{ content }}
+{% endif %}
