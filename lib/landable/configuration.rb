@@ -36,7 +36,7 @@ module Landable
     end
 
     def partials_to_templates
-      @partials_as_templates ||= []
+      @partials_to_templates ||= []
     end
 
     def reserved_paths
