@@ -10,5 +10,11 @@ module Landable
       self[:name] = val
       self[:slug] ||= (val && val.underscore.gsub(/[^\w_]/, '_').gsub(/_{2,}/, '_'))
     end
+
+    class << self
+      def create_from_partials!
+        Partial.all.map(&:to_template)
+      end
+    end
   end
 end
