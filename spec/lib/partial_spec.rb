@@ -3,7 +3,7 @@ require 'spec_helper'
 module Landable
   describe Partial do
     # Defined in spec/dummy/app/views/partials/...
-    let(:partials) { ['_test.html.haml', '_random.html.haml'] }
+    let(:partials) { ['test', 'random'] }
 
     describe '#to_template' do
       context 'with configured partials' do
@@ -11,8 +11,8 @@ module Landable
           Landable.configuration.stub(:partials_to_templates).and_return(partials)
           Partial.all.map(&:to_template)
 
-          @test   = Landable::Template.where(file: "test.html.haml").first
-          @random = Landable::Template.where(file: "random.html.haml").first
+          @random = Landable::Template.where(file: 'random').first
+          @test   = Landable::Template.where(file: 'test').first
         end
 
         it 'creates templates' do
@@ -21,13 +21,13 @@ module Landable
 
         context 'the templates' do
           it 'populates a name' do
-            @test.name.should   == 'test'
-            @random.name.should == 'random'
+            @random.name.should == 'Random'
+            @test.name.should   == 'Test'
           end
 
           it 'populates a description' do
-            @test.description.should   == 'Defined in test.html.haml'
-            @random.description.should == 'Defined in random.html.haml'
+            @random.description.should == 'Defined in Source Code with a File Name of random'
+            @test.description.should   == 'Defined in Source Code with a File Name of test'
           end
 
           it 'are not editable' do
@@ -47,8 +47,13 @@ module Landable
 
           it 'populates a body' do
             # Defined in spec/dummy/app/views/partials/...
-            @random.body.should include('Repay between 6 and 12 months')
-            @test.body.should   include('Customer Testimonials')
+            @random.body.should == ''
+            @test.body.should   == ''
+          end
+
+          it 'references the flle path' do
+            @random.file.should == 'random'
+            @test.file.should   == 'test'
           end
         end
       end
@@ -67,8 +72,8 @@ module Landable
       it 'returns an array of files' do
         Landable.configuration.stub(:partials_to_templates).and_return(partials)
 
-        Partial.files.should == [Dir[Rails.root.join("**/app/views/partials/_test.html.haml")].first, 
-                                 Dir[Rails.root.join("**/app/views/partials/_random.html.haml")].first]        
+        Partial.files.count.should == 2
+        Partial.files.should include('test', 'random')
       end
 
       context 'no files' do

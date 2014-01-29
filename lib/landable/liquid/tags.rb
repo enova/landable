@@ -72,7 +72,11 @@ module Landable
         template = Landable::Template.find_by_slug @template_slug
 
         if template
-          ::Liquid::Template.parse(template.body).render @variables
+          if !template.editable
+            context[:responder].render_to_string(partial: template.file)
+          else
+            ::Liquid::Template.parse(template.body).render @variables
+          end
         else
           "<!-- render error: missing template \"#{@template_slug}\" -->"
         end

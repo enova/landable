@@ -5,24 +5,20 @@ module Landable
     end
 
     def process
-      @body = File.read(@file)
-
-      @path = @file.split('/_', 2).last
-
-      @name = @path.split('.ht', 2).first
+      @name = @file.titlecase
 
       @processed = true
     end
 
     def description 
-      "Defined in #{@path}"
+      "Defined in Source Code with a File Name of #{@file}"
     end
 
     def to_template
       process unless @processed
 
-      template                 = Template.where(file: @path).first_or_initialize
-      template.body            = @body
+      template                 = Template.where(file: @file).first_or_initialize
+      template.body            = ''
       template.name            = @name
       template.description     = description
       template.editable        = false
@@ -43,10 +39,8 @@ module Landable
         files = []
 
         Landable.configuration.partials_to_templates.each do |path|
-          files << Dir[Rails.root.join("**/#{path}").to_s]
+          files << path
         end
-
-        files.flatten
       end
     end
   end
