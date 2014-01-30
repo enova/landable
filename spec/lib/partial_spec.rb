@@ -3,7 +3,7 @@ require 'spec_helper'
 module Landable
   describe Partial do
     # Defined in spec/dummy/app/views/partials/...
-    let(:partials) { ['test', 'random'] }
+    let(:partials) { ['partials/test', 'partials/random'] }
 
     describe '#to_template' do
       context 'with configured partials' do
@@ -11,8 +11,8 @@ module Landable
           Landable.configuration.stub(:partials_to_templates).and_return(partials)
           Partial.all.map(&:to_template)
 
-          @random = Landable::Template.where(file: 'random').first
-          @test   = Landable::Template.where(file: 'test').first
+          @random = Landable::Template.where(file: 'partials/random').first
+          @test   = Landable::Template.where(file: 'partials/test').first
         end
 
         it 'creates templates' do
@@ -26,8 +26,8 @@ module Landable
           end
 
           it 'populates a description' do
-            @random.description.should == 'Defined in Source Code with a File Name of random'
-            @test.description.should   == 'Defined in Source Code with a File Name of test'
+            @random.description.should == 'Defined in Source Code at partials/random'
+            @test.description.should   == 'Defined in Source Code at partials/test'
           end
 
           it 'are not editable' do
@@ -52,8 +52,8 @@ module Landable
           end
 
           it 'references the flle path' do
-            @random.file.should == 'random'
-            @test.file.should   == 'test'
+            @random.file.should == 'partials/random'
+            @test.file.should   == 'partials/test'
           end
         end
       end
@@ -73,7 +73,7 @@ module Landable
         Landable.configuration.stub(:partials_to_templates).and_return(partials)
 
         Partial.files.count.should == 2
-        Partial.files.should include('test', 'random')
+        Partial.files.should include('partials/test', 'partials/random')
       end
 
       context 'no files' do

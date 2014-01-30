@@ -5,13 +5,13 @@ module Landable
     end
 
     def process
-      @name = @file.titlecase
+      @name = @file.split('/', 2).last.titlecase
 
       @processed = true
     end
 
     def description 
-      "Defined in Source Code with a File Name of #{@file}"
+      "Defined in Source Code at #{@file}"
     end
 
     def to_template

@@ -188,10 +188,10 @@ module Landable
     def body_strip_search
       begin
         RenderService.call(self)
-      # rescue ::Liquid::Error => error
-        # errors[:body] = 'contains a Liquid syntax error'
-      # rescue StandardError => error
-        # errors[:body] = 'had a problem: ' + error.message
+      rescue ::Liquid::Error => error
+        errors[:body] = 'contains a Liquid syntax error'
+      rescue StandardError => error
+        errors[:body] = 'had a problem: ' + error.message
       end
     end
   end

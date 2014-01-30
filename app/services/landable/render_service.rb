@@ -18,6 +18,7 @@ module Landable
       content = render_template(page.body, {}, registers: {
         page: page,
         assets: assets_for_page,
+        responder: options[:responder],
       })
 
       if layout?
@@ -76,7 +77,6 @@ module Landable
     def render_template template, variables = nil, liquid_options = nil
       liquid_options ||= {}
       variables ||= {}
-      variables[:responder] = options[:responder]
 
       parse(template).render!(variables, liquid_options)
     end
