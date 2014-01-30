@@ -22,6 +22,11 @@ module Landable::Public::Preview
         response.body.should include '<p>why hello there</p>'
       end
 
+      it 'renders the preview message' do
+        make_request
+        response.body.should include 'Test your unpublished changes with this page. Share this URL!'
+      end
+
       it 'is available at /-/p/:id' do
         assert_recognizes({controller: 'landable/public/preview/pages', action: 'show', id: page.id}, "/-/p/#{page.id}")
       end

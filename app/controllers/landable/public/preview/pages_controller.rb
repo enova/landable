@@ -8,7 +8,7 @@ module Landable
 
         def show
           page = Page.find params[:id]
-          respond_with page, responder: Landable::PageRenderResponder
+          respond_with page, responder: Landable::PageRenderResponder, preview: true
         end
       end
     end
