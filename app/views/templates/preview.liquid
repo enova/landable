@@ -82,9 +82,10 @@
     </body>
   </html>
 {% else %}
+  <!-- pretty invalid, this is -->
   <style type="text/css">
     body {
-      padding-top: 50px;
+      padding-top: 40px;
     }
 
     body:before {
@@ -98,8 +99,11 @@
       left: 0;
       font-size: 20px;
       padding: 5px 0;
-      border: 1px solid #f6f6f6;
-      content: "Test your unpublished changes with this page. Share this URL!";
+      line-height: 30px;
+      border-bottom: 1px #e2bd56 solid;
+      content: "Preview Mode (Test your unpublished changes with this page. Share this URL!)";
+      box-sizing: border-box;
+      height: 40px;
     }
   </style>
   {{ content }}
