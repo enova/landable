@@ -73,8 +73,7 @@ module Landable
 
         if template
           if !template.editable && context.registers[:responder].present?
-            ac = ActionController::Base.new()
-            ac.render_to_string(partial: template.file)
+            context.registers[:responder].controller.render_to_string(partial: template.file)
           else
             ::Liquid::Template.parse(template.body).render @variables
           end
