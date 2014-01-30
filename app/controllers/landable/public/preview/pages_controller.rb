@@ -8,16 +8,7 @@ module Landable
 
         def show
           page = Page.find params[:id]
-
-          content = render_to_string(text: RenderService.call(page, preview: true),
-                                     layout: page.theme.file || false)
-
-
-          respond_to do |format|
-            format.html do
-              render text: content, layout: false, content_type: 'text/html'
-            end
-          end
+          respond_with page, responder: Landable::PageRenderResponder, preview: true
         end
       end
     end
