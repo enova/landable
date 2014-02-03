@@ -1,8 +1,8 @@
 class FileBackedTemplates < Landable::Migration
-  def up
+  def change
     change_table 'landable.templates' do |t|
       t.text    :file
-      t.boolean :editable, null: false, default: true
+      t.boolean :editable, default: true
     end
   end
 end

@@ -322,7 +322,7 @@ CREATE TABLE templates (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     file text,
-    editable boolean DEFAULT true NOT NULL
+    editable boolean DEFAULT true
 );
 
 
