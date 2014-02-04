@@ -22,7 +22,7 @@ FactoryGirl.define do
     end
 
     trait :not_found do
-      status_code 404
+      status_code 410
 
       theme nil
       title nil

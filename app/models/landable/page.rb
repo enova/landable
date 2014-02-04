@@ -15,7 +15,7 @@ module Landable
 
     self.table_name = 'landable.pages'
 
-    validates_inclusion_of  :status_code, in: [200, 301, 302, 404]
+    validates_inclusion_of  :status_code, in: [200, 301, 302, 410]
 
     validates_uniqueness_of :path
     validates :path, exclusion: { in: Landable.configuration.reserved_paths, message: "%{value} is reserved!" }
@@ -44,7 +44,7 @@ module Landable
 
     class << self
       def missing
-        new(status_code: 404)
+        new(status_code: 410)
       end
 
       def by_path(path)
