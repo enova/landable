@@ -58,14 +58,6 @@ module Landable
           end
         end
       end
-
-      context 'with no configured partials' do
-        it 'does nothing' do
-          Landable.configuration.stub(:partials_to_templates).and_return([])
-
-          Partial.files.should == []
-        end
-      end
     end
 
     describe '::files' do
@@ -76,8 +68,8 @@ module Landable
         Partial.files.should include('partials/test', 'partials/foobazz')
       end
 
-      context 'no files' do
-        it 'returns an empty array' do
+      context 'with no configured partials' do
+        it 'has no files' do
           Landable.configuration.stub(:partials_to_templates).and_return([])
 
           Partial.files.should == []

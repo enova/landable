@@ -1,4 +1,4 @@
-{% if is_redirect %}
+  {% if is_redirect %}
   <!DOCTYPE html>
   <html lang="en">
     <head>
@@ -81,4 +81,30 @@
       <iframe src="{{ redirect_url }}" seamless="seamless">
     </body>
   </html>
-{% else %}{{ content }}{% endif %}
+{% else %}
+  <!-- pretty invalid, this is -->
+  <style type="text/css">
+    body {
+      padding-top: 40px;
+    }
+
+    body:before {
+      text-align: center;
+      font-weight: bold;
+      background-color: #FFDA73;
+      font-family: Roboto;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-size: 20px;
+      padding: 5px 0;
+      line-height: 30px;
+      border-bottom: 1px #e2bd56 solid;
+      content: "Preview Mode (Test your unpublished changes with this page. Share this URL!)";
+      box-sizing: border-box;
+      height: 40px;
+    }
+  </style>
+  {{ content }}
+{% endif %}
