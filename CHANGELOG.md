@@ -5,6 +5,7 @@ See README.md before updating this file.
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.4.2...master)
 * page#status_code switch 404s to 410s [#104] 
 * Adding Preview Message [#102]
+* Adding Partials to Templates Support [#103]
 
 ## v1.4.2 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.4.1...v1.4.2)
 * Add Landable::Migration class, reverts to original search_path after migrating.

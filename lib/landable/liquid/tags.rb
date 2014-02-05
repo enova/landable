@@ -72,7 +72,15 @@ module Landable
         template = Landable::Template.find_by_slug @template_slug
 
         if template
-          ::Liquid::Template.parse(template.body).render @variables
+          if template.partial?
+            if context.registers[:responder].present? 
+              context.registers[:responder].controller.render_to_string(partial: template.file)
+            else
+              "<!-- render error: unable to render \"#{@template_slug}\", no controller/responder present -->"
+            end
+          else
+            ::Liquid::Template.parse(template.body).render @variables
+          end
         else
           "<!-- render error: missing template \"#{@template_slug}\" -->"
         end

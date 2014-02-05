@@ -83,6 +83,16 @@ Landable.configure do |config|
 end
 ```
 
+### Partial To Publicist Template Support
+Landable allows you to create [Publicists](http://git.cashnetusa.com/trogdor/publicist) Templates out of partials from your source code. For example, lets say you wanted to create templates out of your header (Defined in app/views/layouts/_header.html.haml) and footer (Defined in app/views/layouts/_footer.html.haml).
+
+You can do this like so...
+```ruby
+Landable.configure do |config|
+  config.partials_to_templates = %w(layouts/header layouts/footer)
+end
+```
+
 ## Visit Tracking
 Landable includes the ability to track visits.
 

@@ -59,6 +59,13 @@ Given 'the template "$template_slug" with the body:' do |template_slug, template
   Landable::Template.create! name: template_slug, slug: template_slug, body: template_body, description: template_slug
 end
 
+Given 'the template is a filed backed partial' do
+  # Parial Defined in spec/dummy/app/views/partials/_foobazz, and configured in spec/dummy/app/config/initializers/landable
+  Landable::Template.create_from_partials!
+  @responder = Landable::PageRenderResponder
+  @responder.stub(:controller).and_return(ActionController::Base.new)
+end
+
 When 'this page is rendered:' do |body|
   @page = Landable::Page.new body: body
   @page.theme = @theme
@@ -66,6 +73,7 @@ When 'this page is rendered:' do |body|
 end
 
 Then 'the rendered content should be:' do |body|
-  @rendered_content ||= Landable::RenderService.call(@page)
+  @responder ||= nil
+  @rendered_content ||= Landable::RenderService.call(@page, responder: @responder)
   @rendered_content.should == body
 end

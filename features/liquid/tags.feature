@@ -97,20 +97,31 @@ Feature: Liquid Tags
   Scenario: Referencing a template
     Given the page's body is:
       """
-      <div>{% template foo %}</div>
+      <div>{% template bar %}</div>
       """
-    And   the template "foo" with body "<span>some stuff</span>"
+    And   the template "bar" with body "<span>some stuff</span>"
     Then  the rendered content should be:
       """
       <div><span>some stuff</span></div>
       """
 
+  Scenario: Referencing file backed partials
+    Given the page's body is:
+      """
+      <div>{% template foobazz %}</div>
+      """
+    And   the template is a filed backed partial
+    Then  the rendered content should be:
+      """
+      <div><div class='content'>some stuff</div></div>
+      """
+
   Scenario: Referencing a template with variables
     Given the page's body is:
       """
-      <div>{% template foo body: "seven" footer: "the end" %}</div>
+      <div>{% template foobar body: "seven" footer: "the end" %}</div>
       """
-    And   the template "foo" with the body:
+    And   the template "foobar" with the body:
       """
       <span>{{ body | default: "eight" }}</span>
       <footer>{{ footer }}</footer>
@@ -124,9 +135,9 @@ Feature: Liquid Tags
   Scenario: Referencing a template with variable defaults
     Given the page's body is:
       """
-      <div>{% template foo %}</div>
+      <div>{% template bar %}</div>
       """
-    And   the template "foo" with the body:
+    And   the template "bar" with the body:
       """
       <span>{{ body | default: "eight" }}</span>
       """
@@ -138,11 +149,11 @@ Feature: Liquid Tags
   Scenario: Referencing a template that doesn't exist
     Given the page's body is:
       """
-      <div>{% template foo %}</div>
+      <div>{% template fubu %}</div>
       """
     Then  the rendered content should be:
       """
-      <div><!-- render error: missing template "foo" --></div>
+      <div><!-- render error: missing template "fubu" --></div>
       """
 
   Scenario: App asset tags
