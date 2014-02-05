@@ -31,5 +31,17 @@ module Landable
         end
       end
     end
+
+    describe '#partial?' do
+      it 'returns true when template references a file' do
+        template = create :template, :partial
+        template.partial?.should be_true
+      end
+
+      it 'returns false when template has no file' do
+        template = create :template
+        template.partial?.should be_false
+      end
+    end
   end
 end

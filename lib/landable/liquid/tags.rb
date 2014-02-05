@@ -72,7 +72,7 @@ module Landable
         template = Landable::Template.find_by_slug @template_slug
 
         if template
-          if !template.editable
+          if template.partial?
             if context.registers[:responder].present? 
               context.registers[:responder].controller.render_to_string(partial: template.file)
             else
