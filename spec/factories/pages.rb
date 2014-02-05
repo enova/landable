@@ -21,7 +21,7 @@ FactoryGirl.define do
       body  nil
     end
 
-    trait :not_found do
+    trait :gone do
       status_code 410
 
       theme nil
