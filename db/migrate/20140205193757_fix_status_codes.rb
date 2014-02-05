@@ -6,7 +6,6 @@ class FixStatusCodes < ActiveRecord::Migration
     Landable::Page.where(status_code: 404).find_each do |page| 
       page.status_code = 410
       page.save!
-      page.publish!
     end
 
     # Find Remaining PageRevisions with 404s, switch to 410s!
