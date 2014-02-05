@@ -3,14 +3,14 @@ class FixStatusCodes < ActiveRecord::Migration
     execute "DROP TRIGGER landable_page_revisions__no_update ON landable.page_revisions"
 
     # Find Pages with 404s, switch to 410s, publish the page!
-    Landable::Page.where(status_code: 404).each do |page| 
+    Landable::Page.where(status_code: 404).find_each do |page| 
       page.status_code = 410
       page.save!
       page.publish!
     end
 
     # Find Remaining PageRevisions with 404s, switch to 410s!
-    Landable::PageRevision.where(status_code: 404).each do |page| 
+    Landable::PageRevision.where(status_code: 404).find_each do |page| 
       page.status_code = 410
       page.save!
     end
