@@ -4,5 +4,10 @@ class FixStatusCodes < ActiveRecord::Migration
       page.status_code = 410
       page.save!
     end
+
+    Landable::PageRevision.where(status_code: 404).each do |page| 
+      page.status_code = 410
+      page.save!
+    end
   end
 end
