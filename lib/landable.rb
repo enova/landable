@@ -15,6 +15,7 @@ module Landable
 
   autoload :Configuration, 'landable/configuration'
   autoload :Layout,        'landable/layout'
+  autoload :Partial,       'landable/partial'
   autoload :Seeds,         'landable/seeds'
 
   def self.configuration

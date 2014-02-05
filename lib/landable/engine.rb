@@ -42,6 +42,10 @@ module Landable
       Theme.create_from_layouts! rescue nil
     end
 
+    initializer 'landable.create_templates' do |app|
+      Template.create_from_partials! rescue nil
+    end
+
     initializer "landable.action_controller" do
       ActiveSupport.on_load :action_controller do
         helper Landable::PagesHelper

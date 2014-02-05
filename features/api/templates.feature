@@ -2,9 +2,9 @@
 Feature: Templates API
   Scenario: List all templates
     Given 3 templates
-    When I GET "/api/templates"
-    Then the response status should be 200
-    And  the response should contain 3 "templates"
+    When  I GET "/api/templates"
+    Then  the response status should be 200
+    And   the response should contain 3 "templates"
 
   Scenario: Create a new template
     When I POST "/api/templates":
