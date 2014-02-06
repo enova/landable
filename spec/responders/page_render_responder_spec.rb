@@ -31,10 +31,10 @@ describe Landable::PageRenderResponder do
     end
 
     context 'missing' do
-      let(:page) { build :page, :not_found }
+      let(:page) { build :page, :gone }
 
-      it 'should render a 404' do
-        responder.should_receive(:head).with(404)
+      it 'should render a 410' do
+        responder.should_receive(:head).with(410)
         responder.should_not_receive(:render)
 
         responder.to_html

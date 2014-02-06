@@ -33,7 +33,7 @@ Feature: Only published revisions are publicly available
   @allow-rescue
   Scenario: Unpublished status change
     Given a published page "/pubbed"
-    When  I change the page to a 404
+    When  I change the page to a 410
     And   I GET "/pubbed"
     Then  the response status should be 200
     When  I publish the page

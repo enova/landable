@@ -21,8 +21,8 @@ describe 'public page routes' do
       end
     end
 
-    specify 'not currently a 404' do
-      page = create :page, status_code: 404
+    specify 'not currently a 410' do
+      page = create :page, status_code: 410
       page.publish! author: create(:author)
 
       page.status_code = 200
@@ -43,18 +43,18 @@ describe 'public page routes' do
       expect(get: page.path).to_not be_routable
     end
 
-    specify '404 pages' do
-      page = create :page, status_code: 404
+    specify '410 pages' do
+      page = create :page, status_code: 410
       page.publish! author: create(:author)
 
       expect(get: page.path).to_not be_routable
     end
 
-    specify 'becoming a 404' do
+    specify 'becoming a 410' do
       page = create :page, status_code: 200
       page.publish! author: create(:author)
 
-      page.status_code = 404
+      page.status_code = 410
       page.save
       page.publish! author: create(:author)
 

@@ -5,8 +5,8 @@ module Landable
     it { should_not have_valid(:path).when(nil, '', '/reserved_path_set_in_initializer') }
     it { should be_a HasAssets }
     it { should_not have_valid(:status_code).when(nil,'') }
-    it { should have_valid(:status_code).when(200, 301, 302, 404) }
-    it { should_not have_valid(:status_code).when(201, 303, 405, 500) }
+    it { should have_valid(:status_code).when(200, 301, 302, 410) }
+    it { should_not have_valid(:status_code).when(201, 303, 405, 500, 404) }
 
     it 'should set is_publishable to true on before_save' do
       page = FactoryGirl.build :page, is_publishable: false
@@ -18,7 +18,7 @@ module Landable
       Page.new.should_not be_redirect
       Page.new().should_not be_redirect
       Page.new(status_code: 200).should_not be_redirect
-      Page.new(status_code: 404).should_not be_redirect
+      Page.new(status_code: 410).should_not be_redirect
 
       Page.new(status_code: 301).should be_redirect
       Page.new(status_code: 302).should be_redirect
@@ -94,7 +94,7 @@ module Landable
         page.should have_valid(:redirect_url).when('http://example.com', 'http://www.somepath.com')
       end
 
-      it 'not required for 200, 404' do
+      it 'not required for 200, 410' do
         page = Page.new
         page.should have_valid(:redirect_url).when(nil, '')
       end

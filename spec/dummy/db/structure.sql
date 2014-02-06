@@ -3723,7 +3723,7 @@ ALTER TABLE ONLY visits
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20130510221424');
 
@@ -3760,3 +3760,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131213141218');
 INSERT INTO schema_migrations (version) VALUES ('20131216214027');
 
 INSERT INTO schema_migrations (version) VALUES ('20140128170659');
+
+INSERT INTO schema_migrations (version) VALUES ('20140205193757');

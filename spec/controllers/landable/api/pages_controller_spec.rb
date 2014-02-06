@@ -262,7 +262,7 @@ module Landable::Api
 
       it 'renders 404 pages as if they were 200s' do
         request.env['HTTP_ACCEPT'] = 'application/json'
-        make_request attributes_for(:page, :not_found, body: 'still here', theme_id: theme.id)
+        make_request attributes_for(:page, :gone, body: 'still here', theme_id: theme.id)
         response.status.should == 200
         last_json['page']['preview'].should match(/still here/)
       end
