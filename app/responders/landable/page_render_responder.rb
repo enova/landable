@@ -8,7 +8,7 @@ module Landable
                                 content_type: page.content_type,
                                 layout: (page.theme.try(:file) || false)
       when 301, 302 then redirect_to page.redirect_url, status: page.status_code
-      when 410      then head 410
+      when 410      then raise Landable::PageGoneError
       end
     end
   end

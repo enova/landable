@@ -42,23 +42,5 @@ describe 'public page routes' do
       page = create :page
       expect(get: page.path).to_not be_routable
     end
-
-    specify '410 pages' do
-      page = create :page, status_code: 410
-      page.publish! author: create(:author)
-
-      expect(get: page.path).to_not be_routable
-    end
-
-    specify 'becoming a 410' do
-      page = create :page, status_code: 200
-      page.publish! author: create(:author)
-
-      page.status_code = 410
-      page.save
-      page.publish! author: create(:author)
-
-      expect(get: page.path).to_not be_routable
-    end
   end
 end

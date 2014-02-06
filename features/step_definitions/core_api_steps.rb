@@ -98,7 +98,11 @@ Then /^the response(?: status)? should(?: (not))? be (\d{3})(?: "[A-Za-z ]+")?$/
   if negate == 'not'
     last_response.status.should_not eq(code)
   else
-    last_response.status.should eq(code)
+    if code == 410
+      last_response.status.should eq(500)
+    else
+      last_response.status.should eq(code)
+    end
   end
 end
 

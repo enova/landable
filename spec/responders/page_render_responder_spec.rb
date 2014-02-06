@@ -34,10 +34,8 @@ describe Landable::PageRenderResponder do
       let(:page) { build :page, :gone }
 
       it 'should render a 410' do
-        responder.should_receive(:head).with(410)
+        expect { responder.to_html }.to raise_error(Landable::PageGoneError)
         responder.should_not_receive(:render)
-
-        responder.to_html
       end
     end
   end

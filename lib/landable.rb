@@ -17,6 +17,7 @@ module Landable
   autoload :Layout,        'landable/layout'
   autoload :Partial,       'landable/partial'
   autoload :Seeds,         'landable/seeds'
+  autoload :PageGoneError, 'landable/page_gone_error'
 
   def self.configuration
     @configuration ||= Configuration.new
