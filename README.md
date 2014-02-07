@@ -74,7 +74,7 @@ end
 ```
 
 ### Reserving Page Paths
-Landable allows you to reserve paths in your initalizer preventing users from creating pages with these paths.  You can enter these reserved paths as a RegEx as well! 
+Landable allows you to reserve paths in your initalizer preventing users from creating pages with these paths.  You can enter these reserved paths as a RegEx as well! (Note: do not start RegEx with a slash)
 
 ```ruby
 Landable.configure do |config|

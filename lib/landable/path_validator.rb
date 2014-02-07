@@ -5,7 +5,7 @@ module Landable
         record.errors[:path] << "is Reserved!"
       else
         Landable.configuration.reserved_paths.each do |reserved|
-          if Regexp.new(reserved).match(record.path)
+          if !reserved.starts_with?('/') && Regexp.new(reserved).match(record.path)
             record.errors[:path] << "is Reserved!"
           end
         end
