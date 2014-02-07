@@ -5,6 +5,7 @@ See README.md before updating this file.
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.4.2...master)
 * Add response_time to page_view records [#106]
 * page#status_code switch 404s to 410s [#104] 
+* Creating PageGoneError that is raised when Landable handles 410 Pages [#105]
 * Adding Preview Message [#102]
 * Adding Partials to Templates Support [#103]
 

@@ -197,5 +197,32 @@ module Landable
         errors[:body] = 'had a problem: ' + error.message
       end
     end
+
+
+    module Errors
+      extend ActiveSupport::Concern
+
+      class GoneError < Error
+        STATUS_CODE = 410
+      end
+
+      def error?
+        (400..599).cover? status_code
+      end
+
+      def error
+        return nil unless error?
+
+        case status_code
+        when 410
+          GoneError.new
+        else
+          Landable::Error.new "Missing a Page error class for #{status_code}"
+        end
+      end
+    end
+
+    include Errors
+
   end
 end
