@@ -3,6 +3,7 @@ require 'spec_helper'
 module Landable
   describe Page do
     it { should_not have_valid(:path).when(nil, '', '/reserved_path_set_in_initializer') }
+    it { should_not have_valid(:path).when('/ruby/whatever') }
     it { should be_a HasAssets }
     it { should_not have_valid(:status_code).when(nil,'') }
     it { should have_valid(:status_code).when(200, 301, 302, 410) }

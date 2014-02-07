@@ -8,5 +8,5 @@ Landable.configure do |config|
   config.sitemap_additional_paths = %w(/terms.html)
   config.partials_to_templates = %w(partials/foobazz)
 
-  config.reserved_paths = %w(/reserved_path_set_in_initializer)
+  config.reserved_paths = %w( /reserved_path_set_in_initializer ruby\/\w*)
 end
