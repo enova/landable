@@ -200,9 +200,7 @@ module Landable
       extend ActiveSupport::Concern
 
       class GoneError < Error
-        def initialize message = 'Page has a status code of 410. (Hint: rescue this in your ApplicationController.)'
-          super
-        end
+        STATUS_CODE = 410
       end
 
       def error?
@@ -216,7 +214,7 @@ module Landable
         when 410
           GoneError.new
         else
-          Landable::Error.new "No error class for status code #{status_code}"
+          Landable::Error.new "Missing a Page error class for #{status_code}"
         end
       end
     end
