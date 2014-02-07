@@ -86,8 +86,8 @@ module Landable
       def initialize(controller)
         # Allow subclasses to super from initialize
         raise NotImplementedError, "You must subclass Tracker" if self.class == Tracker
-
         @controller = controller
+        @start_time = Time.now
       end
 
       def track

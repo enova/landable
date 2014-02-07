@@ -1362,7 +1362,8 @@ CREATE TABLE page_views (
     click_id text,
     content_length integer,
     http_status integer,
-    created_at timestamp with time zone DEFAULT now() NOT NULL
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    response_time integer
 );
 
 
@@ -3762,3 +3763,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131216214027');
 INSERT INTO schema_migrations (version) VALUES ('20140128170659');
 
 INSERT INTO schema_migrations (version) VALUES ('20140205193757');
+
+INSERT INTO schema_migrations (version) VALUES ('20140206211322');

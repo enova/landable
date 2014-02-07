@@ -33,6 +33,8 @@ module Landable
           p.http_status  = response.status
 
           p.visit_id     = @visit_id
+
+          p.response_time = ( Time.now - @start_time ) * 1000
         end
       end
 
