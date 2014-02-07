@@ -194,5 +194,34 @@ module Landable
         errors[:body] = 'had a problem: ' + error.message
       end
     end
+
+
+    module Errors
+      extend ActiveSupport::Concern
+
+      class GoneError < Error
+        def initialize message = 'Page has a status code of 410. (Hint: rescue this in your ApplicationController.)'
+          super
+        end
+      end
+
+      def error?
+        (400..599).cover? status_code
+      end
+
+      def error
+        return nil unless error?
+
+        case status_code
+        when 410
+          GoneError.new
+        else
+          Landable::Error.new "No error class for status code #{status_code}"
+        end
+      end
+    end
+
+    include Errors
+
   end
 end
