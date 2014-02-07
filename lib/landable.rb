@@ -1,6 +1,7 @@
 require 'landable/version'
 require "landable/engine"
 require 'landable/liquid'
+require "landable/error"
 require 'landable/mime_types'
 require "landable/inflections"
 require "landable/traffic"

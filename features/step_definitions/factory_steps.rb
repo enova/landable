@@ -62,10 +62,9 @@ Given 'a published page "$path" with status $code' do |path, code|
   code = Integer(code)
   page = case code
          when 301, 302 then create :page, :redirect, path: path, status_code: code, body: "BODY"
-         when 404 then create :page, :not_found, path: path, body: "BODY"
+         when 410 then create :page, :gone, path: path, body: "BODY"
          else create :page, path: path, body: "BODY"
          end
-
   page.publish! author: create(:author)
 end
 

@@ -11,7 +11,7 @@ Feature: Page status codes
       |  200 |
       |  301 |
       |  302 |
-      |  404 |
+      |  410 |
 
   Scenario Outline: Redirects
     Given page "/foo" redirects to "http://google.com" with status <code>
