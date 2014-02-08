@@ -2,13 +2,17 @@ require 'spec_helper'
 
 module Landable
   describe Page do
-    it { should_not have_valid(:path).when(nil, '', '/reserved_path_set_in_initializer') }
-    it { should_not have_valid(:path).when('/ruby/whatever', '/reject/whatever') }
-    it { should     have_valid(:path).when('/reserved_path_set_in_initializer_not', '/not_reserved', '/any_path') }
     it { should be_a HasAssets }
     it { should_not have_valid(:status_code).when(nil,'') }
     it { should have_valid(:status_code).when(200, 301, 302, 410) }
     it { should_not have_valid(:status_code).when(201, 303, 405, 500, 404) }
+
+    # config.reserved_paths = %w(/reserved_path_set_in_initializer reject\/\w* ruby\/\w*)
+    context 'PathValidator' do
+      it { should_not have_valid(:path).when(nil, '', '/reserved_path_set_in_initializer') }
+      it { should_not have_valid(:path).when('/ruby/whatever', '/reject/whatever') }
+      it { should     have_valid(:path).when('/reserved_path_set_in_initializer_not', '/not_reserved', '/any_path') }
+    end
 
     it 'should set is_publishable to true on before_save' do
       page = FactoryGirl.build :page, is_publishable: false
