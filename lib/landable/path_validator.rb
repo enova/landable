@@ -1,15 +1,23 @@
 module Landable
   class PathValidator < ActiveModel::Validator
     def validate(record)
-      if Landable.configuration.reserved_paths.include? record.path
+      if exact_match?(record.path) || regex_match?(record.path)
         record.errors[:path] << "is Reserved!"
-      else
-        Landable.configuration.reserved_paths.each do |reserved|
-          if !reserved.starts_with?('/') && Regexp.new(reserved).match(record.path)
-            record.errors[:path] << "is Reserved!"
-          end
-        end
       end
+    end
+
+    def exact_match?(path)
+      Landable.configuration.reserved_paths.include? path
+    end
+
+    def regex_match?(path)
+      regexs = Landable.configuration.reserved_paths.reject { |reserved_path| reserved_path.starts_with?('/') }
+
+      regexs.each do |regex|
+        return true if Regexp.new(regex).match(path)
+      end
+
+      false
     end
   end
 end
