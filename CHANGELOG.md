@@ -8,6 +8,7 @@ See README.md before updating this file.
 * Creating PageGoneError that is raised when Landable handles 410 Pages [#105]
 * Adding Preview Message [#102]
 * Adding Partials to Templates Support [#103]
+* Allow Regexs for config.reserved_paths [#107]
 
 ## v1.4.2 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.4.1...v1.4.2)
 * Add Landable::Migration class, reverts to original search_path after migrating.
