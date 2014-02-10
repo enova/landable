@@ -105,6 +105,17 @@
       box-sizing: border-box;
       height: 40px;
     }
+
+    body.publicist-preview {
+      padding-top: 0;
+    }
+
+    body.publicist-preview:before {
+      display: none;
+    }
   </style>
-  {{ content }}
+  <body>
+    {{ content }}
+  </body>
+
 {% endif %}
