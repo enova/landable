@@ -6,7 +6,6 @@ require 'landable/mime_types'
 require "landable/inflections"
 require "landable/traffic"
 require "landable/migration"
-require "landable/path_validator"
 
 require "landable/core_ext/ipaddr"
 
