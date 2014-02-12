@@ -7,11 +7,11 @@ module Landable
     it { should have_valid(:status_code).when(200, 301, 302, 410) }
     it { should_not have_valid(:status_code).when(201, 303, 405, 500, 404) }
 
-    # config.reserved_paths = %w(/reserved_path_set_in_initializer reject\/\w* ruby\/\w*)
+    # config.reserved_paths = %w(/reserved_path_set_in_initializer /reject/.* /admin.*)
     context 'PathValidator' do
       it { should_not have_valid(:path).when(nil, '', '/reserved_path_set_in_initializer') }
-      it { should_not have_valid(:path).when('/ruby/whatever', '/reject/whatever') }
-      it { should     have_valid(:path).when('/reserved_path_set_in_initializer_not', '/not_reserved', '/any_path') }
+      it { should_not have_valid(:path).when('/reject/this', '/admin', '/ADMIN', '/admin_something' '/admin/path') }
+      it { should     have_valid(:path).when('/reserved_path_set_in_initializer_not', '/do/not/reject/path', '/', '/rejectwhatever', '/reject') }
     end
 
     it 'should set is_publishable to true on before_save' do
