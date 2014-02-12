@@ -10,7 +10,6 @@ module Landable
     include Landable::HasAssets
     include Landable::Engine.routes.url_helpers
 
-
     validates_presence_of   :path, :status_code
     validates_presence_of   :redirect_url, if: -> page { page.redirect? }
 
@@ -26,11 +25,13 @@ module Landable
 
     validate :body_strip_search
     validates :redirect_url, url: true, allow_blank: true
+    validate :hero_asset_existence
 
     belongs_to :theme,                class_name: 'Landable::Theme',        inverse_of: :pages
     belongs_to :published_revision,   class_name: 'Landable::PageRevision'
     belongs_to :category,             class_name: 'Landable::Category'
     belongs_to :updated_by_author,    class_name: 'Landable::Author'
+    belongs_to :hero_asset,           class_name: 'Landable::Asset'
     has_many   :revisions,            class_name: 'Landable::PageRevision'
     has_many   :screenshots,          class_name: 'Landable::Screenshot',   as: :screenshotable
 
@@ -150,6 +151,20 @@ module Landable
       self[:path] = name
     end
 
+    def hero_asset_name
+      self.hero_asset.try(:name)
+    end
+
+    def hero_asset_name=(name)
+      @hero_asset_name = name
+      asset = Asset.find_by_name(name)
+      self.hero_asset_id = asset.try(:asset_id)
+    end
+
+    def hero_asset_url
+      self.hero_asset.try(:public_url)
+    end
+
     def publish!(options)
       transaction do
         published_revision.unpublish! if published_revision
@@ -198,6 +213,12 @@ module Landable
       end
     end
 
+    def hero_asset_existence
+      return true if @hero_asset_name.blank?
+      unless Asset.find_by_name(@hero_asset_name)
+        errors[:hero_asset_name] = "System can't find an asset with this name"
+      end
+    end
 
     module Errors
       extend ActiveSupport::Concern
