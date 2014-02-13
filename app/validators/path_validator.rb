@@ -6,11 +6,7 @@ class PathValidator < ActiveModel::Validator
   end
 
   def match?(path)
-    Landable.configuration.reserved_paths.each do |reserved|
-      regex = Regexp.new("^#{reserved}$", 'i')
-      return true if regex.match(path)
-    end
-
-    false
+    # See if the applying path matches any reserved_paths via a Regex
+    Landable.configuration.reserved_paths.any? { |reserved| Regexp.new("^#{reserved}$", 'i').match(path) }
   end
 end
