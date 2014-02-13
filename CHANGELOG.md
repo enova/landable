@@ -2,6 +2,8 @@
 
 See README.md before updating this file.
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.5.0...master)
+
+## v1.5.1 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.5.0...v1.5.1)
 * Better Handling of the Preview Message [#109]
 * More specific name and slug for Partials to Templates [#113]
 * Allow Regexs for config.reserved_paths [#111]
