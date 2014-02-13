@@ -74,17 +74,22 @@ end
 ```
 
 ### Reserving Page Paths
-Landable allows you to reserve paths in your initalizer preventing users from creating pages with these paths.  You can enter these reserved paths as a RegEx as well! Specific reserved paths must start with a slash, and RegEx paths must not start with a slash as shown in the example below.
+Landable allows you to reserve paths in your initalizer, preventing users from creating pages with these paths.
+
+Reserved paths are case insensitive, and support regex operators.
 
 ```ruby
 Landable.configure do |config|
-  # Users will not be able to create Publicist Pages with these paths / paths matching these RegExs
-  config.reserved_paths = %w(/ /terms-of-use.html /privacy-policy.html regex_path\/\w*)
+  # Reserves /reserved_path, and paths like /reject/me, /REJECT/me, /reject/this/please,
+  # /admin, /ADMiN/, and /admin/users
+  config.reserved_paths = %w(/reserved_path /reject/.* /admin.*)
 end
 ```
 
 ### Partial To Publicist Template Support
-Landable allows you to create [Publicists](http://git.cashnetusa.com/trogdor/publicist) Templates out of partials from your source code. For example, lets say you wanted to create templates out of your header (Defined in app/views/layouts/_header.html.haml) and footer (Defined in app/views/layouts/_footer.html.haml).
+Landable allows you to create [Publicist](http://git.cashnetusa.com/trogdor/publicist) templates from application partials.
+
+For example, let's say you wanted to create templates from your header (defined in app/views/layouts/_header.html.haml) and footer (defined in app/views/layouts/_footer.html.haml).
 
 You can do this like so...
 ```ruby
