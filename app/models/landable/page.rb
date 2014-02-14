@@ -220,6 +220,16 @@ module Landable
       end
     end
 
+    def to_liquid
+      {
+        "title" => title,
+        "url" => redirect_url,
+        "hero_asset" => hero_asset ? true : false,
+        "hero_asset_url" => hero_asset_url,
+        "abstract" => abstract
+      }
+    end
+
     module Errors
       extend ActiveSupport::Concern
 

@@ -295,6 +295,8 @@ CREATE TABLE pages (
     lock_version integer DEFAULT 0 NOT NULL,
     head_content text,
     status_code smallint DEFAULT 200 NOT NULL,
+    abstract text,
+    hero_asset_id uuid,
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
 
@@ -3765,3 +3767,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140128170659');
 INSERT INTO schema_migrations (version) VALUES ('20140205193757');
 
 INSERT INTO schema_migrations (version) VALUES ('20140206211322');
+
+INSERT INTO schema_migrations (version) VALUES ('20140210212722');
+
+INSERT INTO schema_migrations (version) VALUES ('20140212163500');
