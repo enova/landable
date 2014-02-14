@@ -20,7 +20,6 @@ module Landable
         assets: assets_for_page,
         responder: options[:responder],
       })
-      content = render_template(page.body)
 
       if layout?
         content = render_template(theme.body, {'body' => content}, registers: {

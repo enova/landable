@@ -82,6 +82,14 @@
           "type": ["string", "null"]
         }
       }
+    },
+
+    "abstract": {
+      "type": ["text", "null"]
+    },
+
+    "hero_asset_name": {
+      "type": ["string", "null"]
     }
   }
 }
