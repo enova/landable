@@ -260,7 +260,9 @@ CREATE TABLE page_revisions (
     path text,
     meta_tags public.hstore,
     head_content text,
-    status_code smallint
+    status_code smallint,
+    abstract text,
+    hero_asset_id uuid
 );
 
 
@@ -3771,3 +3773,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140206211322');
 INSERT INTO schema_migrations (version) VALUES ('20140210212722');
 
 INSERT INTO schema_migrations (version) VALUES ('20140212163500');
+
+INSERT INTO schema_migrations (version) VALUES ('20140214202141');

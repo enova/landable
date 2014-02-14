@@ -19,7 +19,6 @@ end
 # Only called tags so we can use a function-like syntax
 Liquid::Template.register_tag('asset_url', Landable::Liquid::AssetAttributeTag)
 Liquid::Template.register_tag('asset_description', Landable::Liquid::AssetAttributeTag)
-Liquid::Template.register_tag('category_blog_pages', Landable::Liquid::CategoryPages)
 
 # Template references
 Liquid::Template.register_tag('template', Landable::Liquid::TemplateTag)
