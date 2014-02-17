@@ -5,12 +5,24 @@ Feature: Liquid proxies
   Background:
     Given a page under test
 
-  Scenario: category proxy
-    Given a page with title "Title 1" and category "seo"
-      And a page with title "Title 2" and category "seo"
-      And the page's body is "{% body %}"
-      And the page's body is "{% for page in categories.seo.pages %}{{page.title}}<br/>{% endfor %}"
+  Scenario: Category proxy when there is no published pages
+    Given a "unpublished" page with title "Title 1" and category "seo"
+    When this page is rendered:
+      """
+        {% for page in categories.seo.pages %}{{page.title}}{% endfor %}
+      """
     Then the rendered content should be:
       """
-      Title 1<br/>Title 2<br/>
+        
+      """
+
+  Scenario: Category proxy when there is one published page
+    Given a "published" page with title "Title 1" and category "seo"
+    When this page is rendered:
+      """
+        {% for page in categories.seo.pages %}{{page.title}}{% endfor %}
+      """
+    Then the rendered content should be:
+      """
+        Title 1
       """

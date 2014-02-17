@@ -38,6 +38,7 @@ module Landable
     scope :imported, -> { where("imported_at IS NOT NULL") }
     scope :sitemappable, -> { where("COALESCE(meta_tags -> 'robots' NOT LIKE '%noindex%', TRUE)") 
                               .where(status_code: 200)}
+    scope :published, -> { where("published_revision_id is NOT NULL") }
 
     before_validation :downcase_path!
 

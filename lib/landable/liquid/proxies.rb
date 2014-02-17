@@ -9,7 +9,7 @@ module Landable
         fetched_categories = ::Landable::Category.all
         fetched_categories.each do |category|
           @categories[category.name.downcase] = {
-            "pages" => category.pages,
+            "pages" => category.pages.published,
             "name" => category.name
           }
         end
