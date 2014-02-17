@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Visit < ActiveRecord::Base
-      self.table_name = "#{Landable.configuration.schema_prefix}landable_traffic.visits"
+      self.table_name = "#{Landable.configuration.database_schema_prefix}landable_traffic.visits"
       self.record_timestamps = false
 
       belongs_to :attribution

@@ -12,7 +12,7 @@ Landable.configure do |config|
 
   config.reserved_paths = %w(/reserved_path_set_in_initializer /reject/.* /admin.*)
 
-  config.schema_prefix = 'dummy'
+  config.database_schema_prefix = 'dummy'
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.

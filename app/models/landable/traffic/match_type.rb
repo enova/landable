@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class MatchType < ActiveRecord::Base
-      self.table_name = "#{Landable.configuration.schema_prefix}landable_traffic.match_types"
+      self.table_name = "#{Landable.configuration.database_schema_prefix}landable_traffic.match_types"
 
       lookup_by :match_type, cache: 50, find_or_create: true
 

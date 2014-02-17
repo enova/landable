@@ -1,6 +1,6 @@
 module Landable
   class AccessToken < ActiveRecord::Base
-    self.table_name = "#{Landable.configuration.schema_prefix}landable.access_tokens"
+    self.table_name = "#{Landable.configuration.database_schema_prefix}landable.access_tokens"
 
     belongs_to :author
     validates_presence_of :author_id

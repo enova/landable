@@ -1,6 +1,6 @@
 module Landable
   class Author < ActiveRecord::Base
-    self.table_name = "#{Landable.configuration.schema_prefix}landable.authors"
+    self.table_name = "#{Landable.configuration.database_schema_prefix}landable.authors"
     has_many :access_tokens
 
     def self.authenticate!(username, token_id)

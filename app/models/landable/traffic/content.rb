@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Content < ActiveRecord::Base
-      self.table_name = "#{Landable.configuration.schema_prefix}landable_.contents"
+      self.table_name = "#{Landable.configuration.database_schema_prefix}landable_.contents"
 
       lookup_by :content, cache: 50, find_or_create: true
 

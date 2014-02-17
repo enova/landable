@@ -3,7 +3,7 @@ module Landable
     class Attribution < ActiveRecord::Base
       KEYS = %w[ad_type ad_group bid_match_type campaign content creative device_type experiment keyword match_type medium network placement position search_term source target]
 
-      self.table_name = "#{Landable.configuration.schema_prefix}landable_traffic.attributions"
+      self.table_name = "#{Landable.configuration.database_schema_prefix}landable_traffic.attributions"
       self.record_timestamps = false
 
       KEYS.each do |key|

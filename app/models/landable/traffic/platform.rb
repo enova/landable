@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Platform < ActiveRecord::Base
-      self.table_name = "#{Landable.configuration.schema_prefix}landable_traffic.platforms"
+      self.table_name = "#{Landable.configuration.database_schema_prefix}landable_traffic.platforms"
 
       lookup_by :platform, cache: 50, find_or_create: true
 

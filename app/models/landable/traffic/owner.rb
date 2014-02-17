@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Owner < ActiveRecord::Base
-      self.table_name = "#{Landable.configuration.schema_prefix}landable_traffic.owners"
+      self.table_name = "#{Landable.configuration.database_schema_prefix}landable_traffic.owners"
 
       has_many :ownerships
       has_many :visits

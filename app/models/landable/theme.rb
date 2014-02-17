@@ -4,7 +4,7 @@ module Landable
   class Theme < ActiveRecord::Base
     include Landable::HasAssets
 
-    self.table_name = "#{Landable.configuration.schema_prefix}landable.themes"
+    self.table_name = "#{Landable.configuration.database_schema_prefix}landable.themes"
 
     validates_presence_of   :name, :description
     validates_uniqueness_of :name, case_sensitive: false
