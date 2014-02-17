@@ -8,7 +8,7 @@ Landable.configure do |config|
   # config.authenticator = Landable::AuthenticationService::EchoAuthenticator.new('trogdor', 'trogdor')
 
   # Set up the schema prefix to use the app name
-  config.schema_prefix = Rails.application.class.parent_name
+  # config.schema_prefix = Rails.application.class.parent_name.downcase
 
   # Add landable-ldap to your application's Gemfile to authenticate by LDAP:
   # config.authenticator = Landable::LDAP::Authenticator.new(

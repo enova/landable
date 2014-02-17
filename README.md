@@ -109,6 +109,19 @@ Landable.configure do |config|
 end
 ```
 
+## Schema Naming
+Landable will default to putting its tables in landable, landable_traffic schemas.
+
+You can specify a prefix to use, which would allow for unique schema names across applications.
+
+```ruby
+Landable.configure do |config|
+  # Set up the schema prefix to use the app name
+  config.schema_prefix = 'prefix'                                     # Would use schemas prefix_landable, prefix_landable_tracking
+  config.schema_prefix = Rails.application.class.parent_name.downcase # Would use the downcase version of your app's name
+end
+```
+
 ## Development
 
 Run `./bin/redb` to refresh the dummy app's database.
