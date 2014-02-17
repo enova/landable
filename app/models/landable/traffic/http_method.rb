@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class HTTPMethod < ActiveRecord::Base
-      self.table_name = 'traffic.http_methods'
+      self.table_name = "#{Landable.configuration.schema_prefix}landable_traffic.http_methods"
 
       lookup_by :http_method, cache: true, find_or_create: true
 

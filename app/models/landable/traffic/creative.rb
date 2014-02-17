@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Creative < ActiveRecord::Base
-      self.table_name = 'traffic.creatives'
+      self.table_name = "#{Landable.configuration.schema_prefix}landable_traffic.creatives"
 
       lookup_by :creative, cache: 50, find_or_create: true
 

@@ -1,6 +1,7 @@
 class FixStatusCodes < ActiveRecord::Migration
   def up
-    execute "DROP TRIGGER landable_page_revisions__no_update ON landable.page_revisions"
+    execute "DROP TRIGGER #{Landable.configuration.schema_prefix}landable_page_revisions__no_update 
+              ON #{Landable.configuration.schema_prefix}landable.page_revisions"
 
     # Find Pages with 404s, switch to 410s, publish the page!
     Landable::Page.where(status_code: 404).find_each do |page| 
@@ -14,10 +15,10 @@ class FixStatusCodes < ActiveRecord::Migration
       page.save!
     end
 
-    execute "CREATE TRIGGER landable_page_revisions__no_update
+    execute "CREATE TRIGGER #{Landable.configuration.schema_prefix}landable_page_revisions__no_update
             BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal
               , theme_id, status_code, category_id, redirect_url, body
-            ON landable.page_revisions
-            FOR EACH STATEMENT EXECUTE PROCEDURE landable.tg_disallow();"
+            ON #{Landable.configuration.schema_prefix}landable.page_revisions
+            FOR EACH STATEMENT EXECUTE PROCEDURE #{Landable.configuration.schema_prefix}landable.tg_disallow();"
   end
 end

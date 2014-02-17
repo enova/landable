@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Path < ActiveRecord::Base
-      self.table_name = 'traffic.paths'
+      self.table_name = "#{Landable.configuration.schema_prefix}landable_traffic.paths"
 
       lookup_by :path, cache: 50, find_or_create: true
 

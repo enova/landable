@@ -5,7 +5,7 @@ module Landable
     include Landable::Engine.routes.url_helpers
     include Landable::HasAssets
 
-    self.table_name = 'landable.page_revisions'
+    self.table_name = "#{Landable.configuration.schema_prefix}landable.page_revisions"
 
     @@ignored_page_attributes = [
       'page_id',

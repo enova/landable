@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Cookie < ActiveRecord::Base
-      self.table_name = 'traffic.cookies'
+      self.table_name = "#{Landable.configuration.schema_prefix}landable_traffic.cookies"
 
       lookup_by :cookie_id, cache: 100, find: true
 

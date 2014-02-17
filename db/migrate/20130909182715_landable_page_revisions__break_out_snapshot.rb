@@ -8,19 +8,29 @@ class LandablePageRevisionsBreakOutSnapshot < Landable::Migration
   def up
 
     # Setup new columns
-    add_column "landable.page_revisions", :theme_id,                  :uuid
-    add_column "landable.page_revisions", :status_code_id,            :uuid
-    add_column "landable.page_revisions", :category_id,               :uuid
-    add_column "landable.page_revisions", :redirect_url,              :text
-    add_column "landable.page_revisions", :body,                      :text
-    add_column "landable.page_revisions", :title,                     :text
-    add_column "landable.page_revisions", :path,                      :text
-    add_column "landable.page_revisions", :meta_tags,                 :hstore
-    add_column "landable.page_revisions", :head_tags,                 :hstore
+    add_column "#{Landable.configuration.schema_prefix}landable.page_revisions", :theme_id,                  :uuid
+    add_column "#{Landable.configuration.schema_prefix}landable.page_revisions", :status_code_id,            :uuid
+    add_column "#{Landable.configuration.schema_prefix}landable.page_revisions", :category_id,               :uuid
+    add_column "#{Landable.configuration.schema_prefix}landable.page_revisions", :redirect_url,              :text
+    add_column "#{Landable.configuration.schema_prefix}landable.page_revisions", :body,                      :text
+    add_column "#{Landable.configuration.schema_prefix}landable.page_revisions", :title,                     :text
+    add_column "#{Landable.configuration.schema_prefix}landable.page_revisions", :path,                      :text
+    add_column "#{Landable.configuration.schema_prefix}landable.page_revisions", :meta_tags,                 :hstore
+    add_column "#{Landable.configuration.schema_prefix}landable.page_revisions", :head_tags,                 :hstore
 
-    execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT theme_id_fk FOREIGN KEY(theme_id) REFERENCES landable.themes(theme_id)"
-    execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT status_code_id_fk FOREIGN KEY(status_code_id) REFERENCES landable.status_codes(status_code_id)"
-    execute "ALTER TABLE landable.page_revisions ADD CONSTRAINT category_id_fk FOREIGN KEY(category_id) REFERENCES landable.categories(category_id)"
+    execute <<-SQL
+      ALTER TABLE #{Landable.configuration.schema_prefix}landable.page_revisions 
+        ADD CONSTRAINT theme_id_fk FOREIGN KEY(theme_id) 
+        REFERENCES #{Landable.configuration.schema_prefix}landable.themes(theme_id);
+      
+      ALTER TABLE #{Landable.configuration.schema_prefix}landable.page_revisions 
+        ADD CONSTRAINT status_code_id_fk FOREIGN KEY(status_code_id) 
+        REFERENCES #{Landable.configuration.schema_prefix}landable.status_codes(status_code_id);
+
+      ALTER TABLE #{Landable.configuration.schema_prefix}landable.page_revisions 
+        ADD CONSTRAINT category_id_fk FOREIGN KEY(category_id) 
+        REFERENCES #{Landable.configuration.schema_prefix}landable.categories(category_id);
+      SQL
 
     # Go through each record and copy snapshot into new, broken-out columns
     Landable::PageRevision.all.each do |rev|
@@ -41,16 +51,18 @@ class LandablePageRevisionsBreakOutSnapshot < Landable::Migration
     end
 
     # Remove snapshot column
-    remove_column "landable.page_revisions", :snapshot_attributes
+    remove_column "#{Landable.configuration.schema_prefix}landable.page_revisions", :snapshot_attributes
 
-    execute "DROP TRIGGER landable_page_revisions__no_update ON landable.page_revisions"
+    execute <<-SQL
+      DROP TRIGGER #{Landable.configuration.schema_prefix}landable_page_revisions__no_update ON #{Landable.configuration.schema_prefix}landable.page_revisions;
 
-    execute "CREATE TRIGGER landable_page_revisions__no_update
+      CREATE TRIGGER #{Landable.configuration.schema_prefix}landable_page_revisions__no_update
             BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal
               , theme_id, status_code_id, category_id, redirect_url, body
               , title, path, meta_tags, head_tags
-            ON landable.page_revisions
-            FOR EACH STATEMENT EXECUTE PROCEDURE landable.tg_disallow();"
+            ON #{Landable.configuration.schema_prefix}landable.page_revisions
+            FOR EACH STATEMENT EXECUTE PROCEDURE #{Landable.configuration.schema_prefix}landable.tg_disallow();
+    SQL
 
   end
 

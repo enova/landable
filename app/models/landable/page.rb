@@ -14,7 +14,7 @@ module Landable
     validates_presence_of   :path, :status_code
     validates_presence_of   :redirect_url, if: -> page { page.redirect? }
 
-    self.table_name = 'landable.pages'
+    self.table_name = "#{Landable.configuration.schema_prefix}landable.pages"
 
     validates_inclusion_of  :status_code, in: [200, 301, 302, 410]
 

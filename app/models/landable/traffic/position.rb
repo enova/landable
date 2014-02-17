@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Position < ActiveRecord::Base
-      self.table_name = 'traffic.positions'
+      self.table_name = "#{Landable.configuration.schema_prefix}landable_traffic.positions"
 
       lookup_by :position, cache: 50, find_or_create: true
 

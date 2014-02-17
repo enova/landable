@@ -1,6 +1,6 @@
 module Landable
   class Template < ActiveRecord::Base
-    self.table_name = 'landable.templates'
+    self.table_name = "#{Landable.configuration.schema_prefix}landable.templates"
 
     validates_presence_of   :name, :slug, :description
     validates_uniqueness_of :name, case_sensitive: false

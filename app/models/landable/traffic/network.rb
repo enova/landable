@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Network < ActiveRecord::Base
-      self.table_name = 'traffic.networks'
+      self.table_name = "#{Landable.configuration.schema_prefix}landable_traffic.networks"
 
       lookup_by :network, cache: 50, find_or_create: true
 
