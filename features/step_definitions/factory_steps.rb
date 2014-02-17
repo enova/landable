@@ -48,6 +48,11 @@ Given /^a page "([^"]+)" with title "(.+)"$/ do |path, title|
   create :page, path: path, title: title, body: "<HTML>BODY</HTML>"
 end
 
+Given /^a page with title "(.+)" and category "(.+)"$/ do |title, category|
+  category_obj = Landable::Category.where('lower(name) = ?', category.downcase).first
+  create :page, title: title, category: category_obj
+end
+
 Given 'page "$path" redirects to "$url" with status $code' do |path, url, code|
   page = create :page, :redirect, path: path, redirect_url: url, status_code: code, body: "BODY"
   page.publish! author: create(:author)
