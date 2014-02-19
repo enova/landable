@@ -5,8 +5,8 @@ require 'digest/md5'
 
 module Landable
   class Asset < ActiveRecord::Base
-    self.table_name = "#{Landable.configuration.database_schema_prefix}landable.assets"
-
+    include Landable::TableName
+    
     mount_uploader :data, Landable::AssetUploader
     alias :file :data
     alias :file= :data=

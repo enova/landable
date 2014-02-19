@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Visitor < ActiveRecord::Base
-      self.table_name = "#{Landable.configuration.database_schema_prefix}landable_traffic.visitors"
+      include Landable::Traffic::TableName
 
       lookup_for :ip_address, class_name: IpAddress
       lookup_for :user_agent, class_name: UserAgent

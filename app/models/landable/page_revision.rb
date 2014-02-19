@@ -4,8 +4,7 @@ module Landable
   class PageRevision < ActiveRecord::Base
     include Landable::Engine.routes.url_helpers
     include Landable::HasAssets
-
-    self.table_name = "#{Landable.configuration.database_schema_prefix}landable.page_revisions"
+    include Landable::TableName
 
     @@ignored_page_attributes = [
       'page_id',

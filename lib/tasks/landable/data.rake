@@ -1,3 +1,5 @@
+require 'pry'
+
 namespace :landable do
   namespace :data do
     desc "Clean & restore database from specified source"
@@ -20,30 +22,40 @@ namespace :landable do
     end
 
     desc "Migrates all to new schema"
-    task :new_schema => [ 'create_schemas', 'move_tables', 'move_sequences', 'move_triggers' ]
+    task :move_schemas, :old_landable, :new_landable, :old_traffic, :new_traffic do |t, args|
+      @old_landable = "#{args[:old_landable]}"
+      @new_landable = "#{args[:new_landable]}"
+      @old_traffic = "#{args[:old_traffic]}"
+      @new_traffic = "#{args[:new_traffic]}"
+
+      Rake.application.invoke_task("landable:data:create_schemas")
+      Rake.application.invoke_task("landable:data:move_tables")
+      Rake.application.invoke_task("landable:data:move_sequences")
+      Rake.application.invoke_task("landable:data:move_triggers")
+    end
 
     desc "Creates the new schemas"
     task create_schemas: :environment do
-      create_schema(landable_schema)
-      create_schema(traffic_schema)
+      create_schema("#{@new_landable}")
+      create_schema("#{@new_traffic}")
     end
 
     desc "Move tables to new db schema"
     task move_tables: :environment do
-      move_objects('landable', landable_schema, 'r', 'TABLE')
-      move_objects('traffic', traffic_schema, 'r', 'TABLE')
+      move_objects("#{@old_landable}", "#{@new_landable}", 'r', 'TABLE')
+      move_objects("#{@old_traffic}", "#{@new_traffic}", 'r', 'TABLE')
     end
 
     desc "Move sequences to new db schema"
     task move_sequences: :environment do
-      move_objects('landable', landable_schema, 'S', 'SEQUENCE')
-      move_objects('traffic', traffic_schema, 'S', 'SEQUENCE')
+      move_objects("#{@old_landable}", "#{@new_landable}", 'S', 'SEQUENCE')
+      move_objects("#{@old_traffic}", "#{@new_traffic}", 'S', 'SEQUENCE')
     end
 
     desc "Move triggers to new db schema"
     task move_triggers: :environment do
-      create_new_triggers(landable_schema)
-      drop_old_triggers('landable', landable_schema)
+      create_new_triggers("#{@new_landable}")
+      drop_old_triggers("#{@old_landable}", "#{@new_landable}")
     end
 
   end
@@ -56,14 +68,6 @@ namespace :landable do
     }
     puts "Creating #{schema} schema"
     connection.execute sql
-  end
-
-  def landable_schema
-    "#{Landable.configuration.database_schema_prefix}landable"
-  end
-
-  def traffic_schema
-    "#{Landable.configuration.database_schema_prefix}landable_traffic"
   end
 
   def move_objects(from_schema, to_schema, relkind, object_type)
@@ -91,6 +95,7 @@ namespace :landable do
   end
 
   def create_new_triggers(new_schema)
+    puts "#{new_schema}"
     connection = ActiveRecord::Base.connection
     sql = %{
       CREATE FUNCTION #{new_schema}.pages_revision_ordinal()

@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Country < ActiveRecord::Base
-      self.table_name = "#{Landable.configuration.database_schema_prefix}landable_traffic.countries"
+      include Landable::Traffic::TableName
 
       lookup_by :country, cache: true, find_or_create: true
 

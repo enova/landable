@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class UserAgent < ActiveRecord::Base
-      self.table_name = "#{Landable.configuration.database_schema_prefix}landable_traffic.user_agents"
+      include Landable::Traffic::TableName
       self.record_timestamps = false
 
       lookup_by  :user_agent, cache: 50, find_or_create: true

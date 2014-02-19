@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Medium < ActiveRecord::Base
-      self.table_name = "#{Landable.configuration.database_schema_prefix}landable_traffic.mediums"
+      include Landable::Traffic::TableName
 
       lookup_by :medium, cache: 50, find_or_create: true
 
