@@ -19,12 +19,22 @@ class Landable::Migration < ActiveRecord::Migration
   end
 
   def exec_migration(conn, direction)
-    original_search_path = self.class.connection_search_path conn
-    super
-    conn.schema_search_path = original_search_path
+    # come what may, keep the connection's schema search path intact
+    with_clean_connection(conn) do
+      super
+    end
 
     # reset a few things, lest we pollute the way for those who follow
     self.class.clear_cache!
+  end
+
+
+  protected
+
+  def with_clean_connection(conn)
+    original_search_path = self.class.connection_search_path conn
+    yield
+    conn.schema_search_path = original_search_path
   end
 
 end
