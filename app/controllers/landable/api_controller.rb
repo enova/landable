@@ -51,7 +51,7 @@ module Landable
         accept = request.headers['Accept'].match(API_MEDIA_REGEX) || {}
 
         {
-          version: accept['version'].presence.try(:to_i) || Landable::API_VERSION,
+          version: Landable::VERSION::STRING,
           format:  accept['format'].presence.try(:to_sym) || :json,
           param:   accept['param'].presence,
         }

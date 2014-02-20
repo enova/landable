@@ -9,7 +9,7 @@ require "landable/version"
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |gem|
   gem.name          = "landable"
-  gem.version       = Landable::VERSION
+  gem.version       = Landable::VERSION::STRING
 
   gem.authors       = ["Team Trogdor"]
   gem.email         = ["trogdor@cashnetusa.com"]
