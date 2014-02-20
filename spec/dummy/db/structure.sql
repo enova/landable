@@ -204,7 +204,8 @@ COMMENT ON TABLE authors IS 'A list of authors that have accessed the website.  
 CREATE TABLE categories (
     category_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     name text,
-    description text
+    description text,
+    slug text NOT NULL
 );
 
 
@@ -3728,7 +3729,7 @@ ALTER TABLE ONLY visits
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20130510221424');
 
@@ -3775,3 +3776,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140210212722');
 INSERT INTO schema_migrations (version) VALUES ('20140212163500');
 
 INSERT INTO schema_migrations (version) VALUES ('20140214202141');
+
+INSERT INTO schema_migrations (version) VALUES ('20140220170324');
