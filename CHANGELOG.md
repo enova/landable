@@ -1,7 +1,9 @@
 # Changelog
 
 See README.md before updating this file.
-## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.4.2...master)
+
+## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.5.0...master)
+* Add `categories` as a Liquid variable [#115]
 
 ## v1.5.0 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.4.2...v1.5.0)
 * Add response_time to page_view records [#106]
