@@ -75,7 +75,7 @@ module Landable
     end
 
     def render_template template, variables = {}, liquid_options = {}
-      variables['categories'] = Liquid::CategoryProxy.new
+      variables['categories'] = Liquid::CategoriesDrop.new
 
       parse(template).render!(variables, liquid_options)
     end

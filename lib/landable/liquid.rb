@@ -3,7 +3,7 @@ require 'liquid'
 require 'landable/liquid/tags'
 require 'landable/liquid/asset_tags'
 require 'landable/liquid/filters'
-require 'landable/liquid/proxies'
+require 'landable/liquid/drops'
 
 # Tag generators
 Liquid::Template.register_tag('title_tag',    Landable::Liquid::TitleTag)

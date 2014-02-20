@@ -19,7 +19,7 @@ module Landable
     #     <li><a href="{{ page.url }}">{{ page.name }}</a></li>
     #   {% endfor %}
     # </ul>
-    class CategoryProxy < ::Liquid::Drop
+    class CategoriesDrop < ::Liquid::Drop
 
       def before_method method_name
         category_cache[method_name] ||= ::Landable::Category.find_by_slug method_name
