@@ -74,10 +74,8 @@ module Landable
       @assets_for_theme ||= theme ? theme.assets_as_hash : {}
     end
 
-    def render_template template, variables = nil, liquid_options = nil
-      liquid_options ||= {}
-      variables ||= {}
-      variables["categories"] = ::Landable::Liquid::CategoryProxy.categories
+    def render_template template, variables = {}, liquid_options = {}
+      variables['categories'] = Liquid::CategoryProxy.new
 
       parse(template).render!(variables, liquid_options)
     end
