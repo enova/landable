@@ -8,6 +8,10 @@ describe Landable::ApiController, json: true do
       render nothing: true
     end
 
+    def ok
+      render nothing: true
+    end
+
     def responder
       respond_with @resource
     end
@@ -42,6 +46,7 @@ describe Landable::ApiController, json: true do
   before do
     routes.draw do
       get 'index' => 'anonymous#index'
+      get 'ok' => 'anonymous#ok'
       get 'responder' => 'anonymous#responder'
       patch 'responder' => 'anonymous#responder'
       put 'responder' => 'anonymous#responder'
@@ -138,37 +143,19 @@ describe Landable::ApiController, json: true do
   describe '#api_media' do
     let(:headers) { {} }
 
-    def make_request
-      request.env.merge!(headers)
-      get :index
-    end
+    it 'should match the request format and api version' do
+      request.env['HTTP_ACCEPT'] = 'application/xml'
 
-    context 'a specific API version requested' do
-      let(:headers) { {'HTTP_ACCEPT' => "application/vnd.landable.v3+json"} }
+      get :ok
 
-      it 'populates accordingly' do
-        make_request
+      # sanity check
+      request.format.symbol.should == :xml
 
-        controller.api_media.should == {
-          format: :json,
-          version: 3,
-          param: nil,
-        }
-      end
-    end
-
-    context 'no specific API version requested' do
-      let(:headers) { {'HTTP_ACCEPT' => "application/json"} }
-
-      it 'should select defaults' do
-        make_request
-
-        controller.api_media.should == {
-          format: :json,
-          version: Landable::API_VERSION,
-          param: nil,
-        }
-      end
+      controller.api_media.should == {
+        format: request.format.symbol,
+        version: Landable::VERSION::STRING,
+        param: nil,
+      }
     end
   end
 
@@ -182,7 +169,7 @@ describe Landable::ApiController, json: true do
     it 'should set X-Landable-Media-Type' do
       get :responder
       response.status.should == 200
-      response.headers['X-Landable-Media-Type'].should == "landable.v#{Landable::API_VERSION}; format=json"
+      response.headers['X-Landable-Media-Type'].should == "landable.v#{Landable::VERSION::STRING}; format=json"
     end
 
     context 'patch' do

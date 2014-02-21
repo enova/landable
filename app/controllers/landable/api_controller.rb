@@ -52,7 +52,7 @@ module Landable
 
         {
           version: Landable::VERSION::STRING,
-          format:  accept['format'].presence.try(:to_sym) || :json,
+          format:  request.format.symbol,
           param:   accept['param'].presence,
         }
       end
