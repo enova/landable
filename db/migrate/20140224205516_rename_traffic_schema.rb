@@ -1,4 +1,4 @@
-class RenameTrafficSchema < ActiveRecord::Migration
+class RenameTrafficSchema < Landable::Migration
 
   def traffic_schema
     "#{Landable.configuration.database_schema_prefix}landable_traffic"
