@@ -1,8 +1,11 @@
 # Changelog
 
 See README.md before updating this file.
-## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.5.0...master)
+
+## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.5.1...master)
 * Allow for unique schema names across apps via configuration [#114]
+* Add `categories` as a Liquid variable [#115]
+* Report full version in API responses [#117]
 
 ## v1.5.1 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.5.0...v1.5.1)
 * Better Handling of the Preview Message [#109]

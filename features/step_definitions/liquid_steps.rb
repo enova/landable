@@ -75,5 +75,5 @@ end
 Then 'the rendered content should be:' do |body|
   @responder ||= nil
   @rendered_content ||= Landable::RenderService.call(@page, responder: @responder)
-  @rendered_content.should == body
+  @rendered_content.strip.should == body.strip
 end

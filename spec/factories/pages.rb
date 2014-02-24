@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :page, class: 'Landable::Page' do
     association :theme, strategy: :build
+    association :category
 
     sequence(:path)  { |n| "/page-#{n}" }
     sequence(:title) { |n| "Page #{n}" }

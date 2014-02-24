@@ -11,6 +11,8 @@ module Landable
     attributes :preview_path
     attributes :lock_version
     attributes :status_code
+    attributes :abstract
+    attributes :hero_asset_name
 
     embed    :ids
     has_one  :theme
@@ -25,6 +27,5 @@ module Landable
     def meta_tags
       object.meta_tags || {}
     end
-
   end
 end
