@@ -133,3 +133,7 @@ end
 Then 'the JSON at "$path" should be "$value"' do |json_path, value|
   at_json(json_path).should == value
 end
+
+Then 'the response header Content-Type should be "$content_type"' do |content_type|
+  last_response.content_type.should include(content_type)
+end

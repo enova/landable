@@ -3,13 +3,12 @@ require_dependency "landable/application_controller"
 module Landable
   module Public
     class PagesController < ApplicationController
-      respond_to :html
+      respond_to :html, :json, :xml, :txt
+
       self.responder = Landable::PageRenderResponder
 
       def show
         respond_with current_snapshot
-      end
-
       private
 
       def current_page
