@@ -5,13 +5,11 @@ module Landable
     end
 
     def process
-      @name = @file.split('/', 2).last.titlecase
+      @name        = @file.gsub('/',' ').titlecase
+      @description = "Defined in Source Code at #{@file}"
+      @slug        = @file.gsub(/[^\w]/, '_')
 
       @processed = true
-    end
-
-    def description 
-      "Defined in Source Code at #{@file}"
     end
 
     def to_template
@@ -20,7 +18,8 @@ module Landable
       template                 = Template.where(file: @file).first_or_initialize
       template.body            = ''
       template.name            = @name
-      template.description     = description
+      template.slug            = @slug
+      template.description     = @description
       template.editable        = false
       template.is_layout       = false
       template.thumbnail_url ||= "http://placehold.it/300x200"

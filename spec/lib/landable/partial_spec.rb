@@ -21,9 +21,9 @@ module Landable
         end
 
         context 'the templates' do
-          it 'populates a name' do
-            @foobazz.name.should == 'Foobazz'
-            @test.name.should    == 'Test'
+          it 'populates a name by humanizing the file' do
+            @foobazz.name.should == 'Partials Foobazz'
+            @test.name.should    == 'Partials Test'
           end
 
           it 'populates a description' do
@@ -47,7 +47,6 @@ module Landable
           end
 
           it 'populates a body' do
-            # Defined in spec/dummy/app/views/partials/...
             @foobazz.body.should == ''
             @test.body.should    == ''
           end
@@ -55,6 +54,11 @@ module Landable
           it 'references the flle path' do
             @foobazz.file.should == 'partials/foobazz'
             @test.file.should    == 'partials/test'
+          end
+
+          it 'creates a slug by underscoring the name' do
+            @test.slug.should    == 'partials_test'
+            @foobazz.slug.should == 'partials_foobazz'
           end
         end
       end

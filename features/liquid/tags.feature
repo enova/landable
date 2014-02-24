@@ -108,7 +108,7 @@ Feature: Liquid Tags
   Scenario: Referencing file backed partials
     Given the page's body is:
       """
-      <div>{% template foobazz %}</div>
+      <div>{% template partials_foobazz %}</div>
       """
     And   the template is a filed backed partial
     Then  the rendered content should be:
