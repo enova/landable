@@ -18,8 +18,10 @@ module Landable
         app.middleware.insert 0, Rack::Cors do
           allow do
             origins config.cors.origins
-            resource "#{config.api_namespace}/*", methods: [:get, :post, :put, :patch, :delete],
+            resource "#{config.api_namespace}/*",
+              methods: [:get, :post, :put, :patch, :delete],
               headers: :any,
+              expose: 'X-Landable-Media-Type',
               credentials: false,
               max_age: 15.minutes
           end
