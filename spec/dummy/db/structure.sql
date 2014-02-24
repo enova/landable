@@ -204,7 +204,8 @@ COMMENT ON TABLE authors IS 'A list of authors that have accessed the website.  
 CREATE TABLE categories (
     category_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     name text,
-    description text
+    description text,
+    slug text NOT NULL
 );
 
 
@@ -260,7 +261,9 @@ CREATE TABLE page_revisions (
     path text,
     meta_tags public.hstore,
     head_content text,
-    status_code smallint
+    status_code smallint,
+    abstract text,
+    hero_asset_id uuid
 );
 
 
@@ -295,6 +298,8 @@ CREATE TABLE pages (
     lock_version integer DEFAULT 0 NOT NULL,
     head_content text,
     status_code smallint DEFAULT 200 NOT NULL,
+    abstract text,
+    hero_asset_id uuid,
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
 
@@ -3765,3 +3770,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140128170659');
 INSERT INTO schema_migrations (version) VALUES ('20140205193757');
 
 INSERT INTO schema_migrations (version) VALUES ('20140206211322');
+
+INSERT INTO schema_migrations (version) VALUES ('20140220170324');
+
+INSERT INTO schema_migrations (version) VALUES ('20140220174630');

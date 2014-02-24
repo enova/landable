@@ -74,9 +74,8 @@ module Landable
       @assets_for_theme ||= theme ? theme.assets_as_hash : {}
     end
 
-    def render_template template, variables = nil, liquid_options = nil
-      liquid_options ||= {}
-      variables ||= {}
+    def render_template template, variables = {}, liquid_options = {}
+      variables['categories'] = Liquid::CategoriesDrop.new
 
       parse(template).render!(variables, liquid_options)
     end

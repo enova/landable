@@ -38,6 +38,8 @@ module Landable
       self.theme_id       = page.theme_id
       self.meta_tags      = page.meta_tags
       self.redirect_url   = page.redirect_url
+      self.abstract       = page.abstract
+      self.hero_asset_id  = page.hero_asset_id
     end
 
     def snapshot
@@ -49,7 +51,9 @@ module Landable
                redirect_url: self.redirect_url, 
                status_code: self.status_code, 
                theme_id: self.theme_id, 
-               category_id: self.category_id)
+               category_id: self.category_id,
+               abstract: self.abstract,
+               hero_asset_id: self.hero_asset_id)
     end
 
     def publish!
