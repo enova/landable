@@ -4,6 +4,7 @@ module Landable
   module Public
     class PagesController < ApplicationController
       respond_to :html
+
       self.responder = Landable::PageRenderResponder
 
       def show
