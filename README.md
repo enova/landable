@@ -152,6 +152,35 @@ If this is your first time running a release, configure geminabox first:
 gem inabox -c # when prompted, enter http://gems.enova.com as the host
 ```
 
+### Versioning
+
+Landable version numbers are based on [semver](http://semver.org/): *major*.*minor*.*patch*(.*pre*).
+
+#### Major
+
+Reserved for backwards-incompatible API changes. Or my birthday. Resets minor and patch counters to zero.
+
+A major version bump must be preceded by at least one prerelease for that version (see "Prerelease", below).
+
+#### Minor
+
+For new public features (e.g. new API paths, but not new internal ruby methods). Resets patch counter to zero.
+
+A minor version bump must be preceded by at least one prerelease for that version (see "Prerelease", below).
+
+#### Patch
+
+Sometimes there are bugs. Or refactorings. Or whitespace changes. Fixes that do not require a major or minor version bump are considered patches.
+
+#### Prerelease
+
+Major and minor releases are preceded by prereleases, to allow for bug discovery before locking in the release. Prereleases should be tested in development and staging deployments to determine their viability for production.
+
+Once a prerelease is deemed production-ready, the official release for that code may be performed.
+
+For example: Landable v2.0.0 would be preceded by Landable v2.0.0.rc1. If a bug is found, it is patched in v2.0.0.rc2. If v2.0.0.rc2 passes muster in other projects, v2.0.0 may be officially released.
+
+
 ## See Also
 
 Related projects we are also building:
