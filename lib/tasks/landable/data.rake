@@ -1,5 +1,3 @@
-require 'pry'
-
 namespace :landable do
   namespace :data do
     desc "Clean & restore database from specified source"

@@ -2,7 +2,10 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.6.0...master)
+## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.6.1..master)
+
+## v1.6.1 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.6.0...v1.6.1)
+* Removed ```require 'pry'```
 
 ## v1.6.0 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.5.1...v1.6.0)
 * Allow for unique schema names across apps via configuration [#114]
