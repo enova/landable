@@ -5,6 +5,7 @@ See README.md before updating this file.
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.5.1...master)
 * Add `categories` as a Liquid variable [#115]
 * Report full version in API responses [#117]
+* Handle all content types, path extensions [#118]
 
 ## v1.5.1 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.5.0...v1.5.1)
 * Better Handling of the Preview Message [#109]
