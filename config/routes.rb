@@ -54,7 +54,7 @@ Landable::Engine.routes.draw do
 
     get '/sitemap.xml' => 'sitemap#index', as: :sitemap
 
-    get '*url' => 'pages#show', as: :page, constraints: lambda { |request|
+    get '*url' => 'pages#show', as: :page, format: false, constraints: lambda { |request|
       # Published Landable Page
       Landable::PageRevision.table_exists? && Landable::PageRevision.where(path: request.path, is_published: true).any?
     }

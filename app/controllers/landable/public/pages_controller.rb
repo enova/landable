@@ -3,7 +3,7 @@ require_dependency "landable/application_controller"
 module Landable
   module Public
     class PagesController < ApplicationController
-      respond_to :html, :json, :xml, :txt
+      respond_to :html
 
       self.responder = Landable::PageRenderResponder
 
