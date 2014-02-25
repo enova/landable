@@ -9,6 +9,8 @@ module Landable
 
       def show
         respond_with current_snapshot
+      end
+
       private
 
       def current_page
