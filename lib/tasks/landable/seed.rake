@@ -1,11 +1,11 @@
 namespace :landable do
   namespace :seed do
-    desc 'Populate a landable database with basic categories and themes'
+    desc 'Seed extra data (starter themes)'
     task :extras => :environment do
       Landable::Seeds.seed(:extras)
     end
 
-    desc 'Seed required data (namely status codes)'
+    desc 'Seed required data (categories)'
     task :required => :environment do
       Landable::Seeds.seed(:required)
     end
