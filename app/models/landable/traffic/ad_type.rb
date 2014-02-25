@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class AdType < ActiveRecord::Base
-      self.table_name = 'traffic.ad_types'
+      include Landable::Traffic::TableName
 
       lookup_by :ad_type, cache: 50, find_or_create: true
 

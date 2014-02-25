@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Access < ActiveRecord::Base
-      self.table_name = 'traffic.accesses'
+      include Landable::Traffic::TableName
 
       lookup_for :path, class_name: Path
 

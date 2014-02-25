@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class PageView < ActiveRecord::Base
-      self.table_name = 'traffic.page_views'
+      include Landable::Traffic::TableName
       self.record_timestamps = false
 
       belongs_to :visit

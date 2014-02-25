@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class City < ActiveRecord::Base
-      self.table_name = 'traffic.cities'
+      include Landable::Traffic::TableName
 
       lookup_by :city, cache: 50, find_or_create: true
 

@@ -2,7 +2,7 @@ module Landable
   class Configuration
     attr_writer :api_namespace, :public_namespace, :categories, :traffic_enabled
     attr_writer :sitemap_exclude_categories, :sitemap_protocol, :sitemap_host
-    attr_writer :sitemap_additional_paths, :reserved_paths, :partials_to_templates
+    attr_writer :sitemap_additional_paths, :reserved_paths, :partials_to_templates, :database_schema_prefix
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -21,6 +21,14 @@ module Landable
     def public_namespace
       raise NotImplementedError
       @public_namespace ||= '/'
+    end
+
+    def database_schema_prefix
+      @database_schema_prefix ||= ''
+    end
+
+    def database_schema_prefix=(val)
+      @database_schema_prefix = "#{val}_" if val.present?
     end
 
     def categories

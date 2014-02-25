@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Device < ActiveRecord::Base
-      self.table_name = 'traffic.devices'
+      include Landable::Traffic::TableName
 
       lookup_by :device, cache: 50, find_or_create: true
 

@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Ownership < ActiveRecord::Base
-      self.table_name = 'traffic.ownerships'
+      include Landable::Traffic::TableName
 
       belongs_to :cookie
       belongs_to :owner

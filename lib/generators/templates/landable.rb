@@ -5,7 +5,10 @@ Landable.configure do |config|
   config.cors.origins = %w(publicist.dev http://publicist.10.224.109.244.xip.io/)
 
   # Simple singleton user authenticator
-  config.authenticator = Landable::AuthenticationService::EchoAuthenticator.new('trogdor', 'trogdor')
+  # config.authenticator = Landable::AuthenticationService::EchoAuthenticator.new('trogdor', 'trogdor')
+
+  # Set up a custom database schema prefix (default: nil)
+  # config.database_schema_prefix = Rails.application.class.parent_name.downcase
 
   # Add landable-ldap to your application's Gemfile to authenticate by LDAP:
   # config.authenticator = Landable::LDAP::Authenticator.new(

@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Browser < ActiveRecord::Base
-      self.table_name = 'traffic.browsers'
+      include Landable::Traffic::TableName
 
       lookup_by :browser, cache: 50, find_or_create: true
 

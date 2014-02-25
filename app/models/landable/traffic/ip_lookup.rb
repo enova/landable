@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class IpLookup < ActiveRecord::Base
-      self.table_name = 'traffic.ip_lookups'
+      include Landable::Traffic::TableName
 
       lookup_for :ip_address, class_name: IpAddress
       lookup_for :domain,     class_name: Domain

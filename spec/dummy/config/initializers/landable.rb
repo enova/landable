@@ -1,3 +1,5 @@
+require 'landable'
+
 Landable.configure do |config|
   config.api_namespace = '/api'
   config.cors.origins  = ['http://cors.test']
@@ -9,4 +11,12 @@ Landable.configure do |config|
   config.partials_to_templates = %w(partials/foobazz)
 
   config.reserved_paths = %w(/reserved_path_set_in_initializer /reject/.* /admin.*)
+
+  config.database_schema_prefix = 'dummy'
+end
+
+# Configure asset uploads. Assets will be uploaded to public/uploads by default.
+# More configuration options: https://github.com/carrierwaveuploader/carrierwave
+CarrierWave.configure do |config|
+  # config.asset_host = 'http://cdn.myapp.com'
 end

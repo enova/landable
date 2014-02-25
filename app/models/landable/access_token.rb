@@ -1,7 +1,7 @@
 module Landable
   class AccessToken < ActiveRecord::Base
-    self.table_name = 'landable.access_tokens'
-
+    include Landable::TableName
+    
     belongs_to :author
     validates_presence_of :author_id
     validates_presence_of :expires_at

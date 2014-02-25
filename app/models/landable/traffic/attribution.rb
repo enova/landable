@@ -1,9 +1,9 @@
 module Landable
   module Traffic
     class Attribution < ActiveRecord::Base
+      include Landable::Traffic::TableName
       KEYS = %w[ad_type ad_group bid_match_type campaign content creative device_type experiment keyword match_type medium network placement position search_term source target]
 
-      self.table_name = 'traffic.attributions'
       self.record_timestamps = false
 
       KEYS.each do |key|

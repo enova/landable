@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class UserAgentType < ActiveRecord::Base
-      self.table_name = 'traffic.user_agent_types'
+      include Landable::Traffic::TableName
 
       lookup_by :user_agent_type, cache: true
 

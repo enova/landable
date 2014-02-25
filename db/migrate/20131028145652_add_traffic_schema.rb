@@ -33,9 +33,9 @@ class AddTrafficSchema < Landable::Migration
     #
     # keywords: http://cyrusshepard.com/7-fantastic-seo-tips-for-googles-not-provided-keywords/
 
-    execute "CREATE SCHEMA traffic;"
+    execute "CREATE SCHEMA #{Landable.configuration.database_schema_prefix}landable_traffic;"
 
-    with_options schema: 'traffic' do |t|
+    with_options schema: "#{Landable.configuration.database_schema_prefix}landable_traffic" do |t|
       # Query Params
       t.create_lookup_tables(*QUERY_PARAMS.map(&:pluralize))
 
@@ -54,7 +54,7 @@ class AddTrafficSchema < Landable::Migration
     end
 
     execute <<-SQL
-      SET search_path TO traffic,public;
+      SET search_path TO #{Landable.configuration.database_schema_prefix}landable_traffic,public;
 
       ALTER TABLE mime_types       ALTER COLUMN mime_type_id       SET DATA TYPE SMALLINT;
       ALTER TABLE http_methods     ALTER COLUMN http_method_id     SET DATA TYPE SMALLINT;
@@ -218,7 +218,7 @@ class AddTrafficSchema < Landable::Migration
         , mime_type_id       SMALLINT    NOT NULL    REFERENCES mime_types
         , http_method_id     SMALLINT    NOT NULL    REFERENCES http_methods
 
-        , page_revision_id   UUID                    REFERENCES landable.page_revisions
+        , page_revision_id   UUID                    REFERENCES #{Landable.configuration.database_schema_prefix}landable.page_revisions
         , request_id         UUID
 
         , click_id           TEXT

@@ -6,7 +6,7 @@ module Landable
     def self.seed key
       method_key = "seed_#{key}".to_sym
       if respond_to? method_key
-        send method_key if ActiveRecord::Base.connection.schema_exists? :landable
+        send method_key if ActiveRecord::Base.connection.schema_exists? "#{Landable.configuration.database_schema_prefix}landable"
       else
         raise NotImplementedError, "No seeds for key '#{key}'"
       end

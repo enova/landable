@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class AdGroup < ActiveRecord::Base
-      self.table_name = 'traffic.ad_groups'
+      include Landable::Traffic::TableName
 
       lookup_by :ad_group, cache: 50, find_or_create: true
 

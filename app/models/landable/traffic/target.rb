@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Target < ActiveRecord::Base
-      self.table_name = 'traffic.targets'
+      include Landable::Traffic::TableName
 
       lookup_by :target, cache: 50, find_or_create: true
 

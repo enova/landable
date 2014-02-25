@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class EventType < ActiveRecord::Base
-      self.table_name = 'traffic.event_types'
+      include Landable::Traffic::TableName
 
       lookup_by :event_type, cache: true, find_or_create: true
 

@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Placement < ActiveRecord::Base
-      self.table_name = 'traffic.placements'
+      include Landable::Traffic::TableName
 
       lookup_by :placement, cache: 50, find_or_create: true
 

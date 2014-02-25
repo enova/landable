@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Source < ActiveRecord::Base
-      self.table_name = 'traffic.sources'
+      include Landable::Traffic::TableName
 
       lookup_by :source, cache: 50, find_or_create: true
 

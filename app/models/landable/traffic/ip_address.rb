@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class IpAddress < ActiveRecord::Base
-      self.table_name = 'traffic.ip_addresses'
+      include Landable::Traffic::TableName
 
       lookup_by :ip_address, cache: 50, find_or_create: true
 

@@ -1,7 +1,7 @@
 class TrafficOwnerIdsAreSerials < Landable::Migration
   def up
     execute <<-SQL
-      SET search_path TO traffic,public;
+      SET search_path TO #{Landable.configuration.database_schema_prefix}landable_traffic,public;
 
       CREATE SEQUENCE owners_owner_id_seq
         START WITH 1

@@ -1,6 +1,6 @@
 module Landable
   class Category < ActiveRecord::Base
-    self.table_name = 'landable.categories'
+    include Landable::TableName
 
     has_many :pages
 

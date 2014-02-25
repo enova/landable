@@ -1,17 +1,15 @@
 BEGIN;
 
-  SELECT PLAN(8);
+  SELECT PLAN(7);
 
-  SELECT col_is_pk('landable', 'assets', 'asset_id', 'Asset_id is pk');
-  SELECT col_is_fk('landable', 'assets', 'author_id', 'author_id is fk');
+  SELECT col_is_pk('dummy_landable', 'assets', 'asset_id', 'Asset_id is pk');
+  SELECT col_is_fk('dummy_landable', 'assets', 'author_id', 'author_id is fk');
 
-  SELECT col_not_null('landable', 'assets', 'author_id', 'author_id not null');
-  SELECT col_not_null('landable', 'assets', 'name', 'name not null');
-  SELECT col_not_null('landable', 'assets', 'data', 'data not null');
-  SELECT col_not_null('landable', 'assets', 'md5sum', 'md5sum not null');
-  SELECT col_not_null('landable', 'assets', 'mime_type', 'mime_type not null');
-
-  SELECT indexes_are('landable', 'assets', ARRAY['assets_pkey', 'landable_assets__u_data', 'landable_assets__u_md5sum', 'landable_assets__author_id', 'landable_assets__u_lower_name'], 'Assets has indexes');
+  SELECT col_not_null('dummy_landable', 'assets', 'author_id', 'author_id not null');
+  SELECT col_not_null('dummy_landable', 'assets', 'name', 'name not null');
+  SELECT col_not_null('dummy_landable', 'assets', 'data', 'data not null');
+  SELECT col_not_null('dummy_landable', 'assets', 'md5sum', 'md5sum not null');
+  SELECT col_not_null('dummy_landable', 'assets', 'mime_type', 'mime_type not null');
 
   SELECT * FROM finish();
 

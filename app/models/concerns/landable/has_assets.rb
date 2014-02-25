@@ -66,7 +66,7 @@ module Landable
 
     module ClassMethods
       def assets_join_table_name
-        "landable.#{self.name.underscore.split('/').last}_assets"
+        "#{Landable.configuration.database_schema_prefix}landable.#{self.name.underscore.split('/').last}_assets"
       end
     end
 

@@ -65,9 +65,9 @@ module Landable
 
     describe '#assets_join_table_name' do
       it 'should generate the correct join_table, and then apologize for doing so' do
-        Page.send(:assets_join_table_name).should == 'landable.page_assets'
-        PageRevision.send(:assets_join_table_name).should == 'landable.page_revision_assets'
-        Theme.send(:assets_join_table_name).should == 'landable.theme_assets'
+        Page.send(:assets_join_table_name).should == "#{Landable.configuration.database_schema_prefix}landable.page_assets"
+        PageRevision.send(:assets_join_table_name).should == "#{Landable.configuration.database_schema_prefix}landable.page_revision_assets"
+        Theme.send(:assets_join_table_name).should == "#{Landable.configuration.database_schema_prefix}landable.theme_assets"
       end
     end
 

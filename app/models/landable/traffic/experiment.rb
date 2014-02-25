@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Experiment < ActiveRecord::Base
-      self.table_name = 'traffic.experiments'
+      include Landable::Traffic::TableName
 
       lookup_by :experiment, cache: 50, find_or_create: true
 

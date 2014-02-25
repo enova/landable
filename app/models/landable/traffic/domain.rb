@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Domain < ActiveRecord::Base
-      self.table_name = 'traffic.domains'
+      include Landable::Traffic::TableName
 
       lookup_by :domain, cache: 50, find_or_create: true
 
