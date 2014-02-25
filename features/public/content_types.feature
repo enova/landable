@@ -5,7 +5,7 @@ Feature: Content types by extension
   Scenario Outline:
     Given a published page "/foo.<ext>"
     When  I GET "/foo.<ext>"
-    Then  the response header Content-Type should be "<content_type>"
+    Then  the response header "Content-Type" should be "<content_type>"
 
     Examples:
       | ext  | content_type     |
