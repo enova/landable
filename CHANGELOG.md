@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.6.1..master)
+* Update lookup_by to version 0.4.0
 
 ## v1.6.1 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.6.0...v1.6.1)
 * Removed ```require 'pry'```
