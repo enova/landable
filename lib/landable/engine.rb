@@ -7,6 +7,11 @@ module Landable
   class Engine < ::Rails::Engine
     isolate_namespace Landable
 
+
+    config.to_prepare do
+      Landable::ApplicationController.helper Rails.application.helpers
+    end
+
     config.generators do |g|
       g.test_framework :rspec
       g.fixture_replacement :factory_girl, :dir => 'spec/factories'
@@ -58,6 +63,9 @@ module Landable
           prepend_around_action :track_with_landable!
         end
       end
+    end
+
+    initializer "landable_register_variable" do
     end
   end
 end
