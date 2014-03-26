@@ -64,8 +64,5 @@ module Landable
         end
       end
     end
-
-    initializer "landable_register_variable" do
-    end
   end
 end
