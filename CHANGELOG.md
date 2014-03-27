@@ -2,7 +2,10 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.6.1..master)
+## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.6.2..master)
+* Register controller methods as Liquid variables [#123]
+
+## v1.6.2 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.6.1..v1.6.2)
 * Update lookup_by to version 0.4.0
 
 ## v1.6.1 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.6.0...v1.6.1)
