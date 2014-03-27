@@ -81,5 +81,23 @@ module Landable
         end
       end
     end
+
+    context 'with a Responder' do
+      # setup
+      let(:controller) { double('MockController', fetch_landable_variables: { 'hello_world' => "I'm a Loner, Dottie. A Rebel." }) }
+      let(:responder) { double('responder', controller: controller) }
+      let(:rendered) { render(responder: responder) }
+
+      # tests
+      it 'should include registered variables from an external controller source' do
+        # setup
+        page.body = '{{hello_world}}'
+        # actions
+        # expectations
+        rendered.should match "I'm a Loner, Dottie. A Rebel."
+        # end
+      end
+      # end
+    end
   end
 end

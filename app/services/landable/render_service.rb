@@ -15,7 +15,10 @@ module Landable
     end
 
     def render!
-      content = render_template(page.body, {}, registers: {
+      variables = options[:responder].try(:controller).try(:fetch_landable_variables)
+      variables ||= {}
+
+      content = render_template(page.body, variables, registers: {
         page: page,
         assets: assets_for_page,
         responder: options[:responder],

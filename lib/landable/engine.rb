@@ -50,13 +50,19 @@ module Landable
 
     initializer "landable.action_controller" do
       ActiveSupport.on_load :action_controller do
+        # includes
+        include Landable::Traffic
+        include Landable::VariablesConcern
+
+        # helpers
         helper Landable::PagesHelper
 
         # tracking
-        include Landable::Traffic
         if Landable.configuration.traffic_enabled
           prepend_around_action :track_with_landable!
         end
+
+        # end
       end
     end
   end

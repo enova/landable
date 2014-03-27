@@ -26,6 +26,10 @@ module Landable
 
         helper.current_page.should == page
       end
+
+      it "should inherit helpers from the host application" do
+        helper.render_hello_world.should eql("hello world")
+      end
     end
   end
 end
