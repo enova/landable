@@ -12,7 +12,7 @@ module Landable
         "content"        => %w[content utm_content],
         "creative"       => %w[creative adid ovadid],
         "device_type"    => %w[device_type devicetype device],
-        "click_id"       => %w[gclid click_id],
+        "click_id"       => %w[gclid click_id clickid],
         "experiment"     => %w[experiment aceid],
         "keyword"        => %w[keyword kw utm_term ovkey ysmkey],
         "match_type"     => %w[match_type matchtype match ovmtc ysmmtc],
