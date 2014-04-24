@@ -42,7 +42,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'factory_girl_rails', '~> 4.2.0'
   gem.add_development_dependency 'json-schema',        '= 2.1.3'
   gem.add_development_dependency 'rack-schema'
-  gem.add_development_dependency 'cucumber',           '= 1.3.2'
+  gem.add_development_dependency 'cucumber',           '= 1.3.14'
   gem.add_development_dependency 'database_cleaner'
   gem.add_development_dependency 'simplecov'
   gem.add_development_dependency 'valid_attribute'
