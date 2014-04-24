@@ -16,3 +16,9 @@ gemspec
 
 # To use debugger
 # gem 'debugger'
+
+group :test do
+  gem 'minitest'
+  gem 'shoulda-matchers'
+  gem 'cucumber-rails', require: false
+end
