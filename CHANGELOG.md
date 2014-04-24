@@ -2,7 +2,8 @@
 
 See README.md before updating this file.
 
-<!-- ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.6.2..master) -->
+## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.7.0.rc1..master)
+* Include clickid in the tracking params that map to click_id [#126]
 
 ## v1.7.0.rc1 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.6.2..v1.7.0.rc1)
 * Register controller methods as Liquid variables [#123, #124]
