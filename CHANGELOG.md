@@ -3,6 +3,8 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.7.0.rc1..master)
+
+## v1.7.0.rc2 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.7.0.rc1..v1.7.0.rc2)
 * Include clickid in the tracking params that map to click_id [#126]
 
 ## v1.7.0.rc1 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.6.2..v1.7.0.rc1)
