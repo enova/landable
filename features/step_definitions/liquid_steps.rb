@@ -1,6 +1,6 @@
 Given 'the asset URI prefix is "$uri"' do |uri|
   # Kinda bogus, but makes explicit tests significantly easier
-  Landable::Asset.stub!(:url_generator) do
+  Landable::Asset.stub(:url_generator) do
     proc { |asset|
       uri = "#{uri}/" unless uri.ends_with?('/')
       "#{uri}#{asset.data}"
