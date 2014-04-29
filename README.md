@@ -45,7 +45,7 @@ rake db:migrate
 ```
 
 ### Categories
-Landable comes with default categories that you can see [here](https://git.cashnetusa.com/trogdor/landable/blob/master/lib/landable/configuration.rb#L26). You can overwrite these categories in your initializer.
+Landable comes with default categories that you can see [here](https://git.cashnetusa.com/trogdor/landable/blob/master/lib/landable/configuration.rb#L34). You can overwrite these categories in your initializer.
 
 ```ruby
 Landable.configure do |config|
