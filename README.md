@@ -1,6 +1,6 @@
 # Landable
 
-Rails engine providing an API and such for managing mostly static content.
+Landable is an API layer for your CMS. It's implemented as a [Rails Engine](http://guides.rubyonrails.org/engines.html). We like to use Landable with [Publicist](https://git.cashnetusa.com/trogdor/publicist), a great UI for managing content.
 
 
 ## Installation
