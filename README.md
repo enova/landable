@@ -134,6 +134,24 @@ Contributions are welcome - submit a pull request.
 * Do add your changes to the "unreleased" section of [CHANGELOG.md](CHANGELOG.md) (adding this section if it does not exist). Include the pull request number.
 * Don't bump Landable's version number.
 
+### Getting landable pages into development and test databases
+
+Mark the following tables as seed tables:
+- landable.assets
+- landable.authors
+- landable.categories
+- landable.page_assets
+- landable.page_revision_assets
+- landable.page_revisions
+- landable.pages
+- landable.templates
+- landable.theme_assets
+- landable.themes
+
+Use a tool to get seed data that was entered in prod into your Rails app's dumps. A popular solution at Enova is [prodder](https://git.cashnetusa.com/gems/prodder).
+Beware though! The above tables are interdependent, so you will either have to find an order that works, or do
+a `--clean` dump. Prodder should be providing such a feature soon.
+
 
 ## Releases
 
