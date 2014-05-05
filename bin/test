@@ -1,0 +1,25 @@
+#!/bin/sh
+
+set -o errexit
+
+rails_versions=('4.0.0') # '~>4.1.0')
+
+for rails_version in ${rails_versions[@]}
+do
+  test_gemspec_path=".test-landable.gemspec"
+  test_gemfile_path=".test-Gemfile"
+
+  if [ -f "$test_gemfile_path.lock" ]
+  then
+    rm "$test_gemfile_path.lock"
+  fi
+
+  echo "Installing for Rails $rails_version"
+
+  sed -E "s/gem\.add_dependency *'rails', *'.*'/gem.add_dependency 'rails', '$rails_version'/" landable.gemspec > $test_gemspec_path
+  sed -E "s/gemspec.*/gemspec name: '.test-landable'/" Gemfile > $test_gemfile_path
+
+  bundle install --gemfile=$test_gemfile_path
+
+  BUNDLE_GEMFILE=$test_gemfile_path bundle exec rake landable
+done
