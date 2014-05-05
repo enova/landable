@@ -73,10 +73,15 @@ module Landable
 
         if template
           if template.partial?
-            if context.registers[:responder].present? 
-              context.registers[:responder].controller.render_to_string(partial: template.file)
+            responder = context.registers[:responder]
+
+            # the controller we need for rendering. the request we need to dodge a bug in rails 4.1
+            # (fixed in https://github.com/rails/rails/commit/f6d9b689977c1dca1ed7f149f704d1b4344cd691).
+            # if we need to render pages offline (i.e. without a request) we'll need to rethink this.
+            if responder.try(:controller).try(:request).present?
+              responder.controller.render_to_string(partial: template.file)
             else
-              "<!-- render error: unable to render \"#{@template_slug}\", no controller/responder present -->"
+              "<!-- render error: unable to render \"#{@template_slug}\", no request/controller/responder present -->"
             end
           else
             ::Liquid::Template.parse(template.body).render @variables

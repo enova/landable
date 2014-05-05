@@ -63,7 +63,12 @@ Given 'the template is a filed backed partial' do
   # Parial Defined in spec/dummy/app/views/partials/_foobazz, and configured in spec/dummy/app/config/initializers/landable
   Landable::Template.create_from_partials!
   @responder = Landable::PageRenderResponder
-  @responder.stub(:controller).and_return(ActionController::Base.new)
+  @responder.stub(:controller) do
+    controller = ActionController::Base.new
+    controller.request = double('request', variant: nil)
+
+    controller
+  end
 end
 
 When 'this page is rendered:' do |body|
