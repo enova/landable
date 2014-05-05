@@ -100,9 +100,10 @@ module Landable
             $?.should_receive(:exitstatus) { 1 }
 
             # meh, shouldn't have to do this. could use a refactor.
-            service.should_receive(:wrap_liquid) { |input| input }
+            service.should_receive(:wrap_liquid)   { |input| input }
+            service.should_receive(:unwrap_liquid) { |input| input }
 
-            expect { service.call('<div>foo</div>', raise_on_error: true) }.to_not raise_error TidyService::TidyError
+            expect { service.call('<div>foo</div>', raise_on_error: true) }.not_to raise_error
           end
         end
       end
