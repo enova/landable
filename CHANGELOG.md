@@ -2,7 +2,9 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.7.0.rc1..master)
+## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.7.0..master)
+
+## v1.7.0 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.7.0.rc1..1.7.0)
 Adding nominal support for Rails 4.x [#127]
 
 ## v1.7.0.rc2 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.7.0.rc1..v1.7.0.rc2)
