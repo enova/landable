@@ -23,6 +23,8 @@ rake landable:install:migrations
 rake db:migrate
 ```
 
+## Configuration
+
 ### Asset Storage
 
 Asset storage defaults to the local filesystem. To modify this, configure [CarrierWave][carrierwave] and [Fog][fog]:
