@@ -16,6 +16,14 @@ My::Application.routes.draw do
   mount Landable::Engine => '/'
 end
 ```
+Finally, install Landable's migrations:
+
+```sh
+rake landable:install:migrations
+rake db:migrate
+```
+
+### Asset Storage
 
 Asset storage defaults to the local filesystem. To modify this, configure [CarrierWave][carrierwave] and [Fog][fog]:
 
@@ -35,13 +43,6 @@ CarrierWave.configure do |config|
   # Or, in development or test, maybe just store locally:
   config.store = :file
 end
-```
-
-Finally, install Landable's migrations:
-
-```sh
-rake landable:install:migrations
-rake db:migrate
 ```
 
 ### Categories
