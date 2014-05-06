@@ -101,18 +101,7 @@ Landable.configure do |config|
 end
 ```
 
-## Visit Tracking
-Landable includes the ability to track visits.
-
-```ruby
-Landable.configure do |config|
-  # To enable tracking, put one of the following in your Landable initializer:
-  config.traffic_enabled = true  # Enables tracking for all requests.  (:all is also accepted here.)
-  config.traffic_enabled = :html # Enables tracking for only HTML requests.
-end
-```
-
-## Database Schema Naming
+### Database Schema Naming
 Landable will default to putting its tables in landable, landable_traffic database schemas.
 
 You can specify a prefix to use, which would allow for unique database schema names across applications.
@@ -122,6 +111,17 @@ Landable.configure do |config|
   # Setup a custom database schema prefix (default: nil)
   config.database_schema_prefix = 'prefix'                                     # Would use schemas prefix_landable, prefix_landable_tracking
   config.database_schema_prefix = Rails.application.class.parent_name.downcase # Would use the downcase version of your app's name
+end
+```
+
+## Visit Tracking
+Landable includes the ability to track visits.
+
+```ruby
+Landable.configure do |config|
+  # To enable tracking, put one of the following in your Landable initializer:
+  config.traffic_enabled = true  # Enables tracking for all requests.  (:all is also accepted here.)
+  config.traffic_enabled = :html # Enables tracking for only HTML requests.
 end
 ```
 
