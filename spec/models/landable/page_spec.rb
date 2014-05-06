@@ -112,7 +112,9 @@ module Landable
       specify "quacks like a Hash" do
         # Note the change from symbol to string; thus, always favor strings.
         page = create :page, meta_tags: { keywords: 'foo' }
-        page.meta_tags.keys.should == [:keywords]
+
+        # rails 4.0 preserves the symbol for this instance; rails 4.1 switches straight to strings
+        page.meta_tags.keys.map(&:to_s).should == ['keywords']
 
         tags = Page.first.meta_tags
         tags.should be_a(Enumerable)

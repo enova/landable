@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# exit on error
+set -o errexit
+
+# supported rails versions
+rails_versions=('4.0.0' '4.1.0')
+
+for rails_version in ${rails_versions[@]}
+do
+  rm -f Gemfile.lock
+
+  echo "---------------------------------------------------------"
+  echo "Installing Rails $rails_version"
+
+  RAILS_VERSION=$rails_version bundle install
+
+  echo "---------------------------------------------------------"
+  echo "Running \`rake landable\` against Rails $rails_version"
+
+  bundle exec rake landable
+done

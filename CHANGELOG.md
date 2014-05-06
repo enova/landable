@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.7.0.rc1..master)
+Adding nominal support for Rails 4.x [#127]
 
 ## v1.7.0.rc2 [#](https://git.cashnetusa.com/trogdor/landable/compare/v1.7.0.rc1..v1.7.0.rc2)
 * Include clickid in the tracking params that map to click_id [#126]
