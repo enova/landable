@@ -16,6 +16,11 @@ do
   RAILS_VERSION=$rails_version bundle install
 
   echo "---------------------------------------------------------"
+  echo "Running bin/redb against Rails $rails_version"
+
+  bin/redb
+
+  echo "---------------------------------------------------------"
   echo "Running \`rake landable\` against Rails $rails_version"
 
   bundle exec rake landable
