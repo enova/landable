@@ -1,19 +1,17 @@
 source "http://gems.enova.com"
 source "https://rubygems.org"
 
-# Declare your gem's dependencies in landable.gemspec.
-# Bundler will treat runtime dependencies like base dependencies, and
-# development dependencies will be added by default to the :development group.
+# load dependencies from landable.gemspec
 gemspec
 
-# Declare any dependencies that are still in development here instead of in
-# your gemspec. These might include edge Rails or gems from your path or
-# Git. Remember to move these dependencies to your gemspec before releasing
-# your gem to rubygems.org.
+# allow us to load up a specific version of rails, since the gemspec is
+# concerned only with compatibility (see bin/test)
+if ENV.key? 'RAILS_VERSION'
+  gem 'rails', ENV['RAILS_VERSION']
+end
 
-# To use debugger
-# gem 'debugger'
-
+# development/test dependencies, and anything else that doesn't belong or fit
+# in the gemspec
 group :test do
   gem 'minitest'
   gem 'shoulda-matchers'
