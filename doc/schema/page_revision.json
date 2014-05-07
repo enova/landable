@@ -1,0 +1,70 @@
+{
+  "title": "Page Revision",
+  "description": "A particular snapshot of a page which has, at some point, been published.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "page_id", "author_id", "notes", "is_published", "is_minor", "preview_path", "ordinal", "created_at", "updated_at"],
+
+  "properties": {
+    "id": {
+      "$ref": "uuid.json"
+    },
+
+    "page_id": {
+      "$ref": "uuid.json"
+    },
+
+    "author_id": {
+      "type": "string"
+    },
+
+    "theme_id": {
+      "type": "uuid.json"
+    },
+
+    "category_id": {
+      "type": "uuid.json"
+    },
+
+    "status_code": {
+      "type": "integer"
+    },
+
+    "preview_url": {
+      "type": "string",
+      "format": "uri"
+    },
+
+    "preview_path": {
+      "type": "string",
+      "format": "uri"
+    },
+
+    "notes": {
+      "type": ["string", "null"]
+    },
+
+    "is_published": {
+      "type": "boolean"
+    },
+
+    "is_minor": {
+      "type": "boolean"
+    },
+
+    "ordinal": {
+      "type": "integer",
+      "minimum": 1
+    },
+
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

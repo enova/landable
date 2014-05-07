@@ -1,0 +1,65 @@
+{
+  "title": "Asset",
+  "description": "An uploaded asset file",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "public_url", "md5sum", "file_size", "mime_type", "author_id", "theme_ids", "page_ids", "created_at", "updated_at"],
+
+  "properties": {
+    "id": {
+      "$ref": "uuid.json"
+    },
+
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+
+    "description": {
+      "type": ["string", "null"]
+    },
+
+    "public_url": {
+      "type": "string",
+      "format": "uri"
+    },
+
+    "md5sum": {
+      "type": "string",
+      "length": 32
+    },
+
+    "file_size": {
+      "type": "integer",
+      "min": 1
+    },
+
+    "mime_type": {
+      "type": "string"
+    },
+
+    "author_id": {
+      "type": "string"
+    },
+
+    "theme_ids": {
+      "type": "array",
+      "items": { "$ref": "uuid.json" }
+    },
+
+    "page_ids": {
+      "type": "array",
+      "items": { "$ref": "uuid.json" }
+    },
+
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

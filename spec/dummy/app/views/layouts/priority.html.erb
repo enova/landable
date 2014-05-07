@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- We can access the `landable` helper in a layout -->
+    <%= landable.meta_tags %>
+
+    <!-- We can access the `current_page helper` in a layout -->
+    <title>Home: <%= current_page.title %></title>
+
+    <!-- Without a title, the decorator just omits the tag -->
+    <%  current_page.title = nil %>
+    <%= landable.title %>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>

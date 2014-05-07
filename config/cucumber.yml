@@ -1,0 +1,5 @@
+<%
+std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --guess"
+%>
+default: <%= std_opts %> features
+wip: --tags @wip:3 --wip features

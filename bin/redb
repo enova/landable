@@ -1,0 +1,7 @@
+#!/bin/sh
+rm spec/dummy/db/structure.sql
+
+bundle exec rake app:db:drop:all
+bundle exec rake app:db:create:all
+bundle exec rake app:db:migrate
+bundle exec rake app:db:migrate RAILS_ENV=test
