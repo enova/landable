@@ -53,4 +53,4 @@ Contributions are welcome - submit a pull request.
 
 ## License
 
-Landable is released under the [MIT License](http://opensource.org/licenses/MIT).
+Landable is released under the [MIT License](https://github.com/enova/landable/blob/master/MIT-LICENSE).
