@@ -12,9 +12,9 @@ Gem::Specification.new do |gem|
   gem.version       = Landable::VERSION::STRING
 
   gem.authors       = ["Team Trogdor"]
-  gem.email         = ["trogdor@cashnetusa.com"]
+  gem.email         = ["trogdor@enova.com"]
 
-  gem.homepage      = "http://git.cashnetusa.com/trogdor/landable"
+  gem.homepage      = "https://github.com/enova/landable"
 
   gem.license       = "MIT-LICENSE"
 
