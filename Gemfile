@@ -1,4 +1,3 @@
-source "http://gems.enova.com"
 source "https://rubygems.org"
 
 # Declare your gem's dependencies in landable.gemspec.
