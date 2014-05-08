@@ -40,7 +40,7 @@ end
 
 ## Development
 
-Run `./bin/redb` to refresh the dummy app's database.
+Run `./script/redb` to refresh the dummy app's database.
 
 Run the test suite with `rake landable`.
 

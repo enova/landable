@@ -1,5 +1,8 @@
-source "http://gems.enova.com"
 source "https://rubygems.org"
+
+group :test do
+  gem "cucumber-rails", require: false
+end
 
 # Declare your gem's dependencies in landable.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
