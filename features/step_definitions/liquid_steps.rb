@@ -1,6 +1,6 @@
 Given 'the asset URI prefix is "$uri"' do |uri|
   # Kinda bogus, but makes explicit tests significantly easier
-  Landable::Asset.stub!(:url_generator) do
+  Landable::Asset.stub(:url_generator) do
     proc { |asset|
       uri = "#{uri}/" unless uri.ends_with?('/')
       "#{uri}#{asset.data}"
@@ -52,18 +52,29 @@ Given 'a theme with the body "$body"' do |body|
 end
 
 Given 'the template "$template_slug" with body "$template_body"' do |template_slug, template_body|
-  Landable::Template.create! name: template_slug, slug: template_slug, body: template_body, description: template_slug
+  @template = Landable::Template.create! name: template_slug, slug: template_slug, body: template_body, description: template_slug
 end
 
 Given 'the template "$template_slug" with the body:' do |template_slug, template_body|
-  Landable::Template.create! name: template_slug, slug: template_slug, body: template_body, description: template_slug
+  @template = Landable::Template.create! name: template_slug, slug: template_slug, body: template_body, description: template_slug
+end
+
+When  'the template "$published_variable" been published' do |published_variable|
+  if published_variable == 'has'
+    @template.publish! author: create(:author), notes: 'initial revision', is_minor: true
+  end
 end
 
 Given 'the template is a filed backed partial' do
   # Parial Defined in spec/dummy/app/views/partials/_foobazz, and configured in spec/dummy/app/config/initializers/landable
   Landable::Template.create_from_partials!
   @responder = Landable::PageRenderResponder
-  @responder.stub(:controller).and_return(ActionController::Base.new)
+  @responder.stub(:controller) do
+    controller = ActionController::Base.new
+    controller.request = double('request', variant: nil)
+
+    controller
+  end
 end
 
 When 'this page is rendered:' do |body|

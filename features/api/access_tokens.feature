@@ -20,7 +20,7 @@ Feature: Access Tokens API
     And  the response body should be empty
 
   Scenario: Creating an author if none yet exists
-    Given there are no authors in the database
+    Given an author "someone" does not exist
     When I POST to "/api/access_tokens" with:
       """
       { "access_token": { "username": "someone", "password": "anything" } }
@@ -34,7 +34,7 @@ Feature: Access Tokens API
       """
       { "access_token": { "username": "someone", "password": "anything" } }
       """
-    Then there should be 1 author in the database
+    Then there should be 2 author in the database
     And  the author "someone" should have 1 access token
 
   Scenario: Retrieving my own fresh token

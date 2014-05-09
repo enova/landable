@@ -100,6 +100,7 @@ Feature: Liquid Tags
       <div>{% template bar %}</div>
       """
     And   the template "bar" with body "<span>some stuff</span>"
+    And   the template "has" been published
     Then  the rendered content should be:
       """
       <div><span>some stuff</span></div>
@@ -126,6 +127,7 @@ Feature: Liquid Tags
       <span>{{ body | default: "eight" }}</span>
       <footer>{{ footer }}</footer>
       """
+    And   the template "has" been published
     Then  the rendered content should be:
       """
       <div><span>seven</span>
@@ -141,10 +143,29 @@ Feature: Liquid Tags
       """
       <span>{{ body | default: "eight" }}</span>
       """
+    And   the template "has" been published
     Then  the rendered content should be:
       """
       <div><span>eight</span></div>
       """
+
+  Scenario: Referencing a template that hasn't been published
+    Given the page's body is:
+      """
+      <div>{% template fubu %}</div>
+      """
+    And   the template "fubu" with the body:
+      """
+      <span>{{ body | default: "eight" }}</span>
+      <footer>{{ footer }}</footer>
+      """
+    And   the template "hasn't" been published
+    Then  the rendered content should be:
+      """
+      <div><!-- render error: missing published template "fubu" --></div>
+      """
+
+
 
   Scenario: Referencing a template that doesn't exist
     Given the page's body is:
@@ -153,7 +174,7 @@ Feature: Liquid Tags
       """
     Then  the rendered content should be:
       """
-      <div><!-- render error: missing template "fubu" --></div>
+      <div><!-- render error: missing published template "fubu" --></div>
       """
 
   Scenario: App asset tags
