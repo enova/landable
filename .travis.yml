@@ -1,0 +1,10 @@
+language: ruby
+rvm:
+  - 1.9.3-p448
+  - 2.0.0-p247
+  - 2.1.2
+before_install:
+  - bin/redb
+script:
+  - bundle exec rspec spec/
+  - bundle exec cucumber features/
