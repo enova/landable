@@ -6,7 +6,7 @@ rvm:
 after_install:
   - script/redb
 before_script:
-  - psql -c "CREATE USER dummy WITH superuser;CREATE DB dummy_test;" -U postgres
+  - psql -c "CREATE USER dummy WITH superuser;CREATE DATABASE dummy_test;" -U postgres
 script:
   - bundle exec rspec spec
   - bundle exec cucumber features
