@@ -2,7 +2,8 @@ module Landable
   class Configuration
     attr_writer :api_namespace, :public_namespace, :categories, :traffic_enabled
     attr_writer :sitemap_exclude_categories, :sitemap_protocol, :sitemap_host
-    attr_writer :sitemap_additional_paths, :reserved_paths, :partials_to_templates, :database_schema_prefix
+    attr_writer :sitemap_additional_paths, :reserved_paths, :partials_to_templates
+    attr_writer :database_schema_prefix, :auditing_flags
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -16,6 +17,10 @@ module Landable
 
     def api_namespace
       @api_namespace ||= '/api/landable'
+    end
+
+    def auditing_flags
+      @auditing_flags ||= []
     end
 
     def public_namespace

@@ -33,6 +33,7 @@ module Landable
     belongs_to :hero_asset,           class_name: 'Landable::Asset'
     has_many   :revisions,            class_name: 'Landable::PageRevision'
     has_many   :screenshots,          class_name: 'Landable::Screenshot',   as: :screenshotable
+    has_many   :audits,               class_name: 'Landable::Audit',        as: :auditable
 
     scope :imported, -> { where("imported_at IS NOT NULL") }
     scope :sitemappable, -> { where("COALESCE(meta_tags -> 'robots' NOT LIKE '%noindex%', TRUE)") 

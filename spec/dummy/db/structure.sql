@@ -176,6 +176,41 @@ COMMENT ON TABLE assets IS 'List of all assets uploaded.
 
 
 --
+-- Name: audits; Type: TABLE; Schema: dummy_landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE audits (
+    id integer NOT NULL,
+    auditable_id integer,
+    auditable_type character varying(255),
+    notes text,
+    approver text,
+    flags character varying(255)[] DEFAULT '{}'::character varying[],
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: audits_id_seq; Type: SEQUENCE; Schema: dummy_landable; Owner: -
+--
+
+CREATE SEQUENCE audits_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: audits_id_seq; Type: SEQUENCE OWNED BY; Schema: dummy_landable; Owner: -
+--
+
+ALTER SEQUENCE audits_id_seq OWNED BY audits.id;
+
+
+--
 -- Name: authors; Type: TABLE; Schema: dummy_landable; Owner: -; Tablespace: 
 --
 
@@ -300,6 +335,7 @@ CREATE TABLE pages (
     status_code smallint DEFAULT 200 NOT NULL,
     abstract text,
     hero_asset_id uuid,
+    audit_flags character varying(255)[] DEFAULT '{}'::character varying[],
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
 
@@ -327,7 +363,8 @@ CREATE TABLE templates (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     file text,
-    editable boolean DEFAULT true
+    editable boolean DEFAULT true,
+    audit_flags character varying(255)[] DEFAULT '{}'::character varying[]
 );
 
 
@@ -1682,6 +1719,15 @@ CREATE TABLE schema_migrations (
 );
 
 
+SET search_path = dummy_landable, pg_catalog;
+
+--
+-- Name: id; Type: DEFAULT; Schema: dummy_landable; Owner: -
+--
+
+ALTER TABLE ONLY audits ALTER COLUMN id SET DEFAULT nextval('audits_id_seq'::regclass);
+
+
 SET search_path = dummy_landable_traffic, pg_catalog;
 
 --
@@ -1994,6 +2040,14 @@ ALTER TABLE ONLY access_tokens
 
 ALTER TABLE ONLY assets
     ADD CONSTRAINT assets_pkey PRIMARY KEY (asset_id);
+
+
+--
+-- Name: audits_pkey; Type: CONSTRAINT; Schema: dummy_landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY audits
+    ADD CONSTRAINT audits_pkey PRIMARY KEY (id);
 
 
 --
@@ -3734,3 +3788,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140220170324');
 INSERT INTO schema_migrations (version) VALUES ('20140220174630');
 
 INSERT INTO schema_migrations (version) VALUES ('20140224205516');
+
+INSERT INTO schema_migrations (version) VALUES ('20140509192856');

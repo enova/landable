@@ -10,6 +10,8 @@ Landable::Engine.routes.draw do
 
     resources :assets, only: [:index, :show, :create, :update]
 
+    resources :configurations, only: [:index]
+
     concern :has_assets do
       resources :assets, only: [:index, :update, :destroy]
     end
