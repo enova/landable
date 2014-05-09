@@ -5,6 +5,8 @@ rvm:
   - 2.1.2
 after_install:
   - script/redb
+before_script:
+  - psql -c "CREATE USER dummy WITH superuser;" -U postgres
 script:
   - bundle exec rspec spec
   - bundle exec cucumber features
