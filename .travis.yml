@@ -8,3 +8,5 @@ before_script:
   - psql -c "CREATE DATABASE dummy_test;" -U postgres
 script:
   - script/redb
+  - bundle exec rspec spec
+  - bundle exec cucumber features
