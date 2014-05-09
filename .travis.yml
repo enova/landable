@@ -3,8 +3,8 @@ rvm:
   - 1.9.3-p448
   - 2.0.0-p247
   - 2.1.2
-before_install:
+after_install:
   - script/redb
 script:
-  - bundle exec rspec spec/
-  - bundle exec cucumber features/
+  - bundle exec rspec spec
+  - bundle exec cucumber features
