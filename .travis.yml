@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - 1.9.3-p448
+  - 2.0.0-p247
+  - 2.1.2
+before_script:
+  - psql -c "CREATE USER dummy WITH superuser" -U postgres
+  - psql -c "CREATE DATABASE dummy_test;" -U postgres
+script:
+  - script/redb
+  - bundle exec rspec spec
+  - bundle exec cucumber features
