@@ -3,9 +3,6 @@ require_dependency "landable/api_controller"
 module Landable
   module Api
     class TemplateRevisionsController < ApiController
-      skip_before_filter :require_author!, if: proc { |c|
-        c.action_name == 'show' && c.request.format == :html
-      }
 
       def index
         template = Template.find(params[:template_id])
