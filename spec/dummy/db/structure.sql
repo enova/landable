@@ -181,7 +181,7 @@ COMMENT ON TABLE assets IS 'List of all assets uploaded.
 
 CREATE TABLE audits (
     id integer NOT NULL,
-    auditable_id integer,
+    auditable_id uuid,
     auditable_type character varying(255),
     notes text,
     approver text,
@@ -3745,7 +3745,7 @@ ALTER TABLE ONLY visits
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20130510221424');
 

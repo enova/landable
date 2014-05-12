@@ -6,7 +6,8 @@ class CreateAudits < ActiveRecord::Migration
 
     # Audit Model
     create_table "#{Landable.configuration.database_schema_prefix}landable.audits" do |t|
-      t.references :auditable, polymorphic: true
+      t.uuid   :auditable_id
+      t.string :auditable_type
 
       t.text   :notes
       t.text   :approver

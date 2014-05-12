@@ -1,0 +1,25 @@
+{
+  "title": "PageAudits / TemplateAudits / Audits",
+  "description": "Audits SERVED(!) by landable",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id"],
+
+  "properties": {
+    "id": {
+      "$ref": "uuid.json#"
+    },
+
+    "notes": {
+      "type": ["text", "null"]
+    },
+
+    "approver": {
+      "type": ["text", "null"]
+    },
+
+    "flags": {
+      "type": ["array", "null"]
+    }
+  }
+}

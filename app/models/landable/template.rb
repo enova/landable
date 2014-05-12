@@ -6,7 +6,7 @@ module Landable
     validates_uniqueness_of :name, case_sensitive: false
     validates_uniqueness_of :slug, case_sensitive: false
 
-    has_many :audits, class_name: 'Landabel::Audit', as: :auditable
+    has_many :audits, class_name: 'Landable::Audit', as: :auditable
 
     def name= val
       self[:name] = val
