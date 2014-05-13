@@ -23,10 +23,16 @@ module Landable
         respond_with template
       end
 
+      def publish
+        template = Template.find params[:id]
+        template.publish! author_id: current_author.id, notes: params[:notes], is_minor: !!params[:is_minor]
+        respond_with template
+      end
+
       private
 
       def template_params
-        params.require(:template).permit(:id, :name, :body, :description, :thumbnail_url, :slug, :is_layout)
+        params.require(:template).permit(:id, :name, :body, :description, :thumbnail_url, :slug, :is_layout, :is_publishable)
       end
     end
   end

@@ -22,7 +22,13 @@ Landable::Engine.routes.draw do
       post 'preview', on: :collection
     end
 
-    resources :templates, only: [:index, :show, :create, :update]
+    resources :templates, only: [:index, :show, :create, :update] do
+      post 'publish', on: :member
+    end
+
+    resources :template_revisions, only: [:index, :show] do
+      post 'revert_to', on: :member
+    end
 
     resources :pages, concerns: [:has_assets, :has_screenshots] do
       post 'preview', on: :collection

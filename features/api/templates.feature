@@ -1,7 +1,7 @@
 @api
 Feature: Templates API
   Scenario: List all templates
-    Given 3 templates
+    Given there are 3 templates
     When  I GET "/api/templates"
     Then  the response status should be 200
     And   the response should contain 3 "templates"
@@ -31,3 +31,9 @@ Feature: Templates API
       """
     Then the response should be 200 "OK"
     And  the JSON at "template/name" should be "New day new name"
+
+  Scenario: Publish a template
+    Given a template
+    When I POST "/api/templates/{{@template.id}}/publish"
+    Then the response should be 201 "Created"
+    And  the JSON at "template/published_revision_id" should be a template revision's ID

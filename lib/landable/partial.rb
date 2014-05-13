@@ -24,7 +24,12 @@ module Landable
       template.is_layout       = false
       template.thumbnail_url ||= "http://placehold.it/300x200"
 
+      # Save!
       template.save!
+
+      # Publish!
+      author = Author.find_or_create_by(username: 'TrogdorAdmin', email: 'trogdoradming@example.com', first_name: 'Marley', last_name: 'Pants')
+      template.publish! author: author
 
       template
     end

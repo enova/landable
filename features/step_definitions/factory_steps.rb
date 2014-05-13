@@ -9,8 +9,9 @@ Given /^(\d+) ([\w\s]+)$/ do |count, kind|
   instance_variable_set :"@#{kind}", result
 end
 
-Given 'there are no authors in the database' do
-  Landable::Author.delete_all
+Given 'there are 3 templates' do
+  number_needed = 3 - Landable::Template.count
+  FactoryGirl.create_list(:template, number_needed)
 end
 
 Given /^an author "([^"]+)"$/ do |username|
@@ -112,6 +113,10 @@ end
 
 Then 'an author "$username" should exist' do |username|
   Landable::Author.where(username: username).first!
+end
+
+Given 'an author "$username" does not exist' do |username|
+  Landable::Author.where(username: username).present?.should be_false
 end
 
 Then /^the author "(.+?)" should have (\d+) access tokens?$/ do |username, n|

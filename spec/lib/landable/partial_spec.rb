@@ -60,6 +60,11 @@ module Landable
             @test.slug.should    == 'partials_test'
             @foobazz.slug.should == 'partials_foobazz'
           end
+
+          it 'creates a published template' do
+            @test.revisions.present?.should be_true
+            @foobazz.revisions.present?.should be_true
+          end
         end
       end
     end
