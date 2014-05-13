@@ -4,7 +4,7 @@ module Landable
   module Api
     class ConfigurationsController < ApiController
       def index
-        respond_with configuration: Landable.configuration.as_json
+        respond_with configurations: [Landable.configuration.as_json]
       end
     end
   end
