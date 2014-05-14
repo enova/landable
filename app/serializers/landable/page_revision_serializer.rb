@@ -6,6 +6,7 @@ module Landable
     attributes :id, :ordinal, :notes, :is_minor, :is_published
     attributes :created_at, :updated_at
     attributes :preview_path
+    attributes :screenshot_url
 
     embed :ids
     has_one :page

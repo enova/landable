@@ -25,6 +25,15 @@ Landable.configure do |config|
   # Uncomment to enable tracking of all requests.
   # Set to :html to track only HTML requests.
   # config.traffic_enabled = true
+
+  # If you're using Landable with Publicist, add its url here.
+  # config.publicist_url = 'http://publicist.dev/'
+
+  # Where does your Landable live?
+  # config.public_host      = 'myapp.dev'
+  # config.public_namespace = '/'
+  # config.api_host         = 'myapp.dev'
+  # config.api_namespace    = '/api/landable'
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.

@@ -1,8 +1,12 @@
 module Landable
   class Configuration
-    attr_writer :api_namespace, :public_namespace, :categories, :traffic_enabled
-    attr_writer :sitemap_exclude_categories, :sitemap_protocol, :sitemap_host
-    attr_writer :sitemap_additional_paths, :reserved_paths, :partials_to_templates, :database_schema_prefix
+    attr_writer :api_namespace, :public_namespace
+    attr_accessor :api_host, :public_host
+    attr_writer :categories
+    attr_writer :traffic_enabled
+    attr_writer :sitemap_exclude_categories, :sitemap_protocol, :sitemap_host, :sitemap_additional_paths
+    attr_writer :reserved_paths, :partials_to_templates, :database_schema_prefix
+    attr_writer :publicist_url
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -13,6 +17,10 @@ module Landable
     end
 
     alias :authenticator= :authenticators=
+
+    def publicist_url
+      @publicist_url ||= 'publicist.dev'
+    end
 
     def api_namespace
       @api_namespace ||= '/api/landable'

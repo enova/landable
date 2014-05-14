@@ -21,7 +21,8 @@ module Landable
 
     belongs_to :author
     belongs_to :page, inverse_of: :revisions
-    has_many   :screenshots, class_name: 'Landable::Screenshot', as: :screenshotable
+
+    after_create :add_screenshot
 
     def page_id=(id)
       # set the value
@@ -64,11 +65,31 @@ module Landable
     end
 
     def preview_url
-      public_preview_page_revision_url(self)
+      public_preview_page_revision_url(self, host: Landable.configuration.public_host)
     end
 
     def preview_path
       public_preview_page_revision_path(self)
+    end
+
+    mount_uploader :screenshot, Landable::AssetUploader
+
+    def screenshot_url
+      screenshot.try(:url)
+    end
+
+    def add_screenshot
+      if Landable.configuration.publicist_url
+        screenshots_uri = URI(Landable.configuration.publicist_url)
+        screenshots_uri.path = '/api/services/screenshots'
+
+        response = Net::HTTP.post_form screenshots_uri, 'screenshot[url]' => preview_url
+
+        if response.code == 200
+          self.screenshot = response.body
+          self.save!
+        end
+      end
     end
   end
 end
