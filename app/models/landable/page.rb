@@ -10,6 +10,7 @@ module Landable
     include Landable::HasAssets
     include Landable::Engine.routes.url_helpers
     include Landable::TableName
+    include Landable::Librarian
 
     validates_presence_of   :path, :status_code
     validates_presence_of   :redirect_url, if: -> page { page.redirect? }
@@ -124,6 +125,14 @@ module Landable
       end
     end
 
+    def deactivate
+      status_code = 410
+
+      publish!(message: "This page has been deleted")
+
+      super
+    end
+
     def html?
       content_type == 'text/html'
     end
@@ -136,6 +145,14 @@ module Landable
       else
         segments.first
       end
+    end
+
+    def reactivate
+      status_code = 410
+
+      publish!(message: "This page has been restored")
+
+      super
     end
 
     def redirect?

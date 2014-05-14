@@ -8,7 +8,7 @@ Landable::Engine.routes.draw do
       id: /[%a-zA-Z0-9\/_.~-]*/
     }
 
-    resources :assets, only: [:index, :show, :create, :update]
+    resources :assets, only: [:index, :show, :create, :update, :deactivate, :destroy]
 
     concern :has_assets do
       resources :assets, only: [:index, :update, :destroy]
@@ -33,6 +33,7 @@ Landable::Engine.routes.draw do
     resources :pages, concerns: [:has_assets, :has_screenshots] do
       post 'preview', on: :collection
       post 'publish', on: :member
+      patch 'reactivate'
     end
 
     resources :page_revisions, only: [:index, :show], concerns: [:has_screenshots] do

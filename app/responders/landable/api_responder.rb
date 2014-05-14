@@ -18,7 +18,7 @@ module Landable
       # For updates, rails defaults to returning 204 No Content;
       # we would actually prefer that the updated record be returned,
       # in case an update to one key necessitates an automatic update to another.
-      if patch? || put?
+      if patch? || put? || delete?
         display resource
       else
         super

@@ -6,6 +6,7 @@ require 'digest/md5'
 module Landable
   class Asset < ActiveRecord::Base
     include Landable::TableName
+    include Landable::Librarian
     
     mount_uploader :data, Landable::AssetUploader
     alias :file :data

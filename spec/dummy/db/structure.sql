@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -185,7 +186,8 @@ CREATE TABLE assets (
     mime_type text NOT NULL,
     file_size integer,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
 );
 
 
@@ -323,6 +325,7 @@ CREATE TABLE pages (
     status_code smallint DEFAULT 200 NOT NULL,
     abstract text,
     hero_asset_id uuid,
+    deleted_at timestamp without time zone,
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
 
@@ -411,7 +414,8 @@ CREATE TABLE themes (
     updated_at timestamp without time zone,
     file text,
     extension text,
-    editable boolean DEFAULT true NOT NULL
+    editable boolean DEFAULT true NOT NULL,
+    deleted_at timestamp without time zone
 );
 
 

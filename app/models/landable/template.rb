@@ -1,6 +1,7 @@
 module Landable
   class Template < ActiveRecord::Base
     include Landable::TableName
+    include Landable::Librarian
 
     validates_presence_of   :name, :slug, :description
     validates_uniqueness_of :name, case_sensitive: false
