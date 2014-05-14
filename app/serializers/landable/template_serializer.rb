@@ -2,7 +2,7 @@ module Landable
   class TemplateSerializer < ActiveModel::Serializer
     attributes :id, :name, :body, :description
     attributes :thumbnail_url, :slug, :is_layout, :editable
-    attributes :file, :is_publishable
+    attributes :file, :is_publishable, :deleted_at
 
     embed    :ids
     has_one  :published_revision
