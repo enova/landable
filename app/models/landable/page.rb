@@ -128,7 +128,7 @@ module Landable
     def deactivate
       status_code = 410
 
-      publish!(notes: "This page has been deleted")
+      publish!(author_id: updated_by_author.id, notes: "This page has been deleted")
 
       super
     end

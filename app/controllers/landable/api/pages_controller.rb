@@ -29,7 +29,6 @@ module Landable
       end
 
       def reactivate
-        @page.updated_by_author = current_author
         @page.try(:reactivate)
         
         respond_with @page

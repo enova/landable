@@ -33,7 +33,7 @@ Landable::Engine.routes.draw do
     resources :pages, concerns: [:has_assets, :has_screenshots] do
       post 'preview', on: :collection
       post 'publish', on: :member
-      patch 'reactivate'
+      put 'reactivate', on: :member
     end
 
     resources :page_revisions, only: [:index, :show], concerns: [:has_screenshots] do
