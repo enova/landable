@@ -11,3 +11,4 @@ spec/dummy/tmp/
 spec/dummy/.sass-cache
 coverage/
 tmp/
+landable-*.gem
