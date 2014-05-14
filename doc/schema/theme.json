@@ -32,6 +32,11 @@
 
     "editable": {
       "type": "boolean"
+    },
+
+    "deleted_at": {
+      "type": "date",
+      "format": "date-time"
     }
   }
 }

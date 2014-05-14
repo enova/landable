@@ -56,6 +56,11 @@
 
     "updated_by_author_id": {
       "type": ["null", {"$ref": "uuid.json"}]
+    },
+
+    "deleted_at": {
+      "type": "date",
+      "format": "date-time"
     }
 
   }

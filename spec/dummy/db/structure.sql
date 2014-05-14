@@ -375,6 +375,7 @@ CREATE TABLE templates (
     updated_at timestamp without time zone,
     file text,
     editable boolean DEFAULT true,
+    deleted_at timestamp without time zone,
     published_revision_id uuid,
     is_publishable boolean DEFAULT true
 );
@@ -3837,5 +3838,13 @@ INSERT INTO schema_migrations (version) VALUES ('20140220170324');
 INSERT INTO schema_migrations (version) VALUES ('20140220174630');
 
 INSERT INTO schema_migrations (version) VALUES ('20140224205516');
+
+INSERT INTO schema_migrations (version) VALUES ('20140501171345');
+
+INSERT INTO schema_migrations (version) VALUES ('20140501171352');
+
+INSERT INTO schema_migrations (version) VALUES ('20140501171359');
+
+INSERT INTO schema_migrations (version) VALUES ('20140501171406');
 
 INSERT INTO schema_migrations (version) VALUES ('20140509190128');
