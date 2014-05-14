@@ -3,6 +3,9 @@ module Landable
     include Landable::TableName
     include Landable::Librarian
 
+    # attributes
+    attr_accessor :temp_author
+
     validates_presence_of   :name, :slug, :description
     validates_uniqueness_of :name, case_sensitive: false
     validates_uniqueness_of :slug, case_sensitive: false
@@ -14,6 +17,12 @@ module Landable
     before_save -> template {
       template.is_publishable = true unless template.published_revision_id_changed?
     }
+
+    def deactivate
+      publish!(author_id: temp_author.id, notes: "This template has been trashed")
+
+      super
+    end
 
     def name= val
       self[:name] = val

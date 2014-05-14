@@ -22,8 +22,9 @@ Landable::Engine.routes.draw do
       post 'preview', on: :collection
     end
 
-    resources :templates, only: [:index, :show, :create, :update] do
+    resources :templates, only: [:index, :show, :create, :update, :destroy, :reactivate] do
       post 'publish', on: :member
+      put 'reactivate', on: :member
     end
 
     resources :template_revisions, only: [:index, :show] do

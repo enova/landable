@@ -128,7 +128,7 @@ module Landable
     def deactivate
       self.update_attribute(:status_code, 410)
       
-      publish!(author_id: updated_by_author.id, notes: "This page has been deleted")
+      publish!(author_id: updated_by_author.id, notes: "This page has been trashed")
 
       super
     end
