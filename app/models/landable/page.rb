@@ -128,7 +128,7 @@ module Landable
     def deactivate
       status_code = 410
 
-      publish!(message: "This page has been deleted")
+      publish!(notes: "This page has been deleted")
 
       super
     end
@@ -145,14 +145,6 @@ module Landable
       else
         segments.first
       end
-    end
-
-    def reactivate
-      status_code = 410
-
-      publish!(message: "This page has been restored")
-
-      super
     end
 
     def redirect?
