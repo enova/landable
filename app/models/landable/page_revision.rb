@@ -22,7 +22,7 @@ module Landable
     belongs_to :author
     belongs_to :page, inverse_of: :revisions
 
-    after_create :add_screenshot!
+    after_commit :add_screenshot!, on: :create
 
     def page_id=(id)
       # set the value
@@ -87,10 +87,15 @@ module Landable
       if preview_url and screenshot = ScreenshotService.generate(preview_url)
         self.screenshot = screenshot
 
-        # we've got a trigger preventing updates to other columns, so!
-        # forcibly only touch this column.
+        # we've got a trigger preventing updates to other columns, so! muck
+        # about under the hood to commit the asset, and explicitly only update
+        # this column.
+        store_screenshot!
+        write_screenshot_identifier
         update_column :screenshot, self[:screenshot]
       end
+    rescue ScreenshotService::Error => error
+      Rails.logger.warn "Failed to generate screenshot for #{path}: #{error.inspect}"
     end
   end
 end
