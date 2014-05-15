@@ -4,7 +4,6 @@ SELECT PLAN(18);
 
 --Verify existence of triggers and functions for page revisions
 SELECT triggers_are('dummy_landable', 'page_revisions', ARRAY['dummy_landable_page_revisions__bfr_insert', 'dummy_landable_page_revisions__no_delete', 'dummy_landable_page_revisions__no_update'], 'dummy_landable.page_revisions should have triggers');
-SELECT functions_are('dummy_landable', ARRAY['pages_revision_ordinal', 'tg_disallow'], 'dummy_Landable schema should have funcitons');
 
 --Verify existence of foreign keys
 SELECT col_is_fk('dummy_landable', 'page_revisions', 'page_id', 'page_revisions has page_id foreign key');
@@ -15,16 +14,19 @@ SELECT col_is_fk('dummy_landable', 'page_revisions', 'category_id', 'page_revisi
 --Verify primary key
 SELECT col_is_pk('dummy_landable', 'page_revisions', 'page_revision_id', 'page_revisions has primary key');
 
+--Verify page revisions is empty
+SELECT results_eq($$SELECT COUNT(*)::INTEGER FROM dummy_landable.page_revisions$$, $$SELECT 0$$, 'No revision records should exist');
+
 --Insert test data
 SELECT lives_ok($$INSERT INTO dummy_landable.pages (is_publishable, path, status_code) VALUES ('true', '/foo/bar', 200)$$);
 SELECT lives_ok($$INSERT INTO dummy_landable.authors (email, username, first_name, last_name) VALUES ('jdoe@test.com', 'jdoe', 'john', 'doe')$$);
-SELECT lives_ok($$INSERT INTO dummy_landable.page_revisions(page_id, author_id) SELECT page_id, author_id FROM dummy_landable.pages, dummy_landable.authors$$);
+SELECT lives_ok($$INSERT INTO dummy_landable.page_revisions(page_id, author_id) SELECT page_id, author_id FROM dummy_landable.pages, dummy_landable.authors LIMIT 1$$);
 
 --Verify ordinal is generated and populated automatically
 SELECT results_eq($$SELECT max(ordinal) FROM dummy_landable.page_revisions$$, $$SELECT 1$$);
 
 --Verify ordinal is incremented automatically
-SELECT lives_ok($$INSERT INTO dummy_landable.page_revisions(page_id, author_id) SELECT page_id, author_id FROM dummy_landable.pages, dummy_landable.authors$$);
+SELECT lives_ok($$INSERT INTO dummy_landable.page_revisions(page_id, author_id) SELECT page_id, author_id FROM dummy_landable.pages, dummy_landable.authors LIMIT 1$$);
 SELECT results_eq($$SELECT max(ordinal) FROM dummy_landable.page_revisions$$, $$SELECT 2$$);
 
 --Verify ordinals cannot be supplied in insert
