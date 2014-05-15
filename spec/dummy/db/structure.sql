@@ -286,7 +286,8 @@ CREATE TABLE page_revisions (
     head_content text,
     status_code smallint,
     abstract text,
-    hero_asset_id uuid
+    hero_asset_id uuid,
+    screenshot text
 );
 
 
@@ -352,7 +353,8 @@ CREATE TABLE template_revisions (
     body text,
     description text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    screenshot text
 );
 
 
@@ -3790,7 +3792,7 @@ ALTER TABLE ONLY visits
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user",public;
+SET search_path TO "$user", public;
 
 INSERT INTO schema_migrations (version) VALUES ('20130510221424');
 
@@ -3835,3 +3837,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140220174630');
 INSERT INTO schema_migrations (version) VALUES ('20140224205516');
 
 INSERT INTO schema_migrations (version) VALUES ('20140509190128');
+
+INSERT INTO schema_migrations (version) VALUES ('20140515164543');

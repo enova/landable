@@ -4,7 +4,7 @@ SELECT PLAN(18);
 
 --Verify existence of triggers and functions for page revisions
 SELECT triggers_are('dummy_landable', 'page_revisions', ARRAY['dummy_landable_page_revisions__bfr_insert', 'dummy_landable_page_revisions__no_delete', 'dummy_landable_page_revisions__no_update'], 'dummy_landable.page_revisions should have triggers');
-SELECT functions_are('dummy_landable', ARRAY['pages_revision_ordinal', 'tg_disallow'], 'dummy_Landable schema should have funcitons');
+SELECT functions_are('dummy_landable', ARRAY['pages_revision_ordinal', 'tg_disallow'], 'dummy_Landable schema should have functions');
 
 --Verify existence of foreign keys
 SELECT col_is_fk('dummy_landable', 'page_revisions', 'page_id', 'page_revisions has page_id foreign key');
@@ -37,5 +37,6 @@ SELECT throws_matching($$DELETE FROM dummy_landable.page_revisions$$, 'DELETEs a
 SELECT throws_matching($$UPDATE dummy_landable.page_revisions SET notes = 'blah'$$, 'UPDATEs are not allowed', 'Cannot update notes');
 SELECT lives_ok($$UPDATE dummy_landable.page_revisions SET updated_at = now()$$, 'Can update updated_at');
 SELECT lives_ok($$UPDATE dummy_landable.page_revisions SET is_published = 'true'$$, 'Can update is_published');
+SELECT lives_ok($$UPDATE dummy_landable.page_revisions SET screenshot = 'http://imgur.com/foobar.gif'$$, 'Can update screenshot');
 
 ROLLBACK;

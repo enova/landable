@@ -22,7 +22,7 @@ module Landable
     belongs_to :author
     belongs_to :page, inverse_of: :revisions
 
-    after_create :add_screenshot
+    after_create :add_screenshot!
 
     def page_id=(id)
       # set the value
@@ -65,7 +65,12 @@ module Landable
     end
 
     def preview_url
-      public_preview_page_revision_url(self, host: Landable.configuration.public_host)
+      begin
+        public_preview_page_revision_url(self, host: Landable.configuration.public_host)
+      rescue ArgumentError
+        Rails.logger.warn "Failed to generate preview url for page revision #{id} - missing Landable.configuration.public_host"
+        nil
+      end
     end
 
     def preview_path
@@ -78,17 +83,13 @@ module Landable
       screenshot.try(:url)
     end
 
-    def add_screenshot
-      if Landable.configuration.publicist_url
-        screenshots_uri = URI(Landable.configuration.publicist_url)
-        screenshots_uri.path = '/api/services/screenshots'
+    def add_screenshot!
+      if preview_url and screenshot = ScreenshotService.generate(preview_url)
+        self.screenshot = screenshot
 
-        response = Net::HTTP.post_form screenshots_uri, 'screenshot[url]' => preview_url
-
-        if response.code == 200
-          self.screenshot = response.body
-          self.save!
-        end
+        # we've got a trigger preventing updates to other columns, so!
+        # forcibly only touch this column.
+        update_column :screenshot, self[:screenshot]
       end
     end
   end

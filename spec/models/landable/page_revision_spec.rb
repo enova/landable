@@ -71,5 +71,40 @@ module Landable
       end
     end
 
+    describe '#add_screenshot!' do
+      it 'should be fired before create' do
+        PageRevision.any_instance.should_receive :add_screenshot!
+        revision.save!
+      end
+
+      it 'should add a screenshot' do
+        screenshot = double('screenshot')
+
+        revision.stub(:preview_url) { 'http://google.com/foo' }
+        ScreenshotService.should_receive(:generate).with(revision.preview_url) { screenshot }
+        revision.should_receive(:screenshot=).with(screenshot)
+
+        revision.save!
+      end
+    end
+
+    describe '#screenshot_url' do
+      context 'with screenshot' do
+        it 'should return the screenshot url' do
+          screenshot = double('screenshot', url: 'foobar')
+
+          revision.stub(:screenshot) { screenshot }
+          revision.screenshot_url.should == screenshot.url
+        end
+      end
+
+      context 'without screenshot' do
+        it 'should return nil' do
+          revision.stub(:screenshot) { nil }
+          revision.screenshot_url.should be_nil
+        end
+      end
+    end
+
   end
 end
