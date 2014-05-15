@@ -353,8 +353,7 @@ CREATE TABLE template_revisions (
     body text,
     description text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    screenshot text
+    updated_at timestamp without time zone
 );
 
 
