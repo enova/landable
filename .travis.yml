@@ -1,16 +1,24 @@
 language: ruby
+
 env:
   - RAILS_VERSION=4.0.0
   - RAILS_VERSION=4.0.5
   - RAILS_VERSION=4.1.0
   - RAILS_VERSION=4.1.1
+
 rvm:
   - 1.9.3-p448
   - 2.0.0-p247
   - 2.1.2
+
 before_script:
   - psql -c "CREATE USER dummy WITH superuser" -U postgres
   - psql -c "CREATE DATABASE dummy_test;" -U postgres
+
 script:
   - script/redb
   - bundle exec rake landable
+
+notifications:
+  # let enova know about the build
+  slack: enova:xzPNLg3AxkbkUcUlfn7sqHW5
