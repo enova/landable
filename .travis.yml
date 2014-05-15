@@ -1,4 +1,9 @@
 language: ruby
+env:
+  - RAILS_VERSION=4.0.0
+  - RAILS_VERSION=4.0.5
+  - RAILS_VERSION=4.1.0
+  - RAILS_VERSION=4.1.1
 rvm:
   - 1.9.3-p448
   - 2.0.0-p247
@@ -8,5 +13,4 @@ before_script:
   - psql -c "CREATE DATABASE dummy_test;" -U postgres
 script:
   - script/redb
-  - bundle exec rspec spec
-  - bundle exec cucumber features
+  - bundle exec rake landable
