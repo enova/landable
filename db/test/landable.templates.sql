@@ -16,14 +16,14 @@ SELECT index_is_unique('dummy_landable', 'templates', 'dummy_landable_templates_
 --Insert test data
 SELECT lives_ok($$INSERT INTO dummy_landable.templates (name, slug, body, description) VALUES ('template1', 'template1', 'body1', 'test_body')$$);
 SELECT lives_ok($$INSERT INTO dummy_landable.authors (email, username, first_name, last_name) VALUES ('jtemplate@test.com', 'jtemplate', 'john', 'template')$$);
-SELECT lives_ok($$INSERT INTO dummy_landable.template_revisions(template_id, author_id) SELECT template_id, author_id FROM dummy_landable.templates a, dummy_landable.authors b WHERE a.name = 'template1' LIMIT 1$$);
+SELECT lives_ok($$INSERT INTO dummy_landable.template_revisions(template_id, author_id, name) SELECT template_id, author_id, a.name FROM dummy_landable.templates a, dummy_landable.authors b WHERE a.name = 'template1' AND b.email = 'jtemplate@test.com' LIMIT 1$$);
 
 --Verify ordinal is generated and populated automatically
-SELECT results_eq($$SELECT max(ordinal) FROM dummy_landable.template_revisions$$, $$SELECT 1$$);
+SELECT results_eq($$SELECT max(ordinal) FROM dummy_landable.template_revisions WHERE name = 'template1' $$, $$SELECT 1$$);
 
 --Verify ordinal is incremented automatically
-SELECT lives_ok($$INSERT INTO dummy_landable.template_revisions(template_id, author_id) SELECT template_id, author_id FROM dummy_landable.templates a, dummy_landable.authors b WHERE a.name = 'template1' LIMIT 1$$);
-SELECT results_eq($$SELECT max(ordinal) FROM dummy_landable.template_revisions$$, $$SELECT 2$$);
+SELECT lives_ok($$INSERT INTO dummy_landable.template_revisions(template_id, author_id, name) SELECT template_id, author_id, a.name FROM dummy_landable.templates a, dummy_landable.authors b WHERE a.name = 'template1' AND b.email = 'jtemplate@test.com' LIMIT 1$$);
+SELECT results_eq($$SELECT max(ordinal) FROM dummy_landable.template_revisions WHERE name = 'template1'$$, $$SELECT 2$$);
 
 --Verify ordinals cannot be supplied in insert
 SELECT throws_matching($$INSERT INTO dummy_landable.template_revisions(ordinal, template_id, author_id) SELECT 1, template_id, author_id FROM dummy_landable.templates, dummy_landable.authors$$, 'ordinal');
