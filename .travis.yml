@@ -11,6 +11,9 @@ rvm:
   - 2.0.0-p247
   - 2.1.2
 
+perl:
+    - "5.16"
+
 before_script:
   - sudo apt-get update
   - sudo apt-get install postgresql-server-dev-9.1 postgresql-contrib-9.1 libtap-parser-sourcehandler-pgtap-perl
