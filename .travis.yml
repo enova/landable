@@ -18,6 +18,7 @@ before_script:
   - env PG_CONFIG=/etc/postgresql/9.1/main/postgresql.conf && export PERL5LIB=/home/travis/perl5/lib/perl5 && cd /tmp/pgtap && make && sudo make install
   - psql -c "CREATE USER dummy WITH superuser" -U postgres
   - psql -c "CREATE DATABASE dummy_test;" -U postgres
+  - cd -
   - psql -d dummy_test -c "CREATE EXTENSION pgtap" -U postgres
 script:
   - script/redb
