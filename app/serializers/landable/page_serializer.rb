@@ -13,6 +13,7 @@ module Landable
     attributes :status_code
     attributes :abstract
     attributes :hero_asset_name
+    attributes :audit_flags
 
     embed    :ids
     has_one  :theme
