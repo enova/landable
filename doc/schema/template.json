@@ -1,0 +1,62 @@
+{
+  "title": "Template",
+  "description": "A template served by landable",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "slug", "description", "is_layout", "body"],
+
+  "properties": {
+    "id": {
+      "$ref": "uuid.json"
+    },
+
+    "name": {
+      "type": ["string"]
+    },
+
+    "slug": {
+      "type": ["string"]
+    },
+
+    "file": {
+      "type": ["string", "null"]
+    },
+
+    "title": {
+      "type": ["string"]
+    },
+
+    "body": {
+      "type": ["string"]
+    },
+
+    "description": {
+      "type": ["string"]
+    },
+
+    "is_layout": {
+      "type": "boolean"
+    },
+
+    "editable": {
+      "type": "boolean"
+    },
+
+    "thumbnail_url": {
+      "type": ["string", "null"]
+    },
+
+    "is_publishable": {
+      "type": "boolean"
+    },
+
+    "published_revision_id": {
+      "type": ["null", {"$ref": "uuid.json"}]
+    },
+
+    "updated_by_author_id": {
+      "type": ["null", {"$ref": "uuid.json"}]
+    }
+
+  }
+}

@@ -104,6 +104,29 @@ CREATE FUNCTION pages_revision_ordinal() RETURNS trigger
 
 
 --
+-- Name: template_revision_ordinal(); Type: FUNCTION; Schema: dummy_landable; Owner: -
+--
+
+CREATE FUNCTION template_revision_ordinal() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $_$
+        BEGIN
+
+        IF NEW.ordinal IS NOT NULL THEN
+          RAISE EXCEPTION $$Must not supply ordinal value manually.$$;
+        END IF;
+
+        NEW.ordinal = (SELECT COALESCE(MAX(ordinal)+1,1)
+                        FROM dummy_landable.template_revisions
+                        WHERE template_id = NEW.template_id);
+
+        RETURN NEW;
+
+        END
+       $_$;
+
+
+--
 -- Name: tg_disallow(); Type: FUNCTION; Schema: dummy_landable; Owner: -
 --
 
@@ -349,6 +372,27 @@ COMMENT ON TABLE pages IS 'Pages serve as a draft, where you can make changes, p
 
 
 --
+-- Name: template_revisions; Type: TABLE; Schema: dummy_landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE template_revisions (
+    template_revision_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    ordinal integer,
+    notes text,
+    is_minor boolean DEFAULT false,
+    is_published boolean DEFAULT true,
+    template_id uuid NOT NULL,
+    author_id uuid NOT NULL,
+    name text,
+    slug text,
+    body text,
+    description text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
 -- Name: templates; Type: TABLE; Schema: dummy_landable; Owner: -; Tablespace: 
 --
 
@@ -364,7 +408,8 @@ CREATE TABLE templates (
     updated_at timestamp without time zone,
     file text,
     editable boolean DEFAULT true,
-    audit_flags character varying(255)[] DEFAULT '{}'::character varying[]
+    published_revision_id uuid,
+    is_publishable boolean DEFAULT true
 );
 
 
@@ -2099,6 +2144,14 @@ ALTER TABLE ONLY pages
 
 
 --
+-- Name: template_revisions_pkey; Type: CONSTRAINT; Schema: dummy_landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY template_revisions
+    ADD CONSTRAINT template_revisions_pkey PRIMARY KEY (template_revision_id);
+
+
+--
 -- Name: templates_pkey; Type: CONSTRAINT; Schema: dummy_landable; Owner: -; Tablespace: 
 --
 
@@ -3212,6 +3265,27 @@ CREATE TRIGGER dummy_landable_page_revisions__no_update BEFORE UPDATE OF notes, 
 
 
 --
+-- Name: dummy_landable_template_revisions__bfr_insert; Type: TRIGGER; Schema: dummy_landable; Owner: -
+--
+
+CREATE TRIGGER dummy_landable_template_revisions__bfr_insert BEFORE INSERT ON template_revisions FOR EACH ROW EXECUTE PROCEDURE template_revision_ordinal();
+
+
+--
+-- Name: dummy_landable_template_revisions__no_delete; Type: TRIGGER; Schema: dummy_landable; Owner: -
+--
+
+CREATE TRIGGER dummy_landable_template_revisions__no_delete BEFORE DELETE ON template_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
+
+
+--
+-- Name: dummy_landable_template_revisions__no_update; Type: TRIGGER; Schema: dummy_landable; Owner: -
+--
+
+CREATE TRIGGER dummy_landable_template_revisions__no_update BEFORE UPDATE OF notes, is_minor, template_id, author_id, created_at, ordinal ON template_revisions FOR EACH STATEMENT EXECUTE PROCEDURE tg_disallow();
+
+
+--
 -- Name: asset_id_fk; Type: FK CONSTRAINT; Schema: dummy_landable; Owner: -
 --
 
@@ -3256,6 +3330,14 @@ ALTER TABLE ONLY assets
 --
 
 ALTER TABLE ONLY page_revisions
+    ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES authors(author_id);
+
+
+--
+-- Name: author_id_fk; Type: FK CONSTRAINT; Schema: dummy_landable; Owner: -
+--
+
+ALTER TABLE ONLY template_revisions
     ADD CONSTRAINT author_id_fk FOREIGN KEY (author_id) REFERENCES authors(author_id);
 
 
@@ -3305,6 +3387,22 @@ ALTER TABLE ONLY page_revision_assets
 
 ALTER TABLE ONLY pages
     ADD CONSTRAINT revision_id_fk FOREIGN KEY (published_revision_id) REFERENCES page_revisions(page_revision_id);
+
+
+--
+-- Name: template_id_fk; Type: FK CONSTRAINT; Schema: dummy_landable; Owner: -
+--
+
+ALTER TABLE ONLY template_revisions
+    ADD CONSTRAINT template_id_fk FOREIGN KEY (template_id) REFERENCES templates(template_id);
+
+
+--
+-- Name: template_revision_id_fk; Type: FK CONSTRAINT; Schema: dummy_landable; Owner: -
+--
+
+ALTER TABLE ONLY templates
+    ADD CONSTRAINT template_revision_id_fk FOREIGN KEY (published_revision_id) REFERENCES template_revisions(template_revision_id);
 
 
 --
@@ -3789,4 +3887,4 @@ INSERT INTO schema_migrations (version) VALUES ('20140220174630');
 
 INSERT INTO schema_migrations (version) VALUES ('20140224205516');
 
-INSERT INTO schema_migrations (version) VALUES ('20140509192856');
+INSERT INTO schema_migrations (version) VALUES ('20140509190128');

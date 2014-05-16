@@ -1,5 +1,8 @@
 # Landable
 
+[![Gem Version](https://badge.fury.io/rb/landable.svg)](http://rubygems.org/gems/landable)
+[![Build Status](https://travis-ci.org/enova/landable.svg?branch=master)](https://travis-ci.org/enova/landable)
+
 Landable is an API for building your CMS. It's implemented as a [Rails Engine](http://guides.rubyonrails.org/engines.html). We like to use Landable with [Publicist](https://github.com/enova/publicist), a great UI for managing content.
 
 
@@ -40,7 +43,7 @@ end
 
 ## Development
 
-Run `./bin/redb` to refresh the dummy app's database.
+Run `./script/redb` to refresh the dummy app's database.
 
 Run the test suite with `rake landable`.
 
