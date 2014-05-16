@@ -5,7 +5,7 @@ module Landable
     class Error < StandardError; end
 
     class << self
-      def generate url, options = {}
+      def capture url
         if not Landable.configuration.publicist_url
           Rails.logger.warn "Couldn't generate screenshot for #{url}; no Landable.configuration.publicist_url configured"
         else

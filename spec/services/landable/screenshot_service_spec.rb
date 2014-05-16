@@ -10,18 +10,19 @@ module Landable
       Landable.configuration.stub(:publicist_url) { publicist_url }
     end
 
-    describe '#generate' do
+    describe '#capture' do
       context 'with configured publicist url' do
         let(:publicist_url) { 'http://publicist.foo/' }
 
         it 'should return a file pointer to the downloaded screenshot' do
-          options = {foo: 'bar'}
+          Net::HTTP.should_receive(:post_form) do |uri, params|
+            uri.to_s.should == 'http://publicist.foo/api/services/screenshots'
+            params.should == {'screenshot[url]' => screenshot_url}
 
-          RestClient.should_receive(:post).with('http://publicist.foo/api/services/screenshots', screenshot: {url: screenshot_url, foo: 'bar'}) {
-            double('response', code: 200, content_type: 'image/png', to_str: screenshot_content)
-          }
+            double('response', code: '200', content_type: 'image/png', body: screenshot_content)
+          end
 
-          screenshot = ScreenshotService.generate screenshot_url, foo: 'bar'
+          screenshot = ScreenshotService.capture screenshot_url
 
           screenshot.should be_a Tempfile
           screenshot.read.should == screenshot_content
@@ -30,11 +31,11 @@ module Landable
 
       context 'without configured publicist url' do
         it 'should return nil with a warning' do
-          RestClient.should_not_receive(:post)
+          Net::HTTP.should_not_receive(:post_form)
 
           Rails.logger.should_receive(:warn).with(/#{screenshot_url}/)
 
-          ScreenshotService.generate(screenshot_url).should be_nil
+          ScreenshotService.capture(screenshot_url).should be_nil
         end
       end
     end

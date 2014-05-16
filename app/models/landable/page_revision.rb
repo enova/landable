@@ -43,14 +43,14 @@ module Landable
     end
 
     def snapshot
-      Page.new(title: self.title, 
-               meta_tags: page.meta_tags, 
+      Page.new(title: self.title,
+               meta_tags: page.meta_tags,
                head_content: page.head_content,
-               body: self.body, 
-               path: self.path, 
-               redirect_url: self.redirect_url, 
-               status_code: self.status_code, 
-               theme_id: self.theme_id, 
+               body: self.body,
+               path: self.path,
+               redirect_url: self.redirect_url,
+               status_code: self.status_code,
+               theme_id: self.theme_id,
                category_id: self.category_id,
                abstract: self.abstract,
                hero_asset_id: self.hero_asset_id)
@@ -84,7 +84,7 @@ module Landable
     end
 
     def add_screenshot!
-      if preview_url and screenshot = ScreenshotService.generate(preview_url)
+      if preview_url and screenshot = ScreenshotService.capture(preview_url)
         self.screenshot = screenshot
 
         # we've got a trigger preventing updates to other columns, so! muck
