@@ -21,8 +21,7 @@ before_script:
   - psql -c "CREATE DATABASE dummy_test;" -U postgres
   - cd -
   - psql -d dummy_test -c "CREATE EXTENSION pgtap" -U postgres
-  - sudo rm /usr/bin/pg_prove
-  - sudo cp /usr/local/bin/pg_prove /usr/bin/pg_prove
+  - sudo sed -e 's/perl \-w/perl -w -X/' -i /usr/bin/pg_prove
 script:
   - script/redb
   - bundle exec rake landable
