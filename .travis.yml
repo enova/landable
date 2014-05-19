@@ -21,6 +21,7 @@ before_script:
   - psql -c "CREATE DATABASE dummy_test;" -U postgres
   - cd -
   - psql -d dummy_test -c "CREATE EXTENSION pgtap" -U postgres
+  - which pg_prove
 script:
   - script/redb
   - bundle exec rake landable
