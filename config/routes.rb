@@ -18,8 +18,9 @@ Landable::Engine.routes.draw do
       post 'screenshots', on: :member
     end
 
-    resources :themes, only: [:index, :show, :create, :update], concerns: :has_assets do
+    resources :themes, only: [:index, :show, :create, :update, :destroy], concerns: :has_assets do
       post 'preview', on: :collection
+      put 'reactivate', on: :member
     end
 
     resources :templates, only: [:index, :show, :create, :update, :destroy, :reactivate] do
