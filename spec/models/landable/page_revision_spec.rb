@@ -23,7 +23,7 @@ module Landable
 
     describe '#page_id=' do
       it 'should set page revision attributes matching the page' do
-        attrs = revision.attributes.except('page_revision_id','ordinal','notes','is_minor','is_published','author_id','created_at','updated_at', 'page_id')
+        attrs = revision.attributes.except('page_revision_id','ordinal','notes','is_minor','is_published','author_id','created_at','updated_at', 'page_id', 'audit_flags')
         attrs.should include(page.attributes.except(*PageRevision.ignored_page_attributes))
       end
     end

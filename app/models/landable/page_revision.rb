@@ -14,7 +14,8 @@ module Landable
       'published_revision_id',
       'is_publishable',
       'updated_by_author_id',
-      'lock_version'
+      'lock_version',
+      'audit_flags'
     ]
 
     cattr_accessor :ignored_page_attributes

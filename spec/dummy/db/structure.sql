@@ -409,7 +409,8 @@ CREATE TABLE templates (
     file text,
     editable boolean DEFAULT true,
     published_revision_id uuid,
-    is_publishable boolean DEFAULT true
+    is_publishable boolean DEFAULT true,
+    audit_flags character varying(255)[] DEFAULT '{}'::character varying[]
 );
 
 
@@ -3888,3 +3889,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140220174630');
 INSERT INTO schema_migrations (version) VALUES ('20140224205516');
 
 INSERT INTO schema_migrations (version) VALUES ('20140509190128');
+
+INSERT INTO schema_migrations (version) VALUES ('20140509192856');
