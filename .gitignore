@@ -2,6 +2,7 @@
 *.swp
 Gemfile.lock
 .bundle/
+db/test/output.txt
 log/*.log
 pkg/
 spec/dummy/db/*.sqlite3

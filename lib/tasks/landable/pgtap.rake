@@ -16,8 +16,7 @@ namespace :landable do
       else
         # Load pgtap functions into database.  Will not complain if already loaded.
         ActiveRecord::Base.connection.execute(IO.read("#{dbdir}/pgtap/pgtap.sql"))
-
-        sh "cd #{dbdir}/test && pg_prove -d #{ActiveRecord::Base.connection.current_database} #{tests}; echo $?"
+        sh "cd #{Rails.root}/../../script && ./pgtap"
       end
     end
   end
