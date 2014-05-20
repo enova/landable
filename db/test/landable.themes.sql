@@ -1,6 +1,6 @@
 BEGIN;
 
-  SELECT PLAN(12);
+  SELECT PLAN(14);
 
   SELECT col_is_pk('dummy_landable', 'themes', 'theme_id', 'Theme_id is PK');
 
@@ -18,7 +18,10 @@ BEGIN;
 
   SELECT index_is_unique('dummy_landable', 'themes', 'dummy_landable_themes__u_file', $$Unique index on file column.$$);
   SELECT lives_ok($$INSERT INTO dummy_landable.themes (file, name, body, description, editable) VALUES ('filename', 'test1', 'body', 'test body', true)$$);
-  SELECT throws_matching($$INSERT INTO dummy_landable.themes (file, name, body, description) VALUES ('FILENAME', 'test1', 'body', 'test body')$$, '__u_file');
+  SELECT throws_matching($$INSERT INTO dummy_landable.themes (file, name, body, description) VALUES ('FILENAME', 'test2', 'body', 'test body')$$, '__u_file');
+
+  SELECT lives_ok($$INSERT INTO dummy_landable.themes (file, name, body, description, editable) VALUES ('filename2', 'test3', 'body', 'test body', true)$$);
+  SELECT throws_matching($$INSERT INTO dummy_landable.themes (file, name, body, description) VALUES ('FILENAME3', 'test3', 'body', 'test body')$$, '__u_name');
 
   SELECT * FROM finish();
 
