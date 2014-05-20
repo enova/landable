@@ -14,7 +14,7 @@ module Landable
     end
 
     def meta
-      { search: { total_results: @scope.count } }
+      { search: { total_results: @scope.count(:all) } }
     end
 
     def filter_by!(filters)
