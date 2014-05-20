@@ -25,10 +25,6 @@ module Landable
       object.category || Landable::Category.where(name: 'Uncategorized').first
     end
 
-    def audit_flags
-      object.audit_flags || []
-    end
-
     def meta_tags
       object.meta_tags || {}
     end
