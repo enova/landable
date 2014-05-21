@@ -1,12 +1,30 @@
 language: ruby
+
+env:
+  - RAILS_VERSION=4.0.0
+  - RAILS_VERSION=4.0.5
+  - RAILS_VERSION=4.1.0
+  - RAILS_VERSION=4.1.1
+
 rvm:
   - 1.9.3-p448
   - 2.0.0-p247
   - 2.1.2
+
 before_script:
+  - sudo apt-get update
+  - sudo apt-get install postgresql-server-dev-9.1 postgresql-contrib-9.1 libtap-parser-sourcehandler-pgtap-perl
+  - git clone https://github.com/theory/pgtap.git /tmp/pgtap
+  - env PG_CONFIG=/etc/postgresql/9.1/main/postgresql.conf && export PERL5LIB=/home/travis/perl5/lib/perl5 && cd /tmp/pgtap && make && sudo make install
   - psql -c "CREATE USER dummy WITH superuser" -U postgres
   - psql -c "CREATE DATABASE dummy_test;" -U postgres
+  - psql -d dummy_test -c "CREATE EXTENSION pgtap" -U postgres
+  - sudo sed -e 's/perl \-w/perl -w -X/' -i /usr/bin/pg_prove
+  - cd -
 script:
   - script/redb
-  - bundle exec rspec spec
-  - bundle exec cucumber features
+  - bundle exec rake landable
+
+notifications:
+  # let enova know about the build
+  slack: enova:xzPNLg3AxkbkUcUlfn7sqHW5
