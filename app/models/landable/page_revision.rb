@@ -84,8 +84,19 @@ module Landable
     end
 
     def add_screenshot!
-      if preview_url and screenshot = ScreenshotService.capture(preview_url)
-        self.screenshot = screenshot
+      return nil if preview_url.blank?
+
+      unless Landable.configuration.screenshots_enabled
+        Rails.logger.info "Screenshots disabled; skipping for #{path}"
+        return
+      end
+
+      attempts_left = 3
+
+      begin
+        attempts_left -= 1
+
+        self.screenshot = ScreenshotService.capture(preview_url)
 
         # we've got a trigger preventing updates to other columns, so! muck
         # about under the hood to commit the asset, and explicitly only update
@@ -93,9 +104,13 @@ module Landable
         store_screenshot!
         write_screenshot_identifier
         update_column :screenshot, self[:screenshot]
+
+      rescue ScreenshotService::Error => error
+        Rails.logger.warn "Failed to generate screenshot (#{attempts_left} attempt(s) left) for #{path}: #{error.inspect}"
+
+        retry if attempts_left > 0
       end
-    rescue ScreenshotService::Error => error
-      Rails.logger.warn "Failed to generate screenshot for #{path}: #{error.inspect}"
     end
   end
+
 end
