@@ -24,7 +24,7 @@ module Landable::Public::Preview
 
       it 'renders the preview message' do
         make_request
-        response.body.should include 'Test your unpublished changes with this page. Share this URL!'
+        response.body.should include 'Preview Mode'
       end
 
       it 'is available at /-/p/:id' do
