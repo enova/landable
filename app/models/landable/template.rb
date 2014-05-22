@@ -11,6 +11,8 @@ module Landable
     has_many   :audits,               class_name: 'Landable::Audit', as: :auditable
     has_many   :revisions,            class_name: 'Landable::TemplateRevision'
 
+    has_and_belongs_to_many :pages,   join_table: Page.templates_join_table_name
+
     before_save -> template {
       template.is_publishable = true unless template.published_revision_id_changed?
     }
