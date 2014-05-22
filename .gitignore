@@ -2,12 +2,14 @@
 *.swp
 Gemfile.lock
 .bundle/
+db/test/output.txt
 log/*.log
 pkg/
 spec/dummy/db/*.sqlite3
 spec/dummy/db/*.sqlite3-journal
 spec/dummy/log/*.log
 spec/dummy/tmp/
+spec/dummy/db/structure.sql
 spec/dummy/.sass-cache
 coverage/
 tmp/
