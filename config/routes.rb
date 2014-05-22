@@ -11,6 +11,7 @@ Landable::Engine.routes.draw do
     resources :assets, only: [:index, :show, :create, :update]
 
     resources :audits, only: [:index]
+    resources :template_audits, only: [:index]
 
     resources :configurations, only: [:index]
 
