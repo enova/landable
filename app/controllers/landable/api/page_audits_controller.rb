@@ -9,15 +9,15 @@ module Landable
       end
 
       def create
-        audit = Audit.new(approver: params[:approver], notes: params[:notes],
-                          auditable_id: params[:page_id], auditable_type: 'Landable::Page')
+        audit = Audit.new audit_params.merge(auditable_id: params[:page_id],
+                                             auditable_type: 'Landable::Page')
         audit.save!
 
-        respond_with audit.auditable
+        respond_with audit
       end
 
       def audit_params
-        params.require(:page_audit).permit(:id, :page_id, :approver, :notes)
+        params.require(:page_audit).permit(:id, :approver, :notes, flags: [])
       end
     end
   end

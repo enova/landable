@@ -18,7 +18,8 @@ module Landable
 
       def audit_params
         params.require(:audit).permit(:id, :auditable_id, :auditable_type,
-                                      :approver, :note, :flags)
+                                      flags: [],
+                                      :approver, :note)
       end
     end
   end
