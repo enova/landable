@@ -8,6 +8,7 @@ module Landable
   class Page < ActiveRecord::Base
     include ActionView::Helpers::TagHelper
     include Landable::HasAssets
+    include Landable::HasTemplates
     include Landable::Engine.routes.url_helpers
     include Landable::TableName
 

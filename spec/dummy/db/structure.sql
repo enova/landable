@@ -335,6 +335,17 @@ COMMENT ON TABLE page_revisions IS 'Page revisions serve as a historical referen
 
 
 --
+-- Name: page_templates; Type: TABLE; Schema: dummy_landable; Owner: -; Tablespace: 
+--
+
+CREATE TABLE page_templates (
+    page_template_id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    page_id uuid NOT NULL,
+    template_id uuid NOT NULL
+);
+
+
+--
 -- Name: pages; Type: TABLE; Schema: dummy_landable; Owner: -; Tablespace: 
 --
 
@@ -2137,6 +2148,14 @@ ALTER TABLE ONLY page_revisions
 
 
 --
+-- Name: page_templates_pkey; Type: CONSTRAINT; Schema: dummy_landable; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY page_templates
+    ADD CONSTRAINT page_templates_pkey PRIMARY KEY (page_template_id);
+
+
+--
 -- Name: pages_pkey; Type: CONSTRAINT; Schema: dummy_landable; Owner: -; Tablespace: 
 --
 
@@ -3891,3 +3910,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140224205516');
 INSERT INTO schema_migrations (version) VALUES ('20140509190128');
 
 INSERT INTO schema_migrations (version) VALUES ('20140509192856');
+
+INSERT INTO schema_migrations (version) VALUES ('20140522202332');

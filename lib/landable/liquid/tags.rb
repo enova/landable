@@ -62,6 +62,8 @@ module Landable
     end
 
     class TemplateTag < Tag
+      attr_accessor :template_slug
+
       def initialize(tag, param, tokens)
         param_tokens = param.split(/\s+/)
         @template_slug = param_tokens.shift
