@@ -12,7 +12,7 @@ Landable requires [Postgres](https://github.com/ged/ruby-pg). Make sure you have
 
 Add `gem 'landable'` to your project's Gemfile and run `bundle`.
 
-Run `bundle exec rails g landable:install`, and update the new landable initializer to taste.
+Run `bundle exec rails g landable:install`, and update the [landable initializer to taste](https://github.com/enova/landable/wiki/Configuration).
 
 Open your routes file, and ensure that the engine is mounted properly. Typically, this will be your final, catch-all route:
 
