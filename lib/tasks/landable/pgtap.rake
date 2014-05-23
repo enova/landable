@@ -15,7 +15,7 @@ namespace :landable do
         puts "Reference 'http://pgtap.org/documentation.html#installation' for installation instructions."
       else
         # Load pgtap functions into database.  Will not complain if already loaded.
-        ActiveRecord::Base.connection.execute(IO.read("#{dbdir}/pgtap/pgtap.sql"))
+        ActiveRecord::Base.connection.execute("CREATE EXTENSION pgtap;")
         sh "cd #{Rails.root}/../../script && ./pgtap"
       end
     end
