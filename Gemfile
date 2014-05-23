@@ -15,4 +15,5 @@ group :test do
   gem 'minitest'
   gem 'shoulda-matchers'
   gem 'cucumber-rails', require: false
+  gem 'test_after_commit'
 end
