@@ -4,6 +4,7 @@ module Landable
   class Theme < ActiveRecord::Base
     include Landable::TableName
     include Landable::HasAssets
+    include Landable::Librarian
 
     validates_presence_of   :name, :description
     validates_uniqueness_of :name, case_sensitive: false

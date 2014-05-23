@@ -11,6 +11,7 @@ module Landable
       'thumbnail_url',
       'is_layout',
       'is_publishable',
+      'deleted_at'
     ]
 
     cattr_accessor :ignored_template_attributes

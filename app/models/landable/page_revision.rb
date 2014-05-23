@@ -10,6 +10,7 @@ module Landable
       'page_id',
       'imported_at',
       'created_at',
+      'deleted_at',
       'updated_at',
       'published_revision_id',
       'is_publishable',

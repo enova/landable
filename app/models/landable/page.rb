@@ -10,6 +10,7 @@ module Landable
     include Landable::HasAssets
     include Landable::Engine.routes.url_helpers
     include Landable::TableName
+    include Landable::Librarian
 
     validates_presence_of   :path, :status_code
     validates_presence_of   :redirect_url, if: -> page { page.redirect? }
@@ -122,6 +123,14 @@ module Landable
       else
         'text/plain'
       end
+    end
+
+    def deactivate
+      self.update_attribute(:status_code, 410)
+      
+      publish!(author_id: updated_by_author.id, notes: "This page has been trashed")
+
+      super
     end
 
     def html?
