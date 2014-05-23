@@ -64,6 +64,26 @@ module Landable
       update_attribute :is_published, false
     end
 
+    def republish!(options)
+      unpublish!
+      PageRevision.create!(page_id: self.page_id,
+                           title: self.title,
+                           meta_tags: page.meta_tags,
+                           head_content: page.head_content,
+                           body: self.body,
+                           path: self.path,
+                           redirect_url: self.redirect_url,
+                           status_code: self.status_code,
+                           theme_id: self.theme_id,
+                           category_id: self.category_id,
+                           abstract: self.abstract,
+                           hero_asset_id: self.hero_asset_id,
+                           notes: 'Automatic Publish! Inlcuded Template Updated!',
+                           is_minor: true,
+                           author_id: options[:author_id],
+                           is_published: true)
+    end
+
     def preview_url
       public_preview_page_revision_url(self)
     end

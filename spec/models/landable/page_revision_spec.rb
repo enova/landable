@@ -57,6 +57,20 @@ module Landable
       end
     end
 
+    describe '#republish!' do
+      it 'republishes a page revision with almost exact attrs' do
+        old = PageRevision.create!(page_id: page.id, author_id: author.id, is_published: true)
+        new_author = create :author
+        old.republish!({author_id: new_author})
+
+        new_record = PageRevision.last
+        new_record.author_id.should == new_author.id
+        new_record.notes.should == 'Automatic Publish! Inlcuded Template Updated!'
+        new_record.page_id.should == page.id
+        new_record.body.should == page.body
+      end
+    end
+
     describe '#preview_path' do
       it 'should return the preview path' do
         revision.should_receive(:public_preview_page_revision_path) { 'foo' }

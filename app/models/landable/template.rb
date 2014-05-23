@@ -31,6 +31,17 @@ module Landable
         published_revision.unpublish! if published_revision
         revision = revisions.create! options
         update_attributes!(published_revision: revision, is_publishable: false)
+
+        # Republish Templates Pages Last Page Revision
+        republish_associated_pages(options) if pages.present?
+      end
+    end
+
+    def republish_associated_pages(options)
+      pages.each do |page|
+        if page.published_revision.present?
+          page.published_revision.republish! options
+        end
       end
     end
 
