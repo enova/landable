@@ -39,9 +39,7 @@ module Landable
 
     def republish_associated_pages(options)
       pages.each do |page|
-        if page.published_revision.present?
-          page.published_revision.republish! options
-        end
+        page.published_revision.republish!(options) if page.published?
       end
     end
 

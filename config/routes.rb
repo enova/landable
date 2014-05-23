@@ -35,7 +35,7 @@ Landable::Engine.routes.draw do
     resources :template_revisions, only: [:index, :show] do
       post 'revert_to', on: :member
     end
-    
+
     resources :pages, concerns: [:has_assets, :has_screenshots] do
       post 'preview', on: :collection
       post 'publish', on: :member

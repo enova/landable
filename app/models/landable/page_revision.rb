@@ -78,7 +78,7 @@ module Landable
                            category_id: self.category_id,
                            abstract: self.abstract,
                            hero_asset_id: self.hero_asset_id,
-                           notes: 'Automatic Publish! Inlcuded Template Updated!',
+                           notes: 'Automatic Publish! Included Template Updated!',
                            is_minor: true,
                            author_id: options[:author_id],
                            is_published: true)

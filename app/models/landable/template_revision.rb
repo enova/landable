@@ -11,7 +11,7 @@ module Landable
       'thumbnail_url',
       'is_layout',
       'is_publishable',
-      'audit_flags'
+      'audit_flags',
     ]
 
     cattr_accessor :ignored_template_attributes
