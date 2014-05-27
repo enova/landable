@@ -51,7 +51,7 @@ module Landable::Api
       before(:each) { audits }
 
       def make_request(params = {})
-        get :index, page_id: page.id
+        get :index, auditable_id: page.id
       end
 
       it 'renders audits as json' do

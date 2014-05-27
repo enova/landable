@@ -4,8 +4,8 @@ module Landable
   module Api
     class PageAuditsController < ApiController
       def index
-        page = Page.find(params[:page_id])
-        respond_with page.audits
+        audits = Audit.where(auditable_id: params[:auditable_id])
+        respond_with audits
       end
 
       def create

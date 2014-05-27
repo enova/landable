@@ -4,8 +4,8 @@ module Landable
   module Api
     class TemplateAuditsController < ApiController
       def index
-        template = Template.find(params[:template_id])
-        respond_with template.audits
+        audits = Audit.where(auditable_id: params[:auditable_id])
+        respond_with audits
       end
 
       def create
