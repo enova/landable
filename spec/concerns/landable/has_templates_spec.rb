@@ -3,9 +3,7 @@ require 'spec_helper'
 module Landable
   describe HasTemplates do
 
-    before :each do
-      create_list :template, 3
-    end
+    before(:each) { create_list :template, 3 }
 
     let(:templates) { Landable::Template.last(3) }
     let(:subject) {
@@ -17,7 +15,6 @@ module Landable
         "
       }
     }
-
 
     describe '#templates' do
       it 'should return templates' do

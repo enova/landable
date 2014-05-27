@@ -56,7 +56,11 @@
 
     "updated_by_author_id": {
       "type": ["null", {"$ref": "uuid.json"}]
-    }
+    },
 
+    "audit_flags" : {
+      "type" : ["array", "null"],
+      "items" : { "type" : "string"}
+    }
   }
 }

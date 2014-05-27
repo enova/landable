@@ -32,7 +32,9 @@ module Landable
       private
 
       def template_params
-        params.require(:template).permit(:id, :name, :body, :description, :thumbnail_url, :slug, :is_layout, :is_publishable)
+        params.require(:template).permit(:id, :name, :body, :description, :thumbnail_url, 
+                                         :slug, :is_layout, :is_publishable,
+                                         audit_flags: [])
       end
     end
   end

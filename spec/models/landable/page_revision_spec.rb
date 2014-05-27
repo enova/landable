@@ -63,7 +63,7 @@ module Landable
         new_author = create :author
         old.republish!({author_id: new_author.id})
 
-        new_record = PageRevision.last
+        new_record = PageRevision.order('created_at ASC').last
         new_record.author_id.should == new_author.id
         new_record.notes.should == 'Automatic Publish! Included Template Updated!'
         new_record.page_id.should == page.id
