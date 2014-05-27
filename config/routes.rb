@@ -10,7 +10,8 @@ Landable::Engine.routes.draw do
 
     resources :assets, only: [:index, :show, :create, :update]
 
-    resources :audits, only: [:index]
+    resources :audits,          only: [:index, :show]
+    resources :page_audits,     only: [:index]
     resources :template_audits, only: [:index]
 
     resources :configurations, only: [:index]
@@ -28,8 +29,8 @@ Landable::Engine.routes.draw do
     end
 
     resources :templates, only: [:index, :show, :create, :update] do
-      resources :template_audits, only: [:create]
       post 'publish', on: :member
+      match 'audits', to: 'template_audits#create', via: [:post]
     end
 
     resources :template_revisions, only: [:index, :show] do
@@ -39,10 +40,8 @@ Landable::Engine.routes.draw do
     resources :pages, concerns: [:has_assets, :has_screenshots] do
       post 'preview', on: :collection
       post 'publish', on: :member
-      resources :page_audits, only: [:create]
+      match 'audits', to: 'page_audits#create', via: [:post]
     end
-
-    resources :page_audits, only: [:index]
 
     resources :page_revisions, only: [:index, :show], concerns: [:has_screenshots] do
       post 'revert_to', on: :member

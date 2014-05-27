@@ -61,7 +61,7 @@ module Landable
       it 'republishes a page revision with almost exact attrs' do
         old = PageRevision.create!(page_id: page.id, author_id: author.id, is_published: true)
         new_author = create :author
-        old.republish!({author_id: new_author})
+        old.republish!({author_id: new_author.id})
 
         new_record = PageRevision.last
         new_record.author_id.should == new_author.id

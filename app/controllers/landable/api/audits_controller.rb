@@ -7,6 +7,10 @@ module Landable
         audits = Audit.all
         respond_with audits
       end
+
+      def show
+        respond_with Audit.find(params[:id])
+      end
     end
   end
 end

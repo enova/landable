@@ -13,7 +13,7 @@ module Landable
                                              auditable_type: 'Landable::Page')
         audit.save!
 
-        respond_with audit.page
+        respond_with audit
       end
 
       def audit_params
