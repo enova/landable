@@ -9,14 +9,16 @@ namespace :landable do
     end
 
     def has_pgtap?
+      has_pgtap = false
+
       if has_pgconfig?
         sharedir = "#{`pg_config | grep SHAREDIR | awk {' print $3 '}`.strip}/extension/pgtap.control"
         if File.file?("#{sharedir}")
-          return true
-        else
-          return false
+          has_pgtap = true
         end
       end
+
+      has_pgtap
     end
 
     desc "Run PGTap unit tests"
