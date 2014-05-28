@@ -1,6 +1,6 @@
 # Landable
 
-[![Gem Version](https://badge.fury.io/rb/landable.svg)](http://rubygems.org/gems/landable)
+[![Gem Version](http://badge.fury.io/rb/landable.svg)](http://rubygems.org/gems/landable)
 [![Build Status](https://travis-ci.org/enova/landable.svg?branch=master)](https://travis-ci.org/enova/landable)
 
 Landable is an API for building your CMS. It's implemented as a [Rails Engine](http://guides.rubyonrails.org/engines.html). We like to use Landable with [Publicist](https://github.com/enova/publicist), a great UI for managing content.
@@ -12,7 +12,7 @@ Landable requires [Postgres](https://github.com/ged/ruby-pg). Make sure you have
 
 Add `gem 'landable'` to your project's Gemfile and run `bundle`.
 
-Run `bundle exec rails g landable:install`, and update the new landable initializer to taste.
+Run `bundle exec rails g landable:install`, and update the [landable initializer to taste](https://github.com/enova/landable/wiki/Configuration).
 
 Open your routes file, and ensure that the engine is mounted properly. Typically, this will be your final, catch-all route:
 

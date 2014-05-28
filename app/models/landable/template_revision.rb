@@ -12,6 +12,7 @@ module Landable
       'is_layout',
       'is_publishable',
       'audit_flags',
+      'deleted_at'
     ]
 
     cattr_accessor :ignored_template_attributes

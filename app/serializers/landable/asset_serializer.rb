@@ -4,6 +4,7 @@ module Landable
     attributes :file_size, :mime_type, :md5sum
     attributes :created_at, :updated_at
     attributes :public_url
+    attributes :deleted_at
 
     embed :ids
 

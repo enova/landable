@@ -8,7 +8,7 @@ Landable::Engine.routes.draw do
       id: /[%a-zA-Z0-9\/_.~-]*/
     }
 
-    resources :assets, only: [:index, :show, :create, :update]
+    resources :assets, only: [:index, :show, :create, :update, :deactivate, :destroy]
 
     resources :audits,          only: [:index, :show]
     resources :page_audits,     only: [:index]
@@ -24,12 +24,14 @@ Landable::Engine.routes.draw do
       post 'screenshots', on: :member
     end
 
-    resources :themes, only: [:index, :show, :create, :update], concerns: :has_assets do
+    resources :themes, only: [:index, :show, :create, :update, :destroy], concerns: :has_assets do
       post 'preview', on: :collection
+      put 'reactivate', on: :member
     end
 
-    resources :templates, only: [:index, :show, :create, :update] do
+    resources :templates, only: [:index, :show, :create, :update, :destroy, :reactivate] do
       post 'publish', on: :member
+      put 'reactivate', on: :member
       match 'audits', to: 'template_audits#create', via: [:post]
     end
 
@@ -40,6 +42,7 @@ Landable::Engine.routes.draw do
     resources :pages, concerns: [:has_assets, :has_screenshots] do
       post 'preview', on: :collection
       post 'publish', on: :member
+      put 'reactivate', on: :member
       match 'audits', to: 'page_audits#create', via: [:post]
     end
 

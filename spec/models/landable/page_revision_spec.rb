@@ -80,8 +80,66 @@ module Landable
 
     describe '#preview_url' do
       it 'should return the preview url' do
-        revision.should_receive(:public_preview_page_revision_url) { 'foo' }
-        revision.preview_url.should == 'foo'
+        Landable.configuration.stub(:public_host) { 'foo' }
+        revision.should_receive(:public_preview_page_revision_url).with(revision, host: 'foo') { 'bar' }
+        revision.preview_url.should == 'bar'
+      end
+    end
+
+    describe '#add_screenshot!' do
+      let(:screenshots_enabled) { true }
+
+      before(:each) do
+        Landable.configuration.stub(:screenshots_enabled) { screenshots_enabled }
+      end
+
+      it 'should be fired before create' do
+        revision.should_receive :add_screenshot!
+        revision.save!
+      end
+
+      it 'should add a screenshot' do
+        screenshot = double('screenshot')
+
+        revision.stub(:preview_url) { 'http://google.com/foo' }
+        ScreenshotService.should_receive(:capture).with(revision.preview_url) { screenshot }
+
+        revision.should_receive(:screenshot=).with(screenshot).ordered
+        revision.should_receive(:store_screenshot!).ordered
+        revision.should_receive(:write_screenshot_identifier).ordered
+        revision.should_receive(:update_column).with(:screenshot, revision[:screenshot]).ordered
+
+        revision.add_screenshot!
+      end
+
+      context 'screenshots disabled' do
+        let(:screenshots_enabled) { false }
+
+        it 'should skip' do
+          revision.should_receive(:add_screenshot!).and_call_original
+          ScreenshotService.should_not_receive :capture
+          revision.should_not_receive :screenshot=
+
+          revision.save!
+        end
+      end
+    end
+
+    describe '#screenshot_url' do
+      context 'with screenshot' do
+        it 'should return the screenshot url' do
+          screenshot = double('screenshot', url: 'foobar')
+
+          revision.stub(:screenshot) { screenshot }
+          revision.screenshot_url.should == screenshot.url
+        end
+      end
+
+      context 'without screenshot' do
+        it 'should return nil' do
+          revision.stub(:screenshot) { nil }
+          revision.screenshot_url.should be_nil
+        end
       end
     end
 

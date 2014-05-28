@@ -185,7 +185,8 @@ CREATE TABLE assets (
     mime_type text NOT NULL,
     file_size integer,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
 );
 
 
@@ -321,7 +322,8 @@ CREATE TABLE page_revisions (
     head_content text,
     status_code smallint,
     abstract text,
-    hero_asset_id uuid
+    hero_asset_id uuid,
+    screenshot text
 );
 
 
@@ -369,6 +371,7 @@ CREATE TABLE pages (
     status_code smallint DEFAULT 200 NOT NULL,
     abstract text,
     hero_asset_id uuid,
+    deleted_at timestamp without time zone,
     audit_flags character varying(255)[] DEFAULT '{}'::character varying[],
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
@@ -419,6 +422,7 @@ CREATE TABLE templates (
     updated_at timestamp without time zone,
     file text,
     editable boolean DEFAULT true,
+    deleted_at timestamp without time zone,
     published_revision_id uuid,
     is_publishable boolean DEFAULT true,
     audit_flags character varying(255)[] DEFAULT '{}'::character varying[]
@@ -459,7 +463,8 @@ CREATE TABLE themes (
     updated_at timestamp without time zone,
     file text,
     extension text,
-    editable boolean DEFAULT true NOT NULL
+    editable boolean DEFAULT true NOT NULL,
+    deleted_at timestamp without time zone
 );
 
 
@@ -3863,7 +3868,7 @@ ALTER TABLE ONLY visits
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user",public;
+SET search_path TO "$user", public;
 
 INSERT INTO schema_migrations (version) VALUES ('20130510221424');
 
@@ -3907,8 +3912,18 @@ INSERT INTO schema_migrations (version) VALUES ('20140220174630');
 
 INSERT INTO schema_migrations (version) VALUES ('20140224205516');
 
+INSERT INTO schema_migrations (version) VALUES ('20140501171345');
+
+INSERT INTO schema_migrations (version) VALUES ('20140501171352');
+
+INSERT INTO schema_migrations (version) VALUES ('20140501171359');
+
+INSERT INTO schema_migrations (version) VALUES ('20140501171406');
+
 INSERT INTO schema_migrations (version) VALUES ('20140509190128');
 
 INSERT INTO schema_migrations (version) VALUES ('20140509192856');
+
+INSERT INTO schema_migrations (version) VALUES ('20140515164543');
 
 INSERT INTO schema_migrations (version) VALUES ('20140522202332');

@@ -16,9 +16,11 @@ module Landable
         respond_with audit
       end
 
-      def audit_params
-        params.require(:page_audit).permit(:id, :approver, :notes, flags: [])
-      end
+      private
+
+        def audit_params
+          params.require(:page_audit).permit(:id, :approver, :notes, flags: [])
+        end
     end
   end
 end

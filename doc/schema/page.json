@@ -65,6 +65,11 @@
       "type": ["null", {"$ref": "uuid.json"}]
     },
 
+    "deleted_at": {
+      "type": "date",
+      "format": "date-time"
+    },
+
     "meta_tags": {
       "type": "object",
       "additionalProperties": false,

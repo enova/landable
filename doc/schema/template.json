@@ -58,6 +58,11 @@
       "type": ["null", {"$ref": "uuid.json"}]
     },
 
+    "deleted_at": {
+      "type": "date",
+      "format": "date-time"
+    },
+
     "audit_flags" : {
       "type" : ["array", "null"],
       "items" : { "type" : "string"}

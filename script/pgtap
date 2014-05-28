@@ -1,0 +1,10 @@
+#!/bin/sh
+cd ../db/test && pg_prove -d dummy_test *.sql > output.txt
+cat output.txt
+TMP=`cat output.txt | grep "All tests successful." | awk '{ print $1 }'`
+
+if [ "$TMP" = "All" ]; then
+  exit 0
+else
+  exit 1
+fi
