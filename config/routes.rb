@@ -14,7 +14,7 @@ Landable::Engine.routes.draw do
     resources :page_audits,     only: [:index]
     resources :template_audits, only: [:index]
 
-    resources :configurations, only: [:index]
+    get 'configuration', to: 'configurations#show'
 
     concern :has_assets do
       resources :assets, only: [:index, :update, :destroy]

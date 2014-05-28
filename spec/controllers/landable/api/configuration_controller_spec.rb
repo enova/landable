@@ -1,0 +1,20 @@
+require 'spec_helper'
+
+module Landable::Api
+  describe ConfigurationsController, json: true do
+    routes { Landable::Engine.routes }
+
+    describe '#show' do
+
+      def make_request
+        get :show
+      end
+
+      it 'renders the page as JSON' do
+        make_request
+        # defined in Landable Dummy Initalizer
+        last_json['configurations'][0]['auditing_flags'].should == %w(loans apr)
+      end
+    end
+  end
+end
