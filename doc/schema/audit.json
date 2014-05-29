@@ -20,6 +20,11 @@
 
     "flags": {
       "type": ["array", "null"]
+    },
+
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
     }
   }
 }
