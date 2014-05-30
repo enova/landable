@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.8.0...master)
+* Remove the pgtap.sql file and dependency
 
 ## 1.8.0 [#](https://github.com/enova/landable/compare/v1.7.1.rc1...v1.8.0)
 * Removing geminabox [#11]
