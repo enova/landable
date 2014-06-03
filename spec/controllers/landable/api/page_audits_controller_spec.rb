@@ -44,7 +44,7 @@ module Landable::Api
 
       let(:audits) do
         3.times do
-          Landable::Audit.create!(auditable_id: page.id, auditable_type: 'Landable::Page', notes: 'whatever')
+          Landable::Audit.create!(auditable_id: page.id, auditable_type: 'Landable::Page', notes: 'whatever', approver: 'ME!!!')
         end
       end
 

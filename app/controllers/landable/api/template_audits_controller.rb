@@ -13,11 +13,12 @@ module Landable
                                              auditable_type: 'Landable::Template')
         audit.save!
 
-        respond_with audit
+        respond_with audit, status: :created, location: audit_url(audit)
       end
 
       private
         def audit_params
+          params[:template_audit][:flags] ||= []
           params.require(:template_audit).permit(:id, :approver, :notes, flags: [])
         end
     end
