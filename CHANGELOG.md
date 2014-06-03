@@ -2,12 +2,10 @@
 
 See README.md before updating this file.
 
-## Unreleased (https://github.com/enova/landable/pull/13/files)
-* 
-
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.8.0...master)
 * adds a new view relating paths with response time, ordered by response time (longest first) [#13]
 * Remove the pgtap.sql file and dependency
+computer...
 
 ## 1.8.0 [#](https://github.com/enova/landable/compare/v1.7.1.rc1...v1.8.0)
 * Removing geminabox [#11]
