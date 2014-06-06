@@ -32,7 +32,7 @@ Landable::Engine.routes.draw do
     resources :templates, only: [:index, :show, :create, :update, :destroy, :reactivate] do
       post 'publish', on: :member
       put 'reactivate', on: :member
-      match 'audits', to: 'template_audits#create', via: [:post]
+      match 'audits', to: 'audits#create', via: [:post]
     end
 
     resources :template_revisions, only: [:index, :show] do
@@ -43,7 +43,7 @@ Landable::Engine.routes.draw do
       post 'preview', on: :collection
       post 'publish', on: :member
       put 'reactivate', on: :member
-      match 'audits', to: 'page_audits#create', via: [:post]
+      match 'audits', to: 'audits#create', via: [:post]
     end
 
     resources :page_revisions, only: [:index, :show], concerns: [:has_screenshots] do
