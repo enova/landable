@@ -4,13 +4,8 @@ module Landable
   module Api
     class AuditsController < ApiController
       def index
-        audits = Audit.all
-        respond_with audits
-      end
-
-      def index
-        audits = Audit.where(auditable_id: params[:auditable_id])
-        respond_with audits
+        determine_which_index
+        respond_with @audits
       end
 
       def show
@@ -30,6 +25,14 @@ module Landable
         def audit_params
           params[:audit][:flags] ||= []
           params.require(:audit).permit(:id, :approver, :notes, :created_at, flags: [])
+        end
+
+        def determine_which_index
+          if params[:auditable_id].present?
+            @audits = Audit.where(auditable_id: params[:auditable_id])
+          else
+            @audits = Audit.all
+          end
         end
 
         def determine_type_of_audit

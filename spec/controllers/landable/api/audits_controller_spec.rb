@@ -4,20 +4,68 @@ module Landable::Api
   describe AuditsController, json: true do
     routes { Landable::Engine.routes }
 
+    let(:page)     { create :page }
+    let(:template) { create :template }
+
+
     describe '#index' do
-      include_examples 'Authenticated API controller', :make_request
+      context 'all' do
+        include_examples 'Authenticated API controller', :make_request
 
-      let(:audits) { create_list :audit, 3 }
+        let(:audits) { create_list :audit, 3 }
 
-      before(:each) { audits }
+        before(:each) { audits }
 
-      def make_request(params = {})
-        get :index
+        def make_request(params = {})
+          get :index
+        end
+
+        it 'renders audits as json' do
+          make_request
+          last_json['audits'].collect { |p| p['id'] }.sort.should == Landable::Audit.all.map(&:id).sort
+        end
       end
 
-      it 'renders audits as json' do
-        make_request
-        last_json['audits'].collect { |p| p['id'] }.sort.should == Landable::Audit.all.map(&:id).sort
+      context 'tempalte audits' do
+        include_examples 'Authenticated API controller', :make_request
+
+        let(:audits) do
+          3.times do
+            Landable::Audit.create!(auditable_id: template.id, auditable_type: 'Landable::Template', approver: 'ME!!!')
+          end
+        end
+
+        before(:each) { audits }
+
+        def make_request(params = {})
+          get :index, auditable_id: template.id
+        end
+
+        it 'renders audits as json' do
+          make_request
+          last_json['audits'].collect { |p| p['id'] }.sort.should == Landable::Audit.all.map(&:id).sort
+        end
+      end
+
+      context 'page audits' do
+        include_examples 'Authenticated API controller', :make_request
+
+        let(:audits) do
+          3.times do
+            Landable::Audit.create!(auditable_id: page.id, auditable_type: 'Landable::Page', notes: 'whatever', approver: 'ME!!!')
+          end
+        end
+
+        before(:each) { audits }
+
+        def make_request(params = {})
+          get :index, auditable_id: page.id
+        end
+
+        it 'renders audits as json' do
+          make_request
+          last_json['audits'].collect { |p| p['id'] }.sort.should == Landable::Audit.all.map(&:id).sort
+        end
       end
     end
 
@@ -43,9 +91,8 @@ module Landable::Api
     end
 
     describe '#create' do
-      describe '#template' do
+      context 'template audit' do
         include_examples 'Authenticated API controller', :make_request
-        let(:template) { create :template }
 
         let(:default_params) do
           { audit: attributes_for(:audit).merge(auditable_id: template.id,
@@ -79,10 +126,8 @@ module Landable::Api
         end
       end
 
-      describe '#page' do
+      context 'page audit' do
         include_examples 'Authenticated API controller', :make_request
-
-        let(:page) { create :page }
 
         let(:default_params) do
           { audit: attributes_for(:audit).merge(auditable_id: page.id,
