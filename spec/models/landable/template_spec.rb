@@ -73,7 +73,7 @@ module Landable
         revision1.is_published.should be_false
       end
 
-      it 'should call republish_associated_pages if template has pages' do
+      it 'should call republish_associated_pages if template has associated pages' do
         page = create :page
         template.pages = [page]
         template.save!
@@ -82,7 +82,7 @@ module Landable
         template.publish! author: author
       end
 
-      it 'should not call republish_associated_pages if template has pages' do
+      it 'should not call republish_associated_pages if template does not have associated pages' do
         template.should_not_receive(:republish_associated_pages)
         template.publish! author: author
       end
