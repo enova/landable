@@ -31,7 +31,7 @@ module Landable
           if params[:auditable_id].present?
             @audits = Audit.where(auditable_id: params[:auditable_id])
           else
-            @audits = Audit.all
+            @audits = Audit.order('created_at DESC')
           end
         end
 
