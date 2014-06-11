@@ -108,10 +108,6 @@ module Landable
       end
     end
 
-    def republish!(options)
-      published_revision.republish!(options)
-    end
-
     def downcase_path!
       path.try :downcase!
     end

@@ -14,8 +14,6 @@ module Landable::Api
 
         let(:audits) { create_list :audit, 3 }
 
-        before(:each) { audits }
-
         def make_request(params = {})
           get :index
         end
@@ -31,8 +29,6 @@ module Landable::Api
 
         let(:audits) { create_list :audit, 3, auditable_id: template.id, auditable_type: 'Landable::Template', approver: 'ME!!!' }
 
-        before(:each) { audits }
-
         def make_request(params = {})
           get :index, auditable_id: template.id
         end
@@ -47,8 +43,6 @@ module Landable::Api
         include_examples 'Authenticated API controller', :make_request
 
         let(:audits) { create_list :audit, 3, auditable_id: page.id, auditable_type: 'Landable::Page', approver: 'ME!!!' }
-
-        before(:each) { audits }
 
         def make_request(params = {})
           get :index, auditable_id: page.id
