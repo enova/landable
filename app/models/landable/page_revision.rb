@@ -81,7 +81,7 @@ module Landable
                            abstract: self.abstract,
                            hero_asset_id: self.hero_asset_id,
                            notes: "Publishing update for template #{options[:template]}: #{options[:notes]}",
-                           is_minor: true,
+                           is_minor: options[:is_minor],
                            author_id: options[:author_id],
                            is_published: true)
     end
