@@ -106,11 +106,12 @@ module Landable
       end
 
       def get_referer_domain
-        @visit and @visit.referer_id and Referer.where(referer_id: @visit.referer_id).first.try(:domain)
+        binding.pry
+        visit.referer.try(:domain)
       end
 
       def get_referer_path
-        @visit and @visit.referer_id and Referer.where(referer_id: @visit.referer_id).first.try(:path)
+        visit.referer.try(:path)
       end
 
       def get_referer_url
