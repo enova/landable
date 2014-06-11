@@ -2,10 +2,10 @@ require 'spec_helper'
 
 module Landable
   describe Landable::Traffic::Tracker do
-    let(:referer) { '/something/ valid' }
+    let(:referer)    { '/something/ valid' }
     let(:user_agent) { 'type' }
-    let(:format) { double('format', { html?: true}) }
-    let(:request) { double('request', { query_parameters: {}, user_agent: user_agent, referer: referer, format: format }) }
+    let(:format)     { double('format', { html?: true}) }
+    let(:request)    { double('request', { query_parameters: {}, user_agent: user_agent, referer: referer, format: format }) }
     let(:controller) { double('controller', { request: request }) }
 
     describe "#for" do
@@ -85,6 +85,37 @@ module Landable
           tracker.stub(:visit) { visit }
 
           tracker.send(:get_referer_url).should == 'www.fakedomain.yes/mypath'
+        end
+      end
+    end
+
+    context 'no referer' do
+      let(:visit) { double('visit', { referer: nil }) }
+
+      describe '#get_referer_domain' do
+        it 'should return nil' do
+          tracker = Landable::Traffic::UserTracker.new controller
+          tracker.stub(:visit) { visit }
+
+          tracker.send(:get_referer_domain).should == nil
+        end
+      end
+
+      describe '#get_referer_path' do
+        it 'should return nil' do
+          tracker = Landable::Traffic::UserTracker.new controller
+          tracker.stub(:visit) { visit }
+
+          tracker.send(:get_referer_path).should == nil
+        end
+      end
+
+      describe '#get_referer_url' do
+        it 'should return nil' do
+          tracker = Landable::Traffic::UserTracker.new controller
+          tracker.stub(:visit) { visit }
+
+          tracker.send(:get_referer_url).should == nil
         end
       end
     end

@@ -114,7 +114,13 @@ module Landable
       end
 
       def get_referer_url
-        get_referer_domain + get_referer_path
+        url = nil
+
+        if get_referer_domain and get_referer_path
+          url = get_referer_domain + get_referer_path
+        end
+
+        url
       end
 
       def landing_path
