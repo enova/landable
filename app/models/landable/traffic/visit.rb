@@ -8,6 +8,7 @@ module Landable
       belongs_to :cookie
       belongs_to :owner
       belongs_to :visitor
+      belongs_to :referer
 
       has_many   :page_views
     end
