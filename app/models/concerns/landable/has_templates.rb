@@ -56,6 +56,5 @@ module Landable
         "#{Landable.configuration.database_schema_prefix}landable.#{self.name.underscore.split('/').last}_templates"
       end
     end
-
   end
 end
