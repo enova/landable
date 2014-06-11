@@ -4,7 +4,7 @@ module Landable
     attributes :auditable_type, :auditable_id, :created_at
 
     def auditable_type
-      object.auditable_type == 'Landable::Page' ? 'page' : 'template'
+      object.auditable_type == ('Landable::Page' ? 'page' : 'template')
     end
   end
 end

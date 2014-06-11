@@ -1,5 +1,5 @@
 module Landable
   class ConfigurationSerializer < ActiveModel::Serializer
-    attributes :auditing_flags
+    attributes :audit_flags
   end
 end

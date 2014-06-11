@@ -29,11 +29,7 @@ module Landable::Api
       context 'tempalte audits' do
         include_examples 'Authenticated API controller', :make_request
 
-        let(:audits) do
-          3.times do
-            Landable::Audit.create!(auditable_id: template.id, auditable_type: 'Landable::Template', approver: 'ME!!!')
-          end
-        end
+        let(:audits) { create_list :audit, 3, auditable_id: template.id, auditable_type: 'Landable::Template', approver: 'ME!!!' }
 
         before(:each) { audits }
 
@@ -50,11 +46,7 @@ module Landable::Api
       context 'page audits' do
         include_examples 'Authenticated API controller', :make_request
 
-        let(:audits) do
-          3.times do
-            Landable::Audit.create!(auditable_id: page.id, auditable_type: 'Landable::Page', notes: 'whatever', approver: 'ME!!!')
-          end
-        end
+        let(:audits) { create_list :audit, 3, auditable_id: page.id, auditable_type: 'Landable::Page', approver: 'ME!!!' }
 
         before(:each) { audits }
 

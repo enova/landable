@@ -14,7 +14,7 @@ Landable.configure do |config|
 
   config.database_schema_prefix = 'dummy'
 
-  config.auditing_flags = %w(loans apr)
+  config.audit_flags = %w(loans apr)
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.
