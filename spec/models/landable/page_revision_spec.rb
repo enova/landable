@@ -59,13 +59,14 @@ module Landable
 
     describe '#republish!' do
       it 'republishes a page revision with almost exact attrs' do
+        template = create :template, name: 'Basic'
         old = PageRevision.create!(page_id: page.id, author_id: author.id, is_published: true)
         new_author = create :author
-        old.republish!({author_id: new_author.id})
+        old.republish!({author_id: new_author.id, notes: "Great Note", template: template.name })
 
         new_record = PageRevision.order('created_at ASC').last
         new_record.author_id.should == new_author.id
-        new_record.notes.should == 'Automatic Publish! Included Template Updated!'
+        new_record.notes.should == "Publishing update for template #{template.name}: Great Note"
         new_record.page_id.should == page.id
         new_record.body.should == page.body
       end

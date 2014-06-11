@@ -48,6 +48,7 @@ module Landable
     end
 
     def republish_associated_pages(options)
+      options[:template] = self.name
       pages.each do |page|
         page.republish!(options) if page.published?
       end

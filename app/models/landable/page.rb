@@ -37,6 +37,8 @@ module Landable
     has_many   :screenshots,          class_name: 'Landable::Screenshot',   as: :screenshotable
     has_many   :audits,               class_name: 'Landable::Audit',        as: :auditable
 
+    delegate :republish!, to: :published_revision
+
     scope :imported, -> { where("imported_at IS NOT NULL") }
     scope :sitemappable, -> { where("COALESCE(meta_tags -> 'robots' NOT LIKE '%noindex%', TRUE)") 
                               .where(status_code: 200)}
