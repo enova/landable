@@ -7,7 +7,6 @@ module Landable::Api
     let(:page)     { create :page }
     let(:template) { create :template }
 
-
     describe '#index' do
       context 'all' do
         include_examples 'Authenticated API controller', :make_request

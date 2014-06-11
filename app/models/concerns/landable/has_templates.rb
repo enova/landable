@@ -34,7 +34,6 @@ module Landable
         self.templates = self.templates
       end
 
-
       private
 
       def template_names_for_node node, names = []
