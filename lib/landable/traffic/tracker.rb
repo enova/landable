@@ -106,7 +106,6 @@ module Landable
       end
 
       def get_referer_domain
-        binding.pry
         visit.referer.try(:domain)
       end
 
