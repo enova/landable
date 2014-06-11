@@ -50,7 +50,7 @@ module Landable
     end
 
     context 'referer' do
-      let(:visit_referer) { double('visit_referer', { domain: 'www.fakedomain.yes', path: '/mypath' }) }
+      let(:visit_referer) { double('visit_referer', { url: 'http://www.fakedomain.yes/mypath', uri: URI("http://www.fakedomain.yes/mypath") }) }
       let(:visit) { double('visit', { referer: visit_referer }) }
 
       describe '#referer_uri' do
@@ -61,30 +61,30 @@ module Landable
         end
       end
 
-      describe '#get_referer_domain' do
+      describe '#referer_domain' do
         it 'should return the domain of the referer' do
           tracker = Landable::Traffic::UserTracker.new controller
           tracker.stub(:visit) { visit }
 
-          tracker.send(:get_referer_domain).should == 'www.fakedomain.yes'
+          tracker.send(:referer_domain).should == 'www.fakedomain.yes'
         end
       end
 
-      describe '#get_referer_path' do
+      describe '#referer_path' do
         it 'should return the path of the referer' do
           tracker = Landable::Traffic::UserTracker.new controller
           tracker.stub(:visit) { visit }
 
-          tracker.send(:get_referer_path).should == '/mypath'
+          tracker.send(:referer_path).should == '/mypath'
         end
       end
 
-      describe '#get_referer_url' do
+      describe '#referer_url' do
         it 'should return the full url of the referer' do
           tracker = Landable::Traffic::UserTracker.new controller
           tracker.stub(:visit) { visit }
 
-          tracker.send(:get_referer_url).should == 'www.fakedomain.yes/mypath'
+          tracker.send(:referer_url).should == 'http://www.fakedomain.yes/mypath'
         end
       end
     end
@@ -92,30 +92,30 @@ module Landable
     context 'no referer' do
       let(:visit) { double('visit', { referer: nil }) }
 
-      describe '#get_referer_domain' do
+      describe '#referer_domain' do
         it 'should return nil' do
           tracker = Landable::Traffic::UserTracker.new controller
           tracker.stub(:visit) { visit }
 
-          tracker.send(:get_referer_domain).should == nil
+          tracker.send(:referer_domain).should == nil
         end
       end
 
-      describe '#get_referer_path' do
+      describe '#referer_path' do
         it 'should return nil' do
           tracker = Landable::Traffic::UserTracker.new controller
           tracker.stub(:visit) { visit }
 
-          tracker.send(:get_referer_path).should == nil
+          tracker.send(:referer_path).should == nil
         end
       end
 
-      describe '#get_referer_url' do
+      describe '#referer_url' do
         it 'should return nil' do
           tracker = Landable::Traffic::UserTracker.new controller
           tracker.stub(:visit) { visit }
 
-          tracker.send(:get_referer_url).should == nil
+          tracker.send(:referer_url).should == nil
         end
       end
     end

@@ -105,22 +105,16 @@ module Landable
         Event.create(visit_id: @visit_id, event_type: type, meta: meta)
       end
 
-      def get_referer_domain
-        visit.referer.try(:domain)
+      def referer_domain
+        visit.referer.try(:uri).try(:host)
       end
 
-      def get_referer_path
-        visit.referer.try(:path)
+      def referer_path
+        visit.referer.try(:uri).try(:path)
       end
 
-      def get_referer_url
-        url = nil
-
-        if get_referer_domain and get_referer_path
-          url = get_referer_domain + get_referer_path
-        end
-
-        url
+      def referer_url
+        visit.referer.try(:url)
       end
 
       def landing_path
