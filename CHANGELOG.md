@@ -2,10 +2,12 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://github.com/enova/landable/compare/v1.8.0...master)
-* Expose the tracker's referer domain & path
+## Unreleased [#](https://github.com/enova/landable/compare/v1.9.0.rc1...master)
+
+## 1.9.0.rc1 [#](https://github.com/enova/landable/compare/v1.8.0...v1.9.0.rc1)
+* Expose the tracker's referer domain & path [#14]
 * adds a new view relating paths with response time, ordered by response time (longest first) [#13]
-* Remove the pgtap.sql file and dependency
+* Remove the pgtap.sql file and dependency [#12]
 
 ## 1.8.0 [#](https://github.com/enova/landable/compare/v1.7.1.rc1...v1.8.0)
 * Removing geminabox [#11]
