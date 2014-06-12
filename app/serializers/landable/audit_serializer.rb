@@ -4,10 +4,8 @@ module Landable
     attributes :auditable_type, :auditable_id, :created_at
 
     def auditable_type
-      if object.auditable_type == 'Landable::Page'
-        object.auditable_type = 'page'
-      else
-        object.auditable_type = 'template'
+      if object.auditable_type.present?
+        object.auditable_type.underscore.gsub(/^landable\//, '')
       end
     end
   end

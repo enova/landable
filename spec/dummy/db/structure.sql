@@ -1359,6 +1359,21 @@ CREATE TABLE paths (
 
 
 --
+-- Name: path_response_time__by_time; Type: VIEW; Schema: dummy_landable_traffic; Owner: -
+--
+
+CREATE VIEW path_response_time__by_time AS
+    SELECT agg1.path_id, agg1.path, agg1."average response time (ms)" FROM (SELECT p.path_id, p.path, round(avg(pv.response_time), 3) AS "average response time (ms)" FROM (page_views pv JOIN paths p ON ((p.path_id = pv.path_id))) GROUP BY p.path_id, p.path) agg1 ORDER BY agg1."average response time (ms)" DESC;
+
+
+--
+-- Name: VIEW path_response_time__by_time; Type: COMMENT; Schema: dummy_landable_traffic; Owner: -
+--
+
+COMMENT ON VIEW path_response_time__by_time IS ' The view path_response_time__by_time returns the paths displayed and the average reponse time (in ms) for each page of the site.  This list is ordered by response time, decending.';
+
+
+--
 -- Name: paths_path_id_seq; Type: SEQUENCE; Schema: dummy_landable_traffic; Owner: -
 --
 
@@ -3868,7 +3883,7 @@ ALTER TABLE ONLY visits
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20130510221424');
 
@@ -3927,3 +3942,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140509192856');
 INSERT INTO schema_migrations (version) VALUES ('20140515164543');
 
 INSERT INTO schema_migrations (version) VALUES ('20140522202332');
+
+INSERT INTO schema_migrations (version) VALUES ('20140602213937');

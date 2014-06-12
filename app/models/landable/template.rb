@@ -43,7 +43,7 @@ module Landable
         update_attributes!(published_revision: revision, is_publishable: false)
 
         # Republish Templates Pages Last Page Revision
-        republish_associated_pages(options) if pages.present?
+        republish_associated_pages(options)
       end
     end
 
