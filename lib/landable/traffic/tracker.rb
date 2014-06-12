@@ -105,6 +105,18 @@ module Landable
         Event.create(visit_id: @visit_id, event_type: type, meta: meta)
       end
 
+      def visit_referer_domain
+        visit.referer.try(:uri).try(:host)
+      end
+
+      def visit_referer_path
+        visit.referer.try(:uri).try(:path)
+      end
+
+      def visit_referer_url
+        visit.referer.try(:url)
+      end
+
       def landing_path
         @visit_id and PageView.where(visit_id: @visit_id).order(:page_view_id).first.try(:path)
       end
