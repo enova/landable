@@ -12,7 +12,10 @@ module Landable
 
 
     belongs_to :published_revision,   class_name: 'Landable::TemplateRevision'
+    has_many   :audits,               class_name: 'Landable::Audit', as: :auditable
     has_many   :revisions,            class_name: 'Landable::TemplateRevision'
+
+    has_and_belongs_to_many :pages,   join_table: Page.templates_join_table_name
 
     before_save -> template {
       template.is_publishable = true unless template.published_revision_id_changed?
@@ -38,6 +41,16 @@ module Landable
         published_revision.unpublish! if published_revision
         revision = revisions.create! options
         update_attributes!(published_revision: revision, is_publishable: false)
+
+        # Republish Templates Pages Last Page Revision
+        republish_associated_pages(options)
+      end
+    end
+
+    def republish_associated_pages(options)
+      options[:template] = self.name
+      pages.each do |page|
+        page.republish!(options) if page.published?
       end
     end
 

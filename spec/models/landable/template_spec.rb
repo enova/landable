@@ -72,6 +72,15 @@ module Landable
         template.publish! author: author
         revision1.is_published.should be_false
       end
+
+      it 'should call republish_associated_pages' do
+        page = create :page
+        template.pages = [page]
+        template.save!
+
+        template.should_receive(:republish_associated_pages)
+        template.publish! author: author
+      end
     end
 
     describe '#revert_to' do

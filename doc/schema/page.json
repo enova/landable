@@ -95,6 +95,11 @@
 
     "hero_asset_name": {
       "type": ["string", "null"]
+    },
+
+    "audit_flags" : {
+      "type" : ["array", "null"],
+      "items" : { "type" : "string"}
     }
   }
 }

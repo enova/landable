@@ -23,7 +23,7 @@ module Landable
 
     describe '#page_id=' do
       it 'should set page revision attributes matching the page' do
-        attrs = revision.attributes.except('page_revision_id','ordinal','notes','is_minor','is_published','author_id','created_at','updated_at', 'page_id')
+        attrs = revision.attributes.except('page_revision_id','ordinal','notes','is_minor','is_published','author_id','created_at','updated_at', 'page_id', 'audit_flags')
         attrs.should include(page.attributes.except(*PageRevision.ignored_page_attributes))
       end
     end
@@ -54,6 +54,21 @@ module Landable
         revision.is_published.should == false
         revision.publish!
         revision.is_published.should == true
+      end
+    end
+
+    describe '#republish!' do
+      it 'republishes a page revision with almost exact attrs' do
+        template = create :template, name: 'Basic'
+        old = PageRevision.create!(page_id: page.id, author_id: author.id, is_published: true)
+        new_author = create :author
+        old.republish!({author_id: new_author.id, notes: "Great Note", template: template.name })
+
+        new_record = PageRevision.order('created_at ASC').last
+        new_record.author_id.should == new_author.id
+        new_record.notes.should == "Publishing update for template #{template.name}: Great Note"
+        new_record.page_id.should == page.id
+        new_record.body.should == page.body
       end
     end
 

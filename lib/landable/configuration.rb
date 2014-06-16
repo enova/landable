@@ -8,7 +8,7 @@ module Landable
     attr_writer :traffic_enabled
     attr_writer :sitemap_exclude_categories, :sitemap_protocol, :sitemap_host, :sitemap_additional_paths
     attr_writer :reserved_paths, :partials_to_templates, :database_schema_prefix
-    attr_writer :publicist_url
+    attr_writer :publicist_url, :audit_flags
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -46,6 +46,10 @@ module Landable
 
     def public_host
       @public_host ||= public_uri.try(:host)
+    end
+
+    def audit_flags
+      @audit_flags ||= []
     end
 
     def public_namespace

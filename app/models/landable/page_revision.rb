@@ -15,7 +15,8 @@ module Landable
       'published_revision_id',
       'is_publishable',
       'updated_by_author_id',
-      'lock_version'
+      'lock_version',
+      'audit_flags'
     ]
 
     cattr_accessor :ignored_page_attributes
@@ -63,6 +64,26 @@ module Landable
 
     def unpublish!
       update_attribute :is_published, false
+    end
+
+    def republish!(options)
+      unpublish!
+      PageRevision.create!(page_id: self.page_id,
+                           title: self.title,
+                           meta_tags: page.meta_tags,
+                           head_content: page.head_content,
+                           body: self.body,
+                           path: self.path,
+                           redirect_url: self.redirect_url,
+                           status_code: self.status_code,
+                           theme_id: self.theme_id,
+                           category_id: self.category_id,
+                           abstract: self.abstract,
+                           hero_asset_id: self.hero_asset_id,
+                           notes: "Publishing update for template #{options[:template]}: #{options[:notes]}",
+                           is_minor: options[:is_minor],
+                           author_id: options[:author_id],
+                           is_published: true)
     end
 
     def preview_url

@@ -10,6 +10,10 @@ Landable::Engine.routes.draw do
 
     resources :assets, only: [:index, :show, :create, :update, :deactivate, :destroy]
 
+    resources :audits, only: [:index, :show]
+
+    get 'configuration', to: 'configurations#show'
+
     concern :has_assets do
       resources :assets, only: [:index, :update, :destroy]
     end
@@ -26,6 +30,7 @@ Landable::Engine.routes.draw do
     resources :templates, only: [:index, :show, :create, :update, :destroy, :reactivate] do
       post 'publish', on: :member
       put 'reactivate', on: :member
+      resources :audits, only: [:create]
     end
 
     resources :template_revisions, only: [:index, :show] do
@@ -36,6 +41,7 @@ Landable::Engine.routes.draw do
       post 'preview', on: :collection
       post 'publish', on: :member
       put 'reactivate', on: :member
+      resources :audits, only: [:create]
     end
 
     resources :page_revisions, only: [:index, :show], concerns: [:has_screenshots] do

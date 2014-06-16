@@ -49,15 +49,15 @@ module Landable
       end
 
       private
+        def template_params
+          params.require(:template).permit(:id, :name, :body, :description, :thumbnail_url, 
+                                           :slug, :is_layout, :is_publishable,
+                                           audit_flags: [])
+        end
+
         def load_template
           @template = Template.find(params[:id])
         end
-
-        def template_params
-          params.require(:template).permit(:id, :name, :body, :description, :thumbnail_url, :slug, :is_layout, :is_publishable)
-        end
-
-      # end
     end
   end
 end

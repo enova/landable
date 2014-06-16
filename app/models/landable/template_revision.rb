@@ -11,6 +11,7 @@ module Landable
       'thumbnail_url',
       'is_layout',
       'is_publishable',
+      'audit_flags',
       'deleted_at'
     ]
 

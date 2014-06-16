@@ -1,9 +1,14 @@
 module Landable
   class PageSerializer < ActiveModel::Serializer
-
-    attributes :abstract, :body, :deleted_at, :head_content, :hero_asset_name, 
-               :id, :is_publishable, :lock_version, :meta_tags, :path, 
-               :preview_path, :redirect_url, :status_code, :title
+    attributes :id
+    attributes :path, :title, :body
+    attributes :head_content, :meta_tags
+    attributes :status_code, :redirect_url
+    attributes :is_publishable, :preview_path
+    attributes :audit_flags
+    attributes :hero_asset_name, :abstract
+    attributes :lock_version
+    attributes :deleted_at
 
     embed    :ids
     has_one  :theme
