@@ -3,10 +3,10 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.9.0.rc2...master)
-* Configuration is not a public API [*15]
+* Configuration is not a public API [#15]
 
 ## 1.9.0.rc1 [#](https://github.com/enova/landable/compare/v1.9.0.rc1...v1.9.0.rc2)
-* Audits [*10]
+* Audits [#10]
 
 ## 1.9.0.rc1 [#](https://github.com/enova/landable/compare/v1.8.0...v1.9.0.rc1)
 * Expose the tracker's referer domain & path [#14]
