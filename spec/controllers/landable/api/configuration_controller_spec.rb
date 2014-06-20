@@ -5,6 +5,7 @@ module Landable::Api
     routes { Landable::Engine.routes }
 
     describe '#show' do
+      include_examples 'Authenticated API controller', :make_request
 
       def make_request
         get :show

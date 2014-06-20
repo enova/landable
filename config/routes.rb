@@ -12,7 +12,7 @@ Landable::Engine.routes.draw do
 
     resources :audits, only: [:index, :show]
 
-    get 'configuration', to: 'configurations#show'
+    get 'configurations', to: 'configurations#show'
 
     concern :has_assets do
       resources :assets, only: [:index, :update, :destroy]
