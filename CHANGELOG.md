@@ -4,6 +4,7 @@ See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.9.0.rc2...master)
 * Configuration is not a public API [#15]
+* Updating lookup_by :http_method [#16]
 
 ## 1.9.0.rc1 [#](https://github.com/enova/landable/compare/v1.9.0.rc1...v1.9.0.rc2)
 * Audits [#10]
