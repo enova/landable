@@ -6,7 +6,7 @@ module Landable
 
     def process
       @name        = @file.gsub('/',' ').titlecase
-      @description = "Defined in Source Code at #{@file}"
+      @description = "The Code for this template can be seen at #{@file} in the source code"
       @slug        = @file.gsub(/[^\w]/, '_')
 
       @processed = true
