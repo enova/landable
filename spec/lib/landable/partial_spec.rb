@@ -27,8 +27,8 @@ module Landable
           end
 
           it 'populates a description' do
-            @foobazz.description.should == 'Defined in Source Code at partials/foobazz'
-            @test.description.should    == 'Defined in Source Code at partials/test'
+            @foobazz.description.should == 'The Code for this template can be seen at partials/foobazz in the source code'
+            @test.description.should    == 'The Code for this template can be seen at partials/test in the source code'
           end
 
           it 'are not editable' do
