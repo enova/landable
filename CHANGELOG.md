@@ -2,12 +2,14 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://github.com/enova/landable/compare/v1.9.0.rc2...master)
+## Unreleased [#](https://github.com/enova/landable/compare/v1.9.0...master)
+
+## 1.9.0 [#](https://github.com/enova/landable/compare/v1.9.0.rc2...v1.9.0)
 * Configuration is not a public API [#15]
 * Updating lookup_by :http_method [#16]
 * Updating descriptions of Partials [#17]
 
-## 1.9.0.rc1 [#](https://github.com/enova/landable/compare/v1.9.0.rc1...v1.9.0.rc2)
+## 1.9.0.rc2 [#](https://github.com/enova/landable/compare/v1.9.0.rc1...v1.9.0.rc2)
 * Audits [#10]
 
 ## 1.9.0.rc1 [#](https://github.com/enova/landable/compare/v1.8.0...v1.9.0.rc1)
