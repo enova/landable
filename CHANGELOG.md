@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.9.0...master)
+* Updating lookup_by :event_type, and :country [#18]
 
 ## 1.9.0 [#](https://github.com/enova/landable/compare/v1.9.0.rc2...v1.9.0)
 * Configuration is not a public API [#15]
