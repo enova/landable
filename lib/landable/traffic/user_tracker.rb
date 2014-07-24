@@ -13,7 +13,7 @@ module Landable
         @cookie_id        = cookies[:landable]
 
         @visit_id         = hash[KEYS[:visit_id]]
-        @last_visit_time  = hash[KEYS[:visit_time]]
+        @last_visit_time  = hash[KEYS[:visit_time]].to_time
         @visitor_id       = hash[KEYS[:visitor_id]]
         @visitor_hash     = hash[KEYS[:visitor_hash]]
         @attribution_hash = hash[KEYS[:attribution_hash]]
