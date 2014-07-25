@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.9.1...master)
+* Added compatibility with new Rails 4.1 JSON-based cookies [#19]
 
 ## 1.9.1 [#](https://github.com/enova/landable/compare/v1.9.0...v1.9.1)
 * Updating lookup_by :event_type, and :country [#18]
