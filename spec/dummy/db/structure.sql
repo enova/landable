@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -1363,7 +1364,16 @@ CREATE TABLE paths (
 --
 
 CREATE VIEW path_response_time__by_time AS
-    SELECT agg1.path_id, agg1.path, agg1."average response time (ms)" FROM (SELECT p.path_id, p.path, round(avg(pv.response_time), 3) AS "average response time (ms)" FROM (page_views pv JOIN paths p ON ((p.path_id = pv.path_id))) GROUP BY p.path_id, p.path) agg1 ORDER BY agg1."average response time (ms)" DESC;
+ SELECT agg1.path_id,
+    agg1.path,
+    agg1."average response time (ms)"
+   FROM ( SELECT p.path_id,
+            p.path,
+            round(avg(pv.response_time), 3) AS "average response time (ms)"
+           FROM (page_views pv
+      JOIN paths p ON ((p.path_id = pv.path_id)))
+     GROUP BY p.path_id, p.path) agg1
+  ORDER BY agg1."average response time (ms)" DESC;
 
 
 --
@@ -3883,7 +3893,7 @@ ALTER TABLE ONLY visits
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user",public;
+SET search_path TO "$user", public;
 
 INSERT INTO schema_migrations (version) VALUES ('20130510221424');
 
@@ -3944,3 +3954,4 @@ INSERT INTO schema_migrations (version) VALUES ('20140515164543');
 INSERT INTO schema_migrations (version) VALUES ('20140522202332');
 
 INSERT INTO schema_migrations (version) VALUES ('20140602213937');
+

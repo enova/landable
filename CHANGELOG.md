@@ -2,7 +2,9 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://github.com/enova/landable/compare/v1.9.1...master)
+## Unreleased [#](https://github.com/enova/landable/compare/v1.9.2...master)
+
+## Unreleased [#](https://github.com/enova/landable/compare/v1.9.1...v1.9.2)
 * Added compatibility with new Rails 4.1 JSON-based cookies [#19]
 
 ## 1.9.1 [#](https://github.com/enova/landable/compare/v1.9.0...v1.9.1)
