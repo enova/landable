@@ -41,6 +41,8 @@ Landable.configure do |config|
 end
 ```
 
+Read more about [Visit Tracking](https://github.com/enova/landable/wiki/Visit-Tracking)
+
 ## Development
 
 Run `./script/redb` to refresh the dummy app's database.
