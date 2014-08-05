@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Region < ActiveRecord::Base
-      include Landable::Traffic::TableName
+      include Landable::TableName
 
       lookup_by :region, cache: 50, find_or_create: true
 

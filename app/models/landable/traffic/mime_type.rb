@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class MimeType < ActiveRecord::Base
-      include Landable::Traffic::TableName
+      include Landable::TableName
 
       lookup_by :mime_type, cache: 50, find_or_create: true
 

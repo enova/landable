@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Location < ActiveRecord::Base
-      include Landable::Traffic::TableName
+      include Landable::TableName
 
       lookup_for :country, class_name: Country
       lookup_for :region,  class_name: Region
