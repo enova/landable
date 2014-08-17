@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class QueryString < ActiveRecord::Base
-      include Landable::Traffic::TableName
+      include Landable::TableName
 
       lookup_by :query_string, cache: 50, find_or_create: true, allow_blank: true
 

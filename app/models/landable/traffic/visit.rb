@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Visit < ActiveRecord::Base
-      include Landable::Traffic::TableName
+      include Landable::TableName
       self.record_timestamps = false
 
       belongs_to :attribution

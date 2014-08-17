@@ -1371,8 +1371,8 @@ CREATE VIEW path_response_time__by_time AS
             p.path,
             round(avg(pv.response_time), 3) AS "average response time (ms)"
            FROM (page_views pv
-      JOIN paths p ON ((p.path_id = pv.path_id)))
-     GROUP BY p.path_id, p.path) agg1
+             JOIN paths p ON ((p.path_id = pv.path_id)))
+          GROUP BY p.path_id, p.path) agg1
   ORDER BY agg1."average response time (ms)" DESC;
 
 

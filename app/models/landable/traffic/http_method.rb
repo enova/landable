@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class HTTPMethod < ActiveRecord::Base
-      include Landable::Traffic::TableName
+      include Landable::TableName
 
       lookup_by :http_method, cache: 50, find_or_create: true
 

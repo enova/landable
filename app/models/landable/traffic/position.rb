@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Position < ActiveRecord::Base
-      include Landable::Traffic::TableName
+      include Landable::TableName
 
       lookup_by :position, cache: 50, find_or_create: true
 

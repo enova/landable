@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Referer < ActiveRecord::Base
-      include Landable::Traffic::TableName
+      include Landable::TableName
 
       lookup_for :domain,       class_name: Domain
       lookup_for :path,         class_name: Path

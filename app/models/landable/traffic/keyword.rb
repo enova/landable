@@ -1,7 +1,7 @@
 module Landable
   module Traffic
     class Keyword < ActiveRecord::Base
-      include Landable::Traffic::TableName
+      include Landable::TableName
 
       lookup_by :keyword, cache: 50, find_or_create: true
 
