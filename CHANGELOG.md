@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.9.2...master)
+* Extend Categories API [#23]
 * Make table_name.rb generic. [#22]
 * Liquid Preview Template Styling [#21]
 
