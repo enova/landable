@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.9.2...master)
+* Add missing functions/triggers to schema_move task.  Make it a little better in other ways [#24]
 * Make table_name.rb generic. [#22]
 * Liquid Preview Template Styling [#21]
 
