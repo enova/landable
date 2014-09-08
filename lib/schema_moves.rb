@@ -192,7 +192,7 @@ module SchemaMoves
 
     def want_to_drop_old_schemas?
       drop = nil
-      until ['yes', 'no'].include?(drop.to_s.downcase) do
+      until ['yes', 'no'].include?(drop.to_s.downcase)
         drop = ask("Would you like to drop the old schemas? (Yes or No)") { |q| q.default = 'no' }
       end
       drop.to_s.downcase == 'yes'
