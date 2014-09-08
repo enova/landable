@@ -182,7 +182,7 @@ module SchemaMoves
       move_objects(@old_traffic, @new_traffic, 'v', 'TABLE')
       # move_triggers
       create_new_triggers(@new_landable)
-      drop_old_triggers(@old_landable,@new_landable)
+      drop_old_triggers(@old_landable, @new_landable)
     end
 
     def drop_old_schemas
@@ -191,11 +191,11 @@ module SchemaMoves
     end
 
     def want_to_drop_old_schemas?
-        drop = nil
-        while !['yes','Yes','YES','no','No','NO'].include?(drop) do
-          drop = ask("Would you like to drop the old schemas? (Yes or No)") { |q| q.default = 'no' }
-        end
-        drop.to_s.downcase == 'yes'
+      drop = nil
+      while !['yes', 'Yes', 'YES', 'no', 'No', 'NO'].include?(drop) do
+        drop = ask("Would you like to drop the old schemas? (Yes or No)") { |q| q.default = 'no' }
+      end
+      drop.to_s.downcase == 'yes'
     end
 
     def appname
