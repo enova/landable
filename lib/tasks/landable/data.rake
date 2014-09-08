@@ -29,6 +29,7 @@ namespace :landable do
       Rake.application.invoke_task("landable:data:create_schemas")
       Rake.application.invoke_task("landable:data:move_tables")
       Rake.application.invoke_task("landable:data:move_sequences")
+      Rake.application.invoke_task("landable:data:move_views")
       Rake.application.invoke_task("landable:data:move_triggers")
     end
 
@@ -36,6 +37,12 @@ namespace :landable do
     task create_schemas: :environment do
       create_schema("#{@new_landable}")
       create_schema("#{@new_traffic}")
+    end
+
+    desc "Move views to new db schema"
+    task move_views: :environment do
+      move_objects("#{@old_landable}", "#{@new_landable}", 'v', 'TABLE')
+      move_objects("#{@old_traffic}", "#{@new_traffic}", 'v', 'TABLE')
     end
 
     desc "Move tables to new db schema"
@@ -52,8 +59,14 @@ namespace :landable do
 
     desc "Move triggers to new db schema"
     task move_triggers: :environment do
-      create_new_triggers("#{@new_landable}")
       drop_old_triggers("#{@old_landable}", "#{@new_landable}")
+      create_new_triggers("#{@new_landable}")
+    end
+
+    desc "Drop old schemas"
+    task drop_schemas: :environment do
+      drop_schema("landable")
+      drop_schema("landable_traffic")
     end
 
   end
@@ -65,6 +78,16 @@ namespace :landable do
       CREATE SCHEMA #{schema};
     }
     puts "Creating #{schema} schema"
+    connection.execute sql
+  end
+
+  def drop_schema(schema)
+    connection = ActiveRecord::Base.connection
+
+    sql = %{
+      DROP SCHEMA #{schema};
+    }
+    puts "Dropping #{schema} schema"
     connection.execute sql
   end
 
@@ -96,6 +119,56 @@ namespace :landable do
     puts "#{new_schema}"
     connection = ActiveRecord::Base.connection
     sql = %{
+      CREATE FUNCTION #{new_schema}.tg_disallow()
+        RETURNS TRIGGER
+        AS
+        $TRIGGER$
+          BEGIN
+
+          IF TG_LEVEL <> 'STATEMENT' THEN
+            RAISE EXCEPTION $$You should use a statement-level trigger (trigger %, table %)$$, TG_NAME, TG_RELID::regclass;
+          END IF;
+
+          RAISE EXCEPTION $$%s are not allowed on table %$$, TG_OP, TG_RELNAME;
+
+          RETURN NULL;
+
+          END
+         $TRIGGER$
+         LANGUAGE plpgsql;
+
+      CREATE FUNCTION #{new_schema}.template_revision_ordinal()
+        RETURNS TRIGGER
+        AS
+        $TRIGGER$
+          BEGIN
+
+          IF NEW.ordinal IS NOT NULL THEN
+            RAISE EXCEPTION $$Must not supply ordinal value manually.$$;
+          END IF;
+
+          NEW.ordinal = (SELECT COALESCE(MAX(ordinal)+1,1)
+                          FROM #{new_schema}.template_revisions
+                          WHERE template_id = NEW.template_id);
+
+          RETURN NEW;
+
+          END
+         $TRIGGER$
+         LANGUAGE plpgsql;
+
+      CREATE TRIGGER #{new_schema}_template_revisions__bfr_insert
+                BEFORE INSERT ON #{new_schema}.template_revisions
+                FOR EACH ROW EXECUTE PROCEDURE #{new_schema}.template_revision_ordinal();
+
+      CREATE TRIGGER #{new_schema}_template_revisions__no_delete
+              BEFORE DELETE ON #{new_schema}.template_revisions
+              FOR EACH STATEMENT EXECUTE PROCEDURE #{new_schema}.tg_disallow();
+
+      CREATE TRIGGER #{new_schema}_template_revisions__no_update
+              BEFORE UPDATE OF notes, is_minor, template_id, author_id, created_at, ordinal ON #{new_schema}.template_revisions
+              FOR EACH STATEMENT EXECUTE PROCEDURE #{new_schema}.tg_disallow();
+
       CREATE FUNCTION #{new_schema}.pages_revision_ordinal()
         RETURNS TRIGGER
         AS
@@ -120,24 +193,6 @@ namespace :landable do
         BEFORE INSERT ON #{new_schema}.page_revisions
         FOR EACH ROW EXECUTE PROCEDURE #{new_schema}.pages_revision_ordinal();
 
-      CREATE FUNCTION #{new_schema}.tg_disallow()
-        RETURNS TRIGGER
-        AS
-        $TRIGGER$
-          BEGIN
-
-          IF TG_LEVEL <> 'STATEMENT' THEN
-            RAISE EXCEPTION $$You should use a statement-level trigger (trigger %, table %)$$, TG_NAME, TG_RELID::regclass;
-          END IF;
-
-          RAISE EXCEPTION $$%s are not allowed on table %$$, TG_OP, TG_RELNAME;
-
-          RETURN NULL;
-
-          END
-         $TRIGGER$
-         LANGUAGE plpgsql;
-
       CREATE TRIGGER #{new_schema}_page_revisions__no_delete
         BEFORE DELETE ON #{new_schema}.page_revisions
         FOR EACH STATEMENT EXECUTE PROCEDURE #{new_schema}.tg_disallow();
@@ -157,7 +212,12 @@ namespace :landable do
       DROP TRIGGER IF EXISTS #{old_schema}_page_revisions__no_delete  ON #{new_schema}.page_revisions;
       DROP TRIGGER IF EXISTS #{old_schema}_page_revisions__no_update  ON #{new_schema}.page_revisions;
 
+      DROP TRIGGER IF EXISTS #{old_schema}_template_revisions__bfr_insert ON #{new_schema}.template_revisions;
+      DROP TRIGGER IF EXISTS #{old_schema}_template_revisions__no_delete  ON #{new_schema}.template_revisions;
+      DROP TRIGGER IF EXISTS #{old_schema}_template_revisions__no_update  ON #{new_schema}.template_revisions;
+
       DROP FUNCTION IF EXISTS #{old_schema}.pages_revision_ordinal();
+      DROP FUNCTION IF EXISTS #{old_schema}.template_revision_ordinal();
       DROP FUNCTION IF EXISTS #{old_schema}.tg_disallow();
     }
     puts "Dropping old triggers..."
