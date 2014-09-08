@@ -30,5 +30,11 @@ namespace :landable do
       drop_old_schemas if want_to_drop_old_schemas?
     end
 
+    desc "Drop the old schemas"
+    task drop_schemas: :environment do
+      get_schema_names false
+      drop_old_schemas if want_to_drop_old_schemas?
+    end
+
   end
 end
