@@ -158,7 +158,7 @@ module SchemaMoves
       HighLine.new.ask(*args, &block)
     end
 
-    def get_schema_names(new=true)
+    def get_schema_names(new = true)
       # Always get old schemas
       @old_landable = ask("Enter the OLD main landable schema: ") { |q| q.default = 'landable' }
       @old_traffic = ask("Enter the OLD traffic schema: ") { |q| q.default = 'landable_traffic' }
