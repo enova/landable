@@ -9,6 +9,7 @@ module Landable
     attr_writer :sitemap_exclude_categories, :sitemap_protocol, :sitemap_host, :sitemap_additional_paths
     attr_writer :reserved_paths, :partials_to_templates, :database_schema_prefix
     attr_writer :publicist_url, :audit_flags
+    attr_writer :blank_user_agent_string
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -138,6 +139,10 @@ module Landable
 
     def screenshots
       @screenshots ||= Screenshots.new
+    end
+
+    def blank_user_agent_string
+      @blank_user_agent_string ||= 'blank'
     end
 
     class Screenshots

@@ -292,7 +292,7 @@ module Landable
       end
 
       def request_user_agent
-        return "blank" if request.user_agent.blank?
+        return Landable.configuration.blank_user_agent_string if request.user_agent.blank?
         request.user_agent
       end
     end

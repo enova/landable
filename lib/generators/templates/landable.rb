@@ -31,6 +31,9 @@ Landable.configure do |config|
 
   # Where is your site deployed? (required for screenshots)
   # config.public_url = 'http://myapp.dev/'
+
+  # If you want to save a different UserAgent if the request.user_agent is blank, set it here
+  # config.blank_user_agent_string = 'blank'
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.
