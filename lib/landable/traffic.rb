@@ -9,6 +9,7 @@ require 'landable/traffic/noop_tracker'
 module Landable
   module Traffic
     def track_with_landable!
+      yield and return if request.headers["DNT"]
       begin
         @tracker = Tracker.for self
         @tracker.track
