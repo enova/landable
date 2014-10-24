@@ -157,7 +157,7 @@ module Landable
       end
 
       def user_agent
-        @user_agent ||= UserAgent[request.user_agent]
+        @user_agent ||= UserAgent[request_user_agent]
       end
 
       def referer
@@ -183,7 +183,7 @@ module Landable
       end
 
       def visitor_hash
-        Digest::SHA2.base64digest [remote_ip, request.user_agent].join
+        Digest::SHA2.base64digest [remote_ip, request_user_agent].join
       end
 
       def referer_hash
@@ -289,6 +289,11 @@ module Landable
 
       def visit
         @visit ||= @visit_id && Visit.find(@visit_id)
+      end
+
+      def request_user_agent
+        return Landable.configuration.blank_user_agent_string if request.user_agent.blank?
+        request.user_agent
       end
     end
   end
