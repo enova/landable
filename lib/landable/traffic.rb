@@ -9,7 +9,7 @@ require 'landable/traffic/noop_tracker'
 module Landable
   module Traffic
     def track_with_landable!
-      yield and return if request.headers["DNT"]
+      yield and return if (request.headers["DNT"] || untracked_path)
       begin
         @tracker = Tracker.for self
         @tracker.track
@@ -30,6 +30,10 @@ module Landable
           newrelic_notice_error e
         end
       end
+    end
+
+    def untracked_path
+      Landable.configuration.untracked_paths.include? request.fullpath
     end
   end
 end
