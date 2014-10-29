@@ -34,6 +34,9 @@ Landable.configure do |config|
 
   # If you want to save a different UserAgent if the request.user_agent is blank, set it here
   # config.blank_user_agent_string = 'blank'
+
+  # Set up paths that are never tracked by Landable visit tracking
+  # config.untracked_paths %w(/status)
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.

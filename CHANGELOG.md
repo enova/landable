@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.10.0.rc1...master)
+* Set up configurable paths that are not visit tracked
 
 ## 1.10.0.rc1 [#](https://github.com/enova/landable/compare/v1.9.2...v1.10.0.rc1)
 * Handle blank UserAgent [#25]
