@@ -36,7 +36,7 @@ Landable.configure do |config|
   # config.blank_user_agent_string = 'blank'
 
   # Set up paths that are never tracked by Landable visit tracking
-  # config.untracked_paths %w(/status)
+  # config.untracked_paths = %w(/status)
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.
