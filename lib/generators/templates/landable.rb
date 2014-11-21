@@ -26,6 +26,23 @@ Landable.configure do |config|
   # Set to :html to track only HTML requests.
   # config.traffic_enabled = true
 
+  # Set up paths that are never tracked by Landable visit tracking
+  # config.untracked_paths = %w(/status)
+
+  # DNT header (http://en.wikipedia.org/wiki/Do_Not_Track)
+  #
+  # DNT is a proposed HTTP header field that accepts three values:
+  #    "1": (opt-out) user does not want to be tracked
+  #    "0": (opt-in)  user consents to being tracked
+  #   null: (no header, empty, or other) user has not expressed a preference
+  #
+  # Note: It is unsettled if the DNT header should apply to first-party tracking.
+  #
+  # Default: Skip tracking if request.headers["DNT"] == "1"
+  #
+  # Uncomment to change the default
+  # config.dnt_enabled = true
+
   # If you're using Landable with Publicist, add its url here. (required for screenshots)
   # config.publicist_url = 'http://publicist.dev/'
 
@@ -34,9 +51,6 @@ Landable.configure do |config|
 
   # If you want to save a different UserAgent if the request.user_agent is blank, set it here
   # config.blank_user_agent_string = 'blank'
-
-  # Set up paths that are never tracked by Landable visit tracking
-  # config.untracked_paths = %w(/status)
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.
