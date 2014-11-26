@@ -3,9 +3,11 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.10.0.rc1...master)
+* Lock Liquid Dependency to Version as above versions will break tests [#30]
+* Turn DNT into a config option [#31]
 
 ## 1.10.0.rc2 [#](https://github.com/enova/landable/compare/v1.10.0.rc1...v1.10.0.rc2)
-* Set up configurable paths that are not visit tracked
+* Set up configurable paths that are not visit tracked [#27]
 
 ## 1.10.0.rc1 [#](https://github.com/enova/landable/compare/v1.9.2...v1.10.0.rc1)
 * Handle blank UserAgent [#25]
