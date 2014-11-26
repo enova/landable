@@ -31,7 +31,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'rack-cors', '>= 0.2.7'
   gem.add_dependency 'active_model_serializers', '~> 0.8'
   gem.add_dependency 'carrierwave'
-  gem.add_dependency 'liquid'
+  gem.add_dependency 'liquid',    '~> 2.6.1'
   gem.add_dependency 'fog'
   gem.add_dependency 'rest-client'
   gem.add_dependency 'builder'

@@ -9,7 +9,8 @@ require 'landable/traffic/noop_tracker'
 module Landable
   module Traffic
     def track_with_landable!
-      yield and return if (request.headers["DNT"] || untracked_path)
+      yield and return if untracked?
+
       begin
         @tracker = Tracker.for self
         @tracker.track
@@ -32,7 +33,15 @@ module Landable
       end
     end
 
-    def untracked_path
+    def untracked?
+      untracked_user? || untracked_path?
+    end
+
+    def untracked_user?
+      Landable.configuration.dnt_enabled && request.headers["DNT"] == "1"
+    end
+
+    def untracked_path?
       Landable.configuration.untracked_paths.include? request.fullpath
     end
   end
