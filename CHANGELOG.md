@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.10.0.rc1...master)
+* Make the tracker.user_agent accessible [#33]
 * Lock Liquid Dependency to Version as above versions will break tests [#30]
 * Turn DNT into a config option [#31]
 
