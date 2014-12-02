@@ -5,6 +5,7 @@ See README.md before updating this file.
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.10.0.rc1...master)
 * Lock Liquid Dependency to Version as above versions will break tests [#30]
 * Turn DNT into a config option [#31]
+* Make Themes Import From App More Accepting [#32]
 
 ## 1.10.0.rc2 [#](https://github.com/enova/landable/compare/v1.10.0.rc1...v1.10.0.rc2)
 * Set up configurable paths that are not visit tracked [#27]
