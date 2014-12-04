@@ -36,13 +36,13 @@ class VisitsReportingGeneralized < ActiveRecord::Migration
         v.created_at as visit_created_at
       from
        #{Landable.configuration.database_schema_prefix}_landable_traffic.visits v
-       left join #{Landable.configuration.database_schema_prefix}_landable_traffic.owners o on o.owner_id = v.owner_id
-       left join #{Landable.configuration.database_schema_prefix}_landable_traffic.visitors vi on vi.visitor_id = v.visitor_id
-       left join #{Landable.configuration.database_schema_prefix}_landable_traffic.user_agents ua on ua.user_agent_id = vi.user_agent_id
-       left join #{Landable.configuration.database_schema_prefix}_landable_traffic.user_agent_types uat on uat.user_agent_type_id = ua.user_agent_type_id
-       left join #{Landable.configuration.database_schema_prefix}_landable_traffic.devices de on de.device_id = ua.device_id
-       left join #{Landable.configuration.database_schema_prefix}_landable_traffic.platforms pla on pla.platform_id = ua.platform_id
-       left join #{Landable.configuration.database_schema_prefix}_landable_traffic.browsers b on b.browser_id = ua.browser_id
+       left join #{Landable.configuration.database_schema_prefix}landable_traffic.owners o on o.owner_id = v.owner_id
+       left join #{Landable.configuration.database_schema_prefix}landable_traffic.visitors vi on vi.visitor_id = v.visitor_id
+       left join #{Landable.configuration.database_schema_prefix}landable_traffic.user_agents ua on ua.user_agent_id = vi.user_agent_id
+       left join #{Landable.configuration.database_schema_prefix}landable_traffic.user_agent_types uat on uat.user_agent_type_id = ua.user_agent_type_id
+       left join #{Landable.configuration.database_schema_prefix}landable_traffic.devices de on de.device_id = ua.device_id
+       left join #{Landable.configuration.database_schema_prefix}landable_traffic.platforms pla on pla.platform_id = ua.platform_id
+       left join #{Landable.configuration.database_schema_prefix}landable_traffic.browsers b on b.browser_id = ua.browser_id
        left join #{Landable.configuration.database_schema_prefix}landable_traffic.ip_addresses ip on ip.ip_address_id = vi.ip_address_id
        left join #{Landable.configuration.database_schema_prefix}landable_traffic.referers r on r.referer_id = v.referer_id
        left join #{Landable.configuration.database_schema_prefix}landable_traffic.domains d on d.domain_id = r.domain_id
