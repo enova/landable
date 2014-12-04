@@ -121,8 +121,8 @@ module Landable
         @visit_id and PageView.where(visit_id: @visit_id).order(:page_view_id).first.try(:path)
       end
 
-      def get_user_agent
-        user_agent
+      def get_user_agent_string
+        user_agent.user_agent if user_agent
       end
 
     protected

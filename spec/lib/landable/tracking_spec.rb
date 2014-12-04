@@ -90,7 +90,7 @@ module Landable
     end
 
     context 'user_agent' do
-      describe '#get_user_agent' do
+      describe '#get_user_agent_string' do
         context 'user agent provided' do
           let(:user_agent) { Landable::Traffic::UserAgent.new(user_agent: 'dummy_user_agent') }
 
@@ -98,7 +98,7 @@ module Landable
             tracker = Landable::Traffic::UserTracker.new controller
             tracker.stub(:user_agent) { user_agent }
 
-            tracker.send(:get_user_agent).should == user_agent
+            tracker.send(:get_user_agent_string).should == user_agent.user_agent
           end
         end
 
@@ -107,7 +107,7 @@ module Landable
             tracker = Landable::Traffic::UserTracker.new controller
             tracker.stub(:user_agent) { nil }
 
-            tracker.send(:get_user_agent).should be_nil
+            tracker.send(:get_user_agent_string).should be_nil
           end
         end
       end
