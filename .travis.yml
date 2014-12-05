@@ -11,16 +11,15 @@ rvm:
   - 2.0.0-p247
   - 2.1.2
 
-before_script:
+addons:
+  postgresql: 9.3
+
+before_install:
   - sudo apt-get update
-  - sudo apt-get install postgresql-server-dev-9.1 postgresql-contrib-9.1 libtap-parser-sourcehandler-pgtap-perl
-  - git clone https://github.com/theory/pgtap.git /tmp/pgtap
-  - env PG_CONFIG=/etc/postgresql/9.1/main/postgresql.conf && export PERL5LIB=/home/travis/perl5/lib/perl5 && cd /tmp/pgtap && make && sudo make install
+  - sudo apt-get install libtap-parser-sourcehandler-pgtap-perl
   - psql -c "CREATE USER dummy WITH superuser" -U postgres
   - psql -c "CREATE DATABASE dummy_test;" -U postgres
   - psql -d dummy_test -c "CREATE EXTENSION pgtap" -U postgres
-  - sudo sed -e 's/perl \-w/perl -w -X/' -i /usr/bin/pg_prove
-  - cd -
 script:
   - script/redb
   - bundle exec rake landable
