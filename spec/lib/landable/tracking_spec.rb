@@ -89,6 +89,30 @@ module Landable
       end
     end
 
+    context 'user_agent' do
+      describe '#get_user_agent' do
+        context 'user agent provided' do
+          let(:user_agent) { Landable::Traffic::UserAgent.new(user_agent: 'dummy_user_agent') }
+
+          it 'should return the user agent' do
+            tracker = Landable::Traffic::UserTracker.new controller
+            tracker.stub(:user_agent) { user_agent }
+
+            tracker.send(:get_user_agent).should == user_agent
+          end
+        end
+
+        context 'user agent not provided' do
+          it 'should return the user agent' do
+            tracker = Landable::Traffic::UserTracker.new controller
+            tracker.stub(:user_agent) { nil }
+
+            tracker.send(:get_user_agent).should be_nil
+          end
+        end
+      end
+    end
+
     context 'no referer' do
       let(:visit) { double('visit', { referer: nil }) }
 
