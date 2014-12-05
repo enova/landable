@@ -11,9 +11,12 @@ rvm:
   - 2.0.0-p247
   - 2.1.2
 
-before_script:
+addons:
+  postgresql: 9.3
+
+before_install:
   - sudo apt-get update
-  - sudo apt-get install postgresql-server-dev-9.3 postgresql-contrib-9.3 libtap-parser-sourcehandler-pgtap-perl
+  - sudo apt-get install libtap-parser-sourcehandler-pgtap-perl
   - git clone https://github.com/theory/pgtap.git /tmp/pgtap
   - env PG_CONFIG=/etc/postgresql/9.3/main/postgresql.conf && export PERL5LIB=/home/travis/perl5/lib/perl5 && cd /tmp/pgtap && make && sudo make install
   - psql -c "CREATE USER dummy WITH superuser" -U postgres
