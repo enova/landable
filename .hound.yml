@@ -1,0 +1,4 @@
+# Hound Configuration File -> https://houndci.com/configuration
+ruby:
+  enabled: true
+  ignore_file: config/.hound_ignore
