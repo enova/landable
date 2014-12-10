@@ -1,5 +1,8 @@
 language: ruby
 
+gemfile: 
+  - travis.gemfile
+
 env:
   - RAILS_VERSION=4.0.0
   - RAILS_VERSION=4.0.5
