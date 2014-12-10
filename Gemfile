@@ -17,3 +17,5 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'test_after_commit'
 end
+
+gem 'active_model_serializers', '~> 0.8'
