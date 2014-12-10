@@ -6,7 +6,7 @@ module Landable
   describe Layout do
     it "creates themes" do
       Theme.destroy_all
-      expect { described_class.all.each(&:to_theme) }.to change { Theme.count }.by(2)
+      expect { described_class.all.each(&:to_theme) }.to change { Theme.count }.by(3)
     end
 
     it "defaults attributes" do
@@ -20,6 +20,16 @@ module Landable
       }.stringify_keys)
 
       theme.body.should == File.read(Rails.root.join('app/views/layouts/application.html.erb'))
+    end
+
+    context 'File Finding' do
+      it 'will find the correct application files' do
+        Layout.files.any? { |f| f.end_with?('application.haml') }.should be_true
+        Layout.files.any? { |f| f.end_with?('application.html.erb') }.should be_true
+        Layout.files.any? { |f| f.end_with?('priority.html.erb') }.should be_true
+        Layout.files.any? { |f| f.end_with?('_partial.html.haml') }.should be_false
+        Layout.files.any? { |f| f.end_with?('partial.html.haml') }.should be_false
+      end
     end
   end
 end
