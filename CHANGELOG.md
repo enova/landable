@@ -2,7 +2,9 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://github.com/enova/landable/compare/v1.10.0.rc1...master)
+## Unreleased [#](https://github.com/enova/landable/compare/v1.11.0...master)
+
+## 1.11.0 [#](https://github.com/enova/landable/compare/v1.10.0.rc1...v1.11.0)
 * Make the tracker.user_agent accessible [#33]
 * Add missing functions/triggers to schema_move task.  Make it a little better in other ways [#24]
 * Lock Liquid Dependency to Version as above versions will break tests [#30]
