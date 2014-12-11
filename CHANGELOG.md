@@ -2,7 +2,8 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://github.com/enova/landable/compare/v1.10.0.rc1...master)
+## Unreleased [#](https://github.com/enova/landable/compare/v1.9.2...master)
+* Add missing functions/triggers to schema_move task.  Make it a little better in other ways [#24]
 * Lock Liquid Dependency to Version as above versions will break tests [#30]
 * Turn DNT into a config option [#31]
 * Make Themes Import From App More Accepting [#35]
