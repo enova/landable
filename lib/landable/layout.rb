@@ -49,7 +49,14 @@ module Landable
       end
 
       def files
-        paths.map { |path| Dir[path + "/**/[^_]*.html.*"] }.flatten
+        files = []
+
+        paths.map do |path|
+          files << Dir[path + "/**/[^_]*.html.*"]
+          files << Dir[path + "/**/application*"]
+        end
+
+        files.flatten.uniq
       end
 
       def paths

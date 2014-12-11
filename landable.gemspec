@@ -29,7 +29,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'rails',     '~> 4.0'
   gem.add_dependency 'rack-cors', '>= 0.2.7'
-  gem.add_dependency 'active_model_serializers', '~> 0.8'
+  gem.add_dependency 'active_model_serializers', '0.8.3'
   gem.add_dependency 'carrierwave'
   gem.add_dependency 'liquid',    '~> 2.6.1'
   gem.add_dependency 'fog'
