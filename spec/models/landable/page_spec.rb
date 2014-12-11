@@ -7,6 +7,9 @@ module Landable
     it { should have_valid(:status_code).when(200, 301, 302, 410) }
     it { should_not have_valid(:status_code).when(201, 303, 405, 500, 404) }
 
+    it { should have_valid(:page_name).when(nil, 'Hello', 'adssad', '212131') }
+    it { should_not have_valid(:page_name).when("#{'hello' * 100}") }
+
     # config.reserved_paths = %w(/reserved_path_set_in_initializer /reject/.* /admin.*)
     context 'PathValidator' do
       it { should_not have_valid(:path).when(nil, '', '/reserved_path_set_in_initializer') }

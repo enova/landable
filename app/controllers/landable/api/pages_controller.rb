@@ -112,7 +112,9 @@ module Landable
 
         def page_params
           params[:page][:audit_flags] ||= []
-          params.require(:page).permit(:id, :path, :theme_id, :category_id, :title, :head_content, :body, :status_code, :redirect_url, :lock_version, :abstract, :hero_asset_name, 
+          params.require(:page).permit(:id, :path, :theme_id, :category_id, :title, :head_content, 
+                                       :body, :status_code, :redirect_url, :lock_version, :abstract, 
+                                       :hero_asset_name, :page_name,
                                        audit_flags: [],
                                        meta_tags: [:description, :keywords, :robots])
         end

@@ -5,7 +5,7 @@ module Landable
     attributes :head_content, :meta_tags
     attributes :status_code, :redirect_url
     attributes :is_publishable, :preview_path
-    attributes :audit_flags
+    attributes :audit_flags, :page_name
     attributes :hero_asset_name, :abstract
     attributes :lock_version
     attributes :deleted_at
