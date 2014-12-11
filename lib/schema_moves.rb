@@ -1,5 +1,3 @@
-require 'highline'
-
 module SchemaMoves
   module Helpers
     def create_schema(schema)
@@ -204,7 +202,7 @@ module SchemaMoves
     end
 
     def appname
-      Rails.application.class.parent_name.downcase
+      Rails.application.class.parent_name.underscore
     end
   end
 end

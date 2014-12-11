@@ -1,3 +1,5 @@
+require 'highline'
+
 require_dependency 'schema_moves'
 include SchemaMoves::Helpers
 
