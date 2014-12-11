@@ -1,0 +1,10 @@
+AllCops:
+  Exclude:
+    - "spec/**/*"
+    - "db/**/*"
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+  SupportedStyles:
+    - single_quotes
+    - double_quotes
