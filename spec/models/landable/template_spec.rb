@@ -119,5 +119,24 @@ module Landable
         template.revert_to! revision
       end
     end
+
+    describe '#slug_has_no_spaces' do
+      it 'should not allow a slug with out underscores' do
+        t = build :template, slug: 'I have no space'
+        t.name = 'No Space'
+        t.save!
+
+        t.slug.should_not == 'I have no space'
+        t.slug.should == 'i_have_no_space'
+      end
+
+      it 'should allow the name to set the slug' do
+        t = build :template, slug: nil
+        t.name = 'I have no space'
+        t.save!
+
+        t.slug.should == 'i_have_no_space'
+      end
+    end
   end
 end
