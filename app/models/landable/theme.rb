@@ -16,6 +16,10 @@ module Landable
         return unless table_exists?
         Layout.all.map(&:to_theme)
       end
+
+      def most_used_on_pages
+        order('pages_count DESC').first
+      end
     end
   end
 end

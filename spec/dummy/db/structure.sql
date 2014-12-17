@@ -465,7 +465,8 @@ CREATE TABLE themes (
     file text,
     extension text,
     editable boolean DEFAULT true NOT NULL,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    pages_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1371,8 +1372,8 @@ CREATE VIEW path_response_time__by_time AS
             p.path,
             round(avg(pv.response_time), 3) AS "average response time (ms)"
            FROM (page_views pv
-             JOIN paths p ON ((p.path_id = pv.path_id)))
-          GROUP BY p.path_id, p.path) agg1
+      JOIN paths p ON ((p.path_id = pv.path_id)))
+     GROUP BY p.path_id, p.path) agg1
   ORDER BY agg1."average response time (ms)" DESC;
 
 
@@ -3954,4 +3955,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140515164543');
 INSERT INTO schema_migrations (version) VALUES ('20140522202332');
 
 INSERT INTO schema_migrations (version) VALUES ('20140602213937');
+
+INSERT INTO schema_migrations (version) VALUES ('20141217171816');
 

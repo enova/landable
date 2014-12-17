@@ -48,6 +48,34 @@ module Landable
         respond_with @template
       end
 
+      # custom methods
+      def preview
+        template = Template.new(template_params)
+        theme  = Theme.most_used_on_pages
+
+        page  = Page.example(theme: theme, body: template.body)
+
+        # Set Assets On Theme!
+        theme.asset_ids.try(:each) do |asset_id|
+          theme.attachments.add Asset.find(asset_id)
+        end
+
+        content = render_to_string(
+          text: RenderService.call(page),
+          layout: page.theme.file || false
+        )
+
+        respond_to do |format|
+          format.html do
+            render text: content, layout: false, content_type: 'text/html'
+          end
+
+          format.json do
+            render json: {template: {preview: content}}
+          end
+        end
+      end
+
       private
         def template_params
           params.require(:template).permit(:id, :name, :body, :description, :thumbnail_url, 

@@ -27,6 +27,7 @@ Landable::Engine.routes.draw do
     end
 
     resources :templates, only: [:index, :show, :create, :update, :destroy, :reactivate] do
+      post 'preview', on: :collection
       post 'publish', on: :member
       put 'reactivate', on: :member
       resources :audits, only: [:create]
