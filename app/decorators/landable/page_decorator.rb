@@ -15,6 +15,10 @@ module Landable
       page.path
     end
 
+    def page_name
+      page.page_name
+    end
+
     def body
       page.body.try(:html_safe)
     end
