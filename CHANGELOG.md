@@ -2,9 +2,18 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://github.com/enova/landable/compare/v1.10.0.rc1...master)
+## Unreleased [#](https://github.com/enova/landable/compare/v1.11.1...master)
+
+## 1.11.1 [#](https://github.com/enova/landable/compare/v1.11.0...v1.11.1)
+* Adding PageName [#39]
+* Force Template Slug to not have a space [#40]
+
+## 1.11.0 [#](https://github.com/enova/landable/compare/v1.10.0.rc1...v1.11.0)
+* Make the tracker.user_agent accessible [#33]
+* Add missing functions/triggers to schema_move task.  Make it a little better in other ways [#24]
 * Lock Liquid Dependency to Version as above versions will break tests [#30]
 * Turn DNT into a config option [#31]
+* Make Themes Import From App More Accepting [#35]
 
 ## 1.10.0.rc2 [#](https://github.com/enova/landable/compare/v1.10.0.rc1...v1.10.0.rc2)
 * Set up configurable paths that are not visit tracked [#27]

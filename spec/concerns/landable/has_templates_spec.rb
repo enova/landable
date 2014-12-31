@@ -3,7 +3,10 @@ require 'spec_helper'
 module Landable
   describe HasTemplates do
 
-    before(:each) { create_list :template, 3 }
+    before(:each) do 
+      create_list :template, 2
+      create :template, slug: 'I have a space'
+    end
 
     let(:templates) { Landable::Template.last(3) }
     let(:subject) {
