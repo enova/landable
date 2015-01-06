@@ -19,7 +19,7 @@ module Landable
       end
 
       def templates
-        Landable::Template.where(slug: template_names, deleted_at: nil)
+        Landable::Template.where(slug: template_names)
       end
 
       # passthrough for body=; clears the template_names cache in the process
