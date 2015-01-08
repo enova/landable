@@ -74,9 +74,10 @@ module Landable
         template = Landable::Template.find_by_slug @template_slug
 
         # Handle Templates that are deleted (don't render anything)
-        if template && !template.deleted_at.nil?
+        return if template && template.deleted_at?
+
         # Handle Templates that are Partials
-        elsif template && template.partial?
+        if template && template.partial?
           responder = context.registers[:responder]
           # the controller we need for rendering. the request we need to dodge a bug in rails 4.1
           # (fixed in https://github.com/rails/rails/commit/f6d9b689977c1dca1ed7f149f704d1b4344cd691).
