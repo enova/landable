@@ -10,5 +10,7 @@ module Landable
 
     embed    :ids
     has_one  :published_revision
+
+    has_many :pages
   end
 end
