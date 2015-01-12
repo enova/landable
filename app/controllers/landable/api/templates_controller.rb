@@ -4,7 +4,6 @@ module Landable
   module Api
     class TemplatesController < ApiController
       # filters
-      before_filter :load_template, except: [:create, :index]
 
       # RESTful methods
       def create
@@ -55,15 +54,14 @@ module Landable
 
         page  = Page.example(theme: theme, body: template.body)
 
-        # Set Assets On Theme!
-        theme.asset_ids.try(:each) do |asset_id|
-          theme.attachments.add Asset.find(asset_id)
+        # run the validators and render
+        if layout = page.theme.try(:file) || false
+          content = with_format(:html) do
+            render_to_string text: RenderService.call(page), layout: layout
+          end
+        else
+          content = RenderService.call(page, preview: true)
         end
-
-        content = render_to_string(
-          text: RenderService.call(page),
-          layout: page.theme.file || false
-        )
 
         respond_to do |format|
           format.html do

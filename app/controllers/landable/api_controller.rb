@@ -64,6 +64,17 @@ module Landable
       head :unauthorized if current_author.nil?
     end
 
+    def with_format(format, &block)
+      old_formats = formats
+
+      begin
+        self.formats = [format]
+        return block.call
+      ensure
+        self.formats = old_formats
+      end
+    end
+
     def current_author
       return @current_author if @current_author
       authenticate_with_http_basic do |username, token|

@@ -17,6 +17,11 @@ module Landable
 
         Theme.most_used_on_pages.should == t
       end
+
+      it 'return nil when there are no themes' do
+        Theme.destroy_all # Remove all themes!
+        Theme.most_used_on_pages.should be_nil
+      end
     end
   end
 end
