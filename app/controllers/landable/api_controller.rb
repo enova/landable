@@ -77,11 +77,11 @@ module Landable
 
     def generate_preview_for(page)
       if layout = page.theme.try(:file) || false
-        content = with_format(:html) do
+        with_format(:html) do
           render_to_string text: RenderService.call(page), layout: layout
         end
       else
-        content = RenderService.call(page, preview: true)
+        RenderService.call(page, preview: true)
       end
     end
 

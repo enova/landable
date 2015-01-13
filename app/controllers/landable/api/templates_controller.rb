@@ -63,7 +63,7 @@ module Landable
           end
 
           format.json do
-            render json: {template: {preview: content}}
+            render json: { template: { preview: content } }
           end
         end
       end
