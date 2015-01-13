@@ -2,7 +2,11 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://github.com/enova/landable/compare/v1.11.0...master)
+## Unreleased [#](https://github.com/enova/landable/compare/v1.11.1...master)
+
+## 1.11.1 [#](https://github.com/enova/landable/compare/v1.11.0...v1.11.1)
+* Adding PageName [#39]
+* Force Template Slug to not have a space [#40]
 
 ## 1.11.0 [#](https://github.com/enova/landable/compare/v1.10.0.rc1...v1.11.0)
 * Make the tracker.user_agent accessible [#33]

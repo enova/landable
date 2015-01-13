@@ -22,6 +22,8 @@ module Landable
     validates_uniqueness_of :path
     validates :path, presence: true
 
+    validate :page_name_byte_size
+
     validate :forbid_changing_path, on: :update
 
     validate :body_strip_search
@@ -223,6 +225,12 @@ module Landable
         errors[:body] = 'contains a Liquid syntax error'
       rescue StandardError => error
         errors[:body] = 'had a problem: ' + error.message
+      end
+    end
+
+    def page_name_byte_size
+      if page_name.present? && page_name.bytesize > 100
+        errors[:page_name] = 'Invalid PageName, bytesize is too big!'
       end
     end
 

@@ -10,6 +10,8 @@ module Landable
     validates_uniqueness_of :name, case_sensitive: false
     validates_uniqueness_of :slug, case_sensitive: false
 
+    before_save :slug_has_no_spaces
+
 
     belongs_to :published_revision,   class_name: 'Landable::TemplateRevision'
     has_many   :audits,               class_name: 'Landable::Audit', as: :auditable
@@ -63,6 +65,12 @@ module Landable
       self.slug          = revision.slug
 
       save!
+    end
+
+    def slug_has_no_spaces
+      if self.slug =~ /\s/ # check if whitespace
+        self.slug = self.slug.underscore.gsub(/[^\w_]/, '_').gsub(/_{2,}/, '_')
+      end
     end
 
     class << self

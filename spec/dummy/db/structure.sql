@@ -374,6 +374,7 @@ CREATE TABLE pages (
     hero_asset_id uuid,
     deleted_at timestamp without time zone,
     audit_flags character varying(255)[] DEFAULT '{}'::character varying[],
+    page_name character varying(255),
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
 
