@@ -58,13 +58,7 @@ module Landable
 
         # run the validators and render
         if page.valid?
-          if layout = page.theme.try(:file) || false
-            content = with_format(:html) do
-              render_to_string text: RenderService.call(page), layout: layout
-            end
-          else
-            content = RenderService.call(page, preview: true)
-          end
+          content = generate_preview_for(page)
         end
         
         respond_to do |format|

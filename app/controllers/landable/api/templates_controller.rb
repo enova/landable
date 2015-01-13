@@ -55,14 +55,7 @@ module Landable
 
         page  = Page.example(theme: theme, body: template.body)
 
-        # run the validators and render
-        if layout = page.theme.try(:file) || false
-          content = with_format(:html) do
-            render_to_string text: RenderService.call(page), layout: layout
-          end
-        else
-          content = RenderService.call(page, preview: true)
-        end
+        content = generate_preview_for(page)
 
         respond_to do |format|
           format.html do
