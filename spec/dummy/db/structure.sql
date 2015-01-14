@@ -466,7 +466,8 @@ CREATE TABLE themes (
     file text,
     extension text,
     editable boolean DEFAULT true NOT NULL,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    pages_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -3956,5 +3957,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140522202332');
 
 INSERT INTO schema_migrations (version) VALUES ('20140602213937');
 
-INSERT INTO schema_migrations (version) VALUES ('20141211200012');
+INSERT INTO schema_migrations (version) VALUES ('20141217171816');
 

@@ -4,7 +4,7 @@ module Landable
   module Api
     class TemplatesController < ApiController
       # filters
-      before_filter :load_template, except: [:create, :index]
+      before_filter :load_template, except: [:create, :index, :preview]
 
       # RESTful methods
       def create
@@ -46,6 +46,26 @@ module Landable
         @template.try(:reactivate)
         
         respond_with @template
+      end
+
+      # custom methods
+      def preview
+        template = Template.new(template_params)
+        theme  = Theme.most_used_on_pages
+
+        page  = Page.example(theme: theme, body: template.body)
+
+        content = generate_preview_for(page)
+
+        respond_to do |format|
+          format.html do
+            render text: content, layout: false, content_type: 'text/html'
+          end
+
+          format.json do
+            render json: { template: { preview: content } }
+          end
+        end
       end
 
       private

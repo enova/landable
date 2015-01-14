@@ -19,6 +19,8 @@ module Landable
 
     has_and_belongs_to_many :pages,   join_table: Page.templates_join_table_name
 
+    delegate :count, to: :pages, prefix: true # Returns how many Pages a Template lives in!
+
     before_save -> template {
       template.is_publishable = true unless template.published_revision_id_changed?
     }
