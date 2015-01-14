@@ -73,6 +73,9 @@ module Landable
       def render(context)
         template = Landable::Template.find_by_slug @template_slug
 
+        # Handle Templates that are deleted (don't render anything)
+        return if template && template.deleted_at?
+
         # Handle Templates that are Partials
         if template && template.partial?
           responder = context.registers[:responder]
