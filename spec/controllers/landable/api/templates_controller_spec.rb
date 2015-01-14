@@ -27,9 +27,9 @@ module Landable::Api
 
       it 'renders the layout without content if the body is not present' do
         request.env['HTTP_ACCEPT'] = 'application/json'
-        make_request attributes_for(:template, body: nil)
+        make_request attributes_for(:page, body: nil)
         response.status.should == 200
-        last_json['template']['preview'].should include('Dummy')
+        last_json['template']['preview'].should include('body')
       end
 
       it 'renders without a layout if no theme is present' do
