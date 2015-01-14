@@ -42,6 +42,11 @@
       "type": "boolean"
     },
 
+    "page_ids": {
+      "type": "array",
+      "items": { "$ref": "uuid.json" }
+    },
+
     "thumbnail_url": {
       "type": ["string", "null"]
     },
