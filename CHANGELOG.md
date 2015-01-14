@@ -2,7 +2,13 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://github.com/enova/landable/compare/v1.11.1...master)
+## Unreleased [#](https://github.com/enova/landable/compare/v1.12.1...master)
+
+## 1.12.1 [#](https://github.com/enova/landable/compare/v1.11.1...v1.12.1)
+* Feature: Preview For Templates [#44]
+* Refactor: Clean Up MetaTags Decorator [#41]
+* Feature: Show which Pages a Template Lives On [#43]
+* BugFix: Deleted templates not rendered in page [#42]
 
 ## 1.11.1 [#](https://github.com/enova/landable/compare/v1.11.0...v1.11.1)
 * Adding PageName [#39]
