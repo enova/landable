@@ -263,15 +263,20 @@ module Landable
     end
 
     describe '::sitemappable' do
-      let(:page) { create :page }
+      let(:page) {
+        create :page do |page|
+          page.publish! author: create(:author), notes: 'yo'
+        end
+      }
       let(:page_2) { create :page, :redirect }
       let(:page_3) { create :page, meta_tags: { 'robots' => 'noindex' } }
+      let(:page_4) { create :page }
 
-      it 'only returns pages with a status code of 200 and dont have a noindex tag' do 
+      it 'only returns published pages with a status code of 200 and dont have a noindex tag' do 
         page_2.status_code.should == 301
 
         Landable::Page.sitemappable.should include(page)
-        Landable::Page.sitemappable.should_not include(page_2, page_3)
+        Landable::Page.sitemappable.should_not include(page_2, page_3, page_4)
       end
     end
 
@@ -324,6 +329,8 @@ module Landable
     describe '::generate_sitemap' do
       it 'returns a sitemap' do
         page = create :page
+        page.publish! author: create(:author), notes: 'yo'
+
         Landable::Page.generate_sitemap(host: 'example.com',
                                         protocol: 'http',
                                         exclude_categories: [],
@@ -341,6 +348,8 @@ module Landable
 
       it 'can handle https protocol' do
         page = create :page
+        page.publish! author: create(:author), notes: 'yo'
+
         Landable::Page.generate_sitemap(host: 'example.com',
                                         protocol: 'https',
                                         exclude_categories: [],

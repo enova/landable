@@ -42,7 +42,8 @@ module Landable
     delegate :republish!, to: :published_revision
 
     scope :imported, -> { where("imported_at IS NOT NULL") }
-    scope :sitemappable, -> { where("COALESCE(meta_tags -> 'robots' NOT LIKE '%noindex%', TRUE)") 
+    scope :sitemappable, -> { where("COALESCE(meta_tags -> 'robots' NOT LIKE '%noindex%', TRUE)")
+                              .where("published_revision_id is NOT NULL")
                               .where(status_code: 200)}
     scope :published, -> { where("published_revision_id is NOT NULL") }
 
