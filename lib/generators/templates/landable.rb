@@ -54,7 +54,7 @@ Landable.configure do |config|
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.
-# More configuration options: https://github.com/carrierwaveuploader/carrierwave
+# More configuration options: https://github.com/carrierwaveuploader/carrierwave#using-amazon-s3
 CarrierWave.configure do |config|
   # config.asset_host = 'http://cdn.myapp.com'
 end
