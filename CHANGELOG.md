@@ -4,6 +4,7 @@ See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.12.1...master)
 * BugFix: Exclude Unpublished Pages from Sitemap (#45)
+* Refactor: Adding a gemrc config file (#46)
 
 ## 1.12.1 [#](https://github.com/enova/landable/compare/v1.11.1...v1.12.1)
 * Feature: Preview For Templates [#44]
