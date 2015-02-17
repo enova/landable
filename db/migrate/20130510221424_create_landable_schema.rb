@@ -11,6 +11,7 @@ class CreateLandableSchema < Landable::Migration
     enable_extension "pg_trgm"
 
     execute 'ALTER EXTENSION "uuid-ossp" SET SCHEMA "public";'
+    execute "CREATE SCHEMA #{Landable.configuration.database_schema_prefix}landable;"
 
 
     ## status_codes
