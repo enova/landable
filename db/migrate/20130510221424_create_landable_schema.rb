@@ -5,10 +5,12 @@ class CreateLandableSchema < Landable::Migration
     #
     # TODO extract to a separate migration, check if it exists, maybe check if we
     # actually have permission to do it, etc.
+    execute 'CREATE EXTENSION "uuid-ossp";'
     enable_extension "uuid-ossp"
     enable_extension "hstore"
     enable_extension "pg_trgm"
 
+    execute 'ALTER EXTENSION "uuid-ossp" SET SCHEMA "public";'
     execute "CREATE SCHEMA #{Landable.configuration.database_schema_prefix}landable;"
 
 
