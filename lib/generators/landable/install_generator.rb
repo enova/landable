@@ -9,6 +9,8 @@ module Landable
 
       def copy_initializer
         template 'landable.rb', 'config/initializers/landable.rb'
+        template 'app_config.rb', 'config/initializers/app_config.rb'
+        template 'landable.yml', 'etc/landable.yml'
       end
 
       def add_landable_route

@@ -1,0 +1,53 @@
+---
+defaults: &defaults
+  publicist_url: http://publicist.dummy.com/
+  public_url: https://www.dummy.com
+  traffic_enabled: true
+  origins:
+   - publicist.dummy.com
+
+environment:
+  development: &development
+    <<: *defaults
+    publicist_url: http://publicist.dev/
+    public_url: http://dummy.dev/
+    origins:
+      - publicist.dev
+  test:
+    <<: *development
+
+  staging:
+    <<: *defaults
+    public_url: http://staging.dummy.com/
+
+  production:
+    <<: *defaults
+
+schema_prefix:
+  -
+
+partials_to_templates:
+  -
+
+categories:
+  - Affiliates
+  - PPC
+  - SEO
+  - Social
+  - Email
+  - Traditional
+
+audit_flags:
+  - IRS
+  - CIA
+  - Loans
+  - FCA
+
+excluded_categories:
+  - Testing
+
+sitemap:
+  host: dummy.com
+  protocol: https
+  additional_paths:
+    - /
