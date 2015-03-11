@@ -1,6 +1,5 @@
 require 'landable'
 
-# rubocop:disable
 Landable.configure do |config|
   # Creates Landable configuration from yaml
   landable_config                   = AppConfig.landable
@@ -86,4 +85,3 @@ end
 CarrierWave.configure do |config|
   # config.asset_host = 'http://cdn.myapp.com'
 end
-# rubocop:enable
