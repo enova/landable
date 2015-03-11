@@ -1,20 +1,21 @@
 require 'landable'
 
+# rubocop:disable
 Landable.configure do |config|
   # Creates Landable configuration from yaml
-  landable_config               = AppConfig.landable
-  landable_environment_config   = landable_config.environment[Rails.env]
+  landable_config                   = AppConfig.landable
+  landable_environment_config       = landable_config.environment[Rails.env]
 
 
   # Specify the hostname(s) of your Publicist instance
-  config.cors.origins           = landable_environment_config.origins
+  config.cors.origins               = landable_environment_config.origins
 
   # Simple singleton user authenticator
   # config.authenticator = Landable::AuthenticationService::EchoAuthenticator.new('trogdor', 'trogdor')
 
   # Set up a custom database schema prefix (default: nil)
   # config.database_schema_prefix = Rails.application.class.parent_name.downcase
-  config.database_schema_prefix = landable_config.schema_prefix
+  config.database_schema_prefix     = landable_config.schema_prefix
 
   # Add landable-ldap to your application's Gemfile to authenticate by LDAP:
   # config.authenticator = Landable::LDAP::Authenticator.new(
@@ -85,3 +86,4 @@ end
 CarrierWave.configure do |config|
   # config.asset_host = 'http://cdn.myapp.com'
 end
+# rubocop:enable

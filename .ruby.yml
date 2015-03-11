@@ -2,6 +2,7 @@ AllCops:
   Exclude:
     - "spec/**/*"
     - "db/**/*"
+    - "lib/generators/templates/landable.rb"
 
 Style/StringLiterals:
   EnforcedStyle: single_quotes
