@@ -10,6 +10,7 @@ require "landable/migration"
 require "landable/core_ext/ipaddr"
 
 require "lookup_by"
+require "figgy"
 
 module Landable
   # This absurd configuration loading code is not intended to live long.
