@@ -3,7 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.12.1...master)
-
+* Feature: Add Traffic Object Helper [#50]
 ## 1.12.2 [#](https://github.com/enova/landable/compare/v1.12.1...v1.12.2)
 * BugFix: Exclude Unpublished Pages from Sitemap [#45]
 * Refactor: Adding a gemrc config file [#46]
