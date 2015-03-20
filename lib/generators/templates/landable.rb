@@ -51,6 +51,16 @@ Landable.configure do |config|
 
   # If you want to save a different UserAgent if the request.user_agent is blank, set it here
   # config.blank_user_agent_string = 'blank'
+
+  # Uncomment to enable publishing of events to RabbitMq. This feature requires
+  # the mounting application to configure Hutch and have a working RabbitMq
+  # instance.
+
+  # Also specify which queue to publish the events to in RabbitMq. By default
+  # event are published to the event queue
+
+  # config.enable_hutch = true
+  # config.event_queue = 'events'
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.

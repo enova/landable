@@ -125,6 +125,18 @@ module Landable
         user_agent
       end
 
+      def ip_address
+        @ip_address ||= IpAddress[remote_ip]
+      end
+
+      def user_agent
+        @user_agent ||= UserAgent[request_user_agent]
+      end
+
+      def visit
+        @visit ||= @visit_id && Visit.find(@visit_id)
+      end
+
     protected
       def cookies
         request.cookie_jar
@@ -160,10 +172,6 @@ module Landable
         headers["DNT"] == "1"
       end
 
-      def user_agent
-        @user_agent ||= UserAgent[request_user_agent]
-      end
-
       def referer
         return @referer if @referer
         return unless referer_uri
@@ -176,10 +184,6 @@ module Landable
                                  path_id:         Path[referer_uri.path],
                                  query_string_id: QueryString[query.to_query],
                                  attribution_id:  attribution.id).first_or_create
-      end
-
-      def ip_address
-        @ip_address ||= IpAddress[remote_ip]
       end
 
       def attribution_hash
@@ -289,10 +293,6 @@ module Landable
 
       def visitor
         @visitor ||= Visitor.with_ip_address(ip_address).with_user_agent(user_agent).first_or_create
-      end
-
-      def visit
-        @visit ||= @visit_id && Visit.find(@visit_id)
       end
 
       def request_user_agent

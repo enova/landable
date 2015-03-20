@@ -65,5 +65,11 @@ module Landable
         # end
       end
     end
+
+    initializer 'landable.enable_hutch' do |app|
+      if Landable.configuration.enable_hutch
+        Hutch.connect
+      end
+    end
   end
 end
