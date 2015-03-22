@@ -47,6 +47,32 @@ module Landable
 
         Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::UserTracker)
       end
+
+      it 'should classify user agent NewRelic as ping' do
+        user_agent = "NewRelicPinger/1.0 (1234)"
+        request = double('request', { query_parameters: {}, user_agent: user_agent, format: format })
+        controller = double('controller', { request: request })
+
+        Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::PingTracker)
+      end
+
+      it 'should classify user agent tinfoilsecurity.com as scan' do
+        user_agent = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_6; en-us) AppleWebKit/533.19.4"\
+          " (KHTML, like Gecko) Version/5.0.3 Safari/5 Powered by Spider-Pig by tinfoilsecurity.com"
+        request = double('request', { query_parameters: {}, user_agent: user_agent, format: format })
+        controller = double('controller', { request: request })
+
+        Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::ScanTracker)
+      end
+
+      it 'should classify user agent tinfoilsecurity.com as scan' do
+        user_agent = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+        request = double('request', { query_parameters: {}, user_agent: user_agent, format: format })
+        controller = double('controller', { request: request })
+
+        Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::CrawlTracker)
+      end
+
     end
 
     context 'referer' do
