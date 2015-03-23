@@ -45,6 +45,12 @@ Read more about [Visit Tracking](https://github.com/enova/landable/wiki/Visit-Tr
 
 ## Development
 
+Create a `dummy` user so that the database creation script below will work
+
+```
+psql -c "CREATE USER dummy WITH superuser" -U postgres
+```
+
 Run `./script/redb` to refresh the dummy app's database.
 
 Run the test suite with `rake landable`.

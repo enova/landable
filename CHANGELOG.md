@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.12.1...master)
+* BugFix: fix LookupBy::Error: "ping" is not in the Landable::Traffic::UserAgentType lookup cache [#52]
 
 ## 1.12.3 [#](https://github.com/enova/landable/compare/v1.12.2...v1.12.3)
 * Feature: Add Traffic Object Helper [#50]
