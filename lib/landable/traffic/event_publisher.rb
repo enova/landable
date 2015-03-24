@@ -4,19 +4,27 @@ module Landable
 
     def initialize(tracker, page_view, meta = {})
       binding.pry
-      event_type = PATH_TO_EVENT_MAPPING[page_view.path]
+      @event_type = event_mapping[page_view.path]
       @tracker = tracker
       @visit = tracker.visit
-      @event = tracker.create_event(event_type, meta)
+      @event = tracker.create_event(@event_type, meta)
       @page_view = page_view
     end
 
     def enabled?
-      @enabled ||= Landable.configuration.enable_hutch && defined?(Hutch) && Hutch.connected?
+      @enabled ||= Landable.configuration.hutch_enable && defined?(Hutch) && Hutch.connected?
     end
 
     def queue
       @queue ||= Landable.configuration.hutch_queue
+    end
+
+    def event_mapping
+      @event_mapping ||= Landable.configuration.event_mapping
+    end
+
+    def application_name
+      @application_name ||= Landable.configuration.application_name
     end
 
     def publish
@@ -24,17 +32,23 @@ module Landable
       Hutch.publish(queue, message)
     end
 
+    def get_owner
+      if visit.owner_id.present?
+        owner = Landable::Traffic::Owner.find(visit.owner_id).owner
+      end
+    end
+
     def message
       referer = visit.referer
       attribution = visit.attribution
-      {
-        event_id: event.id,
+      { event_id: event.id,
         event: event.event_type,
-        brand: 1,
+        brand: application_name,
         visit_id: visit.id,
         created_at: visit.created_at,
         cookie_id: visit.cookie_id,
         owner_id: visit.owner_id,
+        owner: get_owner,
         referer_id: referer.try(:id),
         domain_id: referer.try(:domain_id),
         domain: referer.try(:domain),
@@ -79,6 +93,7 @@ module Landable
         source: attribution.try(:source),
         target_id: attribution.try(:target_id),
         target: attribution.try(:target),
+        page_view_id: @page_view.page_view_id,
       }
     end
   end

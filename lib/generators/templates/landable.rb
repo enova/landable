@@ -59,7 +59,7 @@ Landable.configure do |config|
   # Also specify which queue to publish the events to in RabbitMq. By default
   # event are published to the event queue
 
-  # config.enable_hutch = true
+  # config.hutch_enable = true
   # config.event_queue = 'events'
 end
 
