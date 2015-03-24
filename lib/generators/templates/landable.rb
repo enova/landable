@@ -59,8 +59,21 @@ Landable.configure do |config|
   # Also specify which queue to publish the events to in RabbitMq. By default
   # event are published to the event queue
 
-  # config.hutch_enable = true
-  # config.event_queue = 'events'
+  # enable hutch
+  #   config.hutch_enable = true
+  # enable publisher confirms
+  #   config.hutch_enable_confirms = false
+  # set the queue name
+  #   config.hutch_queue = 'my.queue.name'
+  # set the application name, by default, it will be Rails.application.class.parent_name
+  #   config.application_name = 'My Awesome Application'
+  # set the event:path relationships
+  #   config.event_mapping = {
+  #      '/' => 'Home Page',
+  #      '/next_page' => 'Page 2',
+  #      '/logout' => 'Logout'
+  #   }.freeze
+end
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.
