@@ -1,14 +1,18 @@
 module Landable
   class EventPublisher
-    attr_accessor :visit, :tracker, :event
+    attr_accessor :page_view, :visit, :tracker, :event
 
     def initialize(tracker, page_view, meta = {})
-      binding.pry
-      @event_type = event_mapping[page_view.path]
+      event_type = event_mapping[page_view.path]
+      if event_type.kind_of?(Hash)
+        request_type = page_view.http_method
+        event_type = event_type[request_type]
+      end
+      return unless event_type
       @tracker = tracker
       @visit = tracker.visit
-      @event = tracker.create_event(@event_type, meta)
       @page_view = page_view
+      @event = tracker.create_event(event_type, meta)
     end
 
     def enabled?
@@ -28,7 +32,7 @@ module Landable
     end
 
     def publish
-      return unless enabled?
+      return unless enabled? && @event
       Hutch.publish(queue, message)
     end
 
@@ -94,6 +98,9 @@ module Landable
         target_id: attribution.try(:target_id),
         target: attribution.try(:target),
         page_view_id: @page_view.page_view_id,
+        target: attribution.try(:target),
+        page_id: @page_view.page_id,
+        page: @page_view.page
       }
     end
   end
