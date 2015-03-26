@@ -47,6 +47,7 @@ module Landable
       attribution = visit.attribution
       { event_id: event.id,
         event: event.event_type,
+        request_type: page_view.http_method,
         brand: application_name,
         visit_id: visit.id,
         created_at: visit.created_at,
@@ -98,9 +99,8 @@ module Landable
         target_id: attribution.try(:target_id),
         target: attribution.try(:target),
         page_view_id: @page_view.page_view_id,
-        target: attribution.try(:target),
-        page_id: @page_view.page_id,
-        page: @page_view.page
+        path_id: @page_view.path_id,
+        path: @page_view.path
       }
     end
   end
