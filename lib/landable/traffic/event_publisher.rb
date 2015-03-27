@@ -9,9 +9,10 @@ module Landable
         event_type = event_type[request_type]
       end
       return unless event_type
+      @page_view = page_view
+
       @tracker = tracker
       @visit = tracker.visit
-      @page_view = page_view
       @event = tracker.create_event(event_type, meta)
     end
 

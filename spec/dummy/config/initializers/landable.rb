@@ -18,6 +18,10 @@ Landable.configure do |config|
 
   config.hutch_enable = true
   config.hutch_enable_confirms = true
+  config.event_mapping = {
+      '/my/path' => { 'GET' => 'Customer Landed', 'POST' => 'Customer Left' },
+      '/my/path2' => { 'GET' => 'Customer Landed Cart', 'POST' => 'Customer Submitted Cart' }
+  }.freeze
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.
