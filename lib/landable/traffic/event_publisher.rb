@@ -38,10 +38,6 @@ module Landable
       Hutch.publish(queue, message)
     end
 
-    def get_owner
-      Landable::Traffic::Owner.find(visit.owner_id).owner if visit.owner_id.present?
-    end
-
     def message
       referer = visit.referer
       attribution = visit.attribution
@@ -54,7 +50,7 @@ module Landable
         created_at: visit.created_at,
         cookie_id: visit.cookie_id,
         owner_id: visit.owner_id,
-        owner: get_owner,
+        owner: visit.try(:owner),
         referer_id: referer.try(:id),
         domain_id: referer.try(:domain_id),
         domain: referer.try(:domain),
