@@ -55,25 +55,26 @@ Landable.configure do |config|
   # Uncomment to enable publishing of events to RabbitMq. This feature requires
   # the mounting application to configure Hutch and have a working RabbitMq
   # instance.
+  # config.enable_hutch = true
 
-  # Also specify which queue to publish the events to in RabbitMq. By default
-  # event are published to the event queue
-
-  # enable hutch
-  #   config.hutch_enable = true
-  # enable publisher confirms
-  #   config.hutch_enable_confirms = false
-  # set the queue name
-  #   config.hutch_queue = 'my.queue.name'
-  # set the application name, by default, it will be Rails.application.class.parent_name
-  #   config.application_name = 'My Awesome Application'
-  # set the event:path relationships
-  #   config.event_mapping = {
-  #      '/' => 'Home Page',
-  #      '/next_page' => 'Page 2',
-  #      '/logout' => 'Logout'
-  #   }.freeze
-end
+  # Enable publisher confirms feature of RabbitMq through Hutch
+  # config.hutch_enable_confirms = false
+  #
+  # Set the RabbitMq queue name where messages will be published to.
+  # By default events are published to the 'event' queue
+  # config.hutch_queue = 'my.queue.name'
+  #
+  # Set the application name to be appended to your messages.
+  # By default, it will be Rails.application.class.parent_name
+  # config.application_name = 'My Awesome Application'
+  #
+  # Set up the path to event_type mapping for the paths that you want to
+  # publish messages for. An example configuration is below:
+  # config.event_mapping = {
+  #    '/' => 'Home Page',
+  #    '/next_page' => { 'GET' => 'Page 2 Landing', 'POST' => 'Page 2 Submission' },
+  #    '/logout' => 'Logout'
+  # }
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.

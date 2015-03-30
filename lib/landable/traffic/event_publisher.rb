@@ -8,6 +8,7 @@ module Landable
         request_type = page_view.http_method
         event_type = event_type[request_type]
       end
+
       return unless event_type
       @page_view = page_view
 
@@ -17,7 +18,7 @@ module Landable
     end
 
     def enabled?
-      @enabled ||= Landable.configuration.hutch_enable && defined?(Hutch) && Hutch.connected?
+      @enabled ||= Landable.configuration.enable_hutch && defined?(Hutch) && Hutch.connected?
     end
 
     def queue
@@ -38,15 +39,14 @@ module Landable
     end
 
     def get_owner
-      if visit.owner_id.present?
-        owner = Landable::Traffic::Owner.find(visit.owner_id).owner
-      end
+      Landable::Traffic::Owner.find(visit.owner_id).owner if visit.owner_id.present?
     end
 
     def message
       referer = visit.referer
       attribution = visit.attribution
-      { event_id: event.id,
+      {
+        event_id: event.id,
         event: event.event_type,
         request_type: page_view.http_method,
         brand: application_name,
@@ -99,9 +99,9 @@ module Landable
         source: attribution.try(:source),
         target_id: attribution.try(:target_id),
         target: attribution.try(:target),
-        page_view_id: @page_view.page_view_id,
-        path_id: @page_view.path_id,
-        path: @page_view.path
+        page_view_id: page_view.page_view_id,
+        path_id: page_view.path_id,
+        path: page_view.path
       }
     end
   end
