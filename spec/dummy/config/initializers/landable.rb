@@ -19,8 +19,7 @@ Landable.configure do |config|
   config.enable_hutch = true
   config.hutch_enable_confirms = true
   config.event_mapping = {
-      '/my/path' => { 'GET' => 'Customer Landed', 'POST' => 'Customer Left' },
-      '/my/path2' => { 'GET' => 'Customer Landed Cart', 'POST' => 'Customer Submitted Cart' }
+      '/my_path' => { 'GET' => 'Customer Landed', 'POST' => 'Customer Submitted', 'DELETE' => 'Customer Left' },
   }.freeze
 end
 
