@@ -43,7 +43,7 @@ module Landable
       attribution = visit.attribution
       {
         event_id: event.id,
-        event: event.event_type,
+        event: event.event_type.to_s,
         request_type: page_view.http_method,
         brand: application_name,
         visit_id: visit.id,

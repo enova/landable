@@ -4,7 +4,7 @@ module Landable
       include Landable::TableName
       self.record_timestamps = false
 
-      lookup_for :event_type, class_name: EventType
+      lookup_for :event_type, class_name: EventType, symbolize: true
 
       belongs_to :visit
     end
