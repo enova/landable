@@ -1,3 +1,4 @@
+require 'builder'
 require_dependency 'landable/theme'
 require_dependency 'landable/page_revision'
 require_dependency 'landable/category'
