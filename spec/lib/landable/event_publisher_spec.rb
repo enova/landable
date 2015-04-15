@@ -35,7 +35,7 @@ module Landable
 
       let(:tracker) { controller.instance_variable_get(:@tracker) }
       let(:page_view) { tracker.visit.page_views.last }
-      let(:published_message) { EventPublisher.new(tracker, page_view, {}).message }
+      let(:published_message) { EventPublisher.new(page_view).message }
 
       it 'should properly properly set the attribution data and send it within a message' do
         get :my_path, attribution
@@ -63,6 +63,29 @@ module Landable
         expect(published_message[:path]).to eq('/my_path')
         expect(published_message[:request_type]).to eq('DELETE')
         expect(published_message[:event]).to eq('Customer Left')
+      end
+
+      it 'should correctly set the user agent information in the message' do
+        get :my_path, attribution
+        user_agent =  UserAgent[controller.request.user_agent]
+        expect(published_message[:user_agent_id]).to eq user_agent.id
+        expect(published_message[:user_agent]).to eq user_agent.user_agent
+      end
+
+      it 'should correctly set the page view information in the message' do
+        get :my_path, attribution
+        expect(published_message[:page_view_id]).to eq page_view.id
+        expect(published_message[:created_at]).to eq page_view.created_at
+      end
+
+      it 'should correctly set the visit information in the message' do
+        get :my_path, attribution
+        visit = page_view.visit
+        visitor = page_view.visit.visitor
+        expect(published_message[:visit_id]).to eq visit.id
+        expect(published_message[:cookie_id]).to eq visit.cookie_id
+        expect(published_message[:ip_address_id]).to eq visitor.ip_address_id
+        expect(published_message[:ip_address]).to eq visitor.ip_address.to_s
       end
     end
   end

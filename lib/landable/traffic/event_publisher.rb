@@ -1,8 +1,8 @@
 module Landable
   class EventPublisher
-    attr_accessor :page_view, :visit, :tracker, :event
+    attr_accessor :page_view, :visit, :event_type
 
-    def initialize(tracker, page_view, meta = {})
+    def initialize(page_view)
       event_type = event_mapping[page_view.path]
       if event_type.kind_of?(Hash)
         request_type = page_view.http_method
@@ -12,9 +12,8 @@ module Landable
       return unless event_type
       @page_view = page_view
 
-      @tracker = tracker
-      @visit = tracker.visit
-      @event = tracker.create_event(event_type, meta)
+      @visit = page_view.visit
+      @event_type = event_type
     end
 
     def enabled?
@@ -39,27 +38,30 @@ module Landable
     end
 
     def message
-      referer = visit.referer
       attribution = visit.attribution
+      referer = visit.referer
+      visitor = visit.visitor
+      user_agent = visitor.try(:raw_user_agent)
+      user_agent_type = user_agent.try(:raw_user_agent_type)
       {
-        event_id: event.id,
-        event: event.event_type.to_s,
-        request_type: page_view.http_method,
         brand: application_name,
         visit_id: visit.id,
-        created_at: visit.created_at,
+        event: event_type,
+        page_view_id: page_view.page_view_id,
+        request_type: page_view.http_method,
+        created_at: page_view.created_at,
         cookie_id: visit.cookie_id,
         owner_id: visit.owner_id,
-        owner: visit.try(:owner),
+        owner: visit.owner,
         referer_id: referer.try(:id),
         domain_id: referer.try(:domain_id),
         domain: referer.try(:domain),
-        ip_address_id: tracker.ip_address.id,
-        ip_address: tracker.ip_address.ip_address.to_s,
-        user_agent_id: tracker.user_agent.id,
-        user_agent: tracker.user_agent.user_agent,
-        user_agent_type_id: tracker.user_agent.user_agent_type.try(:id),
-        user_agent_type: tracker.user_agent.user_agent_type,
+        ip_address_id: visitor.try(:ip_address_id),
+        ip_address: visitor.try(:ip_address).try(:to_s),
+        user_agent_id: user_agent.try(:id),
+        user_agent: user_agent.try(:user_agent),
+        user_agent_type_id: user_agent_type.try(:id),
+        user_agent_type: user_agent_type.try(:user_agent_type),
         attribution_id: attribution.try(:id),
         ad_group_id: attribution.try(:ad_group_id),
         ad_group: attribution.try(:ad_group),
@@ -95,7 +97,6 @@ module Landable
         source: attribution.try(:source),
         target_id: attribution.try(:target_id),
         target: attribution.try(:target),
-        page_view_id: page_view.page_view_id,
         path_id: page_view.path_id,
         path: page_view.path
       }
