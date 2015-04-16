@@ -11,6 +11,5 @@ module Landable
     embed :ids
     has_one :page
     has_one :author, include: true, serializer: AuthorSerializer
-
   end
 end

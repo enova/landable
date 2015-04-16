@@ -8,8 +8,8 @@ module Landable
     attributes :audit_flags
     attributes :deleted_at
 
-    embed    :ids
-    has_one  :published_revision
+    embed :ids
+    has_one :published_revision
 
     has_many :pages
   end
