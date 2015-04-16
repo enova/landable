@@ -24,6 +24,10 @@ module Landable
       @tracker if @tracker.is_a? Landable::Traffic::UserTracker
     end
 
+    def track_event(type, options)
+      @tracker.create_event(type, options) if @tracker
+    end
+
     def tracker
       @tracker
     end
