@@ -6,11 +6,11 @@ class CreateAudits < ActiveRecord::Migration
 
     # Audit Model
     create_table "#{Landable.configuration.database_schema_prefix}landable.audits" do |t|
-      t.uuid   :auditable_id
+      t.uuid :auditable_id
       t.string :auditable_type
 
-      t.text   :notes
-      t.text   :approver
+      t.text :notes
+      t.text :approver
       t.string :flags, array: true, default: []
 
       t.timestamps

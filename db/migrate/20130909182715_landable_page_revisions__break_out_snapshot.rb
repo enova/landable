@@ -1,12 +1,12 @@
 require_dependency 'landable/page_revision'
 class LandablePageRevisionsBreakOutSnapshot < Landable::Migration
-
-  class Landable::PageRevision < ActiveRecord::Base
-    store :snapshot_attributes, accessors: [:body]
+  class Landable
+    class PageRevision < ActiveRecord::Base
+      store :snapshot_attributes, accessors: [:body]
+    end
   end
 
   def up
-
     # Setup new columns
     add_column "#{Landable.configuration.database_schema_prefix}landable.page_revisions", :theme_id,                  :uuid
     add_column "#{Landable.configuration.database_schema_prefix}landable.page_revisions", :status_code_id,            :uuid
@@ -19,16 +19,16 @@ class LandablePageRevisionsBreakOutSnapshot < Landable::Migration
     add_column "#{Landable.configuration.database_schema_prefix}landable.page_revisions", :head_tags,                 :hstore
 
     execute <<-SQL
-      ALTER TABLE #{Landable.configuration.database_schema_prefix}landable.page_revisions 
-        ADD CONSTRAINT theme_id_fk FOREIGN KEY(theme_id) 
+      ALTER TABLE #{Landable.configuration.database_schema_prefix}landable.page_revisions
+        ADD CONSTRAINT theme_id_fk FOREIGN KEY(theme_id)
         REFERENCES #{Landable.configuration.database_schema_prefix}landable.themes(theme_id);
-      
-      ALTER TABLE #{Landable.configuration.database_schema_prefix}landable.page_revisions 
-        ADD CONSTRAINT status_code_id_fk FOREIGN KEY(status_code_id) 
+
+      ALTER TABLE #{Landable.configuration.database_schema_prefix}landable.page_revisions
+        ADD CONSTRAINT status_code_id_fk FOREIGN KEY(status_code_id)
         REFERENCES #{Landable.configuration.database_schema_prefix}landable.status_codes(status_code_id);
 
-      ALTER TABLE #{Landable.configuration.database_schema_prefix}landable.page_revisions 
-        ADD CONSTRAINT category_id_fk FOREIGN KEY(category_id) 
+      ALTER TABLE #{Landable.configuration.database_schema_prefix}landable.page_revisions
+        ADD CONSTRAINT category_id_fk FOREIGN KEY(category_id)
         REFERENCES #{Landable.configuration.database_schema_prefix}landable.categories(category_id);
       SQL
 
@@ -63,10 +63,9 @@ class LandablePageRevisionsBreakOutSnapshot < Landable::Migration
             ON #{Landable.configuration.database_schema_prefix}landable.page_revisions
             FOR EACH STATEMENT EXECUTE PROCEDURE #{Landable.configuration.database_schema_prefix}landable.tg_disallow();
     SQL
-
   end
 
   def down
-    raise ActiveRecord::IrreversibleMigration
+    fail ActiveRecord::IrreversibleMigration
   end
 end

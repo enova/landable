@@ -1,8 +1,9 @@
 require_dependency 'landable/page'
 class DropStatusCodesModel < Landable::Migration
-
-  class Landable::StatusCode < ActiveRecord::Base
-    self.table_name = "#{Landable.configuration.database_schema_prefix}landable.status_codes"
+  class Landable
+    class StatusCode < ActiveRecord::Base
+      self.table_name = "#{Landable.configuration.database_schema_prefix}landable.status_codes"
+    end
   end
 
   def change
@@ -26,7 +27,7 @@ class DropStatusCodesModel < Landable::Migration
     execute <<-SQL
       ALTER TABLE #{Landable.configuration.database_schema_prefix}landable.pages DROP CONSTRAINT status_code_fk;
       ALTER TABLE #{Landable.configuration.database_schema_prefix}landable.page_revisions DROP CONSTRAINT status_code_id_fk;
-      DROP TRIGGER #{Landable.configuration.database_schema_prefix}landable_page_revisions__no_update 
+      DROP TRIGGER #{Landable.configuration.database_schema_prefix}landable_page_revisions__no_update
                     ON #{Landable.configuration.database_schema_prefix}landable.page_revisions;
       CREATE TRIGGER #{Landable.configuration.database_schema_prefix}landable_page_revisions__no_update
             BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal

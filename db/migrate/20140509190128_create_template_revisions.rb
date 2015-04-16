@@ -1,18 +1,18 @@
 class CreateTemplateRevisions < ActiveRecord::Migration
   def change
     create_table "#{Landable.configuration.database_schema_prefix}landable.template_revisions", id: :uuid, primary_key: :template_revision_id do |t|
-      t.integer   :ordinal
-      t.text      :notes
-      t.boolean   :is_minor,      default: false
-      t.boolean   :is_published,  default: true
+      t.integer :ordinal
+      t.text :notes
+      t.boolean :is_minor,      default: false
+      t.boolean :is_published,  default: true
 
-      t.uuid      :template_id,   null: false
-      t.uuid      :author_id,     null: false
+      t.uuid :template_id,   null: false
+      t.uuid :author_id,     null: false
 
-      t.text      :name
-      t.text      :slug
-      t.text      :body
-      t.text      :description
+      t.text :name
+      t.text :slug
+      t.text :body
+      t.text :description
 
       t.timestamps
     end
@@ -59,9 +59,9 @@ class CreateTemplateRevisions < ActiveRecord::Migration
        $TRIGGER$
        LANGUAGE plpgsql;"
 
-      execute "CREATE TRIGGER #{Landable.configuration.database_schema_prefix}landable_template_revisions__bfr_insert
-              BEFORE INSERT ON #{Landable.configuration.database_schema_prefix}landable.template_revisions
-              FOR EACH ROW EXECUTE PROCEDURE #{Landable.configuration.database_schema_prefix}landable.template_revision_ordinal();"
+    execute "CREATE TRIGGER #{Landable.configuration.database_schema_prefix}landable_template_revisions__bfr_insert
+            BEFORE INSERT ON #{Landable.configuration.database_schema_prefix}landable.template_revisions
+            FOR EACH ROW EXECUTE PROCEDURE #{Landable.configuration.database_schema_prefix}landable.template_revision_ordinal();"
 
     # Trigger disallowing deletes on template_revisions
     execute "CREATE TRIGGER #{Landable.configuration.database_schema_prefix}landable_template_revisions__no_delete
@@ -71,7 +71,5 @@ class CreateTemplateRevisions < ActiveRecord::Migration
     execute "CREATE TRIGGER #{Landable.configuration.database_schema_prefix}landable_template_revisions__no_update
             BEFORE UPDATE OF notes, is_minor, template_id, author_id, created_at, ordinal ON #{Landable.configuration.database_schema_prefix}landable.template_revisions
             FOR EACH STATEMENT EXECUTE PROCEDURE #{Landable.configuration.database_schema_prefix}landable.tg_disallow();"
-
-
   end
 end
