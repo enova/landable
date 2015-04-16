@@ -1,5 +1,7 @@
 module Landable
   module TrafficHelper
+    attr_reader :tracker
+
     def crawl_tracker
       @tracker if @tracker.is_a? Landable::Traffic::CrawlTracker
     end
@@ -22,10 +24,6 @@ module Landable
 
     def user_tracker
       @tracker if @tracker.is_a? Landable::Traffic::UserTracker
-    end
-
-    def tracker
-      @tracker
     end
   end
 end

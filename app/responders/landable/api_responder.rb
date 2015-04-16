@@ -3,12 +3,14 @@ module Landable
     def to_format
       controller.response.headers['X-Landable-Media-Type'] = api_media_type
 
-      if serializer = resource_serializer
+      serializer = resource_serializer
+      if serializer
         options[collection_resource? ? :each_serializer : :serializer] = serializer
         controller.response.headers['X-Landable-Serializer'] = serializer.name if leaky?
       end
 
-      if leaky? && format == :json && schema = json_schema
+      schema = json_schema
+      if leaky? && format == :json && schema
         key  = collection_resource? ? resource_name.pluralize : resource_name
         link = "<#{schema}>; rel=\"describedby\"; anchor=\"#/#{key}\""
         link = "#{link}; collection=\"collection\"" if collection_resource?
@@ -32,7 +34,7 @@ module Landable
     end
 
     def collection_resource?
-      Array === resource || ActiveRecord::Relation === resource
+      resource.is_a?(Array) || resource.is_a?(ActiveRecord::Relation)
     end
 
     def json_schema
