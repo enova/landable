@@ -4,7 +4,6 @@
 
 module Landable
   module Liquid
-
     # CategoryProxy gives us these:
     #
     # {{ categories.size }}
@@ -20,8 +19,7 @@ module Landable
     #   {% endfor %}
     # </ul>
     class CategoriesDrop < ::Liquid::Drop
-
-      def before_method method_name
+      def before_method(method_name)
         category_cache[method_name] ||= ::Landable::Category.find_by_slug method_name
       end
 
@@ -29,18 +27,15 @@ module Landable
         @size ||= Category.count
       end
 
-      def each &block
-        ::Landable::Category.all.each &block
+      def each(&block)
+        ::Landable::Category.all.each(&block)
       end
-
 
       protected
 
       def category_cache
         @category_cache ||= {}
       end
-
     end
-
   end
 end

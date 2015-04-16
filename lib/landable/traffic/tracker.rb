@@ -5,43 +5,43 @@ module Landable
   module Traffic
     class Tracker
       TRACKING_PARAMS = {
-        "ad_type"        => %w[ad_type adtype],
-        "ad_group"       => %w[ad_group adgroup ovadgrpid ysmadgrpid],
-        "bid_match_type" => %w[bidmatchtype bid_match_type bmt],
-        "campaign"       => %w[campaign utm_campaign ovcampgid ysmcampgid],
-        "content"        => %w[content utm_content],
-        "creative"       => %w[creative adid ovadid],
-        "device_type"    => %w[device_type devicetype device],
-        "click_id"       => %w[gclid click_id clickid],
-        "experiment"     => %w[experiment aceid],
-        "keyword"        => %w[keyword kw utm_term ovkey ysmkey],
-        "match_type"     => %w[match_type matchtype match ovmtc ysmmtc],
-        "medium"         => %w[medium utm_medium],
-        "network"        => %w[network],
-        "placement"      => %w[placement],
-        "position"       => %w[position adposition ad_position],
-        "search_term"    => %w[search_term searchterm q querystring ovraw ysmraw],
-        "source"         => %w[source utm_source],
-        "target"         => %w[target],
+        'ad_type'        => %w(ad_type adtype),
+        'ad_group'       => %w(ad_group adgroup ovadgrpid ysmadgrpid),
+        'bid_match_type' => %w(bidmatchtype bid_match_type bmt),
+        'campaign'       => %w(campaign utm_campaign ovcampgid ysmcampgid),
+        'content'        => %w(content utm_content),
+        'creative'       => %w(creative adid ovadid),
+        'device_type'    => %w(device_type devicetype device),
+        'click_id'       => %w(gclid click_id clickid),
+        'experiment'     => %w(experiment aceid),
+        'keyword'        => %w(keyword kw utm_term ovkey ysmkey),
+        'match_type'     => %w(match_type matchtype match ovmtc ysmmtc),
+        'medium'         => %w(medium utm_medium),
+        'network'        => %w(network),
+        'placement'      => %w(placement),
+        'position'       => %w(position adposition ad_position),
+        'search_term'    => %w(search_term searchterm q querystring ovraw ysmraw),
+        'source'         => %w(source utm_source),
+        'target'         => %w(target)
       }.freeze
 
       TRACKING_KEYS    = TRACKING_PARAMS.values.flatten.freeze
-      ATTRIBUTION_KEYS = TRACKING_PARAMS.except("click_id").keys
+      ATTRIBUTION_KEYS = TRACKING_PARAMS.except('click_id').keys
 
       TRACKING_PARAMS_TRANSFORM = {
-        "ad_type"        => { 'pe'  => 'product_extensions',
+        'ad_type'        => { 'pe'  => 'product_extensions',
                               'pla' => 'product_listing' },
 
-        "bid_match_type" => { 'bb'  => 'bidded broad',
+        'bid_match_type' => { 'bb'  => 'bidded broad',
                               'bc'  => 'bidded content',
                               'be'  => 'bidded exact',
                               'bp'  => 'bidded phrase' },
 
-        "device_type"    => { 'c'   => 'computer',
+        'device_type'    => { 'c'   => 'computer',
                               'm'   => 'mobile',
                               't'   => 'tablet' },
 
-        "match_type"     => { 'b'   => 'broad',
+        'match_type'     => { 'b'   => 'broad',
                               'c'   => 'content',
                               'e'   => 'exact',
                               'p'   => 'phrase',
@@ -49,9 +49,9 @@ module Landable
                               'adv' => 'advanced',
                               'cnt' => 'content' },
 
-        "network"        => { 'g'   => 'google_search',
+        'network'        => { 'g'   => 'google_search',
                               's'   => 'search_partner',
-                              'd'   => 'display_network' },
+                              'd'   => 'display_network' }
       }.freeze
 
       UUID_REGEX       = /\A\h{8}-\h{4}-\h{4}-\h{4}-\h{12}\Z/
@@ -75,9 +75,9 @@ module Landable
       class << self
         def for(controller)
           type = controller.request.user_agent.presence && Landable::Traffic::UserAgent[controller.request.user_agent].user_agent_type
-          type = 'noop' if Landable.configuration.traffic_enabled == :html and not controller.request.format.html?
-          type = 'user'if type.nil?
-          type = 'user'if controller.request.query_parameters.slice(*TRACKING_KEYS).any?
+          type = 'noop' if Landable.configuration.traffic_enabled == :html && !controller.request.format.html?
+          type = 'user' if type.nil?
+          type = 'user' if controller.request.query_parameters.slice(*TRACKING_KEYS).any?
 
           "Landable::Traffic::#{type.classify}Tracker".constantize.new(controller)
         end
@@ -85,13 +85,13 @@ module Landable
 
       def initialize(controller)
         # Allow subclasses to super from initialize
-        raise NotImplementedError, "You must subclass Tracker" if self.class == Tracker
+        fail NotImplementedError, 'You must subclass Tracker' if self.class == Tracker
         @controller = controller
         @start_time = Time.now
       end
 
       def track
-        raise NotImplementedError, "You must subclass Tracker" if self.class == Tracker
+        fail NotImplementedError, 'You must subclass Tracker' if self.class == Tracker
       end
 
       def visitor_id
@@ -101,7 +101,6 @@ module Landable
 
       def create_event(type, meta = {})
         return unless @visit_id
-
         Event.create(visit_id: @visit_id, event_type: type, meta: meta)
       end
 
@@ -118,23 +117,25 @@ module Landable
       end
 
       def landing_path
-        @visit_id and PageView.where(visit_id: @visit_id).order(:page_view_id).first.try(:path)
+        @visit_id && PageView.where(visit_id: @visit_id).order(:page_view_id).first.try(:path)
       end
 
+      # TODO: Is this used in multiple applications outside Landable. If not,
+      # then lets get rid of this method.
+      # rubocop:disable Style/AccessorMethodName
       def get_user_agent
         user_agent
       end
 
-    protected
+      protected
+
       def cookies
         request.cookie_jar
       end
 
       def cookie
         validate_cookie
-
         @cookie_id ||= Cookie.create.id
-
         set_cookie
       end
 
@@ -155,9 +156,8 @@ module Landable
       end
 
       def do_not_track
-        return unless headers["DNT"]
-
-        headers["DNT"] == "1"
+        return unless headers['DNT']
+        headers['DNT'] == '1'
       end
 
       def user_agent
@@ -250,7 +250,6 @@ module Landable
 
       def visit_stale?
         return false unless @last_visit_time
-
         Time.current - @last_visit_time > 30.minutes
       end
 
@@ -258,13 +257,13 @@ module Landable
         hash = {}
 
         TRACKING_PARAMS.each do |key, names|
-          next unless param = names.find { |name| params.key?(name) }
+          param = names.find { |name| params.key?(name) }
+          next unless param
           hash[key] = params[param]
         end
 
         TRACKING_PARAMS_TRANSFORM.each do |key, transform|
           next unless hash.key? key
-
           hash[key] = transform[hash[key]] if transform.key? hash[key]
         end
 

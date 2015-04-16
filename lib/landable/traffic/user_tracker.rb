@@ -28,13 +28,13 @@ module Landable
           p.query_string = untracked_parameters.to_query
           p.request_id   = request.uuid
 
-          p.click_id     = tracking_parameters["click_id"]
+          p.click_id     = tracking_parameters['click_id']
 
           p.http_status  = response.status
 
           p.visit_id     = @visit_id
 
-          p.response_time = ( Time.now - @start_time ) * 1000
+          p.response_time = (Time.now - @start_time) * 1000
         end
       end
 

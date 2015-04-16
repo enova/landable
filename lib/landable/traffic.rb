@@ -9,16 +9,14 @@ require 'landable/traffic/noop_tracker'
 module Landable
   module Traffic
     def track_with_landable!
-      yield and return if untracked?
+      yield && return if untracked?
 
       begin
         @tracker = Tracker.for self
         @tracker.track
       rescue => e
         Rails.logger.error e
-        if respond_to? :newrelic_notice_error
-          newrelic_notice_error e
-        end
+        newrelic_notice_error e if respond_to? :newrelic_notice_error
       end
 
       yield
@@ -27,9 +25,7 @@ module Landable
         @tracker.save
       rescue => e
         Rails.logger.error e
-        if respond_to? :newrelic_notice_error
-          newrelic_notice_error e
-        end
+        newrelic_notice_error e if respond_to? :newrelic_notice_error
       end
     end
 
@@ -38,7 +34,7 @@ module Landable
     end
 
     def untracked_user?
-      Landable.configuration.dnt_enabled && request.headers["DNT"] == "1"
+      Landable.configuration.dnt_enabled && request.headers['DNT'] == '1'
     end
 
     def untracked_path?

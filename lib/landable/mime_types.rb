@@ -1,6 +1,6 @@
 # Re-register application/json, adding our own vendored mime types as aliases
 
-# TODO Be more generous about accepting version constraints. Currently,
+# TODO: Be more generous about accepting version constraints. Currently,
 # requesting v1.5 when we're running v1.5.2 will return a 406.
 
 api_mime_types = %W(

@@ -2,7 +2,6 @@ require 'action_view'
 
 module Landable
   module Liquid
-
     class AssetTag < ::Liquid::Tag
       attr_accessor :tag_name, :asset_name
 
@@ -41,11 +40,11 @@ module Landable
 
       def lookup_asset(context, name)
         assets = context.registers.fetch(:assets) do
-          raise ArgumentError.new("`assets' value was never registered with the template")
+          fail(ArgumentError, "`assets' value was never registered with the template")
         end
 
         assets.fetch(name) do
-          raise ArgumentError.new("No `#{name}' asset available in #{assets.inspect}")
+          fail(ArgumentError, "No `#{name}' asset available in #{assets.inspect}")
         end
       end
 
@@ -62,7 +61,7 @@ module Landable
     class AssetAttributeTag < AssetTag
       def render(context)
         asset = lookup_asset context, asset_name
-        attribute = tag_name.sub /^asset_/, ''
+        attribute = tag_name.sub(/^asset_/, '')
 
         if attribute == 'url'
           asset.public_url
@@ -71,6 +70,5 @@ module Landable
         end
       end
     end
-
   end
 end

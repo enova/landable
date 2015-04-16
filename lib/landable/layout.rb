@@ -14,7 +14,7 @@ module Landable
       path = @file.dup
       self.class.paths.each { |p| path.sub!(p, '') }
 
-      path.sub!(/^\//, '')
+      path.sub!(%r{^\/}, '')
 
       @path, @extension = path.split('.html.', 2)
 
@@ -27,12 +27,12 @@ module Landable
       process unless @processed
 
       theme = Theme.where(file: @path).first_or_initialize
-      theme.name          ||= @path.gsub('/', ' ').titlecase
+      theme.name ||= @path.gsub('/', ' ').titlecase
       theme.extension       = @extension
       theme.description     = description if theme.description.blank? || theme.description =~ /^Defined in/
       theme.body            = @body
       theme.editable        = false
-      theme.thumbnail_url ||= "http://placehold.it/300x200"
+      theme.thumbnail_url ||= 'http://placehold.it/300x200'
 
       theme.save!
 
@@ -40,7 +40,7 @@ module Landable
     end
 
     def description
-      "Defined in #@path.html.#@extension"
+      "Defined in #{@path}.html.#{@extension}"
     end
 
     class << self
@@ -52,8 +52,8 @@ module Landable
         files = []
 
         paths.map do |path|
-          files << Dir[path + "/**/[^_]*.html.*"]
-          files << Dir[path + "/**/application*"]
+          files << Dir[path + '/**/[^_]*.html.*']
+          files << Dir[path + '/**/application*']
         end
 
         files.flatten.uniq
