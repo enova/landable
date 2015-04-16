@@ -13,21 +13,21 @@ module Landable
     end
 
     # validations
-    
+
     # standard methods
     def deactivate
-      self.update_attribute(:deleted_at, Time.now)
+      update_attribute(:deleted_at, Time.now)
     end
 
     # custom methods
     def nuke!
-      self.destroy
+      destroy
     end
 
     def reactivate
-      self.update_attribute(:deleted_at, nil)
+      update_attribute(:deleted_at, nil)
     end
-    
+
     # end
   end
 

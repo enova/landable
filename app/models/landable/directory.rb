@@ -3,11 +3,11 @@ module Landable
     include ActiveModel::SerializerSupport
 
     def self.listing(parent)
-      parent_with_slash = parent.gsub(/^(.*?)\/?$/, '\1/')
+      parent_with_slash = parent.gsub(%r{^(.*?)\/?$}, '\1/')
       pages   = Page.where('path LIKE ?', "#{parent_with_slash}%").to_a
       subdirs = pages.group_by { |page| page.directory_after(parent_with_slash) }
       notdirs = subdirs.delete(nil) || []
-      subdirs = subdirs.map { |name, contents| Directory.new("#{parent}/#{name}") }
+      subdirs = subdirs.map { |name, _contents| Directory.new("#{parent}/#{name}") }
       Directory.new(parent, subdirs.sort_by(&:path), notdirs.sort_by(&:path))
     end
 

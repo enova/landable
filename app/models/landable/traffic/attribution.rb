@@ -3,7 +3,7 @@ module Landable
     class Attribution < ActiveRecord::Base
       include Landable::TableName
 
-      KEYS = %w[ad_type ad_group bid_match_type campaign content creative device_type experiment keyword match_type medium network placement position search_term source target]
+      KEYS = %w(ad_type ad_group bid_match_type campaign content creative device_type experiment keyword match_type medium network placement position search_term source target)
 
       self.record_timestamps = false
 
