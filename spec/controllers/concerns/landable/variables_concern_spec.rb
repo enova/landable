@@ -6,12 +6,13 @@ module Landable
     # setup
     controller(ApplicationController) do
       protected
+
         def hello_world
-          "i live in a giant bucket."
+          'i live in a giant bucket.'
         end
 
         def hello_cleveland
-          "i am a banana."
+          'i am a banana.'
         end
     end
 
@@ -27,7 +28,7 @@ module Landable
     end
 
     # tests
-    it "should include the VariablesConcern module" do
+    it 'should include the VariablesConcern module' do
       # setup
       # actions
       # expectations
@@ -35,27 +36,27 @@ module Landable
       # end
     end
 
-    it "should use the #register_landable_variable with a similarly named method" do
+    it 'should use the #register_landable_variable with a similarly named method' do
       # setup
       # actions
       # expectations
-      expect(controller.fetch_landable_variables[:hello_world]).to eql("i live in a giant bucket.")
+      expect(controller.fetch_landable_variables[:hello_world]).to eql('i live in a giant bucket.')
       # end
     end
 
-    it "should use the #register_landable_variable with a custom named method" do
+    it 'should use the #register_landable_variable with a custom named method' do
       # setup
       # actions
       # expectations
-      expect(controller.fetch_landable_variables[:is_rejected]).to eql("i am a banana.")
+      expect(controller.fetch_landable_variables[:is_rejected]).to eql('i am a banana.')
       # end
     end
 
-    it "should use the #register_landable_variable with a string-based name" do
+    it 'should use the #register_landable_variable with a string-based name' do
       # setup
       # actions
       # expectations
-      expect(controller.fetch_landable_variables['is_rejected']).to eql("i am a banana.")
+      expect(controller.fetch_landable_variables['is_rejected']).to eql('i am a banana.')
       # end
     end
 
