@@ -34,7 +34,7 @@ module Landable
       end
 
       let(:tracker) { controller.instance_variable_get(:@tracker) }
-      let(:page_view) { tracker.visit.page_views.last }
+      let(:page_view) { PageView.last }
       let(:published_message) { EventPublisher.new(page_view).message }
 
       it 'should properly properly set the attribution data and send it within a message' do

@@ -16,8 +16,7 @@ Landable.configure do |config|
 
   config.audit_flags = %w(loans apr)
 
-  config.enable_hutch = true
-  config.hutch_enable_confirms = true
+  config.enable_hutch = false
   config.event_mapping = {
       '/my_path' => { 'GET' => 'Customer Landed', 'POST' => 'Customer Submitted', 'DELETE' => 'Customer Left' },
   }.freeze
