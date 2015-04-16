@@ -25,7 +25,7 @@ end
 
 shared_context 'JSON API endpoint', type: :request do
   before do
-    default_parameters[:format]    ||= 'json'
+    default_parameters[:format] ||= 'json'
     default_headers['HTTP_ACCEPT'] ||= 'application/json'
   end
 
@@ -45,7 +45,7 @@ shared_examples 'API authentication' do |request_method|
   it 'returns 401 if unauthorized' do
     default_headers.delete 'HTTP_AUTHORIZATION'
     send(request_method)
-    response.status.should == 401
+    response.status.should eq 401
   end
 end
 
@@ -78,7 +78,7 @@ end
 #       end
 #     end
 shared_examples 'Authenticated API controller' do |request_method|
-  raise ArgumentError.new("Method name required as argument") if request_method.nil?
+  fail(ArgumentError, 'Method name required as argument') if request_method.nil?
 
   before do
     use_access_token unless example.metadata[:auth] == false
@@ -102,6 +102,6 @@ shared_examples 'Authenticated API controller' do |request_method|
 
   it 'returns 401 if unauthorized', auth: false do
     send(request_method)
-    response.status.should == 401
+    response.status.should eq 401
   end
 end

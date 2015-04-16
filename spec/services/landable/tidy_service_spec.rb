@@ -5,13 +5,13 @@ module Landable
     let(:service) { TidyService }
 
     describe '.tidyable?' do
-      after(:each) { service.class_variable_set :@@is_tidyable, nil }
+      after(:each) { service.instance_variable_set :@is_tidyable, nil }
 
       context 'when tidyable' do
         it 'should check on the availability of a `tidy` command' do
           Kernel.should_receive(:system).with('which tidy > /dev/null') { true }
           service.should be_tidyable
-          service.class_variable_get(:@@is_tidyable).should be_true
+          service.instance_variable_get(:@is_tidyable).should be_true
         end
       end
 
@@ -19,7 +19,7 @@ module Landable
         it 'should return false' do
           Kernel.should_receive(:system).with('which tidy > /dev/null') { false }
           service.should_not be_tidyable
-          service.class_variable_get(:@@is_tidyable).should be_false
+          service.instance_variable_get(:@is_tidyable).should be_false
         end
       end
     end
@@ -29,7 +29,7 @@ module Landable
         input = double
         output = double
         service.should_receive(:call).with(input, raise_on_error: true) { output }
-        service.call!(input).should == output
+        service.call!(input).should eq output
       end
     end
 
@@ -40,7 +40,7 @@ module Landable
           expect { service.call 'foo' }.to raise_error(StandardError)
         end
       end
-      
+
       context 'when tidyable' do
         before(:each) do
           service.should_receive(:tidyable?) { true }
@@ -51,22 +51,22 @@ module Landable
           output = double('output')
           result = double('result')
 
-          service.should_receive(:wrap_liquid) { |input| input }.ordered # passthrough; will test later
+          service.should_receive(:wrap_liquid) { |value| value }.ordered # passthrough; will test later
 
           mock_io = double('io')
           mock_io.should_receive(:puts).with(input).ordered
           mock_io.should_receive(:close_write).ordered
           mock_io.should_receive(:read) { output }
 
-          service.should_receive(:unwrap_liquid) { |input| input }.ordered # passthrough; will test later
+          service.should_receive(:unwrap_liquid) { |value| value }.ordered # passthrough; will test later
 
           # other setup
-          service.should_receive(:options) { ['one', 'two', 'three'] }
+          service.should_receive(:options) { %w(one two three) }
           IO.should_receive(:popen).with('tidy one two three', 'r+').and_yield(mock_io)
 
           TidyService::Result.should_receive(:new).with(output) { result }
 
-          service.call(input).should == result
+          service.call(input).should eq result
         end
 
         it 'should wrap known liquid tags before sending to tidy, and unwrap them after' do
@@ -81,13 +81,13 @@ module Landable
           IO.should_receive(:popen).and_yield(mock_io)
 
           # ensuring that the output == the input, modulo any new whitespace
-          service.call(original_string).to_s.gsub(/\s+/, ' ').should == original_string.gsub(/\s+/, ' ')
+          service.call(original_string).to_s.gsub(/\s+/, ' ').should eq original_string.gsub(/\s+/, ' ')
         end
 
         context 'raise_on_error is enabled' do
           it 'should raise TidyError when status is 2' do
             IO.should_receive(:popen)
-            $?.should_receive(:exitstatus) { 2 }
+            $CHILD_STATUS.should_receive(:exitstatus) { 2 }
 
             # meh, shouldn't have to do this. could use a refactor.
             service.should_receive(:wrap_liquid) { |input| input }
@@ -97,7 +97,7 @@ module Landable
 
           it 'should be cool when status is 1' do
             IO.should_receive(:popen)
-            $?.should_receive(:exitstatus) { 1 }
+            $CHILD_STATUS.should_receive(:exitstatus) { 1 }
 
             # meh, shouldn't have to do this. could use a refactor.
             service.should_receive(:wrap_liquid)   { |input| input }
@@ -112,8 +112,8 @@ module Landable
 
   module TidyService
     describe Result do
-
-      let(:result) { Result.new <<-eof
+      let(:result) do
+        Result.new <<-eof
 <html>
   <head>
     <link type="text/css" rel="stylesheet">
@@ -128,29 +128,29 @@ module Landable
   </body>
 </html>
 eof
-      }
+      end
 
       describe '#to_s' do
         it 'should return the string given on init' do
-          Result.new('foobar').to_s.should == 'foobar'
+          Result.new('foobar').to_s.should eq 'foobar'
         end
       end
 
       describe '#body' do
         it 'should return the de-indented contents of <body>' do
-          result.body.should == "<div>hello</div>\n<div>friend</div>"
+          result.body.should eq "<div>hello</div>\n<div>friend</div>"
         end
       end
 
       describe '#head' do
         it 'should return the de-indented contents of <head>' do
-          result.head.should == "<link type=\"text/css\" rel=\"stylesheet\">\n<title>sup</title>\n<style type=\"text/css\">\n  body {}\n</style>"
+          result.head.should eq "<link type=\"text/css\" rel=\"stylesheet\">\n<title>sup</title>\n<style type=\"text/css\">\n  body {}\n</style>"
         end
       end
 
       describe '#css' do
         it 'should return embedded and linked stylesheets from the head' do
-          result.css.should == "<link type=\"text/css\" rel=\"stylesheet\">\n\n<style type=\"text/css\">\n  body {}\n</style>"
+          result.css.should eq "<link type=\"text/css\" rel=\"stylesheet\">\n\n<style type=\"text/css\">\n  body {}\n</style>"
         end
       end
     end

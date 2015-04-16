@@ -1,4 +1,4 @@
-ENV["RAILS_ENV"] ||= 'test'
+ENV['RAILS_ENV'] ||= 'test'
 
 require 'simplecov'
 SimpleCov.start 'rails'
@@ -15,7 +15,7 @@ require 'faker'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("../../spec/support/**/*.rb")].each { |f| require f }
+Dir[Rails.root.join('../../spec/support/**/*.rb')].each { |f| require f }
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -25,7 +25,7 @@ RSpec.configure do |config|
   config.mock_with :rspec
   config.use_transactional_fixtures = true
   config.infer_base_class_for_anonymous_controllers = false
-  config.order = "random"
+  config.order = 'random'
 
   config.include FactoryGirl::Syntax::Methods
   config.include Landable::Spec::CoreHelpers

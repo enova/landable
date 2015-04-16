@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module Landable
   describe RenderService do
-    let(:page)  { build  :page, body: 'render test', theme: theme }
+    let(:page)  { build :page, body: 'render test', theme: theme }
     let(:theme) { create :theme }
 
     def render(*args)
@@ -15,24 +15,24 @@ module Landable
     it 'returns a string' do
       page.body = 'Hi mom'
       theme.body = '{{body}}'
-      render.should == 'Hi mom'
+      render.should eq 'Hi mom'
     end
 
     context 'without a theme' do
       it 'returns the bare page body' do
         page.theme = nil
-        render.should == page.body
+        render.should eq page.body
       end
 
       it 'returns the bare page body if the theme is defined, but has no liquid body template' do
         page.theme.body = nil
-        render.should == page.body
+        render.should eq page.body
       end
 
       it 'returns an empty string if there is also no page body' do
         page.theme = nil
         page.body = nil
-        render.should == ''
+        render.should eq ''
       end
     end
 
@@ -40,7 +40,7 @@ module Landable
       it 'renders the bare theme' do
         theme.body = 'foo {{body}}'
         page.body  = nil
-        render.should == 'foo '
+        render.should eq 'foo '
       end
     end
 
@@ -70,14 +70,14 @@ module Landable
       let(:page) { build :page, body: 'render test', path: 'foo.txt', theme: theme }
 
       it 'renders without a theme' do
-        render.should == 'render test'
+        render.should eq 'render test'
       end
 
       context 'previewing' do
         let(:rendered) { render(preview: true) }
 
         it 'renders with <pre> around the content' do
-          rendered.should == '<pre>render test</pre>'
+          rendered.should eq '<pre>render test</pre>'
         end
       end
     end

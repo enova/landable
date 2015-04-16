@@ -16,8 +16,8 @@ module Landable
 
         it 'should return a file pointer to the downloaded screenshot' do
           Net::HTTP.should_receive(:post_form) do |uri, params|
-            uri.to_s.should == 'http://publicist.foo/api/services/screenshots'
-            params.should == {'screenshot[url]' => screenshot_url}
+            uri.to_s.should eq 'http://publicist.foo/api/services/screenshots'
+            params.should eq('screenshot[url]' => screenshot_url)
 
             double('response', code: '200', content_type: 'image/png', body: screenshot_content)
           end
@@ -25,7 +25,7 @@ module Landable
           screenshot = ScreenshotService.capture screenshot_url
 
           screenshot.should be_a Tempfile
-          screenshot.read.should == screenshot_content
+          screenshot.read.should eq screenshot_content
         end
       end
 

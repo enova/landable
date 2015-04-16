@@ -17,15 +17,15 @@ describe Landable::AuthenticationService do
     Landable.configuration.stub(authenticators: [simple_auth, echo_auth])
   end
 
-  it "returns the result of the first successful authentication strategy" do
-    described_class.call('simple', 'authenticator')[:username].should == 'simple'
-    described_class.call('echo', 'echo')[:username].should == 'echo'
+  it 'returns the result of the first successful authentication strategy' do
+    described_class.call('simple', 'authenticator')[:username].should eq 'simple'
+    described_class.call('echo', 'echo')[:username].should eq 'echo'
   end
 
-  it "raises AuthenticationFailedError if no strategy worked" do
-    expect {
+  it 'raises AuthenticationFailedError if no strategy worked' do
+    expect do
       described_class.call('will', 'fail')
-    }.to raise_error(Landable::AuthenticationFailedError)
+    end.to raise_error(Landable::AuthenticationFailedError)
   end
 
   describe 'EchoAuthenticator' do
@@ -55,7 +55,7 @@ describe Landable::AuthenticationService do
       instance = echo_auth.new('trogdor', 'some-pass')
       instance.call('previously', 'worked').should be_nil
       instance.call('trogdor', 'trogdor').should be_nil
-      instance.call('trogdor', 'some-pass')[:username].should == 'trogdor'
+      instance.call('trogdor', 'some-pass')[:username].should eq 'trogdor'
     end
   end
 end

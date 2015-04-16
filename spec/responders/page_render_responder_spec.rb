@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Landable::PageRenderResponder do
-
   let(:page) { build :page }
   let(:responder) { Landable::PageRenderResponder.new double(request: double, formats: []), [page] }
 
@@ -39,5 +38,4 @@ describe Landable::PageRenderResponder do
       end
     end
   end
-
 end
