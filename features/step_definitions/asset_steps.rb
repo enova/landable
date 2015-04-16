@@ -18,24 +18,22 @@ When 'I POST an asset to "$path" with both $assoc IDs' do |path, assoc|
   ary = instance_variable_get("@#{assoc}s")
   key = :"#{assoc}_ids"
 
-  post path, asset: attributes_for(:asset).merge({
-    key => ary.map(&:id)
-  })
+  post path, asset: attributes_for(:asset).merge(key => ary.map(&:id))
 end
 
 Then 'the response should contain an "asset"' do
   last_json.should have_key('asset')
-  last_json['asset']['mime_type'].should == 'image/png'
+  last_json['asset']['mime_type'].should eq 'image/png'
 end
 
-Then 'the response should contain the $version "asset"' do |version|
+Then 'the response should contain the $version "asset"' do
   # version is intentionally ignored; it just reads better in the steps.
 
   @asset ||= Landable::Asset.order('created_at DESC').first
-  at_json('asset/id').should == @asset.id
+  at_json('asset/id').should eq @asset.id
 end
 
-Then /^the asset ID should( not)? be in the array at "([^"]+)"$/ do |negative, json_path|
+Then(/^the asset ID should( not)? be in the array at "([^"]+)"$/) do |negative, json_path|
   array = at_json json_path
   if negative
     array.should_not include(@asset.id)
@@ -45,16 +43,16 @@ Then /^the asset ID should( not)? be in the array at "([^"]+)"$/ do |negative, j
 end
 
 Then 'both $assoc IDs should be in the array at "$json_path"' do |assoc, json_path|
-  ids = instance_variable_get("@#{assoc}s").map &:id
+  ids = instance_variable_get("@#{assoc}s").map(&:id)
   at_json(json_path).should include(*ids)
 end
 
 Then 'the rendered body should be the correct assets' do
   <<-eos
-    <link href="/assets/application-/#{/./}.css" media="screen" rel="stylesheet" />
-    <script src="/assets/application-#{/./}.js"></script>
-    <img alt="Foo" src="/assets/foo-#{/./}.jpg" />
-    <img alt="Foo" src="/assets/foo-#{/./}.jpg" />
+    <link href="/assets/application-//./.css" media="screen" rel="stylesheet" />
+    <script src="/assets/application-/./.js"></script>
+    <img alt="Foo" src="/assets/foo-/./.jpg" />
+    <img alt="Foo" src="/assets/foo-/./.jpg" />
     <img alt="Baz!" src="https://landable.dev/_assets//uploads/panda.png" />
   eos
 end

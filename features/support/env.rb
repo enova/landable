@@ -4,12 +4,12 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
-ENV["RAILS_ENV"] ||= "test"
+ENV['RAILS_ENV'] ||= 'test'
 require 'simplecov'
 SimpleCov.start 'rails'
 
-require File.expand_path("../../../spec/dummy/config/environment.rb",  __FILE__)
-ENV["RAILS_ROOT"] ||= File.dirname(__FILE__) + "../../../spec/dummy"
+require File.expand_path('../../../spec/dummy/config/environment.rb',  __FILE__)
+ENV['RAILS_ROOT'] ||= File.dirname(__FILE__) + '../../../spec/dummy'
 
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
@@ -42,14 +42,14 @@ ActionController::Base.allow_rescue = false
 begin
   DatabaseCleaner.strategy = :transaction
 rescue NameError
-  raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
+  raise 'You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it.'
 end
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:
 #
 #   Before('@no-txn,@selenium,@culerity,@celerity,@javascript') do
-#     # { :except => [:widgets] } may not do what you expect here
+#     # { except: [:widgets] } may not do what you expect here
 #     # as tCucumber::Rails::Database.javascript_strategy overrides
 #     # this setting.
 #     DatabaseCleaner.strategy = :truncation

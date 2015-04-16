@@ -18,22 +18,22 @@ When 'I change the theme to contain "$body"' do |body|
   @page.save
 end
 
-And  "I GET '/pubbed'" do
+And "I GET '/pubbed'" do
   make_request
 end
 
-Then 'I should see "$body"' do |body|
+Then 'I should see "$body"' do |_body|
   @page.reload
   last_response.body.should include(@page.theme.body)
 end
 
-When "I publish the page with another theme" do
+When 'I publish the page with another theme' do
   @page.theme = @new_theme
   @page.save
   @page.publish! author: create(:author)
 end
 
-When /^I publish the page$/ do
+When(/^I publish the page$/) do
   @page.publish! author: create(:author)
 end
 

@@ -5,5 +5,5 @@ end
 
 Then 'the element "$css" should have inner text "$text"' do |css, text|
   doc = Nokogiri::HTML(last_response.body)
-  doc.at(css).text.should == text
+  doc.at(css).text.should eq text
 end
