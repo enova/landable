@@ -4,7 +4,7 @@ module Landable
 
     def initialize(page_view)
       event_type = event_mapping[page_view.path]
-      if event_type.kind_of?(Hash)
+      if event_type.is_a?(Hash)
         request_type = page_view.http_method
         event_type = event_type[request_type]
       end
