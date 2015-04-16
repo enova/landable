@@ -26,7 +26,7 @@ Then 'the response should contain an "asset"' do
   last_json['asset']['mime_type'].should eq 'image/png'
 end
 
-Then 'the response should contain the $version "asset"' do
+Then 'the response should contain the $version "asset"' do |_|
   # version is intentionally ignored; it just reads better in the steps.
 
   @asset ||= Landable::Asset.order('created_at DESC').first
