@@ -1,10 +1,10 @@
-require_dependency "landable/api_controller"
+require_dependency 'landable/api_controller'
 
 module Landable
   module Api
     class DirectoriesController < ApiController
       def index
-        ids = params[:ids] if params[:ids].present? and params[:ids].is_a? Array
+        ids = params[:ids] if params[:ids].present? && params[:ids].is_a?(Array)
         ids ||= ['/']
 
         listings = ids.map { |id| Directory.listing id }

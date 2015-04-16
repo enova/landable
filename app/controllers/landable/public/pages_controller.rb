@@ -1,4 +1,4 @@
-require_dependency "landable/application_controller"
+require_dependency 'landable/application_controller'
 
 module Landable
   module Public
@@ -18,7 +18,7 @@ module Landable
       end
 
       def current_snapshot
-        @current_snapshot ||= current_page.published_revision.try(:snapshot) or Page.missing
+        @current_snapshot ||= current_page.published_revision.try(:snapshot) || Page.missing
       end
     end
   end
