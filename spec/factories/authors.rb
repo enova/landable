@@ -3,7 +3,7 @@ FactoryGirl.define do
     sequence(:username) { |n| "trogdor#{n}" }
     sequence(:email)    { |n| "trogdor#{n}@example.com" }
     first_name 'Marley'
-    last_name  'Pants'
+    last_name 'Pants'
   end
 
   factory :access_token, class: 'Landable::AccessToken' do

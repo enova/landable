@@ -7,7 +7,7 @@ FactoryGirl.define do
       sequence(:fixture) do
         taken = Landable::Asset.pluck(:data)
         all_fixtures.find { |name| !taken.include?(name) }.tap do |available|
-          raise "Add more files to spec/fixtures/assets; we've only got #{all_fixtures.length} available." if available.nil?
+          fail "Add more files to spec/fixtures/assets; we've only got #{all_fixtures.length} available." if available.nil?
         end
       end
     end

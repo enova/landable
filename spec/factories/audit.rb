@@ -2,6 +2,6 @@ FactoryGirl.define do
   factory :audit, class: 'Landable::Audit' do
     approver 'Marley Pants'
     notes 'you got served!'
-    flags ['loans', 'apr']
+    flags %w(loans apr)
   end
 end
