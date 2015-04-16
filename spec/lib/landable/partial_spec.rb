@@ -22,43 +22,43 @@ module Landable
 
         context 'the templates' do
           it 'populates a name by humanizing the file' do
-            @foobazz.name.should == 'Partials Foobazz'
-            @test.name.should    == 'Partials Test'
+            @foobazz.name.should eq 'Partials Foobazz'
+            @test.name.should eq 'Partials Test'
           end
 
           it 'populates a description' do
-            @foobazz.description.should == 'The Code for this template can be seen at partials/foobazz in the source code'
-            @test.description.should    == 'The Code for this template can be seen at partials/test in the source code'
+            @foobazz.description.should eq 'The Code for this template can be seen at partials/foobazz in the source code'
+            @test.description.should eq 'The Code for this template can be seen at partials/test in the source code'
           end
 
           it 'are not editable' do
-            @foobazz.editable.should == false
-            @test.editable.should    == false
+            @foobazz.editable.should eq false
+            @test.editable.should eq false
           end
 
           it 'are not layouts' do
-            @foobazz.is_layout.should == false
-            @test.is_layout.should    == false
+            @foobazz.is_layout.should eq false
+            @test.is_layout.should eq false
           end
 
           it 'popules a thumbnail_url' do
-            @foobazz.thumbnail_url.should == 'http://placehold.it/300x200'
-            @test.thumbnail_url.should    == 'http://placehold.it/300x200'
+            @foobazz.thumbnail_url.should eq 'http://placehold.it/300x200'
+            @test.thumbnail_url.should eq 'http://placehold.it/300x200'
           end
 
           it 'populates a body' do
-            @foobazz.body.should == ''
-            @test.body.should    == ''
+            @foobazz.body.should eq ''
+            @test.body.should eq ''
           end
 
           it 'references the flle path' do
-            @foobazz.file.should == 'partials/foobazz'
-            @test.file.should    == 'partials/test'
+            @foobazz.file.should eq 'partials/foobazz'
+            @test.file.should eq 'partials/test'
           end
 
           it 'creates a slug by underscoring the name' do
-            @test.slug.should    == 'partials_test'
-            @foobazz.slug.should == 'partials_foobazz'
+            @test.slug.should eq 'partials_test'
+            @foobazz.slug.should eq 'partials_foobazz'
           end
 
           it 'creates a published template' do
@@ -73,7 +73,7 @@ module Landable
       it 'returns an array of files' do
         Landable.configuration.stub(:partials_to_templates).and_return(partials)
 
-        Partial.files.count.should == 2
+        Partial.files.count.should eq 2
         Partial.files.should include('partials/test', 'partials/foobazz')
       end
 
@@ -81,7 +81,7 @@ module Landable
         it 'has no files' do
           Landable.configuration.stub(:partials_to_templates).and_return([])
 
-          Partial.files.should == []
+          Partial.files.should eq []
         end
       end
     end
