@@ -12,6 +12,8 @@ Lint/BlockAlignment:
 
 Lint/Debugger:
   Enabled: true
+  Exclude:
+    - features/step_definitions/debug_steps.rb
 
 Lint/DeprecatedClassMethods:
   Enabled: true
