@@ -10,27 +10,27 @@ module Landable
 
     it 'knows its own path' do
       dir = Directory.listing '/'
-      dir.path.should == '/'
+      dir.path.should eq '/'
     end
 
     it 'lists immediate children' do
       stub_contents
 
       dir = Directory.listing '/'
-      dir.subdirectories.map(&:path).should == ['/aff', '/seo']
-      dir.pages.map(&:path).should == ['/quux']
+      dir.subdirectories.map(&:path).should eq ['/aff', '/seo']
+      dir.pages.map(&:path).should eq ['/quux']
 
       dir = Directory.listing '/aff'
-      dir.subdirectories.map(&:path).should == ['/aff/deeply']
-      dir.pages.map(&:path).should == ['/aff/bar', '/aff/deeply_nested']
+      dir.subdirectories.map(&:path).should eq ['/aff/deeply']
+      dir.pages.map(&:path).should eq ['/aff/bar', '/aff/deeply_nested']
 
       dir = Directory.listing '/seo'
       dir.subdirectories.should be_empty
-      dir.pages.map(&:path).should == ['/seo/baz', '/seo/foo']
+      dir.pages.map(&:path).should eq ['/seo/baz', '/seo/foo']
 
       dir = Directory.listing '/aff/deeply'
       dir.subdirectories.should be_empty
-      dir.pages.map(&:path).should == ['/aff/deeply/nested']
+      dir.pages.map(&:path).should eq ['/aff/deeply/nested']
     end
   end
 end

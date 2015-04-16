@@ -17,8 +17,8 @@ module Landable
         it 'should assign a slug' do
           template = build(:template, slug: nil)
           template.name = 'Six Seven'
-          template.name.should == 'Six Seven'
-          template.slug.should == 'six_seven'
+          template.name.should eq 'Six Seven'
+          template.slug.should eq 'six_seven'
         end
       end
 
@@ -26,8 +26,8 @@ module Landable
         it 'should leave the slug alone' do
           template = build(:template, slug: 'six')
           template.name = 'seven'
-          template.name.should == 'seven'
-          template.slug.should == 'six'
+          template.name.should eq 'seven'
+          template.slug.should eq 'six'
         end
       end
     end
@@ -49,21 +49,21 @@ module Landable
       let(:author) {   FactoryGirl.create :author }
 
       it 'should create a template_revision' do
-        expect {template.publish!(author: author)}.to change{template.revisions.count}.from(0).to(1)
+        expect { template.publish!(author: author) }.to change { template.revisions.count }.from(0).to(1)
       end
 
       it 'should have the provided author' do
         template.publish! author: author
         revision = template.revisions.last
 
-        revision.author.should == author
+        revision.author.should eq author
       end
 
       it 'should update the published_revision_id' do
         template.publish! author: author
         revision = template.revisions.last
 
-        template.published_revision.should == revision
+        template.published_revision.should eq revision
       end
 
       it 'should unset previous revision.is_published' do
@@ -97,7 +97,7 @@ module Landable
 
         template.revert_to! revision
 
-        template.published_revision.id.should_not == revision.id
+        template.published_revision.id.should_not eq revision.id
       end
 
       it 'should copy revision attributes into the page model' do
@@ -126,8 +126,8 @@ module Landable
         t.name = 'No Space'
         t.save!
 
-        t.slug.should_not == 'I have no space'
-        t.slug.should == 'i_have_no_space'
+        t.slug.should_not eq 'I have no space'
+        t.slug.should eq 'i_have_no_space'
       end
 
       it 'should allow the name to set the slug' do
@@ -135,7 +135,7 @@ module Landable
         t.name = 'I have no space'
         t.save!
 
-        t.slug.should == 'i_have_no_space'
+        t.slug.should eq 'i_have_no_space'
       end
     end
   end

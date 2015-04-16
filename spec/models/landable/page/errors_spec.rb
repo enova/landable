@@ -2,7 +2,6 @@ require 'spec_helper'
 
 module Landable
   describe Page do
-
     describe '#error?' do
       describe 'yep' do
         specify { build(:page, status_code: 418).should be_error }
@@ -16,7 +15,7 @@ module Landable
     end
 
     describe '#error' do
-      def error_for code
+      def error_for(code)
         build(:page, status_code: code).error
       end
 
@@ -25,6 +24,5 @@ module Landable
       specify { error_for(200).should be_nil }
       specify { error_for(302).should be_nil }
     end
-
   end
 end

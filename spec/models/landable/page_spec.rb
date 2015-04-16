@@ -3,7 +3,7 @@ require 'spec_helper'
 module Landable
   describe Page do
     it { should be_a HasAssets }
-    it { should_not have_valid(:status_code).when(nil,'') }
+    it { should_not have_valid(:status_code).when(nil, '') }
     it { should have_valid(:status_code).when(200, 301, 302, 410) }
     it { should_not have_valid(:status_code).when(201, 303, 405, 500, 404) }
 
@@ -14,7 +14,7 @@ module Landable
     context 'PathValidator' do
       it { should_not have_valid(:path).when(nil, '', '/reserved_path_set_in_initializer') }
       it { should_not have_valid(:path).when('/reject/this', '/admin', '/ADMIN', '/admin_something' '/admin/path') }
-      it { should     have_valid(:path).when('/reserved_path_set_in_initializer_not', '/do/not/reject/path', '/', '/rejectwhatever', '/reject') }
+      it { should have_valid(:path).when('/reserved_path_set_in_initializer_not', '/do/not/reject/path', '/', '/rejectwhatever', '/reject') }
     end
 
     it 'should set is_publishable to true on before_save' do
@@ -23,9 +23,9 @@ module Landable
       page.is_publishable.should be_true
     end
 
-    specify "#redirect?" do
+    specify '#redirect?' do
       Page.new.should_not be_redirect
-      Page.new().should_not be_redirect
+      Page.new.should_not be_redirect
       Page.new(status_code: 200).should_not be_redirect
       Page.new(status_code: 410).should_not be_redirect
 
@@ -52,33 +52,33 @@ module Landable
 
     specify '#path_extension' do
       Page.new(path: 'foo').path_extension.should be_nil
-      Page.new(path: 'foo.bar').path_extension.should == 'bar'
-      Page.new(path: 'foo.bar.baz').path_extension.should == 'baz'
+      Page.new(path: 'foo.bar').path_extension.should eq 'bar'
+      Page.new(path: 'foo.bar.baz').path_extension.should eq 'baz'
       Page.new(path: 'foo.bar-baz').path_extension.should be_nil
     end
 
     describe '#content_type' do
-      def content_type_for path
+      def content_type_for(path)
         Page.new(path: path).content_type
       end
 
       it 'should be text/html for html pages' do
-        content_type_for('asdf').should == 'text/html'
-        content_type_for('asdf.htm').should == 'text/html'
-        content_type_for('asdf.html').should == 'text/html'
+        content_type_for('asdf').should eq 'text/html'
+        content_type_for('asdf.htm').should eq 'text/html'
+        content_type_for('asdf.html').should eq 'text/html'
       end
 
       it 'should be application/json for json' do
-        content_type_for('asdf.json').should == 'application/json'
+        content_type_for('asdf.json').should eq 'application/json'
       end
 
       it 'should be application/xml for xml' do
-        content_type_for('asdf.xml').should == 'application/xml'
+        content_type_for('asdf.xml').should eq 'application/xml'
       end
 
       it 'should be text/plain for everything else' do
-        content_type_for('foo.bar').should == 'text/plain'
-        content_type_for('foo.txt').should == 'text/plain'
+        content_type_for('foo.bar').should eq 'text/plain'
+        content_type_for('foo.txt').should eq 'text/plain'
       end
     end
 
@@ -112,17 +112,17 @@ module Landable
     describe '#meta_tags' do
       it { subject.should have_valid(:meta_tags).when(nil) }
 
-      specify "quacks like a Hash" do
+      specify 'quacks like a Hash' do
         # Note the change from symbol to string; thus, always favor strings.
         page = create :page, meta_tags: { keywords: 'foo' }
 
         # rails 4.0 preserves the symbol for this instance; rails 4.1 switches straight to strings
-        page.meta_tags.keys.map(&:to_s).should == ['keywords']
+        page.meta_tags.keys.map(&:to_s).should eq ['keywords']
 
         tags = Page.first.meta_tags
         tags.should be_a(Enumerable)
-        tags.keys.should == ['keywords']
-        tags.values.should == ['foo']
+        tags.keys.should eq ['keywords']
+        tags.values.should eq ['foo']
       end
     end
 
@@ -131,23 +131,23 @@ module Landable
 
       it 'works as a basic text area' do
         page = create :page, head_content: "<head en='en'/>"
-        page.head_content.should ==  "<head en='en'/>"
-        
+        page.head_content.should eq "<head en='en'/>"
+
         page.head_content = "<head en='magic'/>"
         page.save
 
-        page.head_content.should == "<head en='magic'/>"
+        page.head_content.should eq "<head en='magic'/>"
       end
     end
 
     describe '#path=' do
       it 'ensures a leading "/" on path' do
-        Page.new(path: 'foo/bar').path.should == '/foo/bar'
+        Page.new(path: 'foo/bar').path.should eq '/foo/bar'
       end
 
       it 'leaves nil and empty paths alone' do
-        Page.new(path: '').path.should == ''
-        Page.new(path: nil).path.should == nil
+        Page.new(path: '').path.should eq ''
+        Page.new(path: nil).path.should.nil?
       end
     end
 
@@ -156,21 +156,21 @@ module Landable
       let(:author) { FactoryGirl.create :author }
 
       it 'should create a page_revision' do
-        expect {page.publish!(author: author)}.to change{page.revisions.count}.from(0).to(1)
+        expect { page.publish!(author: author) }.to change { page.revisions.count }.from(0).to(1)
       end
 
       it 'should have the provided author' do
         page.publish! author: author
         revision = page.revisions.last
 
-        revision.author.should == author
+        revision.author.should eq author
       end
 
       it 'should update the published_revision_id' do
         page.publish! author: author
         revision = page.revisions.last
 
-        page.published_revision.should == revision
+        page.published_revision.should eq revision
       end
 
       it 'should set is_publishable to false' do
@@ -201,7 +201,7 @@ module Landable
 
         page.revert_to! revision
 
-        page.published_revision.id.should_not == revision.id
+        page.published_revision.id.should_not eq revision.id
       end
 
       it 'should copy revision attributes into the page model' do
@@ -232,7 +232,7 @@ module Landable
           expect { page.save! }.to raise_error
 
           page.reload
-          page.path.should == '/test'
+          page.path.should eq '/test'
         end
       end
 
@@ -241,7 +241,7 @@ module Landable
           page = build :page, path: '/test'
           page.save!
 
-          page.path.should == '/test'
+          page.path.should eq '/test'
         end
       end
     end
@@ -250,7 +250,7 @@ module Landable
       it 'should return the preview path' do
         page = build :page
         page.should_receive(:public_preview_page_path) { 'foo' }
-        page.preview_path.should == 'foo'
+        page.preview_path.should eq 'foo'
       end
     end
 
@@ -258,22 +258,22 @@ module Landable
       it 'should return the preview url' do
         page = build :page
         page.should_receive(:public_preview_page_url) { 'foo' }
-        page.preview_url.should == 'foo'
+        page.preview_url.should eq 'foo'
       end
     end
 
     describe '::sitemappable' do
-      let(:page) {
+      let(:page) do
         create :page do |page|
           page.publish! author: create(:author), notes: 'yo'
         end
-      }
+      end
       let(:page_2) { create :page, :redirect }
       let(:page_3) { create :page, meta_tags: { 'robots' => 'noindex' } }
       let(:page_4) { create :page }
 
-      it 'only returns published pages with a status code of 200 and dont have a noindex tag' do 
-        page_2.status_code.should == 301
+      it 'only returns published pages with a status code of 200 and dont have a noindex tag' do
+        page_2.status_code.should eq 301
 
         Landable::Page.sitemappable.should include(page)
         Landable::Page.sitemappable.should_not include(page_2, page_3, page_4)
@@ -284,13 +284,13 @@ module Landable
       it 'should force a path to be lowercase' do
         page = build :page, path: '/SEO'
         page.should be_valid
-        page.path.should == '/seo'
+        page.path.should eq '/seo'
       end
 
       it 'doesnt change a downcase path' do
         page = build :page, path: '/seo'
         page.should be_valid
-        page.path.should == '/seo'
+        page.path.should eq '/seo'
       end
     end
 
@@ -322,7 +322,6 @@ module Landable
           @page.redirect_url = 'hdasdfpou'
           @page.should_not be_valid
         end
-
       end
     end
 
@@ -360,14 +359,14 @@ module Landable
         Landable::Page.generate_sitemap(host: 'example.com',
                                         protocol: 'https',
                                         exclude_categories: [],
-                                        sitemap_additional_paths: ['/terms.html']).should include("<loc>https://example.com/terms.html</loc>")
+                                        sitemap_additional_paths: ['/terms.html']).should include('<loc>https://example.com/terms.html</loc>')
       end
     end
 
     describe '::by_path' do
       it 'returns first page with path name' do
         page  = create :page, path: '/seo'
-        Landable::Page.by_path('/seo').should == page
+        Landable::Page.by_path('/seo').should eq page
       end
     end
 
@@ -384,7 +383,7 @@ module Landable
         page.body = 'body'
         page.should be_valid
         page.save!
-        page.body.should == 'body'
+        page.body.should eq 'body'
       end
     end
   end

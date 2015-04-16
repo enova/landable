@@ -7,14 +7,14 @@ module Landable
 
       describe '#url' do
         it 'should return the entire url as a string' do
-          referer.url.should == "http://www.something.com/mypath"
+          referer.url.should eq 'http://www.something.com/mypath'
         end
       end
 
       describe '#uri' do
         it 'should return the URI object' do
-          test_uri = URI("http://www.something.com/mypath")
-          referer.uri.should == test_uri
+          test_uri = URI('http://www.something.com/mypath')
+          referer.uri.should eq test_uri
         end
       end
     end
