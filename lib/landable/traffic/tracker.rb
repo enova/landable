@@ -70,14 +70,14 @@ module Landable
       attr_reader :controller
 
       delegate :request, :response, :session, to: :controller
-      delegate :headers, :path, :query_parameters, :referer, :remote_ip, to: :request
+      delegate :headers, :path, :referer, :remote_ip, to: :request
 
       class << self
         def for(controller)
           type = controller.request.user_agent.presence && Landable::Traffic::UserAgent[controller.request.user_agent].user_agent_type
           type = 'noop' if Landable.configuration.traffic_enabled == :html and not controller.request.format.html?
-          type = 'user'if type.nil?
-          type = 'user'if controller.request.query_parameters.slice(*TRACKING_KEYS).any?
+          type = 'user' if type.nil?
+          type = 'user' if controller.request.query_parameters.with_indifferent_access.slice(*TRACKING_KEYS).any?
 
           "Landable::Traffic::#{type.classify}Tracker".constantize.new(controller)
         end
@@ -269,6 +269,10 @@ module Landable
         end
 
         hash
+      end
+
+      def query_parameters
+        @query_parameters ||= request.query_parameters.with_indifferent_access
       end
 
       def tracking_parameters

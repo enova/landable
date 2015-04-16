@@ -15,6 +15,11 @@ Landable.configure do |config|
   config.database_schema_prefix = 'dummy'
 
   config.audit_flags = %w(loans apr)
+
+  config.enable_hutch = false
+  config.event_mapping = {
+      '/my_path' => { 'GET' => 'Customer Landed', 'POST' => 'Customer Submitted', 'DELETE' => 'Customer Left' },
+  }.freeze
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.

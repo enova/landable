@@ -36,15 +36,15 @@ module Landable
       end
     end
 
-    initializer "landable.seed_required" do |app|
+    initializer "landable.seed_required" do
       Landable::Seeds.seed(:required) rescue nil
     end
 
-    initializer "landable.create_themes" do |app|
+    initializer "landable.create_themes" do
       Theme.create_from_layouts! rescue nil
     end
 
-    initializer 'landable.create_templates' do |app|
+    initializer 'landable.create_templates' do
       Template.create_from_partials! rescue nil
     end
 
@@ -63,6 +63,12 @@ module Landable
         end
 
         # end
+      end
+    end
+
+    initializer 'landable.enable_hutch' do
+      if Landable.configuration.enable_hutch
+        Hutch.connect
       end
     end
   end

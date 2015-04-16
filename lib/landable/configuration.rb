@@ -1,6 +1,6 @@
 module Landable
   class Configuration
-    attr_accessor :api_url, :public_url
+    attr_accessor :api_url, :public_url, :enable_hutch
     attr_writer :api_namespace, :public_namespace
     attr_writer :api_host, :public_host
     attr_writer :categories
@@ -10,7 +10,8 @@ module Landable
     attr_writer :reserved_paths, :partials_to_templates, :database_schema_prefix
     attr_writer :publicist_url, :audit_flags
     attr_writer :blank_user_agent_string, :untracked_paths
-    attr_writer :dnt_enabled
+    attr_writer :dnt_enabled, :hutch_queue, :event_mapping
+    attr_writer :application_name, :hutch_enable_confirms
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -152,8 +153,23 @@ module Landable
 
     def dnt_enabled
       return true if @dnt_enabled.nil?
-
       @dnt_enabled
+    end
+
+    def hutch_queue
+      @hutch_queue ||= 'events'
+    end
+
+    def hutch_enable_confirms
+      @hutch_enable_confirms ||= false
+    end
+
+    def event_mapping
+      @event_mapping ||= {}
+    end
+
+    def application_name
+      @application_name ||= Rails.application.class.parent_name
     end
 
 
