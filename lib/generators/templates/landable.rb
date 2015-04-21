@@ -51,6 +51,31 @@ Landable.configure do |config|
 
   # If you want to save a different UserAgent if the request.user_agent is blank, set it here
   # config.blank_user_agent_string = 'blank'
+
+  # Uncomment to enable publishing of events to RabbitMq. This feature requires
+  # the mounting application to configure Hutch and have a working RabbitMq
+  # instance.
+  # config.ampq_enable = true
+
+  # Enable publisher confirms feature of RabbitMq through Hutch
+  # config.ampq_enable_confirms = false
+  #
+  # Set the RabbitMq queue name where messages will be published to.
+  # By default events are published to the 'event' queue
+  # config.ampq_queue = 'my.queue.name'
+  #
+  # Set the application name to be appended to your messages.
+  # By default, it will be Rails.application.class.parent_name
+  # config.ampq_application_name = 'My Awesome Application'
+  #
+  # Set up the path to event_type mapping for the paths that you want to
+  # publish messages for. An example configuration is below:
+  # config.ampq_event_mapping = {
+  #    '/' => 'Home Page',
+  #    '/next_page' => { 'GET' => 'Page 2 Landing', 'POST' => 'Page 2 Submission' },
+  #    '/logout' => 'Logout'
+  # }
+
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.
