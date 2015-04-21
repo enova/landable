@@ -5,6 +5,8 @@ require 'landable/traffic/scan_tracker'
 require 'landable/traffic/scrape_tracker'
 require 'landable/traffic/user_tracker'
 require 'landable/traffic/noop_tracker'
+require 'landable/traffic/event_publisher'
+require 'landable/traffic/ampq_messaging_service'
 
 module Landable
   module Traffic

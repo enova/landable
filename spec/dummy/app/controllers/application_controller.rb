@@ -7,4 +7,8 @@ class ApplicationController < ActionController::Base
   rescue_from Landable::Error do |error|
     render status: error.status_code, text: error.message
   end
+
+  def AmpqMessagingService
+      MESSAGING_SERVICE
+  end
 end
