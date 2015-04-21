@@ -40,6 +40,8 @@ module Landable
 
       def save
         record_page_view
+        p = record_page_view
+        EventPublisher.new(p).publish
 
         session[:landable] = {
           KEYS[:visit_id]         => @visit_id,

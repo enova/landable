@@ -20,10 +20,6 @@ module Landable
       @ampq_enabled ||= Landable.configuration.ampq_enabled
     end
 
-    def ampq_queue
-      @ampq_queue ||= Landable.configuration.ampq_queue
-    end
-
     def ampq_event_mapping
       @ampq_event_mapping ||= Landable.configuration.ampq_event_mapping
     end
@@ -34,7 +30,7 @@ module Landable
 
     def publish
       return unless ampq_enabled?
-      AmpqMessagingService.publish(message, @ampq_queue)
+      MESSAGING_SERVICE.publish(message)
     end
 
     def message
@@ -52,7 +48,7 @@ module Landable
           created_at: page_view.created_at,
           cookie_id: visit.cookie_id,
           owner_id: visit.owner_id,
-          owner: visit.owner,
+          owner: visit.owner.owner,
           referer_id: referer.try(:id),
           domain_id: referer.try(:domain_id),
           domain: referer.try(:domain),
