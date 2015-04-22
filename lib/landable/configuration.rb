@@ -1,6 +1,6 @@
 module Landable
   class Configuration
-    attr_accessor :api_url, :public_url, :ampq_enabled
+    attr_accessor :api_url, :public_url, :ampq_enabled, :ampq_messaging_service
     attr_writer :api_namespace, :public_namespace
     attr_writer :api_host, :public_host
     attr_writer :categories
@@ -11,8 +11,7 @@ module Landable
     attr_writer :publicist_url, :audit_flags
     attr_writer :blank_user_agent_string, :untracked_paths
     attr_writer :dnt_enabled
-    attr_writer :ampq_queue, :ampq_application_name, :ampq_event_mapping
-    attr_writer :ampq_enable_message_confirmations
+    attr_writer :ampq_application_name, :ampq_event_mapping
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -154,26 +153,16 @@ module Landable
 
     def dnt_enabled
       return true if @dnt_enabled.nil?
-
       @dnt_enabled
-    end
-
-    def ampq_queue
-      @ampq_queue ||= 'landable.events'
-    end
-
-    def ampq_enable_message_confirmations
-      @ampq_enable_message_confirmations ||= false
-    end
-
-    def ampq_event_mapping
-      @ampq_event_mapping ||= {}
     end
 
     def ampq_application_name
       @ampq_application_name ||= Rails.application.class.parent_name
     end
 
+    def ampq_event_mapping
+      @ampq_event_mapping ||= {}
+    end
 
     class Screenshots
       attr_accessor :autorun
