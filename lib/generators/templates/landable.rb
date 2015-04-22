@@ -74,9 +74,8 @@ Landable.configure do |config|
   #    '/my_path' => { 'GET' => 'Customer Landed',
   #                    'POST' => 'Customer Submitted',
   #                    'DELETE' => 'Customer Left'
-  #                  },
+  #                  }
   #   }.freeze
-
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.
