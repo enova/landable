@@ -16,7 +16,10 @@ Landable.configure do |config|
 
   config.amqp_enabled = 'false'
   config.amqp_event_mapping = {
-      '/my_path' => { 'GET' => 'Customer Landed', 'POST' => 'Customer Submitted', 'DELETE' => 'Customer Left' },
+      '/my_path' => { 'GET' => 'Customer Landed',
+                      'POST' => 'Customer Submitted',
+                      'DELETE' => 'Customer Left'
+                    },
       }.freeze
 end
 

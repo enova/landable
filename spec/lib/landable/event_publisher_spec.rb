@@ -37,9 +37,10 @@ module Landable
       let(:page_view) { PageView.last }
       let(:published_message) { EventPublisher.new(page_view).message }
 
+      binding.pry
+
       it 'should properly properly set the attribution data and send it within a message' do
         get :my_path, attribution
-        binding.pry
         message_keys.each do |attribute|
           expect(published_message[attribute]).to eq("test_#{attribute}")
         end
