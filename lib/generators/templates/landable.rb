@@ -52,8 +52,9 @@ Landable.configure do |config|
   # If you want to save a different UserAgent if the request.user_agent is blank, set it here
   # config.blank_user_agent_string = 'blank'
 
-  # Uncomment to enable publishing of events to an amqp messaging service. This feature requires
-  # the mounting application to configure a messenger class which includes a publish method.
+  # Uncomment to enable publishing of events to an amqp messaging service.
+  # This feature requires the mounting application to configure a messenger
+  # class which includes a publish method.
   # the EventPublisher class will only attempt to send a message if both
   #   amqp_enable and amqp_messaging_service are set.
   # Let landable know to use amqp publishing of the event message
@@ -68,11 +69,13 @@ Landable.configure do |config|
   #
   # Set up the path to event_type mapping for the paths that you want to
   # publish messages for. An example configuration is below:
-  # config.amqp_event_mapping = {
-  #    '/' => 'Home Page',
-  #    '/next_page' => { 'GET' => 'Page 2 Landing', 'POST' => 'Page 2 Submission' },
-  #    '/logout' => 'Logout'
-  # }
+  # config.amqp_event_mapping =
+  #   {
+  #    '/my_path' => { 'GET' => 'Customer Landed',
+  #                    'POST' => 'Customer Submitted',
+  #                    'DELETE' => 'Customer Left'
+  #                  },
+  #   }.freeze
 
 end
 
