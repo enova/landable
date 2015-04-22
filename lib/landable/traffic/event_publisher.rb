@@ -1,6 +1,6 @@
 module Landable
   class EventPublisher
-    attr_accessor :page_view, :visit, :event_type
+    attr_accessor :page_view, :visit, :event_type, :ampq_messaging_service
 
     def initialize(page_view)
       event_type = ampq_event_mapping[page_view.path]
@@ -28,27 +28,31 @@ module Landable
       @ampq_application_name ||= Landable.configuration.ampq_application_name
     end
 
+    def ampq_messaging_service
+      @ampq_messaging_service ||= Landable.configuration.ampq_messaging_service
+    end
+
     def publish
-      return unless ampq_enabled?
-      MESSAGING_SERVICE.publish(message)
+      return unless ampq_enabled? && ampq_messaging_service.present?
+      ampq_messaging_service.publish(message)
     end
 
     def message
-      attribution = visit.attribution
-      referer = visit.referer
+      attribution = visit.try(:attribution)
+      referer = visit.try(:referer)
       visitor = visit.visitor
       user_agent = visitor.try(:raw_user_agent)
       user_agent_type = user_agent.try(:raw_user_agent_type)
       {
           brand: ampq_application_name,
           visit_id: visit.id,
-          event: event_type,
+          event: event_type.to_s,
           page_view_id: page_view.page_view_id,
           request_type: page_view.http_method,
           created_at: page_view.created_at,
           cookie_id: visit.cookie_id,
-          owner_id: visit.owner_id,
-          owner: visit.owner.owner,
+          owner_id: visit.try(:owner_id),
+          owner: visit.try(:owner).try(:owner),
           referer_id: referer.try(:id),
           domain_id: referer.try(:domain_id),
           domain: referer.try(:domain),
