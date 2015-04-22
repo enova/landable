@@ -52,17 +52,15 @@ Landable.configure do |config|
   # If you want to save a different UserAgent if the request.user_agent is blank, set it here
   # config.blank_user_agent_string = 'blank'
 
-  # Uncomment to enable publishing of events to RabbitMq. This feature requires
-  # the mounting application to configure Hutch and have a working RabbitMq
-  # instance.
+  # Uncomment to enable publishing of events to an ampq messaging service. This feature requires
+  # the mounting application to configure a messenger class which includes a publish method.
+  # the EventPublisher class will only attempt to send a message if both
+  #   ampq_enable and ampq_messaging_service are set.
+  # Let landable know to use ampq publishing of the event message
   # config.ampq_enable = true
-
-  # Enable publisher confirms feature of RabbitMq through Hutch
-  # config.ampq_enable_confirms = false
   #
-  # Set the RabbitMq queue name where messages will be published to.
-  # By default events are published to the 'event' queue
-  # config.ampq_queue = 'my.queue.name'
+  # Let landable know what messaging class to use:
+  # config.ampq_messaging_service = YourMessagingClass.new(params)
   #
   # Set the application name to be appended to your messages.
   # By default, it will be Rails.application.class.parent_name
