@@ -14,9 +14,8 @@ Landable.configure do |config|
   config.database_schema_prefix = 'dummy'
   config.audit_flags = %w(loans apr)
 
-  config.ampq_enabled = 'true'
-  config.ampq_queue = 'simplic.landable.events'
-  config.ampq_event_mapping = {
+  config.amqp_enabled = 'false'
+  config.amqp_event_mapping = {
       '/my_path' => { 'GET' => 'Customer Landed', 'POST' => 'Customer Submitted', 'DELETE' => 'Customer Left' },
       }.freeze
 end

@@ -9,7 +9,6 @@ require "sprockets/railtie"
 
 Bundler.require(*Rails.groups)
 require "landable"
-require "bunny"
 
 # Always mount Rack::Schema in test / dev environments.
 ENV['LANDABLE_VALIDATE_JSON'] = '1'

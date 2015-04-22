@@ -8,7 +8,4 @@ class ApplicationController < ActionController::Base
     render status: error.status_code, text: error.message
   end
 
-  def AmpqMessagingService
-      MESSAGING_SERVICE
-  end
 end
