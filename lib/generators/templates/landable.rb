@@ -52,23 +52,23 @@ Landable.configure do |config|
   # If you want to save a different UserAgent if the request.user_agent is blank, set it here
   # config.blank_user_agent_string = 'blank'
 
-  # Uncomment to enable publishing of events to an ampq messaging service. This feature requires
+  # Uncomment to enable publishing of events to an amqp messaging service. This feature requires
   # the mounting application to configure a messenger class which includes a publish method.
   # the EventPublisher class will only attempt to send a message if both
-  #   ampq_enable and ampq_messaging_service are set.
-  # Let landable know to use ampq publishing of the event message
-  # config.ampq_enable = true
+  #   amqp_enable and amqp_messaging_service are set.
+  # Let landable know to use amqp publishing of the event message
+  # config.amqp_enable = true
   #
   # Let landable know what messaging class to use:
-  # config.ampq_messaging_service = YourMessagingClass.new(params)
+  # config.amqp_messaging_service = YourMessagingClass.new(params)
   #
   # Set the application name to be appended to your messages.
   # By default, it will be Rails.application.class.parent_name
-  # config.ampq_application_name = 'My Awesome Application'
+  # config.amqp_application_name = 'My Awesome Application'
   #
   # Set up the path to event_type mapping for the paths that you want to
   # publish messages for. An example configuration is below:
-  # config.ampq_event_mapping = {
+  # config.amqp_event_mapping = {
   #    '/' => 'Home Page',
   #    '/next_page' => { 'GET' => 'Page 2 Landing', 'POST' => 'Page 2 Submission' },
   #    '/logout' => 'Logout'

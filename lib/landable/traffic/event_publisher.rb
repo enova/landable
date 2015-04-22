@@ -1,9 +1,9 @@
 module Landable
   class EventPublisher
-    attr_accessor :page_view, :visit, :event_type, :ampq_messaging_service
+    attr_accessor :page_view, :visit, :event_type, :amqp_messaging_service
 
     def initialize(page_view)
-      event_type = ampq_event_mapping[page_view.path]
+      event_type = amqp_event_mapping[page_view.path]
       if event_type.is_a?(Hash)
         request_type = page_view.http_method
         event_type = event_type[request_type]
@@ -16,25 +16,25 @@ module Landable
       @event_type = event_type
     end
 
-    def ampq_enabled?
-      @ampq_enabled ||= Landable.configuration.ampq_enabled
+    def amqp_enabled?
+      @amqp_enabled ||= Landable.configuration.amqp_enabled
     end
 
-    def ampq_event_mapping
-      @ampq_event_mapping ||= Landable.configuration.ampq_event_mapping
+    def amqp_event_mapping
+      @amqp_event_mapping ||= Landable.configuration.amqp_event_mapping
     end
 
-    def ampq_application_name
-      @ampq_application_name ||= Landable.configuration.ampq_application_name
+    def amqp_application_name
+      @amqp_application_name ||= Landable.configuration.amqp_application_name
     end
 
-    def ampq_messaging_service
-      @ampq_messaging_service ||= Landable.configuration.ampq_messaging_service
+    def amqp_messaging_service
+      @amqp_messaging_service ||= Landable.configuration.amqp_messaging_service
     end
 
     def publish
-      return unless ampq_enabled? && ampq_messaging_service.present?
-      ampq_messaging_service.publish(message)
+      return unless amqp_enabled? && amqp_messaging_service.present?
+      amqp_messaging_service.publish(message)
     end
 
     def message
@@ -44,7 +44,7 @@ module Landable
       user_agent = visitor.try(:raw_user_agent)
       user_agent_type = user_agent.try(:raw_user_agent_type)
       {
-        brand: ampq_application_name,
+        brand: amqp_application_name,
         visit_id: visit.id,
         event: event_type.to_s,
         page_view_id: page_view.page_view_id,
