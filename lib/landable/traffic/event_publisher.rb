@@ -35,8 +35,8 @@ module Landable
       end
 
       def amqp_messaging_service
-        @amqp_messaging_service ||= \
-            Landable.configuration.amqp_messaging_service
+        @amqp_messaging_service \
+           ||= Landable.configuration.amqp_messaging_service
       end
 
       def amqp_service_enabled?
