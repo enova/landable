@@ -28,10 +28,6 @@ module Landable
       @amqp_application_name ||= Landable.configuration.amqp_application_name
     end
 
-    def amqp_enabled?
-      @amqp_enabled ||= Landable.configuration.amqp_enabled
-    end
-
     def amqp_messaging_service
       @amqp_messaging_service ||= Landable.configuration.amqp_messaging_service
     end
