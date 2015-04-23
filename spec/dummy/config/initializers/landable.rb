@@ -14,6 +14,7 @@ Landable.configure do |config|
   config.database_schema_prefix = 'dummy'
   config.audit_flags = %w(loans apr)
 
+  config.amqp_site_segment = 'mybrand:myproduct:myapp'
   config.amqp_enabled = 'false'
   config.amqp_event_mapping = {
       '/my_path' => { 'GET' => 'Customer Landed',

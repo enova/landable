@@ -11,7 +11,7 @@ module Landable
     attr_writer :publicist_url, :audit_flags
     attr_writer :blank_user_agent_string, :untracked_paths
     attr_writer :dnt_enabled
-    attr_writer :amqp_application_name, :amqp_event_mapping
+    attr_writer :amqp_event_mapping, :amqp_site_segment
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -156,8 +156,8 @@ module Landable
       @dnt_enabled
     end
 
-    def amqp_application_name
-      @amqp_application_name ||= Rails.application.class.parent_name
+    def amqp_site_segment
+      @amqp_site_segment ||= Rails.application.class.parent_name
     end
 
     def amqp_event_mapping

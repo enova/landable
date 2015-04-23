@@ -24,8 +24,8 @@ module Landable
       @amqp_event_mapping ||= Landable.configuration.amqp_event_mapping
     end
 
-    def amqp_application_name
-      @amqp_application_name ||= Landable.configuration.amqp_application_name
+    def amqp_site_segment
+      @amqp_site_segment ||= Landable.configuration.amqp_site_segment
     end
 
     def amqp_messaging_service
@@ -48,7 +48,7 @@ module Landable
       user_agent = visitor.try(:raw_user_agent)
       user_agent_type = user_agent.try(:raw_user_agent_type)
       {
-        site_segment: amqp_application_name,
+        site_segment: amqp_site_segment,
         visit_id: visit.id,
         event: event_type.to_s,
         page_view_id: page_view.page_view_id,

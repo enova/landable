@@ -64,9 +64,8 @@ Landable.configure do |config|
   # This class must include a publish method.
   # config.amqp_messaging_service = YourMessagingClass.new(params)
   #
-  # Set the application name to be appended to your messages.
-  # By default, it will be Rails.application.class.parent_name
-  # config.amqp_application_name = 'My Awesome Application'
+  # Set the site segment that will be appended to your messages.
+  # config.amqp_site_segment = 'mybrand:myproduct:myapp'
   #
   # Set up the path to event_type mapping for the paths that you want to
   # publish messages for. An example configuration is below:
