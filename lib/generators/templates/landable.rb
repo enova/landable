@@ -62,6 +62,7 @@ Landable.configure do |config|
   #
   # Let landable know what messaging class to use.
   # This class must include a publish method.
+  # the publish method should accept a text message body.
   # config.amqp_messaging_service = YourMessagingClass.new(params)
   #
   # Set the site segment that will be appended to your messages.
