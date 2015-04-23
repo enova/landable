@@ -48,7 +48,7 @@ module Landable
       user_agent = visitor.try(:raw_user_agent)
       user_agent_type = user_agent.try(:raw_user_agent_type)
       {
-        brand: amqp_application_name,
+        site_segment: amqp_application_name,
         visit_id: visit.id,
         event: event_type.to_s,
         page_view_id: page_view.page_view_id,
