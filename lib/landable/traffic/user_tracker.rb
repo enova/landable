@@ -40,8 +40,10 @@ module Landable
 
       def save
         record_page_view
-        p = record_page_view
-        EventPublisher.new(p).publish
+        if Landable.configuration.amqp_enabled && Landable.configuration.amqp_messaging_service.present?
+          p = record_page_view
+          EventPublisher.new(p).publish
+        end
 
         session[:landable] = {
           KEYS[:visit_id]         => @visit_id,
