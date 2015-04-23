@@ -60,7 +60,8 @@ Landable.configure do |config|
   # Let landable know to use amqp publishing of the event message
   # config.amqp_enable = true
   #
-  # Let landable know what messaging class to use:
+  # Let landable know what messaging class to use.
+  # This class must include a publish method.
   # config.amqp_messaging_service = YourMessagingClass.new(params)
   #
   # Set the application name to be appended to your messages.
