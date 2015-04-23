@@ -43,7 +43,7 @@ module Landable
         if Landable.configuration.amqp_enabled \
               && Landable.configuration.amqp_messaging_service.present?
           p = record_page_view
-          EventPublisher.new(p).publish
+          EventPublisher.publish(p)
         end
 
         session[:landable] = {

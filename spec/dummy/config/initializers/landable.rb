@@ -1,4 +1,5 @@
 require 'landable'
+require_relative '../../../../spec/lib/landable/amqp_messaging_service'
 
 Landable.configure do |config|
   config.api_namespace = '/api'
@@ -15,7 +16,8 @@ Landable.configure do |config|
   config.audit_flags = %w(loans apr)
 
   config.amqp_site_segment = 'mybrand:myproduct:myapp'
-  config.amqp_enabled = 'false'
+  config.amqp_enabled = 'true'
+  config.amqp_messaging_service = AmqpMessagingService.new
   config.amqp_event_mapping = {
       '/my_path' => { 'GET' => 'Customer Landed',
                       'POST' => 'Customer Submitted',
