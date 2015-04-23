@@ -28,12 +28,20 @@ module Landable
       @amqp_application_name ||= Landable.configuration.amqp_application_name
     end
 
+    def amqp_enabled?
+      @amqp_enabled ||= Landable.configuration.amqp_enabled
+    end
+
     def amqp_messaging_service
       @amqp_messaging_service ||= Landable.configuration.amqp_messaging_service
     end
 
+    def amqp_service_enabled?
+      amqp_enabled? && amqp_messaging_service.present?
+    end
+
     def publish
-      return unless amqp_enabled? && amqp_messaging_service.present?
+      return unless amqp_service_enabled?
       amqp_messaging_service.publish(message)
     end
 
