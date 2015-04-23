@@ -14,13 +14,14 @@ module Landable
 
         @page_view = page_view
         @visit = page_view.visit
-        if  event_type
+        if event_type
           @event_type = event_type
         end
         amqp_messaging_service.publish(message)
       end
 
       private
+
       def amqp_enabled?
         @amqp_enabled ||= Landable.configuration.amqp_enabled
       end
@@ -34,7 +35,8 @@ module Landable
       end
 
       def amqp_messaging_service
-        @amqp_messaging_service ||= Landable.configuration.amqp_messaging_service
+        @amqp_messaging_service ||= \
+            Landable.configuration.amqp_messaging_service
       end
 
       def amqp_service_enabled?
