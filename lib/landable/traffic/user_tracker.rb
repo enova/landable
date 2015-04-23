@@ -40,7 +40,8 @@ module Landable
 
       def save
         record_page_view
-        if Landable.configuration.amqp_enabled && Landable.configuration.amqp_messaging_service.present?
+        if Landable.configuration.amqp_enabled
+            && Landable.configuration.amqp_messaging_service.present?
           p = record_page_view
           EventPublisher.new(p).publish
         end
