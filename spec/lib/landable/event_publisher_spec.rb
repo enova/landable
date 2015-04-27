@@ -39,7 +39,7 @@ module Landable
 
       it 'should properly properly set the attribution data and send it within a message' do
         get :my_path, attribution
-        binding.pry
+        # binding.pry
         message_keys.each do |attribute|
           expect(published_message[attribute]).to eq("test_#{attribute}")
         end
