@@ -53,30 +53,25 @@ Landable.configure do |config|
   # config.blank_user_agent_string = 'blank'
 
   # Uncomment to enable publishing of events to an amqp messaging service.
+  #
   # This feature requires the mounting application to configure a messenger
-  # class which includes a publish method.
-  # the EventPublisher class will only attempt to send a message if both
-  #   amqp_enable and amqp_messaging_service are set.
-  # Let landable know to use amqp publishing of the event message
-  # config.amqp_enable = true
-  #
-  # Let landable know what messaging class to use.
-  # This class must include a publish method.
-  # the publish method should accept a text message body.
-  # config.amqp_messaging_service = YourMessagingClass.new(params)
-  #
-  # Set the site segment that will be appended to your messages.
-  # config.amqp_site_segment = 'mybrand:myproduct:myapp'
-  #
-  # Set up the path to event_type mapping for the paths that you want to
-  # publish messages for. An example configuration is below:
-  # config.amqp_event_mapping =
-  #   {
-  #    '/my_path' => { 'GET' => 'Customer Landed',
-  #                    'POST' => 'Customer Submitted',
-  #                    'DELETE' => 'Customer Left'
-  #                  }
-  #   }.freeze
+  # class which includes a publish method.  The publish method should
+  # take the message as an input, cast it appropriately
+  # then deliver the message to whatever amqp service you are running.
+  # the EventPublisher class will only attempt to send a message if
+  # enabled = true and messaging_service is set.
+  # The configuration params are a collection, like so:
+  # config.amqp_configuration = {
+  #    site_segment: 'mybrand:myproduct:myapp',
+  #    messaging_service: AmqpMessagingService.new,
+  #    enabled: 'true',
+  #    event_mapping: {
+  #        '/my_path' => { 'GET' => 'Customer Landed',
+  #                        'POST' => 'Customer Submitted',
+  #                        'DELETE' => 'Customer Left'
+  #                       }
+  #       }.freeze
+  #   }
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.
