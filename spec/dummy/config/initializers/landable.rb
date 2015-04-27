@@ -15,15 +15,17 @@ Landable.configure do |config|
   config.database_schema_prefix = 'dummy'
   config.audit_flags = %w(loans apr)
 
-  config.amqp_site_segment = 'mybrand:myproduct:myapp'
-  config.amqp_enabled = 'true'
-  config.amqp_messaging_service = AmqpMessagingService.new
-  config.amqp_event_mapping = {
-      '/my_path' => { 'GET' => 'Customer Landed',
-                      'POST' => 'Customer Submitted',
-                      'DELETE' => 'Customer Left'
-                    },
+  config.amqp_configuration = {
+    site_segment: 'mybrand:myproduct:myapp',
+    messaging_service: AmqpMessagingService.new,
+    enabled: 'true',
+    event_mapping: {
+        '/my_path' => { 'GET' => 'Customer Landed',
+                        'POST' => 'Customer Submitted',
+                        'DELETE' => 'Customer Left'
+                      }
       }.freeze
+  }
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.

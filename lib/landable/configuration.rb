@@ -1,6 +1,6 @@
 module Landable
   class Configuration
-    attr_accessor :api_url, :public_url, :amqp_enabled, :amqp_messaging_service
+    attr_accessor :api_url, :public_url, :amqp_configuration
     attr_writer :api_namespace, :public_namespace
     attr_writer :api_host, :public_host
     attr_writer :categories

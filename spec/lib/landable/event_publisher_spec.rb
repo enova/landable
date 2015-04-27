@@ -15,7 +15,7 @@ module Landable
 
       before do
         routes.draw do
-          get '/my_path' => 'anonymous#my_path'
+          get "/my_path" => 'anonymous#my_path'
           post '/my_path' => 'anonymous#my_path'
           delete '/my_path' => 'anonymous#my_path'
         end
@@ -23,7 +23,7 @@ module Landable
 
       let(:message_keys) do
         [:ad_group, :ad_type, :bid_match_type, :campaign, :content, :creative, :device_type,
-         :experiment, :keyword, :match_type, :medium, :network, :placement, :position,
+         :experiment, :keywords, :match_type, :medium, :network, :placement, :position,
          :search_term, :source, :target]
       end
 
@@ -39,19 +39,10 @@ module Landable
 
       it 'should properly properly set the attribution data and send it within a message' do
         get :my_path, attribution
-        #binding.pry
-        # TO DO
-        # this needs fixed, the attribution data isnt not being set to
-        # page_view.visit.attribution, thus the values for
-        # published_message[attribute] are nil
-        #[31] pry(#<RSpec::Core::ExampleGroup::Nested_1>)> page_view.visit.attribution
-        #=> #<Landable::Traffic::Attribution:0x007fb687fe4850
-            #attribution_id: 60,
-            #ad_type_id: nil,
-            #ad_group_id: nil,
-        #message_keys.each do |attribute|
-          #expect(published_message[attribute]).to eq("test_#{attribute}")
-        #end
+        binding.pry
+        message_keys.each do |attribute|
+          expect(published_message[attribute]).to eq("test_#{attribute}")
+        end
       end
 
       it 'should properly set the event types for GET requests when multiple request types use the same route' do

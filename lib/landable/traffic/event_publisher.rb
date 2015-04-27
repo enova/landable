@@ -1,6 +1,6 @@
 module Landable
   module EventPublisher
-    mattr_accessor :page_view, :visit, :event_type, :amqp_messaging_service
+    mattr_accessor :page_view, :visit, :event_type, :amqp_configuration
 
     class << self
       def publish(page_view)
@@ -23,20 +23,20 @@ module Landable
       private
 
       def amqp_enabled?
-        @amqp_enabled ||= Landable.configuration.amqp_enabled
+        @amqp_enabled ||= Landable.configuration.amqp_configuration[:enabled]
       end
 
       def amqp_event_mapping
-        @amqp_event_mapping ||= Landable.configuration.amqp_event_mapping
+        @amqp_event_mapping ||= Landable.configuration.amqp_configuration[:event_mapping]
       end
 
       def amqp_site_segment
-        @amqp_site_segment ||= Landable.configuration.amqp_site_segment
+        @amqp_site_segment ||= Landable.configuration.amqp_configuration[:site_segment]
       end
 
       def amqp_messaging_service
         @amqp_messaging_service \
-           ||= Landable.configuration.amqp_messaging_service
+           ||= Landable.configuration.amqp_configuration[:messaging_service]
       end
 
       def amqp_service_enabled?
