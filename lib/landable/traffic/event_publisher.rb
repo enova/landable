@@ -22,21 +22,24 @@ module Landable
 
       private
 
+      def amqp_config_hash
+        @amqp_config_hash = Landable.configuration.amqp_configuration
+      end
+
       def amqp_enabled?
-        @amqp_enabled ||= Landable.configuration.amqp_configuration[:enabled]
+        @amqp_enabled ||= amqp_config_hash[:enabled]
       end
 
       def amqp_event_mapping
-        @amqp_event_mapping ||= Landable.configuration.amqp_configuration[:event_mapping]
+        @amqp_event_mapping ||= amqp_config_hash[:event_mapping]
       end
 
       def amqp_site_segment
-        @amqp_site_segment ||= Landable.configuration.amqp_configuration[:site_segment]
+        @amqp_site_segment ||= amqp_config_hash[:site_segment]
       end
 
       def amqp_messaging_service
-        @amqp_messaging_service \
-           ||= Landable.configuration.amqp_configuration[:messaging_service]
+        @amqp_messaging_service ||= amqp_config_hash[:messaging_service]
       end
 
       def amqp_service_enabled?
