@@ -38,10 +38,15 @@ module Landable
         end
       end
 
+      def amqp_config_hash
+        @amqp_config_hash = Landable.configuration.amqp_configuration
+      end
+
       def save
         record_page_view
-        if Landable.configuration.amqp_enabled \
-              && Landable.configuration.amqp_messaging_service.present?
+        binding.pry
+        if amqp_config_hash[:enabled] \
+              && amqp_config_hash[:messaging_service].present?
           p = record_page_view
           EventPublisher.publish(p)
         end
