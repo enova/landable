@@ -44,7 +44,6 @@ module Landable
 
       def save
         record_page_view
-        binding.pry
         if amqp_config_hash[:enabled] \
               && amqp_config_hash[:messaging_service].present?
           p = record_page_view
