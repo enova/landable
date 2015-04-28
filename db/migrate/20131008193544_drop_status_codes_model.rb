@@ -1,9 +1,7 @@
 require_dependency 'landable/page'
 class DropStatusCodesModel < Landable::Migration
-  class Landable
-    class StatusCode < ActiveRecord::Base
-      self.table_name = "#{Landable.configuration.database_schema_prefix}landable.status_codes"
-    end
+  class Landable::StatusCode < ActiveRecord::Base
+    self.table_name = "#{Landable.configuration.database_schema_prefix}landable.status_codes"
   end
 
   def change

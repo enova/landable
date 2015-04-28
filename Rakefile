@@ -14,6 +14,7 @@ Dir.glob(File.expand_path('../lib/tasks/landable/*.rake', __FILE__)).each { |f| 
 
 desc 'Landable test suite'
 task landable: [
+  'rubocop',
   'app:db:test:prepare',
   'landable:seed',
   'landable:spec',

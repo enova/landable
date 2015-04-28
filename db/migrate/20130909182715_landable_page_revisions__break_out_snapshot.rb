@@ -1,9 +1,7 @@
 require_dependency 'landable/page_revision'
 class LandablePageRevisionsBreakOutSnapshot < Landable::Migration
-  class Landable
-    class PageRevision < ActiveRecord::Base
-      store :snapshot_attributes, accessors: [:body]
-    end
+  class Landable::PageRevision < ActiveRecord::Base
+    store :snapshot_attributes, accessors: [:body]
   end
 
   def up
@@ -30,7 +28,7 @@ class LandablePageRevisionsBreakOutSnapshot < Landable::Migration
       ALTER TABLE #{Landable.configuration.database_schema_prefix}landable.page_revisions
         ADD CONSTRAINT category_id_fk FOREIGN KEY(category_id)
         REFERENCES #{Landable.configuration.database_schema_prefix}landable.categories(category_id);
-      SQL
+    SQL
 
     # Go through each record and copy snapshot into new, broken-out columns
     Landable::PageRevision.all.each do |rev|

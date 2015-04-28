@@ -98,6 +98,8 @@ Style/CaseEquality:
 
 Style/ClassAndModuleChildren:
   Enabled: true
+  Exclude:
+    - db/migrate/*
 
 Style/ClassCheck:
   Enabled: true
