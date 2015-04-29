@@ -114,7 +114,17 @@ module Landable
     end
 
     context 'no referer' do
+      let(:referer) { double('referer', { path: nil}) }
       let(:visit) { double('visit', { referer: nil }) }
+
+      describe '#referer_uri_path' do
+        it 'should return empty string' do
+          tracker = Landable::Traffic::UserTracker.new controller
+          tracker.stub(:referer_uri) { referer }
+
+          tracker.send(:referer_uri_path).should == ''
+        end
+      end
 
       describe '#visit_referer_domain' do
         it 'should return nil' do
