@@ -76,8 +76,8 @@ module Landable
         def for(controller)
           type = controller.request.user_agent.presence && Landable::Traffic::UserAgent[controller.request.user_agent].user_agent_type
           type = 'noop' if Landable.configuration.traffic_enabled == :html and not controller.request.format.html?
-          type = 'user'if type.nil?
-          type = 'user'if controller.request.query_parameters.slice(*TRACKING_KEYS).any?
+          type = 'user' if type.nil?
+          type = 'user' if controller.request.query_parameters.with_indifferent_access.slice(*TRACKING_KEYS).any?
 
           "Landable::Traffic::#{type.classify}Tracker".constantize.new(controller)
         end
@@ -271,6 +271,10 @@ module Landable
         hash
       end
 
+      def query_parameters
+        @query_parameters ||= request.query_parameters.with_indifferent_access
+      end
+
       def tracking_parameters
         @tracking_parameters ||= extract_tracking(query_parameters)
       end
@@ -280,7 +284,7 @@ module Landable
       end
 
       def attribution_parameters
-        @attribution_parameters ||= tracking_parameters.slice(*ATTRIBUTION_KEYS)
+        @attribution_parameters ||= tracking_parameters.with_indifferent_access.slice(*ATTRIBUTION_KEYS)
       end
 
       def attribution

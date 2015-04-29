@@ -23,7 +23,7 @@ module Landable
 
       let(:message_keys) do
         [:ad_group, :ad_type, :bid_match_type, :campaign, :content, :creative, :device_type,
-         :experiment, :keywords, :match_type, :medium, :network, :placement, :position,
+         :experiment, :keyword, :match_type, :medium, :network, :placement, :position,
          :search_term, :source, :target]
       end
 
