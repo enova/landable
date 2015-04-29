@@ -237,7 +237,7 @@ module Landable
       end
 
       def referer_uri_path
-        referer_uri.path || ''
+        referer_uri.try(:path) || ''
       end
 
       def external_referer?
