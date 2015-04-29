@@ -3,7 +3,7 @@ module Landable
     mattr_accessor :page_view, :visit, :event_type, :amqp_configuration
 
     class << self
-      def publish(page_view)
+      def publish(page_view, page_view_created_at)
         return unless service_enabled?
 
         event_type = event_mapping[page_view.path]
@@ -13,6 +13,7 @@ module Landable
         end
 
         @page_view = page_view
+        @page_view_created_at = page_view_created_at
         @visit = page_view.visit
         if event_type
           @event_type = event_type
@@ -55,13 +56,14 @@ module Landable
         user_agent = visitor.try(:raw_user_agent)
         user_agent_type = user_agent.try(:raw_user_agent_type)
         event_type = @event_type
+        page_view_created_at = @page_view_created_at
         {
           site_segment: site_segment,
           visit_id: visit.id,
           event: event_type.to_s,
           page_view_id: page_view.page_view_id,
           request_type: page_view.http_method,
-          created_at: page_view.created_at,
+          created_at: page_view_created_at,
           cookie_id: visit.cookie_id,
           owner_id: visit.try(:owner_id),
           owner: visit.try(:owner).try(:owner),
