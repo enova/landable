@@ -29,8 +29,8 @@ Feature: Liquid Tags
       | keywords | momoney,moproblems |
     Then the rendered content should be:
       """
-      <meta content="noindex,nofollow" name="robots" />
-      <meta content="momoney,moproblems" name="keywords" />
+      <meta name="robots" content="noindex,nofollow" />
+      <meta name="keywords" content="momoney,moproblems" />
       """
 
   Scenario: head_content
@@ -51,8 +51,8 @@ Feature: Liquid Tags
     Then the rendered content should be:
       """
       <title>Page Under Test</title>
-      <meta content="noindex,nofollow" name="robots" />
-      <meta content="momoney,moproblems" name="keywords" />
+      <meta name="robots" content="noindex,nofollow" />
+      <meta name="keywords" content="momoney,moproblems" />
       <head lang='en'><meta test='text'>
       """
 
@@ -73,8 +73,8 @@ Feature: Liquid Tags
       | keywords | momoney,moproblems |
     Then the rendered content should be:
       """
-      <div>Page body</div><meta content="noindex,nofollow" name="robots" />
-      <meta content="momoney,moproblems" name="keywords" />
+      <div>Page body</div><meta name="robots" content="noindex,nofollow" />
+      <meta name="keywords" content="momoney,moproblems" />
       """
 
   Scenario: img_tag

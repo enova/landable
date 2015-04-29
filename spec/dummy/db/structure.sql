@@ -207,10 +207,10 @@ COMMENT ON TABLE assets IS 'List of all assets uploaded.
 CREATE TABLE audits (
     id integer NOT NULL,
     auditable_id uuid,
-    auditable_type character varying(255),
+    auditable_type character varying,
     notes text,
     approver text,
-    flags character varying(255)[] DEFAULT '{}'::character varying[],
+    flags character varying[] DEFAULT '{}'::character varying[],
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -373,8 +373,8 @@ CREATE TABLE pages (
     abstract text,
     hero_asset_id uuid,
     deleted_at timestamp without time zone,
-    audit_flags character varying(255)[] DEFAULT '{}'::character varying[],
-    page_name character varying(255),
+    audit_flags character varying[] DEFAULT '{}'::character varying[],
+    page_name character varying,
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
 
@@ -427,7 +427,7 @@ CREATE TABLE templates (
     deleted_at timestamp without time zone,
     published_revision_id uuid,
     is_publishable boolean DEFAULT true,
-    audit_flags character varying(255)[] DEFAULT '{}'::character varying[]
+    audit_flags character varying[] DEFAULT '{}'::character varying[]
 );
 
 
@@ -1804,7 +1804,7 @@ SET search_path = public, pg_catalog;
 --
 
 CREATE TABLE schema_migrations (
-    version character varying(255) NOT NULL
+    version character varying NOT NULL
 );
 
 
