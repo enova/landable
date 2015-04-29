@@ -47,7 +47,7 @@ module Landable
         d = PageView.find(p.page_view_id).created_at
         if amqp_config_hash[:enabled] \
               && amqp_config_hash[:messaging_service].present?
-          EventPublisher.publish(p,d)
+          EventPublisher.publish(p, d)
         end
 
         session[:landable] = {
