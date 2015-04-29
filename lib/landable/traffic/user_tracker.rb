@@ -43,10 +43,9 @@ module Landable
       end
 
       def save
-        record_page_view
+        p = record_page_view
         if amqp_config_hash[:enabled] \
               && amqp_config_hash[:messaging_service].present?
-          p = record_page_view
           EventPublisher.publish(p)
         end
 
