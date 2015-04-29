@@ -4,9 +4,9 @@ module Landable
 
     class << self
       def publish(page_view)
-        return unless amqp_service_enabled?
+        return unless service_enabled?
 
-        event_type = amqp_event_mapping[page_view.path]
+        event_type = event_mapping[page_view.path]
         if event_type.is_a?(Hash)
           request_type = page_view.http_method
           event_type = event_type[request_type]
@@ -17,33 +17,33 @@ module Landable
         if event_type
           @event_type = event_type
         end
-        amqp_messaging_service.publish(message)
+        messaging_service.publish(message)
       end
 
       private
 
-      def amqp_config_hash
-        @amqp_config_hash = Landable.configuration.amqp_configuration
+      def config_hash
+        @config_hash = Landable.configuration.amqp_configuration
       end
 
-      def amqp_enabled?
-        @amqp_enabled ||= amqp_config_hash[:enabled]
+      def enabled?
+        @enabled ||= config_hash[:enabled]
       end
 
-      def amqp_event_mapping
-        @amqp_event_mapping ||= amqp_config_hash[:event_mapping]
+      def event_mapping
+        @event_mapping ||= config_hash[:event_mapping]
       end
 
-      def amqp_site_segment
-        @amqp_site_segment ||= amqp_config_hash[:site_segment]
+      def site_segment
+        @site_segment ||= config_hash[:site_segment]
       end
 
-      def amqp_messaging_service
-        @amqp_messaging_service ||= amqp_config_hash[:messaging_service]
+      def messaging_service
+        @messaging_service ||= config_hash[:messaging_service]
       end
 
-      def amqp_service_enabled?
-        amqp_enabled? && amqp_messaging_service.present?
+      def service_enabled?
+        enabled? && messaging_service.present?
       end
 
       def message
@@ -56,7 +56,7 @@ module Landable
         user_agent_type = user_agent.try(:raw_user_agent_type)
         event_type = @event_type
         {
-          site_segment: amqp_site_segment,
+          site_segment: site_segment,
           visit_id: visit.id,
           event: event_type.to_s,
           page_view_id: page_view.page_view_id,
