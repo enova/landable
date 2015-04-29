@@ -1,5 +1,5 @@
 require 'landable'
-require_relative '../../../../spec/lib/landable/amqp_messaging_service'
+require_relative Rails.root.join('..', 'lib', 'landable', 'bunny_messaging_service.rb')
 
 Landable.configure do |config|
   config.api_namespace = '/api'
@@ -17,7 +17,7 @@ Landable.configure do |config|
 
   config.amqp_configuration = {
     site_segment: 'mybrand:myproduct:myapp',
-    messaging_service: AmqpMessagingService.new,
+    messaging_service: BunnyMessagingService.new,
     enabled: 'true',
     event_mapping: {
         '/my_path' => { 'GET' => 'Customer Landed',
