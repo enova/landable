@@ -2,9 +2,9 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://github.com/enova/landable/compare/v1.13.0...master)
+## Unreleased [#](https://github.com/enova/landable/compare/v1.13.0...v1.13.1)
 
-## 1.13.0 [#](https://github.com/enova/landable/compare/v1.12.3...v1.13.0)
+## 1.13.1 [#](https://github.com/enova/landable/compare/v1.12.3...v1.13.1)
 * BugFix: Default referer.path to '' [#60]
 * Feature: Advanced Message Queuing Protocol to Publish Events [#58]
 
