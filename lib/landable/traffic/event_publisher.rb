@@ -1,34 +1,28 @@
 module Landable
   module EventPublisher
-    mattr_accessor :page_view, :visit, :event_type, :amqp_configuration
+    mattr_accessor :page_view, :visit, :event_type
 
     class << self
-      def publish(page_view, page_view_created_at)
-        return unless service_enabled?
+      def publish(page_view)
+        return unless Landable.configuration.amqp_service_enabled
 
         event_type = event_mapping[page_view.path]
+        return unless event_type
         if event_type.is_a?(Hash)
           request_type = page_view.http_method
-          event_type = event_type[request_type]
+          @event_type = event_type[request_type]
         end
 
         @page_view = page_view
-        @page_view_created_at = page_view_created_at
         @visit = page_view.visit
-        if event_type
-          @event_type = event_type
-        end
-        messaging_service.publish(message)
+
+        Landable.configuration.amqp_messaging_service.publish(message)
       end
 
       private
 
       def config_hash
         @config_hash = Landable.configuration.amqp_configuration
-      end
-
-      def enabled?
-        @enabled ||= config_hash[:enabled]
       end
 
       def event_mapping
@@ -39,13 +33,6 @@ module Landable
         @site_segment ||= config_hash[:site_segment]
       end
 
-      def messaging_service
-        @messaging_service ||= config_hash[:messaging_service]
-      end
-
-      def service_enabled?
-        enabled? && messaging_service.present?
-      end
 
       def message
         visit = @visit
@@ -56,14 +43,13 @@ module Landable
         user_agent = visitor.try(:raw_user_agent)
         user_agent_type = user_agent.try(:raw_user_agent_type)
         event_type = @event_type
-        page_view_created_at = @page_view_created_at
         {
           site_segment: site_segment,
           visit_id: visit.id,
           event: event_type.to_s,
           page_view_id: page_view.page_view_id,
           request_type: page_view.http_method,
-          created_at: page_view_created_at,
+          created_at: page_view.created_at,
           cookie_id: visit.cookie_id,
           owner_id: visit.try(:owner_id),
           owner: visit.try(:owner).try(:owner),

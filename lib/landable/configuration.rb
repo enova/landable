@@ -12,6 +12,7 @@ module Landable
     attr_writer :blank_user_agent_string, :untracked_paths
     attr_writer :dnt_enabled
     attr_writer :amqp_event_mapping, :amqp_site_segment
+    attr_writer :amqp_service_enabled, :amqp_messaging_service
 
     def authenticators
       @authenticators || raise("No Landable authenticator configured.")
@@ -163,6 +164,19 @@ module Landable
     def amqp_event_mapping
       @amqp_event_mapping ||= {}
     end
+
+    def amqp_enabled?
+      @enabled ||= amqp_configuration[:enabled]
+    end
+
+    def amqp_messaging_service
+      @messaging_service ||= amqp_configuration[:messaging_service]
+    end
+
+    def amqp_service_enabled
+      amqp_enabled? && amqp_messaging_service.present?
+    end
+
 
     class Screenshots
       attr_accessor :autorun

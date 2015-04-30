@@ -33,21 +33,17 @@ module Landable
           p.http_status  = response.status
 
           p.visit_id     = @visit_id
+          # this is strange, yes, but is it better than a db call?
+          p.created_at   = Time.current
 
           p.response_time = ( Time.now - @start_time ) * 1000
         end
       end
 
-      def amqp_config_hash
-        @amqp_config_hash = Landable.configuration.amqp_configuration
-      end
-
       def save
         p = record_page_view
-        d = PageView.find(p.page_view_id).created_at
-        if amqp_config_hash[:enabled] \
-              && amqp_config_hash[:messaging_service].present?
-          EventPublisher.publish(p, d)
+        if Landable.configuration.amqp_service_enabled
+          EventPublisher.publish(p)
         end
 
         session[:landable] = {
