@@ -173,7 +173,7 @@ module Landable
         query       = params.except(*ATTRIBUTION_KEYS)
 
         @referer = Referer.where(domain_id:       Domain[referer_uri.host],
-                                 path_id:         Path[referer_uri.path],
+                                 path_id:         Path[referer_uri_path],
                                  query_string_id: QueryString[query.to_query],
                                  attribution_id:  attribution.id).first_or_create
       end
@@ -234,6 +234,10 @@ module Landable
 
       def referer_uri
         @referer_uri ||= URI(URI.encode(request.referer)) if request.referer
+      end
+
+      def referer_uri_path
+        referer_uri.try(:path) || ''
       end
 
       def external_referer?
