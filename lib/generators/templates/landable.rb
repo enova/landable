@@ -51,6 +51,28 @@ Landable.configure do |config|
 
   # If you want to save a different UserAgent if the request.user_agent is blank, set it here
   # config.blank_user_agent_string = 'blank'
+
+  # Uncomment to enable publishing of events to an amqp messaging service.
+  #
+  # This feature requires the mounting application to configure a messenger
+  # class which includes a publish method.  The publish method should
+  # take the message as an input, cast it appropriately
+  # then deliver the message to whatever amqp service you are running.
+  # the EventPublisher class will only attempt to send a message if
+  # enabled = true and messaging_service is set.
+  # The configuration params are a collection, like so:
+  # config.amqp_configuration = {
+  #    site_segment: 'mybrand:myproduct:myapp',
+  #    messaging_service: AmqpMessagingService,
+  #    enabled: 'true',
+  #    event_mapping: {
+  #        '/' => 'Home page',
+  #        '/my_path' => { 'GET' => 'Customer Landed',
+  #                        'POST' => 'Customer Submitted',
+  #                        'DELETE' => 'Customer Left'
+  #                       }
+  #       }.freeze
+  #   }
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.
