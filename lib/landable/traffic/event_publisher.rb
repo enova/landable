@@ -21,16 +21,16 @@ module Landable
 
       private
 
-      def config_hash
-        @config_hash = Landable.configuration.amqp_configuration
+      def amqp
+        @amqp = Landable.configuration.amqp_configuration
       end
 
       def event_mapping
-        @event_mapping ||= config_hash[:event_mapping]
+        @event_mapping ||= amqp[:event_mapping]
       end
 
       def site_segment
-        @site_segment ||= config_hash[:site_segment]
+        @site_segment ||= amqp[:site_segment]
       end
 
 
