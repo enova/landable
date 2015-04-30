@@ -1,4 +1,5 @@
 require 'landable'
+require Rails.root.join('lib', 'bunny_messaging_service.rb')
 
 Landable.configure do |config|
   config.api_namespace = '/api'
@@ -11,10 +12,20 @@ Landable.configure do |config|
   config.partials_to_templates = %w(partials/foobazz)
 
   config.reserved_paths = %w(/reserved_path_set_in_initializer /reject/.* /admin.*)
-
   config.database_schema_prefix = 'dummy'
-
   config.audit_flags = %w(loans apr)
+
+  config.amqp_configuration = {
+    site_segment: 'mybrand:myproduct:myapp',
+    messaging_service: BunnyMessagingService,
+    enabled: 'true',
+    event_mapping: {
+        '/my_path' => { 'GET' => 'Customer Landed',
+                        'POST' => 'Customer Submitted',
+                        'DELETE' => 'Customer Left'
+                      }
+      }.freeze
+  }
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.
