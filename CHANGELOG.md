@@ -2,8 +2,11 @@
 
 See README.md before updating this file.
 
-## Unreleased [#](https://github.com/enova/landable/compare/v1.12.1...master)
+## Unreleased [#](https://github.com/enova/landable/compare/v1.13.0...master)
+
+## 1.13.0 [#](https://github.com/enova/landable/compare/v1.12.3...v1.13.0)
 * BugFix: Default referer.path to '' [#60]
+* Feature: Advanced Message Queuing Protocol to Publish Events [#58]
 
 ## 1.12.3 [#](https://github.com/enova/landable/compare/v1.12.2...v1.12.3)
 * Feature: Add Traffic Object Helper [#50]
