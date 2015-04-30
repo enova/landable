@@ -16,7 +16,7 @@ module Landable
       protected
 
       def set_page_revision
-        page = Landable::Page.where(path: path).find(:published_revision_id)
+        page = Landable::Page.find_by(path: path)
         self.page_revision_id = page.try(:published_revision_id)
       end
     end

@@ -3,7 +3,6 @@ require 'spec_helper'
 module Landable
   module Traffic
     describe 'EventPublisher', type: :controller do
-
       controller(ApplicationController) do
         include Landable::Traffic
         prepend_around_action :track_with_landable!
@@ -15,7 +14,7 @@ module Landable
 
       before do
         routes.draw do
-          get "/my_path" => 'anonymous#my_path'
+          get '/my_path' => 'anonymous#my_path'
           post '/my_path' => 'anonymous#my_path'
           delete '/my_path' => 'anonymous#my_path'
         end
@@ -39,7 +38,6 @@ module Landable
 
       it 'should properly properly set the attribution data and send it within a message' do
         get :my_path, attribution
-        # binding.pry
         message_keys.each do |attribute|
           expect(published_message[attribute]).to eq("test_#{attribute}")
         end
