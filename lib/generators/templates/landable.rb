@@ -63,9 +63,10 @@ Landable.configure do |config|
   # The configuration params are a collection, like so:
   # config.amqp_configuration = {
   #    site_segment: 'mybrand:myproduct:myapp',
-  #    messaging_service: AmqpMessagingService.new,
+  #    messaging_service: AmqpMessagingService,
   #    enabled: 'true',
   #    event_mapping: {
+  #        '/' => 'Home page',
   #        '/my_path' => { 'GET' => 'Customer Landed',
   #                        'POST' => 'Customer Submitted',
   #                        'DELETE' => 'Customer Left'

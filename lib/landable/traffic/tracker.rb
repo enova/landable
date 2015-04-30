@@ -284,8 +284,7 @@ module Landable
       end
 
       def attribution_parameters
-        @attribution_parameters ||= \
-          tracking_parameters.with_indifferent_access.slice(*ATTRIBUTION_KEYS)
+        @attribution_parameters ||= tracking_parameters.with_indifferent_access.slice(*ATTRIBUTION_KEYS)
       end
 
       def attribution

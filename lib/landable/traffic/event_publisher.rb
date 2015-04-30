@@ -1,38 +1,47 @@
 module Landable
   module EventPublisher
-    mattr_accessor :page_view, :visit, :event_type
+    mattr_reader :event_type, :page_view, :visit
 
     class << self
       def publish(page_view)
-        return unless Landable.configuration.amqp_service_enabled
+        @configuration = Landable.configuration.amqp_configuration
+        return unless enabled?
 
-        event_type = event_mapping[page_view.path]
-        return unless event_type
-        if event_type.is_a?(Hash)
-          request_type = page_view.http_method
-          @event_type = event_type[request_type]
-        end
+        @event_type = event_type(page_view)
+        return unless @event_type
 
         @page_view = page_view
         @visit = page_view.visit
-
-        Landable.configuration.amqp_messaging_service.publish(message)
+        messaging_service.publish(message)
       end
 
       private
 
-      def amqp
-        @amqp = Landable.configuration.amqp_configuration
+      def enabled?
+        @enabled ||= @configuration[:enabled] && messaging_service.present?
+      end
+
+      def messaging_service
+        @messaging_service ||= @configuration[:messaging_service]
       end
 
       def event_mapping
-        @event_mapping ||= amqp[:event_mapping]
+        @event_mapping ||= @configuration[:event_mapping]
+      end
+
+      def event_type(page_view)
+        event_type = event_mapping[page_view.path]
+
+        if event_type.is_a?(Hash)
+          request_type = page_view.http_method
+          event_type = event_type[request_type]
+        end
+        event_type
       end
 
       def site_segment
-        @site_segment ||= amqp[:site_segment]
+        @site_segment ||= @configuration[:site_segment]
       end
-
 
       def message
         visit = @visit

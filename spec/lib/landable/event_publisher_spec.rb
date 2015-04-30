@@ -77,6 +77,7 @@ module Landable
         get :my_path, attribution
         expect(published_message[:page_view_id]).to eq page_view.id
         expect(published_message[:created_at]).to eq page_view.created_at
+        expect(published_message[:created_at]).to_not be_nil
       end
 
       it 'should correctly set the visit information in the message' do

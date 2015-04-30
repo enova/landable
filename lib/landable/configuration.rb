@@ -10,8 +10,7 @@ module Landable
     attr_writer :reserved_paths, :partials_to_templates, :database_schema_prefix
     attr_writer :publicist_url, :audit_flags
     attr_writer :blank_user_agent_string, :untracked_paths
-    attr_writer :dnt_enabled
-    attr_writer :amqp_event_mapping, :amqp_site_segment
+    attr_writer :dnt_enabled, :amqp_event_mapping, :amqp_site_segment
     attr_writer :amqp_service_enabled, :amqp_messaging_service
 
     def authenticators
@@ -165,16 +164,8 @@ module Landable
       @amqp_event_mapping ||= {}
     end
 
-    def amqp_enabled?
-      @enabled ||= amqp_configuration[:enabled]
-    end
-
-    def amqp_messaging_service
-      @messaging_service ||= amqp_configuration[:messaging_service]
-    end
-
     def amqp_service_enabled
-      amqp_enabled? && amqp_messaging_service.present?
+      amqp_configuration[:enabled] && amqp_configuration[:messaging_service]
     end
 
 
