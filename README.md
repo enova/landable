@@ -49,6 +49,8 @@ Run `./script/redb` to refresh the dummy app's database.
 
 Run the test suite with `rake landable`.
 
+We use [Rubocop](https://github.com/bbatsov/rubocop), so your test must all pass Rubocops Tests in order for your PR to be accepted!
+
 ## Contributing 
 Contributions are welcome - submit a pull request.
 
