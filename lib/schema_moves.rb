@@ -3,9 +3,9 @@ module SchemaMoves
     def create_schema(schema)
       connection = ActiveRecord::Base.connection
 
-      sql = %{
+      sql = %(
         CREATE SCHEMA #{schema};
-      }
+            )
       puts "Creating #{schema} schema"
       connection.execute sql
     end
@@ -13,9 +13,9 @@ module SchemaMoves
     def drop_schema(schema)
       connection = ActiveRecord::Base.connection
 
-      sql = %{
+      sql = %(
         DROP SCHEMA #{schema};
-      }
+            )
       puts "Dropping #{schema} schema"
       connection.execute sql
     end
@@ -35,10 +35,10 @@ module SchemaMoves
       ")
 
       objects.each do |object|
-        sql = %{
+        sql = %(
           ALTER #{object_type} #{from_schema}.#{object['relname']}
             SET SCHEMA #{to_schema}
-        }
+                )
         puts "Moving #{from_schema}.#{object['relname']} TO #{to_schema}"
         connection.execute sql
       end
@@ -129,7 +129,7 @@ module SchemaMoves
           BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal ON #{new_schema}.page_revisions
           FOR EACH STATEMENT EXECUTE PROCEDURE #{new_schema}.tg_disallow();
       }
-      puts "Creating new triggers..."
+      puts 'Creating new triggers...'
       connection.execute sql
     end
 
@@ -148,7 +148,7 @@ module SchemaMoves
         DROP FUNCTION IF EXISTS #{old_schema}.template_revision_ordinal();
         DROP FUNCTION IF EXISTS #{old_schema}.tg_disallow();
       }
-      puts "Dropping old triggers..."
+      puts 'Dropping old triggers...'
       connection.execute sql
     end
 
@@ -158,14 +158,13 @@ module SchemaMoves
 
     def get_schema_names(new = true)
       # Always get old schemas
-      @old_landable = ask("Enter the OLD main landable schema: ") { |q| q.default = 'landable' }
-      @old_traffic = ask("Enter the OLD traffic schema: ") { |q| q.default = 'landable_traffic' }
+      @old_landable = ask('Enter the OLD main landable schema: ') { |q| q.default = 'landable' }
+      @old_traffic = ask('Enter the OLD traffic schema: ') { |q| q.default = 'landable_traffic' }
 
       # Only ask for new names if new == true
-      if new
-        @new_landable = ask("Enter the NEW main landable schema: ") { |q| q.default = "#{appname}_landable" }
-        @new_traffic = ask("Enter the NEW traffic schema: ") { |q| q.default = "#{appname}_landable_traffic" }
-      end
+      return unless new
+      @new_landable = ask('Enter the NEW main landable schema: ') { |q| q.default = "#{appname}_landable" }
+      @new_traffic = ask('Enter the NEW traffic schema: ') { |q| q.default = "#{appname}_landable_traffic" }
     end
 
     def create_schemas
@@ -195,8 +194,8 @@ module SchemaMoves
 
     def want_to_drop_old_schemas?
       drop = nil
-      until ['yes', 'no'].include?(drop.to_s.downcase)
-        drop = ask("Would you like to drop the old schemas? (Yes or No)") { |q| q.default = 'no' }
+      until %w(yes no).include?(drop.to_s.downcase)
+        drop = ask('Would you like to drop the old schemas? (Yes or No)') { |q| q.default = 'no' }
       end
       drop.to_s.downcase == 'yes'
     end

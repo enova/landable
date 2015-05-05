@@ -5,8 +5,8 @@ module Landable
     class Error < StandardError; end
 
     class << self
-      def capture url
-        if not Landable.configuration.publicist_url
+      def capture(url)
+        if !Landable.configuration.publicist_url
           Rails.logger.warn "Couldn't generate screenshot for #{url}; no Landable.configuration.publicist_url configured"
         else
           screenshots_uri = URI(Landable.configuration.publicist_url)
@@ -22,11 +22,10 @@ module Landable
 
             file
           else
-            raise Error, "Received #{response.code} back from #{screenshots_uri.to_s}"
+            fail Error, "Received #{response.code} back from #{screenshots_uri}"
           end
         end
       end
     end
-
   end
 end

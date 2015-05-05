@@ -21,7 +21,7 @@ describe Landable::ApiController, json: true do
     end
 
     def not_found
-      raise ActiveRecord::RecordNotFound
+      fail ActiveRecord::RecordNotFound
     end
 
     def xml_only
@@ -39,7 +39,7 @@ describe Landable::ApiController, json: true do
     end
 
     def other_pg_error
-      ActiveRecord::Base.connection.execute "LOL THIS IS NOT SQL AT ALL GUYS!"
+      ActiveRecord::Base.connection.execute 'LOL THIS IS NOT SQL AT ALL GUYS!'
     end
   end
 
@@ -70,47 +70,47 @@ describe Landable::ApiController, json: true do
       get :index, params
     end
 
-    it "sets current_author when valid" do
+    it 'sets current_author when valid' do
       make_request
-      controller.send(:current_author).should == author
+      controller.send(:current_author).should eq author
     end
 
-    it "must be in the HTTP Authorization header" do
+    it 'must be in the HTTP Authorization header' do
       headers.delete 'HTTP_AUTHORIZATION'
       make_request access_token: token.id
-      response.status.should == 401
+      response.status.should eq 401
     end
 
-    it "must belong to a valid Author username" do
+    it 'must belong to a valid Author username' do
       headers['HTTP_AUTHORIZATION'] = encode_basic_auth('wrong-username', token.id)
       make_request
-      response.status.should == 401
+      response.status.should eq 401
     end
 
-    it "must be an existing token ID" do
+    it 'must be an existing token ID' do
       headers['HTTP_AUTHORIZATION'] = encode_basic_auth(author.username, token.id.reverse)
       make_request
-      response.status.should == 401
+      response.status.should eq 401
     end
 
-    it "must not be expired" do
+    it 'must not be expired' do
       token.update_attributes(expires_at: 1.minute.ago)
       make_request
-      response.status.should == 401
+      response.status.should eq 401
     end
   end
 
   context 'rescues RecordNotFound' do
     it 'returns 404 Not Found' do
       get :not_found
-      response.status.should == 404
+      response.status.should eq 404
     end
   end
 
   context 'rescues RecordInvalid' do
     it 'returns 422 Unprocessable Entity' do
       get :record_invalid
-      response.status.should == 422
+      response.status.should eq 422
     end
 
     it 'renders ActiveModel::Errors as the JSON response' do
@@ -123,20 +123,20 @@ describe Landable::ApiController, json: true do
     it 'returns 406 Not Acceptable' do
       request.env['HTTP_ACCEPT'] = 'text/plain'
       get :xml_only
-      response.status.should == 406
+      response.status.should eq 406
     end
   end
 
   context 'rescues PG::Errors about invalid UUIDs' do
     it 'returns 404' do
       get :uuid_invalid
-      response.status.should == 404
+      response.status.should eq 404
     end
 
     it 're-raises any other PG::Error' do
-      expect {
+      expect do
         get :other_pg_error
-      }.to raise_error(PG::Error)
+      end.to raise_error(PG::Error)
     end
   end
 
@@ -149,13 +149,11 @@ describe Landable::ApiController, json: true do
       get :ok
 
       # sanity check
-      request.format.symbol.should == :xml
+      request.format.symbol.should eq :xml
 
-      controller.api_media.should == {
-        format: request.format.symbol,
-        version: Landable::VERSION::STRING,
-        param: nil,
-      }
+      controller.api_media.should eq(format: request.format.symbol,
+                                     version: Landable::VERSION::STRING,
+                                     param: nil)
     end
   end
 
@@ -168,8 +166,8 @@ describe Landable::ApiController, json: true do
 
     it 'should set X-Landable-Media-Type' do
       get :responder
-      response.status.should == 200
-      response.headers['X-Landable-Media-Type'].should == "landable.v#{Landable::VERSION::STRING}; format=json"
+      response.status.should eq 200
+      response.headers['X-Landable-Media-Type'].should eq "landable.v#{Landable::VERSION::STRING}; format=json"
     end
 
     context 'patch' do

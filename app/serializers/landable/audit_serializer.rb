@@ -4,9 +4,8 @@ module Landable
     attributes :auditable_type, :auditable_id, :created_at
 
     def auditable_type
-      if object.auditable_type.present?
-        object.auditable_type.underscore.gsub(/^landable\//, '')
-      end
+      return unless object.auditable_type.present?
+      object.auditable_type.underscore.gsub(%r{^landable\/}, '')
     end
   end
 end

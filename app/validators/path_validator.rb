@@ -1,8 +1,6 @@
 class PathValidator < ActiveModel::Validator
   def validate(record)
-    if match?(record.path)
-      record.errors[:path] << "is Reserved!"
-    end
+    record.errors[:path] << 'is Reserved!' if match?(record.path)
   end
 
   def match?(path)

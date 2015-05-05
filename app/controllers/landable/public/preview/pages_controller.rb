@@ -1,4 +1,4 @@
-require_dependency "landable/application_controller"
+require_dependency 'landable/application_controller'
 
 module Landable
   module Public

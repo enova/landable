@@ -17,8 +17,8 @@ module Landable
       { search: { total_results: @scope.count(:all) } }
     end
 
-    def filter_by!(filters)
-      raise NotImplementedError
+    def filter_by!(_filters)
+      fail NotImplementedError
     end
 
     def order!(order)

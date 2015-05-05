@@ -4,7 +4,7 @@ class AddTrafficSchema < Landable::Migration
 
   OWNER_TYPE = 'INTEGER'
 
-  QUERY_PARAMS = %w[
+  QUERY_PARAMS = %w(
     ad_type
     ad_group
     bid_match_type
@@ -22,7 +22,7 @@ class AddTrafficSchema < Landable::Migration
     search_term
     source
     target
-  ]
+  )
 
   def up
     # Resources
@@ -46,10 +46,10 @@ class AddTrafficSchema < Landable::Migration
       t.create_lookup_tables :domains, :paths, :query_strings
       t.create_lookup_tables :http_methods, :mime_types
 
-      t.create_lookup_table  :event_types
+      t.create_lookup_table :event_types
 
       # IP / Geolocation
-      t.create_lookup_table  :ip_addresses, lookup_type: :inet
+      t.create_lookup_table :ip_addresses, lookup_type: :inet
       t.create_lookup_tables :countries, :regions, :cities
     end
 
@@ -94,7 +94,7 @@ class AddTrafficSchema < Landable::Migration
       CREATE TABLE attributions (
           attribution_id     SERIAL      PRIMARY KEY
 
-        , #{QUERY_PARAMS.map { |name| "%s INTEGER REFERENCES %s" % [name.foreign_key, name.pluralize] }.join(',') }
+        , #{QUERY_PARAMS.map { |name| format('%s INTEGER REFERENCES %s', name.foreign_key, name.pluralize) }.join(',') }
 
         , created_at         TIMESTAMPTZ NOT NULL    DEFAULT NOW()
 

@@ -1,0 +1,281 @@
+Lint/AmbiguousOperator:
+  Enabled: true
+
+Lint/AmbiguousRegexpLiteral:
+  Enabled: true
+
+Lint/AssignmentInCondition:
+  Enabled: true
+
+Lint/BlockAlignment:
+  Enabled: true
+
+Lint/Debugger:
+  Enabled: true
+  Exclude:
+    - features/step_definitions/debug_steps.rb
+
+Lint/DeprecatedClassMethods:
+  Enabled: true
+
+Lint/Eval:
+  Enabled: true
+
+Lint/LiteralInInterpolation:
+  Enabled: true
+
+Lint/ShadowingOuterLocalVariable:
+  Enabled: true
+
+Lint/StringConversionInInterpolation:
+  Enabled: true
+
+Lint/UnusedBlockArgument:
+  Enabled: true
+
+Lint/UnusedMethodArgument:
+  Enabled: true
+
+Lint/UselessAssignment:
+  Enabled: true
+
+Lint/Void:
+  Enabled: true
+
+Metrics/AbcSize:
+  Max: 391
+
+Metrics/ClassLength:
+  Max: 235
+
+Metrics/CyclomaticComplexity:
+  Max: 12
+
+Metrics/LineLength:
+  Max: 298
+
+Metrics/MethodLength:
+  Max: 224
+
+Metrics/ModuleLength:
+  Max: 160
+  Exclude:
+    - spec/**/*
+
+Metrics/PerceivedComplexity:
+  Max: 13
+
+Performance/Detect:
+  Enabled: true
+
+Style/AccessModifierIndentation:
+  Enabled: true
+
+Style/AccessorMethodName:
+  Enabled: true
+
+Style/Alias:
+  Enabled: true
+
+Style/AlignHash:
+  Enabled: true
+
+Style/AlignParameters:
+  Enabled: true
+
+Style/AndOr:
+  Enabled: true
+
+Style/BarePercentLiterals:
+  Enabled: true
+
+Style/BlockDelimiters:
+  Enabled: true
+
+Style/BlockEndNewline:
+  Enabled: true
+
+Style/BracesAroundHashParameters:
+  Enabled: true
+
+Style/CaseEquality:
+  Enabled: true
+
+Style/ClassAndModuleChildren:
+  Enabled: true
+  Exclude:
+    - db/migrate/*
+
+Style/ClassCheck:
+  Enabled: true
+
+Style/ClassVars:
+  Enabled: true
+
+Style/ColonMethodCall:
+  Enabled: true
+
+Style/CommentAnnotation:
+  Enabled: true
+
+Style/Documentation:
+  Enabled: false
+
+Style/DotPosition:
+  Enabled: true
+
+Style/DoubleNegation:
+  Enabled: true
+
+Style/EmptyLines:
+  Enabled: true
+
+Style/EmptyLinesAroundAccessModifier:
+  Enabled: true
+
+Style/EmptyLinesAroundBlockBody:
+  Enabled: true
+
+Style/EmptyLinesAroundClassBody:
+  Enabled: true
+
+Style/EmptyLinesAroundMethodBody:
+  Enabled: true
+
+Style/EmptyLinesAroundModuleBody:
+  Enabled: true
+
+Style/FormatString:
+  Enabled: true
+
+Style/GuardClause:
+  Enabled: true
+
+Style/HashSyntax:
+  Enabled: true
+
+Style/IfUnlessModifier:
+  Enabled: true
+
+Style/IndentHash:
+  Enabled: true
+
+Style/IndentationConsistency:
+  Enabled: true
+
+Style/IndentationWidth:
+  Enabled: true
+
+Style/Lambda:
+  Enabled: true
+
+Style/MethodCallParentheses:
+  Enabled: true
+
+Style/MethodDefParentheses:
+  Enabled: true
+
+Style/MultilineBlockLayout:
+  Enabled: true
+
+Style/MultilineOperationIndentation:
+  Enabled: true
+
+Style/NegatedIf:
+  Enabled: true
+
+Style/NilComparison:
+  Enabled: true
+
+Style/Not:
+  Enabled: true
+
+Style/PercentLiteralDelimiters:
+  Enabled: true
+
+Style/PerlBackrefs:
+  Enabled: true
+
+Style/PredicateName:
+  Enabled: true
+
+Style/RaiseArgs:
+  Enabled: true
+
+Style/RedundantBegin:
+  Enabled: true
+
+Style/RedundantSelf:
+  Enabled: true
+
+Style/RegexpLiteral:
+  Enabled: true
+
+Style/RescueModifier:
+  Enabled: true
+
+Style/SignalException:
+  Enabled: true
+
+Style/SingleSpaceBeforeFirstArg:
+  Enabled: true
+
+Style/SpaceAfterColon:
+  Enabled: true
+
+Style/SpaceAfterComma:
+  Enabled: true
+
+Style/SpaceAroundEqualsInParameterDefault:
+  Enabled: true
+
+Style/SpaceAroundOperators:
+  Enabled: true
+
+Style/SpaceBeforeBlockBraces:
+  Enabled: true
+
+Style/SpaceBeforeModifierKeyword:
+  Enabled: true
+
+Style/SpaceInsideBlockBraces:
+  Enabled: true
+
+Style/SpaceInsideBrackets:
+  Enabled: true
+
+Style/SpaceInsideHashLiteralBraces:
+  Enabled: true
+
+Style/SpaceInsideParens:
+  Enabled: true
+
+Style/SpecialGlobalVars:
+  Enabled: true
+
+Style/StringLiterals:
+  Enabled: true
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+
+Style/Tab:
+  Enabled: true
+
+Style/TrailingBlankLines:
+  Enabled: true
+
+Style/TrailingComma:
+  Enabled: true
+
+Style/TrailingWhitespace:
+  Enabled: true
+
+Style/TrivialAccessors:
+  Enabled: true
+
+Style/VariableInterpolation:
+  Enabled: true
+
+Style/WordArray:
+  MinSize: 11

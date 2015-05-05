@@ -7,7 +7,7 @@ module Landable
 
       def at_json(path, object = last_json)
         path.split('/').reduce object do |parent, key|
-          key = key.to_i if Array === parent
+          key = key.to_i if parent.is_a?(Array)
           parent.fetch key
         end
       end

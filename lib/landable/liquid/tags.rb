@@ -2,14 +2,14 @@ require 'action_view'
 
 module Landable
   module Liquid
-
     class Tag < ::Liquid::Tag
       include ActionView::Helpers::TagHelper
 
       protected
+
       def lookup_page(context)
         context.registers.fetch(:page) do
-          raise ArgumentError.new("`page' value was never registered with the template")
+          fail(ArgumentError, "`page' value was never registered with the template")
         end
       end
     end
@@ -26,9 +26,9 @@ module Landable
         page = lookup_page context
         tags = page.meta_tags || {}
 
-        tags.map { |name, value|
+        tags.map do |name, value|
           tag(:meta, name: name, content: value)
-        }.join("\n")
+        end.join("\n")
       end
     end
 
@@ -42,14 +42,14 @@ module Landable
 
     class Head < Tag
       def render(context)
-        page = lookup_page context
+        lookup_page context
 
         head = []
 
-        ['title_tag', 'meta_tags', 'head_content'].each do |tag_name|
-           tag = eval("Landable::Liquid::#{tag_name.classify}").new(tag_name, nil, nil)
-           head << tag.render(context) if tag.render(context).present?
-         end
+        %w(title_tag meta_tags head_content).each do |tag_name|
+          tag = "Landable::Liquid::#{tag_name.classify}".safe_constantize.new(tag_name, nil, nil)
+          head << tag.render(context) if tag.render(context).present?
+        end
 
         head.join("\n")
       end
@@ -64,7 +64,7 @@ module Landable
     class TemplateTag < Tag
       attr_accessor :template_slug
 
-      def initialize(tag, param, tokens)
+      def initialize(_tag, param, _tokens)
         param_tokens = param.split(/\s+/)
         @template_slug = param_tokens.shift
         @variables = Hash[param_tokens.join(' ').scan(/([\w_]+):\s+"([^"]*)"/)]

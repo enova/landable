@@ -1,4 +1,4 @@
-require_dependency "landable/api_controller"
+require_dependency 'landable/api_controller'
 
 module Landable
   module Api
@@ -33,16 +33,15 @@ module Landable
         head :unauthorized
       end
 
-
       private
 
-        def find_own_access_token(id = params[:id])
-          current_author.access_tokens.fresh.find(id)
-        end
+      def find_own_access_token(id = params[:id])
+        current_author.access_tokens.fresh.find(id)
+      end
 
-        def asset_token_params
-          params.require(:access_token).permit(:username, :password)
-        end
+      def asset_token_params
+        params.require(:access_token).permit(:username, :password)
+      end
     end
   end
 end

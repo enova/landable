@@ -1,4 +1,4 @@
-require_dependency "landable/api_controller"
+require_dependency 'landable/api_controller'
 
 module Landable
   module Api
@@ -33,10 +33,11 @@ module Landable
       end
 
       private
-        def audit_params
-          params[:audit][:flags] ||= []
-          params.require(:audit).permit(:id, :approver, :notes, :created_at, flags: [])
-        end
+
+      def audit_params
+        params[:audit][:flags] ||= []
+        params.require(:audit).permit(:id, :approver, :notes, :created_at, flags: [])
+      end
     end
   end
 end

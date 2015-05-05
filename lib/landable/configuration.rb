@@ -1,12 +1,12 @@
 module Landable
   class Configuration
-    attr_accessor :api_url, :public_url, :amqp_configuration
+    attr_accessor :api_url, :public_url, :amqp_configuration, :sitemap_host
     attr_writer :api_namespace, :public_namespace
     attr_writer :api_host, :public_host
     attr_writer :categories
     attr_writer :screenshots_enabled
     attr_writer :traffic_enabled
-    attr_writer :sitemap_exclude_categories, :sitemap_protocol, :sitemap_host, :sitemap_additional_paths
+    attr_writer :sitemap_exclude_categories, :sitemap_protocol, :sitemap_additional_paths
     attr_writer :reserved_paths, :partials_to_templates, :database_schema_prefix
     attr_writer :publicist_url, :audit_flags
     attr_writer :blank_user_agent_string, :untracked_paths
@@ -18,23 +18,21 @@ module Landable
     end
 
     def authenticators
-      @authenticators || raise("No Landable authenticator configured.")
+      @authenticators || fail('No Landable authenticator configured.')
     end
 
     def authenticators=(authenticators)
       @authenticators = Array(authenticators)
     end
 
-    alias :authenticator= :authenticators=
+    alias_method :authenticator=, :authenticators=
 
     def publicist_url
       @publicist_url ||= 'publicist.dev'
     end
 
     def api_uri
-      if api_url.present?
-        @api_uri ||= URI(api_url)
-      end
+      @api_uri ||= URI(api_url) if api_url.present?
     end
 
     def api_host
@@ -46,9 +44,7 @@ module Landable
     end
 
     def public_uri
-      if public_url.present?
-        @public_uri ||= URI(public_url)
-      end
+      @public_uri ||= URI(public_url) if public_url.present?
     end
 
     def public_host
@@ -79,7 +75,7 @@ module Landable
         'SEO' => 'Search engine optimization',
         'Social' => '',
         'Email' => '',
-        'Traditional' => '',
+        'Traditional' => ''
       }
     end
 
@@ -100,11 +96,7 @@ module Landable
     end
 
     def sitemap_protocol
-      @sitemap_protocol ||= "http"
-    end
-
-    def sitemap_host
-      @sitemap_host
+      @sitemap_protocol ||= 'http'
     end
 
     def screenshots_enabled
@@ -116,7 +108,7 @@ module Landable
     end
 
     def traffic_enabled=(val)
-      raise ArgumentError.new("Landable::Configuration#traffic_enabled accepts false, true, :all or :html") unless [true, false, :all, :html].include? val
+      fail(ArgumentError, 'Landable::Configuration#traffic_enabled accepts false, true, :all or :html') unless [true, false, :all, :html].include? val
       @traffic_enabled = val
     end
 
@@ -125,7 +117,7 @@ module Landable
     end
 
     def cors=(bool)
-      raise ArgumentError.new("Landable::Configuration#cors should be assigned 'false' to disable CORS support") if bool != false
+      fail(ArgumentError, "Landable::Configuration#cors should be assigned 'false' to disable CORS support") if bool != false
       cors.origins = []
     end
 
@@ -171,7 +163,6 @@ module Landable
     def amqp_service_enabled
       amqp_configuration[:enabled] && amqp_configuration[:messaging_service]
     end
-
 
     class Screenshots
       attr_accessor :autorun

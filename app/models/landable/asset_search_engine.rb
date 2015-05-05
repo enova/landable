@@ -1,5 +1,5 @@
-require_dependency "landable/search_engine"
-require_dependency "landable/asset"
+require_dependency 'landable/search_engine'
+require_dependency 'landable/asset'
 
 module Landable
   class AssetSearchEngine < SearchEngine
@@ -8,13 +8,12 @@ module Landable
     end
 
     def filter_by!(filters)
-      if ids = as_array(filters[:ids])
-        @scope = @scope.where(asset_id: ids)
-      end
+      ids = as_array(filters[:ids])
+      @scope = @scope.where(asset_id: ids) if ids
 
-      if name = filters[:name].presence
-        @scope = @scope.where('LOWER(name) LIKE ?', "%#{name}%".downcase)
-      end
+      name = filters[:name].presence
+      return unless name
+      @scope = @scope.where('LOWER(name) LIKE ?', "%#{name}%".downcase)
     end
   end
 end

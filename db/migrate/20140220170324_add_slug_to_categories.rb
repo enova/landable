@@ -3,7 +3,7 @@ class AddSlugToCategories < Landable::Migration
     add_column "#{Landable.configuration.database_schema_prefix}landable.categories", :slug, :text, unique: true
 
     Landable::Category.reset_column_information
-    Landable::Category.all.each &:save!
+    Landable::Category.all.each(&:save!)
 
     change_column "#{Landable.configuration.database_schema_prefix}landable.categories", :slug, :text, null: false
   end

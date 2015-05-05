@@ -4,7 +4,7 @@ module Landable
       include Landable::TableName
       self.record_timestamps = false
 
-      lookup_by  :user_agent, cache: 50, find_or_create: true
+      lookup_by :user_agent, cache: 50, find_or_create: true
 
       lookup_for :user_agent_type, class_name: UserAgentType
       lookup_for :device,          class_name: Device

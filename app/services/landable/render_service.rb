@@ -1,4 +1,4 @@
-# TODO Handle layouts-as-themes here
+# TODO: Handle layouts-as-themes here
 
 require_dependency 'landable/liquid'
 
@@ -19,16 +19,16 @@ module Landable
       variables ||= {}
 
       content = render_template(page.body, variables, registers: {
-        page: page,
-        assets: assets_for_page,
-        responder: options[:responder],
-      })
+                                  page: page,
+                                  assets: assets_for_page,
+                                  responder: options[:responder]
+                                })
 
       if layout?
-        content = render_template(theme.body, {'body' => content}, registers: {
-          page: page,
-          assets: assets_for_theme,
-        })
+        content = render_template(theme.body, { 'body' => content }, registers: {
+                                    page: page,
+                                    assets: assets_for_theme
+                                  })
       end
 
       # not completely happy about this
@@ -37,16 +37,14 @@ module Landable
           # fancy!
           preview_template = File.open(Landable::Engine.root.join('app', 'views', 'templates', 'preview.liquid')).read
 
-          content = render_template(preview_template, {
-            'content' => content,
-            'is_redirect' => page.redirect?,
-            'is_html' => page.html?,
-            'status_code' => page.status_code,
-            'redirect_url' => page.redirect_url,
-          })
+          content = render_template(preview_template, 'content' => content,
+                                                      'is_redirect' => page.redirect?,
+                                                      'is_html' => page.html?,
+                                                      'status_code' => page.status_code,
+                                                      'redirect_url' => page.redirect_url)
         else
           # non-html stuff just gets rendered as plaintext for a preview
-          content = '<pre>' + CGI::escapeHTML(content) + '</pre>'
+          content = '<pre>' + CGI.escapeHTML(content) + '</pre>'
         end
       end
 
@@ -77,7 +75,7 @@ module Landable
       @assets_for_theme ||= theme ? theme.assets_as_hash : {}
     end
 
-    def render_template template, variables = {}, liquid_options = {}
+    def render_template(template, variables = {}, liquid_options = {})
       variables['categories'] = Liquid::CategoriesDrop.new
 
       parse(template).render!(variables, liquid_options)

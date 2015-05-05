@@ -5,7 +5,7 @@ module Landable
     end
 
     def process
-      @name        = @file.gsub('/',' ').titlecase
+      @name        = @file.gsub('/', ' ').titlecase
       @description = "The Code for this template can be seen at #{@file} in the source code"
       @slug        = @file.gsub(/[^\w]/, '_')
 
@@ -22,7 +22,7 @@ module Landable
       template.description     = @description
       template.editable        = false
       template.is_layout       = false
-      template.thumbnail_url ||= "http://placehold.it/300x200"
+      template.thumbnail_url ||= 'http://placehold.it/300x200'
 
       # Save!
       template.save!

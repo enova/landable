@@ -2,13 +2,12 @@
 # accessible. Not too thrilled about it; refactor away.
 module Landable
   module Seeds
-
-    def self.seed key
+    def self.seed(key)
       method_key = "seed_#{key}".to_sym
       if respond_to? method_key
         send method_key if ActiveRecord::Base.connection.schema_exists? "#{Landable.configuration.database_schema_prefix}landable"
       else
-        raise NotImplementedError, "No seeds for key '#{key}'"
+        fail NotImplementedError, "No seeds for key '#{key}'"
       end
     end
 
@@ -29,7 +28,7 @@ module Landable
       Landable::Theme.where(name: 'Blank').first_or_create!(
         body: '',
         description: 'A completely blank theme; only the page body will be rendered.',
-        thumbnail_url: 'http://placehold.it/300x200',
+        thumbnail_url: 'http://placehold.it/300x200'
       )
     end
   end

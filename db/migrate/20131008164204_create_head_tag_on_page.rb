@@ -1,13 +1,13 @@
 class CreateHeadTagOnPage < Landable::Migration
   def up
-    execute "DROP TRIGGER #{Landable.configuration.database_schema_prefix}landable_page_revisions__no_update 
+    execute "DROP TRIGGER #{Landable.configuration.database_schema_prefix}landable_page_revisions__no_update
               ON #{Landable.configuration.database_schema_prefix}landable.page_revisions"
 
-    drop_table    "#{Landable.configuration.database_schema_prefix}landable.head_tags"
+    drop_table "#{Landable.configuration.database_schema_prefix}landable.head_tags"
     remove_column "#{Landable.configuration.database_schema_prefix}landable.page_revisions", :head_tags
 
-    add_column    "#{Landable.configuration.database_schema_prefix}landable.pages",          :head_content, :text
-    add_column    "#{Landable.configuration.database_schema_prefix}landable.page_revisions", :head_content, :text
+    add_column "#{Landable.configuration.database_schema_prefix}landable.pages",          :head_content, :text
+    add_column "#{Landable.configuration.database_schema_prefix}landable.page_revisions", :head_content, :text
 
     execute "CREATE TRIGGER #{Landable.configuration.database_schema_prefix}landable_page_revisions__no_update
             BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal

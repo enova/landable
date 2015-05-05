@@ -1,6 +1,6 @@
-require_dependency "landable/application_controller"
-require_dependency "landable/api_responder"
-require_dependency "landable/author"
+require_dependency 'landable/application_controller'
+require_dependency 'landable/api_responder'
+require_dependency 'landable/author'
 
 module Landable
   class ApiController < ApplicationController
@@ -16,7 +16,7 @@ module Landable
     respond_to :json
     self.responder = Landable::ApiResponder
 
-    rescue_from ActiveRecord::RecordNotFound do |ex|
+    rescue_from ActiveRecord::RecordNotFound do
       head 404
     end
 
@@ -24,7 +24,7 @@ module Landable
       render json: { errors: ex.record.errors }, status: :unprocessable_entity
     end
 
-    rescue_from ActionController::UnknownFormat do |ex|
+    rescue_from ActionController::UnknownFormat do
       head :not_acceptable
     end
 
@@ -36,15 +36,14 @@ module Landable
       if ex.message =~ /invalid input syntax for uuid/
         head :not_found
       else
-        raise ex
+        fail ex
       end
     end
-
 
     # here's looking at you, http://developer.github.com/v3/media/
     # mime type matching is still handled by rails - see lib/landable/mime_types.rb
 
-    API_MEDIA_REGEX = /^application\/vnd\.landable(\.v(?<version>[\w\-]+))?(\.(?<param>(?:[\w\-]+)))?(\+(?<format>[\w\-]+))?/
+    API_MEDIA_REGEX = %r{^application\/vnd\.landable(\.v(?<version>[\w\-]+))?(\.(?<param>(?:[\w\-]+)))?(\+(?<format>[\w\-]+))?}
 
     def api_media
       @api_media ||= begin
@@ -53,7 +52,7 @@ module Landable
         {
           version: Landable::VERSION::STRING,
           format:  request.format.symbol,
-          param:   accept['param'].presence,
+          param:   accept['param'].presence
         }
       end
     end
@@ -76,7 +75,8 @@ module Landable
     end
 
     def generate_preview_for(page)
-      if layout = page.theme.try(:file) || false
+      layout = page.theme.try(:file)
+      if layout
         with_format(:html) do
           render_to_string text: RenderService.call(page), layout: layout
         end
@@ -91,6 +91,5 @@ module Landable
         @current_author = Author.authenticate!(username, token)
       end
     end
-
   end
 end

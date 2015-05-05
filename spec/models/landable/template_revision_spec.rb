@@ -5,7 +5,7 @@ module Landable
     let(:author) { create(:author) }
 
     let(:template) do
-      create(:template, name: 'Title', body: 'body', 
+      create(:template, name: 'Title', body: 'body',
                         slug: 'title', description: 'awesome template')
     end
 
@@ -26,9 +26,9 @@ module Landable
         revision.template_id = template.id
         revision.author_id = author.id
         revision.unpublish!
-        revision.is_published.should == false
+        revision.is_published.should eq false
         revision.publish!
-        revision.is_published.should == true
+        revision.is_published.should eq true
       end
     end
   end

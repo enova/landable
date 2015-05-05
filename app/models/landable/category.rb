@@ -12,16 +12,14 @@ module Landable
     def to_liquid
       {
         'name' => name,
-        'pages' => pages.published,
+        'pages' => pages.published
       }
     end
-
 
     protected
 
     def set_slug
       self.slug = name.downcase.gsub(/[^\w]/, '_').gsub(/_{2,}/, '_')
     end
-
   end
 end

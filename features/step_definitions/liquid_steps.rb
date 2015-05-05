@@ -1,15 +1,15 @@
 Given 'the asset URI prefix is "$uri"' do |uri|
   # Kinda bogus, but makes explicit tests significantly easier
   Landable::Asset.stub(:url_generator) do
-    proc { |asset|
+    proc do |asset|
       uri = "#{uri}/" unless uri.ends_with?('/')
       "#{uri}#{asset.data}"
-    }
+    end
   end
 end
 
-Given /^a page under test$/ do
-  @page = Landable::Page.new(title: "Page Under Test")
+Given(/^a page under test$/) do
+  @page = Landable::Page.new(title: 'Page Under Test')
 end
 
 Given "the page's body is \"$body\"" do |body|
@@ -31,13 +31,13 @@ Given "the page's head tag is \"$tag\"" do |tag|
   @page.head_content = tag
 end
 
-Given "the page uses a theme with the body:" do |body|
+Given 'the page uses a theme with the body:' do |body|
   @page.theme ||= Landable::Theme.new
   @theme ||= @page.theme
   @page.theme.body = body
 end
 
-Given "these assets:" do |table|
+Given 'these assets:' do |table|
   table.hashes.each do |attrs|
     create :asset, attrs
   end
@@ -59,7 +59,7 @@ Given 'the template "$template_slug" with the body:' do |template_slug, template
   @template = Landable::Template.create! name: template_slug, slug: template_slug, body: template_body, description: template_slug
 end
 
-When  'the template "$published_variable" been published' do |published_variable|
+When 'the template "$published_variable" been published' do |published_variable|
   if published_variable == 'has'
     @template.publish! author: create(:author), notes: 'initial revision', is_minor: true
   end
@@ -86,5 +86,5 @@ end
 Then 'the rendered content should be:' do |body|
   @responder ||= nil
   @rendered_content ||= Landable::RenderService.call(@page, responder: @responder)
-  @rendered_content.strip.should == body.strip
+  @rendered_content.strip.should eq body.strip
 end

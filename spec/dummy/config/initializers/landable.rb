@@ -20,16 +20,17 @@ Landable.configure do |config|
     messaging_service: BunnyMessagingService,
     enabled: 'true',
     event_mapping: {
-        '/my_path' => { 'GET' => 'Customer Landed',
-                        'POST' => 'Customer Submitted',
-                        'DELETE' => 'Customer Left'
-                      }
-      }.freeze
+      '/' => 'Home page',
+      '/my_path' => { 'GET' => 'Customer Landed',
+                      'POST' => 'Customer Submitted',
+                      'DELETE' => 'Customer Left'
+                    }
+    }.freeze
   }
 end
 
 # Configure asset uploads. Assets will be uploaded to public/uploads by default.
 # More configuration options: https://github.com/carrierwaveuploader/carrierwave
-CarrierWave.configure do |config|
+CarrierWave.configure do |_config|
   # config.asset_host = 'http://cdn.myapp.com'
 end

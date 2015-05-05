@@ -3,7 +3,7 @@ module Landable
     include ActionView::Helpers::TagHelper
 
     def initialize(page)
-      raise TypeError.new("Use Landable::NullPageDecorator") if page.nil?
+      fail(TypeError, 'Use Landable::NullPageDecorator') if page.nil?
       @page = page
     end
 
@@ -30,9 +30,9 @@ module Landable
     def meta_tags
       return nil unless page.meta_tags?
 
-      page.meta_tags.map { |name, value|
+      page.meta_tags.map do |name, value|
         tag('meta', name: name, content: value) if value.present?
-      }.compact.join("\n").html_safe
+      end.compact.join("\n").html_safe
     end
 
     private

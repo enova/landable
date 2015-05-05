@@ -4,13 +4,13 @@ require 'spec_helper'
 
 module Landable
   describe Layout do
-    it "creates themes" do
+    it 'creates themes' do
       Theme.destroy_all
       expect { described_class.all.each(&:to_theme) }.to change { Theme.count }.by(3)
     end
 
-    it "defaults attributes" do
-      theme = Theme.where(file: "application").first
+    it 'defaults attributes' do
+      theme = Theme.where(file: 'application').first
       theme.attributes.should include({
         name:        'Application',
         file:        'application',
@@ -19,7 +19,7 @@ module Landable
         description: 'Defined in application.html.erb'
       }.stringify_keys)
 
-      theme.body.should == File.read(Rails.root.join('app/views/layouts/application.html.erb'))
+      theme.body.should eq File.read(Rails.root.join('app/views/layouts/application.html.erb'))
     end
 
     context 'File Finding' do

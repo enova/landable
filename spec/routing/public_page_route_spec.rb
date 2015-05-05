@@ -1,16 +1,15 @@
 require 'spec_helper'
 
 describe 'public page routes' do
-
   routes { Landable::Engine.routes }
 
   context 'should match' do
     let(:author) { create :author }
     let(:pages) do
-      [ create(:page, status_code: 200),
-        create(:page, status_code: 301, redirect_url: 'http://google.com/'),
-        create(:page, status_code: 302, redirect_url: 'http://foobar.com/'),
-        create(:page, status_code: 410)
+      [create(:page, status_code: 200),
+       create(:page, status_code: 301, redirect_url: 'http://google.com/'),
+       create(:page, status_code: 302, redirect_url: 'http://foobar.com/'),
+       create(:page, status_code: 410)
       ].each do |page|
         page.publish! author: author, status_code: page.status_code
       end

@@ -28,23 +28,20 @@ module Landable
           p.query_string = untracked_parameters.to_query
           p.request_id   = request.uuid
 
-          p.click_id     = tracking_parameters["click_id"]
+          p.click_id     = tracking_parameters['click_id']
 
           p.http_status  = response.status
 
           p.visit_id     = @visit_id
-          # this is strange, yes, but is it better than a db call?
-          p.created_at   = Time.current
-
-          p.response_time = ( Time.now - @start_time ) * 1000
+          current_time = Time.now
+          p.created_at   = current_time
+          p.response_time = (current_time - @start_time) * 1000
         end
       end
 
       def save
         p = record_page_view
-        if Landable.configuration.amqp_service_enabled
-          EventPublisher.publish(p)
-        end
+        EventPublisher.publish(p) if Landable.configuration.amqp_service_enabled
 
         session[:landable] = {
           KEYS[:visit_id]         => @visit_id,

@@ -7,10 +7,10 @@ module Landable
   class Asset < ActiveRecord::Base
     include Landable::TableName
     include Landable::Librarian
-    
+
     mount_uploader :data, Landable::AssetUploader
-    alias :file :data
-    alias :file= :data=
+    alias_method :file, :data
+    alias_method :file=, :data=
 
     # This bit of indirection allows us to generate predictable
     # URLs in the test environment.
@@ -25,11 +25,11 @@ module Landable
 
     before_validation :write_metadata, on: :create
 
-    validates_presence_of     :data, :author
-    validates_presence_of     :name, :mime_type, :md5sum, :file_size
-    validates_uniqueness_of   :md5sum
+    validates_presence_of :data, :author
+    validates_presence_of :name, :mime_type, :md5sum, :file_size
+    validates_uniqueness_of :md5sum
     validates_numericality_of :file_size, only_integer: true
-    validates_format_of       :name, :with => /^[\w\._-]+$/, :on => :create, :multiline => true, :message => 'can only contain alphanumeric characters, periods, underscores, and dashes'
+    validates_format_of :name, with: /^[\w\._-]+$/, on: :create, multiline: true, message: 'can only contain alphanumeric characters, periods, underscores, and dashes'
 
     def public_url
       self.class.url_generator.call(self)
@@ -42,7 +42,7 @@ module Landable
 
     def associated_pages
       paths = []
-      Page.where("body like ?", "%#{self.name}%").each do |page|
+      Page.where('body like ?', "%#{name}%").each do |page|
         paths.push(page.path)
       end
       paths

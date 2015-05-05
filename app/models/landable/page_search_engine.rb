@@ -8,13 +8,12 @@ module Landable
     end
 
     def filter_by!(filters)
-      if ids = as_array(filters[:ids])
-        @scope = @scope.where(page_id: ids)
-      end
+      ids = as_array(filters[:ids])
+      @scope = @scope.where(page_id: ids) if ids
 
-      if path = filters[:path].presence
-        @scope = @scope.with_fuzzy_path(path)
-      end
+      path = filters[:path].presence
+      return unless path
+      @scope = @scope.with_fuzzy_path(path)
     end
   end
 end

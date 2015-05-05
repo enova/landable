@@ -36,39 +36,36 @@ module Landable
       end
 
       # passthrough for body=; clears the asset_names cache in the process
-      def body= body_val
+      def body=(body_val)
         @asset_names = nil
         self[:body] = body_val
       end
 
       # this looks weird; I swear it works
       def save_assets!
-        self.assets = self.assets
+        self.assets = assets
       end
-
 
       private
 
-      def asset_names_for_node node, names = []
+      def asset_names_for_node(node, names = [])
         # set up a recursing function to search for asset tags
         if node.is_a? Landable::Liquid::AssetTag
           names << node.asset_name unless names.include? node.asset_name
         end
 
-        if node.respond_to? :nodelist and node.nodelist
-          node.nodelist.each { |node| asset_names_for_node node, names }
+        if node.respond_to?(:nodelist) && node.nodelist
+          node.nodelist.each { |n| asset_names_for_node n, names }
         end
 
         names
       end
-
     end
 
     module ClassMethods
       def assets_join_table_name
-        "#{Landable.configuration.database_schema_prefix}landable.#{self.name.underscore.split('/').last}_assets"
+        "#{Landable.configuration.database_schema_prefix}landable.#{name.underscore.split('/').last}_assets"
       end
     end
-
   end
 end

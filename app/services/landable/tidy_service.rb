@@ -1,10 +1,13 @@
 module Landable
   module TidyService
-
     class TidyError < StandardError; end
 
-    mattr_accessor :options
-    @@options = [
+    class << self
+      attr_accessor :options
+      attr_accessor :liquid_elements
+    end
+
+    @options = [
       # is what we have
       '-utf8',
 
@@ -31,28 +34,21 @@ module Landable
 
       # silence will fall
       '--quiet true',
-      '--show-warnings false',
+      '--show-warnings false'
     ]
 
     # list of liquid tags that also render tags - things that we should
     # consider to be element-level, and therefore to be tidied along with the
     # rest of the dom
-    mattr_accessor :liquid_elements
-    @@liquid_elements = [
-      'template',
-      'title_tag',
-      'meta_tags',
-      'img_tag',
-    ]
+    @liquid_elements = %w(template title_tag meta_tags img_tag)
 
-
-    def self.call! input
-      self.call input, raise_on_error: true
+    def self.call!(input)
+      call input, raise_on_error: true
     end
 
-    def self.call input, runtime_options={}
-      if not tidyable?
-        raise TidyError, 'Your system doesn\'t seem to have tidy installed. Please see https://github.com/w3c/tidy-html5.'
+    def self.call(input, runtime_options = {})
+      unless tidyable?
+        fail TidyError, 'Your system doesn\'t seem to have tidy installed. Please see https://github.com/w3c/tidy-html5.'
       end
 
       # wrapping known liquid in a span to allow tidy to format them nicely
@@ -70,8 +66,8 @@ module Landable
       # 2: error
       # 3: ???
       # 4: profit
-      if $?.exitstatus >= 2 and runtime_options[:raise_on_error]
-        raise TidyError, "Tidy exited with status #{$?} - check stderr."
+      if $CHILD_STATUS.exitstatus >= 2 && runtime_options[:raise_on_error]
+        fail TidyError, "Tidy exited with status #{$CHILD_STATUS} - check stderr."
       end
 
       # unnwrapping the liquid that we wrapped earlier
@@ -82,12 +78,12 @@ module Landable
     end
 
     def self.tidyable?
-      @@is_tidyable ||= Kernel.system('which tidy > /dev/null')
+      @is_tidyable ||= Kernel.system('which tidy > /dev/null')
     end
 
     protected
 
-    def self.wrap_liquid input
+    def self.wrap_liquid(input)
       output = input.dup
 
       output.scan(/(\s*(\{% *(?:#{liquid_elements.join('|')}) *.*?%})\s*)/).each do |match, liquid|
@@ -100,10 +96,10 @@ module Landable
       output
     end
 
-    def self.unwrap_liquid input
+    def self.unwrap_liquid(input)
       output = input.dup
 
-      output.scan(/(<div data-liquid="(.*?)"><\/div>)/).each do |match, liquid|
+      output.scan(%r{(<div data-liquid="(.*?)"><\/div>)}).each do |match, liquid|
         # ensure we match utf8 for utf8
         decoded = Base64.decode64(liquid).force_encoding(match.encoding)
         output.gsub! match, decoded
@@ -112,9 +108,8 @@ module Landable
       output
     end
 
-
     class Result < Object
-      def initialize source
+      def initialize(source)
         @source = source
       end
 
@@ -123,33 +118,33 @@ module Landable
       end
 
       def body
-        if match = @source.match(/<body(?: [^>]*)?>(.*)<\/body>/m)
-          deindent match[1]
-        end
+        match = @source.match(%r{<body(?: [^>]*)?>(.*)<\/body>}m)
+        return unless match
+        deindent match[1]
       end
 
       def head
-        if match = @source.match(/<head>(.*)<\/head>/m)
-          deindent match[1]
-        end
+        match = @source.match(%r{<head>(.*)<\/head>}m)
+        return unless match
+        deindent match[1]
       end
 
       def css
-        links = head.try :scan, /<link [^>]*type=['"]text\/css['"][^>]*>/
-        styles = head.try :scan, /<style[^>]*>.*?<\/style>/m
+        links = head.try :scan, %r{<link [^>]*type=['"]text\/css['"][^>]*>}
+        styles = head.try :scan, %r{<style[^>]*>.*?<\/style>}m
         [links.to_a, styles.to_a].flatten.join("\n\n")
       end
 
       protected
 
-      def deindent string
-        if match = string.match(/^([ \t]*)[^\s]/)
+      def deindent(string)
+        match = string.match(/^([ \t]*)[^\s]/)
+        if match
           string.gsub(/^#{match[1]}/, '').strip
         else
           string.strip
         end
       end
     end
-
   end
 end

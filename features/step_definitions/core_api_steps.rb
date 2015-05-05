@@ -2,33 +2,35 @@
 
 expand_mustache = lambda do |context, str|
   if str.respond_to?(:gsub)
-    str.gsub(/\{\{([^ ].+?)\}\}/) { context.eval($1) }
+    str.gsub(/\{\{([^ ].+?)\}\}/) { context.eval(Regexp.last_match(1)) }
   else
     str
   end
 end
 
-module Landable::FeatureHelper
-  def basic_authorize!(author = current_author, token = current_access_token)
-    basic_authorize author.username, token.id
-  end
+module Landable
+  module FeatureHelper
+    def basic_authorize!(author = current_author, token = current_access_token)
+      basic_authorize author.username, token.id
+    end
 
-  def current_author
-    @current_author ||= create :author
-  end
+    def current_author
+      @current_author ||= create :author
+    end
 
-  def current_access_token
-    @current_access_token ||= create :access_token, author: @current_author
-  end
+    def current_access_token
+      @current_access_token ||= create :access_token, author: @current_author
+    end
 
-  def last_json(body = last_response.body)
-    JSON.parse body
-  end
+    def last_json(body = last_response.body)
+      JSON.parse body
+    end
 
-  def latest(model)
-    model = model.to_s.classify
-    klass = "Landable::#{model}".constantize
-    klass.order('created_at DESC').first!
+    def latest(model)
+      model = model.to_s.classify
+      klass = "Landable::#{model}".constantize
+      klass.order('created_at DESC').first!
+    end
   end
 end
 
@@ -68,11 +70,11 @@ Given 'my access token expired 2 minutes ago' do
   current_access_token.update_attributes!(expires_at: 2.minutes.ago)
 end
 
-When /^I (HEAD|GET|POST|PUT|PATCH|DELETE|OPTIONS)(?: to)? "(.+?)"$/ do |http_method, path|
+When(/^I (HEAD|GET|POST|PUT|PATCH|DELETE|OPTIONS)(?: to)? "(.+?)"$/) do |http_method, path|
   request expand_mustache[binding, path], method: http_method
 end
 
-When /^I (POST|PUT|PATCH|DELETE|OPTIONS)(?: to)? "(.+?)"(?: with)?:$/ do |http_method, path, body|
+When(/^I (POST|PUT|PATCH|DELETE|OPTIONS)(?: to)? "(.+?)"(?: with)?:$/) do |http_method, path, body|
   request expand_mustache[binding, path], method: http_method, params: body
 end
 
@@ -93,7 +95,7 @@ Then 'my access token should not expire for at least 2 hours' do
   token.expires_at.should be >= 2.hours.from_now
 end
 
-Then /^the response(?: status)? should(?: (not))? be (\d{3})(?: "[A-Za-z ]+")?$/ do |negate, code|
+Then(/^the response(?: status)? should(?: (not))? be (\d{3})(?: "[A-Za-z ]+")?$/) do |negate, code|
   code = Integer(code)
   if negate == 'not'
     last_response.status.should_not eq(code)
@@ -102,13 +104,13 @@ Then /^the response(?: status)? should(?: (not))? be (\d{3})(?: "[A-Za-z ]+")?$/
   end
 end
 
-Then /^the response should contain (?:a|an) "([^"]+)"$/ do |model|
+Then(/^the response should contain (?:a|an) "([^"]+)"$/) do |model|
   last_json.should have_key(model)
   last_json[model].should have_key('id')
 end
 
-Then /^the response should contain (\d+) "([^"]+)"$/ do |count, kind|
-  last_json[kind].length.should == Integer(count)
+Then(/^the response should contain (\d+) "([^"]+)"$/) do |count, kind|
+  last_json[kind].length.should eq Integer(count)
 end
 
 Then 'the response body should be empty' do
@@ -116,11 +118,11 @@ Then 'the response body should be empty' do
 end
 
 Then 'the response body should be "$body"' do |body|
-  last_response.body.should == body
+  last_response.body.should eq body
 end
 
 Then 'I should have been redirected to "$url"' do |url|
-  last_response.headers['Location'].should == url
+  last_response.headers['Location'].should eq url
 end
 
 Then 'the response headers should include:' do |table|
@@ -131,7 +133,7 @@ Then 'the response headers should include:' do |table|
 end
 
 Then 'the JSON at "$path" should be "$value"' do |json_path, value|
-  at_json(json_path).should == value
+  at_json(json_path).should eq value
 end
 
 Then 'the response header "$header" should be "$content_type"' do |header, content_type|

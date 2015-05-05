@@ -10,7 +10,7 @@ module Landable
       belongs_to :visitor
       belongs_to :referer
 
-      has_many   :page_views
+      has_many :page_views
     end
   end
 end

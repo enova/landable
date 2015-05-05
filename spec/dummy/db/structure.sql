@@ -435,8 +435,8 @@ CREATE TABLE templates (
 -- Name: TABLE templates; Type: COMMENT; Schema: dummy_landable; Owner: -
 --
 
-COMMENT ON TABLE templates IS 'Created templates to be consumed by pages. 
-              A template can supply ''starter'' code for a page. 
+COMMENT ON TABLE templates IS 'Created templates to be consumed by pages.
+              A template can supply ''starter'' code for a page.
               A template can also supply code to create elements on a page (sidebars, for example).';
 
 
@@ -1373,8 +1373,8 @@ CREATE VIEW path_response_time__by_time AS
             p.path,
             round(avg(pv.response_time), 3) AS "average response time (ms)"
            FROM (page_views pv
-      JOIN paths p ON ((p.path_id = pv.path_id)))
-     GROUP BY p.path_id, p.path) agg1
+             JOIN paths p ON ((p.path_id = pv.path_id)))
+          GROUP BY p.path_id, p.path) agg1
   ORDER BY agg1."average response time (ms)" DESC;
 
 
@@ -1382,7 +1382,8 @@ CREATE VIEW path_response_time__by_time AS
 -- Name: VIEW path_response_time__by_time; Type: COMMENT; Schema: dummy_landable_traffic; Owner: -
 --
 
-COMMENT ON VIEW path_response_time__by_time IS ' The view path_response_time__by_time returns the paths displayed and the average reponse time (in ms) for each page of the site.  This list is ordered by response time, decending.';
+COMMENT ON VIEW path_response_time__by_time IS '
+  The view path_response_time__by_time returns the paths displayed and the average reponse time (in ms) for each page of the site.  This list is ordered by response time, decending.';
 
 
 --

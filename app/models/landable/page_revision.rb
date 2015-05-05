@@ -6,21 +6,10 @@ module Landable
     include Landable::HasAssets
     include Landable::TableName
 
-    @@ignored_page_attributes = [
-      'page_id',
-      'imported_at',
-      'created_at',
-      'deleted_at',
-      'updated_at',
-      'published_revision_id',
-      'is_publishable',
-      'updated_by_author_id',
-      'lock_version',
-      'audit_flags',
-      'page_name'
-    ]
-
-    cattr_accessor :ignored_page_attributes
+    class << self
+      attr_accessor :ignored_page_attributes
+    end
+    @ignored_page_attributes = %w(page_id imported_at created_at deleted_at updated_at published_revision_id is_publishable updated_by_author_id lock_version audit_flags page_name)
 
     belongs_to :author
     belongs_to :page, inverse_of: :revisions
@@ -46,17 +35,17 @@ module Landable
     end
 
     def snapshot
-      Page.new(title: self.title,
+      Page.new(title: title,
                meta_tags: page.meta_tags,
                head_content: page.head_content,
-               body: self.body,
-               path: self.path,
-               redirect_url: self.redirect_url,
-               status_code: self.status_code,
-               theme_id: self.theme_id,
-               category_id: self.category_id,
-               abstract: self.abstract,
-               hero_asset_id: self.hero_asset_id)
+               body: body,
+               path: path,
+               redirect_url: redirect_url,
+               status_code: status_code,
+               theme_id: theme_id,
+               category_id: category_id,
+               abstract: abstract,
+               hero_asset_id: hero_asset_id)
     end
 
     def publish!
@@ -69,18 +58,18 @@ module Landable
 
     def republish!(options)
       unpublish!
-      PageRevision.create!(page_id: self.page_id,
-                           title: self.title,
+      PageRevision.create!(page_id: page_id,
+                           title: title,
                            meta_tags: page.meta_tags,
                            head_content: page.head_content,
-                           body: self.body,
-                           path: self.path,
-                           redirect_url: self.redirect_url,
-                           status_code: self.status_code,
-                           theme_id: self.theme_id,
-                           category_id: self.category_id,
-                           abstract: self.abstract,
-                           hero_asset_id: self.hero_asset_id,
+                           body: body,
+                           path: path,
+                           redirect_url: redirect_url,
+                           status_code: status_code,
+                           theme_id: theme_id,
+                           category_id: category_id,
+                           abstract: abstract,
+                           hero_asset_id: hero_asset_id,
                            notes: "Publishing update for template #{options[:template]}: #{options[:notes]}",
                            is_minor: options[:is_minor],
                            author_id: options[:author_id],
@@ -88,12 +77,10 @@ module Landable
     end
 
     def preview_url
-      begin
-        public_preview_page_revision_url(self, host: Landable.configuration.public_host)
-      rescue ArgumentError
-        Rails.logger.warn "Failed to generate preview url for page revision #{id} - missing Landable.configuration.public_host"
-        nil
-      end
+      public_preview_page_revision_url(self, host: Landable.configuration.public_host)
+    rescue ArgumentError
+      Rails.logger.warn "Failed to generate preview url for page revision #{id} - missing Landable.configuration.public_host"
+      nil
     end
 
     def preview_path
@@ -135,5 +122,4 @@ module Landable
       end
     end
   end
-
 end

@@ -1,7 +1,7 @@
 # coding: utf-8
 
 lib = File.expand_path('../lib', __FILE__)
-$:.unshift(lib) unless $:.include?(lib)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 # Maintain your gem's version:
 require 'landable/version'
@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
   gem.summary       = 'Mountable CMS engine for Rails'
   gem.description   = 'Landing page storage, rendering, tracking, and management API'
 
-  gem.files         = `git ls-files`.split($/)
+  gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.executables   = gem.files.grep(%r{^bin/}) { |f| File.basename(f) }
 

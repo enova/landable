@@ -10,7 +10,7 @@ module Landable
         return ident if ident
       end
 
-      raise AuthenticationFailedError
+      fail AuthenticationFailedError
     end
 
     class EchoAuthenticator

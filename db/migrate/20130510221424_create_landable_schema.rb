@@ -3,21 +3,20 @@ class CreateLandableSchema < Landable::Migration
     # This really should not be in this migration, but it's a convenient location
     # while everything's still under development.
     #
-    # TODO extract to a separate migration, check if it exists, maybe check if we
+    # TODO: extract to a separate migration, check if it exists, maybe check if we
     # actually have permission to do it, etc.
     execute 'CREATE EXTENSION "uuid-ossp";'
-    enable_extension "uuid-ossp"
-    enable_extension "hstore"
-    enable_extension "pg_trgm"
+    enable_extension 'uuid-ossp'
+    enable_extension 'hstore'
+    enable_extension 'pg_trgm'
 
     execute 'ALTER EXTENSION "uuid-ossp" SET SCHEMA "public";'
     execute "CREATE SCHEMA #{Landable.configuration.database_schema_prefix}landable;"
 
-
     ## status_codes
 
     create_table "#{Landable.configuration.database_schema_prefix}landable.status_code_categories", id: :uuid, primary_key: :status_code_category_id do |t|
-      t.text      :name, null: false
+      t.text :name, null: false
     end
 
     execute "CREATE UNIQUE INDEX #{Landable.configuration.database_schema_prefix}landable_status_code_categories__u_name ON #{Landable.configuration.database_schema_prefix}landable.status_code_categories(lower(name))"
@@ -25,16 +24,15 @@ class CreateLandableSchema < Landable::Migration
               $$Categories that status codes belong to.  Used to affect behavior when viewing a page.$$"
 
     create_table "#{Landable.configuration.database_schema_prefix}landable.status_codes", id: :uuid, primary_key: :status_code_id do |t|
-      t.uuid      :status_code_category_id, null: false
-      t.integer   :code,                    null: false, limit: 2 # Creates as smallint
-      t.text      :description,             null: false
+      t.uuid :status_code_category_id, null: false
+      t.integer :code,                    null: false, limit: 2 # Creates as smallint
+      t.text :description,             null: false
     end
 
     execute "CREATE UNIQUE INDEX #{Landable.configuration.database_schema_prefix}landable_status_codes__u_code ON #{Landable.configuration.database_schema_prefix}landable.status_codes(code)"
     execute "ALTER TABLE #{Landable.configuration.database_schema_prefix}landable.status_codes ADD CONSTRAINT status_code_category_fk FOREIGN KEY(status_code_category_id) REFERENCES #{Landable.configuration.database_schema_prefix}landable.status_code_categories(status_code_category_id)"
     execute "COMMENT ON TABLE #{Landable.configuration.database_schema_prefix}landable.status_codes IS
               $$Allowed status codes that pages can be set to.$$"
-
 
     ## themes
 
@@ -50,7 +48,6 @@ class CreateLandableSchema < Landable::Migration
     execute "COMMENT ON TABLE #{Landable.configuration.database_schema_prefix}landable.themes IS
               $$Created themes to be consumed by pages.  Themes supply formatting (css) rules and can supply header/footer content as well.$$"
 
-
     ## templates
 
     create_table "#{Landable.configuration.database_schema_prefix}landable.templates", id: :uuid, primary_key: :template_id do |t|
@@ -65,28 +62,28 @@ class CreateLandableSchema < Landable::Migration
 
     execute "CREATE UNIQUE INDEX #{Landable.configuration.database_schema_prefix}landable_templates__u_name ON #{Landable.configuration.database_schema_prefix}landable.templates(lower(name))"
     execute "COMMENT ON TABLE #{Landable.configuration.database_schema_prefix}landable.templates IS
-              $$Created templates to be consumed by pages. 
-              A template can supply 'starter' code for a page. 
+              $$Created templates to be consumed by pages.
+              A template can supply 'starter' code for a page.
               A template can also supply code to create elements on a page (sidebars, for example).$$"
 
     ## pages
 
     create_table "#{Landable.configuration.database_schema_prefix}landable.pages", id: :uuid, primary_key: :page_id do |t|
-      t.uuid      :published_revision_id
-      t.boolean   :is_publishable, null: false, default: true
+      t.uuid :published_revision_id
+      t.boolean :is_publishable, null: false, default: true
 
-      t.uuid      :theme_id
-      t.uuid      :category_id
-      t.uuid      :status_code_id, null: false
+      t.uuid :theme_id
+      t.uuid :category_id
+      t.uuid :status_code_id, null: false
 
-      t.text      :path, null: false
+      t.text :path, null: false
 
-      t.text      :title
-      t.text      :body
+      t.text :title
+      t.text :body
 
-      t.text      :redirect_url
+      t.text :redirect_url
 
-      t.hstore    :meta_tags
+      t.hstore :meta_tags
 
       t.timestamp :imported_at
       t.timestamps
@@ -123,11 +120,10 @@ class CreateLandableSchema < Landable::Migration
     execute "COMMENT ON TABLE #{Landable.configuration.database_schema_prefix}landable.authors IS
               $$A list of authors that have accessed the website.  Feeds foreign keys so we know which authors have published pages and updated assets.$$"
 
-
     ## access_tokens
 
     create_table "#{Landable.configuration.database_schema_prefix}landable.access_tokens", id: :uuid, primary_key: :access_token_id do |t|
-      t.uuid      :author_id,  null: false
+      t.uuid :author_id,  null: false
       t.timestamp :expires_at, null: false
       t.timestamps
     end
@@ -137,19 +133,18 @@ class CreateLandableSchema < Landable::Migration
     execute "COMMENT ON TABLE #{Landable.configuration.database_schema_prefix}landable.access_tokens IS
               $$Access tokens provide authentication information for specific users.$$"
 
-
     ## page_revisions
 
     create_table "#{Landable.configuration.database_schema_prefix}landable.page_revisions", id: :uuid, primary_key: :page_revision_id do |t|
-      t.integer   :ordinal
-      t.text      :notes
-      t.boolean   :is_minor,      default: false
-      t.boolean   :is_published,  default: true
+      t.integer :ordinal
+      t.text :notes
+      t.boolean :is_minor,      default: false
+      t.boolean :is_published,  default: true
 
-      t.uuid      :page_id,   null: false
-      t.uuid      :author_id, null: false
+      t.uuid :page_id,   null: false
+      t.uuid :author_id, null: false
 
-      t.text      :snapshot_attributes, null: false
+      t.text :snapshot_attributes, null: false
 
       t.timestamps
     end
@@ -159,12 +154,11 @@ class CreateLandableSchema < Landable::Migration
               The attributes of the page at the time of publishing are stored in snapshot_attributes, as essentially a text representation of a hash.
               The current/active/live revision can be identified by referring to its corresponding PAGES record, OR by looking for the max(ordinal) for a given page_id.$$"
 
-
     ## categories
 
     create_table "#{Landable.configuration.database_schema_prefix}landable.categories", id: :uuid, primary_key: :category_id do |t|
-      t.text      :name
-      t.text      :description
+      t.text :name
+      t.text :description
     end
 
     execute "CREATE UNIQUE INDEX #{Landable.configuration.database_schema_prefix}landable_categories__u_name ON #{Landable.configuration.database_schema_prefix}landable.categories(lower(name))"
@@ -172,16 +166,15 @@ class CreateLandableSchema < Landable::Migration
               $$Categories are used to sort pages.
               Examples could include SEO, PPC.$$"
 
-
     ## assets
 
     create_table "#{Landable.configuration.database_schema_prefix}landable.assets", id: :uuid, primary_key: :asset_id do |t|
-      t.uuid    :author_id,   null: false
-      t.text    :name,        null: false
-      t.text    :description
-      t.text    :data,        null: false
-      t.text    :md5sum,      null: false, length: 32
-      t.text    :mime_type,   null: false
+      t.uuid :author_id,   null: false
+      t.text :name,        null: false
+      t.text :description
+      t.text :data,        null: false
+      t.text :md5sum,      null: false, length: 32
+      t.text :mime_type,   null: false
       t.integer :file_size
       t.timestamps
     end
@@ -196,7 +189,6 @@ class CreateLandableSchema < Landable::Migration
               $$List of all assets uploaded.
               Examples of assets include images (jpg, png, gif) and documents (PDF).
               data, md5sum, mime_type, file_size are populated via the rails gem CarrierWave when a record is created.$$"
-
 
     ## browsers
 
@@ -214,7 +206,6 @@ class CreateLandableSchema < Landable::Migration
     end
 
     execute "CREATE INDEX #{Landable.configuration.database_schema_prefix}landable_screenshots__device_browser_browser_version ON #{Landable.configuration.database_schema_prefix}landable.browsers(device, browser, browser_version)"
-
 
     ## screenshots
 
@@ -240,7 +231,6 @@ class CreateLandableSchema < Landable::Migration
     execute "ALTER TABLE #{Landable.configuration.database_schema_prefix}landable.screenshots ADD CONSTRAINT browser_id_fk FOREIGN KEY (browser_id) REFERENCES #{Landable.configuration.database_schema_prefix}landable.browsers(browser_id)"
     execute "COMMENT ON TABLE #{Landable.configuration.database_schema_prefix}landable.screenshots IS
               $$Stores saved screenshots (taken of pages) and the URLs to retrieve the actual image.$$"
-
 
     ## asset associations table
 
@@ -305,9 +295,9 @@ class CreateLandableSchema < Landable::Migration
        $TRIGGER$
        LANGUAGE plpgsql;"
 
-      execute "CREATE TRIGGER #{Landable.configuration.database_schema_prefix}landable_page_revisions__bfr_insert
-              BEFORE INSERT ON #{Landable.configuration.database_schema_prefix}landable.page_revisions
-              FOR EACH ROW EXECUTE PROCEDURE #{Landable.configuration.database_schema_prefix}landable.pages_revision_ordinal();"
+    execute "CREATE TRIGGER #{Landable.configuration.database_schema_prefix}landable_page_revisions__bfr_insert
+            BEFORE INSERT ON #{Landable.configuration.database_schema_prefix}landable.page_revisions
+            FOR EACH ROW EXECUTE PROCEDURE #{Landable.configuration.database_schema_prefix}landable.pages_revision_ordinal();"
 
     # Trigger disallowing deletes on page_revisions
     execute "CREATE FUNCTION #{Landable.configuration.database_schema_prefix}landable.tg_disallow()
@@ -328,13 +318,12 @@ class CreateLandableSchema < Landable::Migration
        $TRIGGER$
        LANGUAGE plpgsql;"
 
-      execute "CREATE TRIGGER #{Landable.configuration.database_schema_prefix}landable_page_revisions__no_delete
-              BEFORE DELETE ON #{Landable.configuration.database_schema_prefix}landable.page_revisions
-              FOR EACH STATEMENT EXECUTE PROCEDURE #{Landable.configuration.database_schema_prefix}landable.tg_disallow();"
+    execute "CREATE TRIGGER #{Landable.configuration.database_schema_prefix}landable_page_revisions__no_delete
+            BEFORE DELETE ON #{Landable.configuration.database_schema_prefix}landable.page_revisions
+            FOR EACH STATEMENT EXECUTE PROCEDURE #{Landable.configuration.database_schema_prefix}landable.tg_disallow();"
 
-      execute "CREATE TRIGGER #{Landable.configuration.database_schema_prefix}landable_page_revisions__no_update
-              BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal ON #{Landable.configuration.database_schema_prefix}landable.page_revisions
-              FOR EACH STATEMENT EXECUTE PROCEDURE #{Landable.configuration.database_schema_prefix}landable.tg_disallow();"
-
+    execute "CREATE TRIGGER #{Landable.configuration.database_schema_prefix}landable_page_revisions__no_update
+            BEFORE UPDATE OF notes, is_minor, page_id, author_id, created_at, ordinal ON #{Landable.configuration.database_schema_prefix}landable.page_revisions
+            FOR EACH STATEMENT EXECUTE PROCEDURE #{Landable.configuration.database_schema_prefix}landable.tg_disallow();"
   end
 end

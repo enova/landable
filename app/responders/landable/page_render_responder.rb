@@ -8,7 +8,7 @@ module Landable
                                 content_type: page.content_type,
                                 layout: (page.theme.try(:file) || false)
       when 301, 302 then redirect_to page.redirect_url, status: page.status_code
-      else          raise page.error
+      else          fail page.error
       end
     end
   end

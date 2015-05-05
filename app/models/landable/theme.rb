@@ -6,7 +6,7 @@ module Landable
     include Landable::HasAssets
     include Landable::Librarian
 
-    validates_presence_of   :name, :description
+    validates_presence_of :name, :description
     validates_uniqueness_of :name, case_sensitive: false
 
     has_many :pages, inverse_of: :theme

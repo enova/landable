@@ -4,7 +4,7 @@ Landable::Engine.routes.draw do
     resources :categories, only: [:index, :show]
 
     resources :directories, only: [:index, :show], constraints: {
-      id: /[%a-zA-Z0-9\/_.~-]*/
+      id: %r{[%a-zA-Z0-9\/_.~-]*}
     }
 
     resources :assets, only: [:index, :show, :create, :update, :deactivate, :destroy]
@@ -50,7 +50,6 @@ Landable::Engine.routes.draw do
 
     resources :access_tokens, only: [:create, :destroy, :show]
 
-
     # coming soon: screenshots!
 
     # resources :screenshots, only: [:index, :show, :create] do
@@ -69,9 +68,7 @@ Landable::Engine.routes.draw do
 
     get '/sitemap.xml' => 'sitemap#index', as: :sitemap
 
-    get '*url' => 'pages#show', as: :page, format: false, constraints: lambda { |request|
-      # Published Landable Page
-      Landable::PageRevision.table_exists? && Landable::PageRevision.where(path: request.path, is_published: true).any?
-    }
+    constraint = ->(request) { Landable::PageRevision.table_exists? && Landable::PageRevision.where(path: request.path, is_published: true).any? }
+    get '*url' => 'pages#show', as: :page, format: false, constraints: constraint
   end
 end
