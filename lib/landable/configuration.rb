@@ -13,6 +13,10 @@ module Landable
     attr_writer :dnt_enabled, :amqp_event_mapping, :amqp_site_segment
     attr_writer :amqp_service_enabled, :amqp_messaging_service
 
+    def amqp_configuration
+      @amqp_configuration ||= {}
+    end
+
     def authenticators
       @authenticators || fail('No Landable authenticator configured.')
     end
