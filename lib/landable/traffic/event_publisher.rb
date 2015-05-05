@@ -5,7 +5,7 @@ module Landable
     class << self
       def publish(page_view)
         @configuration = Landable.configuration.amqp_configuration
-        return unless @configuration && enabled?
+        return unless enabled?
 
         @event_type = event_type(page_view)
         return unless @event_type

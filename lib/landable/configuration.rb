@@ -161,7 +161,6 @@ module Landable
     end
 
     def amqp_service_enabled
-      return false unless amqp_configuration
       amqp_configuration[:enabled] && amqp_configuration[:messaging_service]
     end
 
