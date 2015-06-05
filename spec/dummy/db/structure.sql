@@ -207,10 +207,10 @@ COMMENT ON TABLE assets IS 'List of all assets uploaded.
 CREATE TABLE audits (
     id integer NOT NULL,
     auditable_id uuid,
-    auditable_type character varying(255),
+    auditable_type character varying,
     notes text,
     approver text,
-    flags character varying(255)[] DEFAULT '{}'::character varying[],
+    flags character varying[] DEFAULT '{}'::character varying[],
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -246,7 +246,10 @@ CREATE TABLE authors (
     first_name text NOT NULL,
     last_name text NOT NULL,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    read_access boolean,
+    edit_access boolean,
+    publish_access boolean
 );
 
 
@@ -373,8 +376,8 @@ CREATE TABLE pages (
     abstract text,
     hero_asset_id uuid,
     deleted_at timestamp without time zone,
-    audit_flags character varying(255)[] DEFAULT '{}'::character varying[],
-    page_name character varying(255),
+    audit_flags character varying[] DEFAULT '{}'::character varying[],
+    page_name character varying,
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
 
@@ -427,7 +430,7 @@ CREATE TABLE templates (
     deleted_at timestamp without time zone,
     published_revision_id uuid,
     is_publishable boolean DEFAULT true,
-    audit_flags character varying(255)[] DEFAULT '{}'::character varying[]
+    audit_flags character varying[] DEFAULT '{}'::character varying[]
 );
 
 
@@ -1805,7 +1808,7 @@ SET search_path = public, pg_catalog;
 --
 
 CREATE TABLE schema_migrations (
-    version character varying(255) NOT NULL
+    version character varying NOT NULL
 );
 
 
@@ -3896,7 +3899,7 @@ ALTER TABLE ONLY visits
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20130510221424');
 
@@ -3961,4 +3964,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140602213937');
 INSERT INTO schema_migrations (version) VALUES ('20141211200012');
 
 INSERT INTO schema_migrations (version) VALUES ('20141217171816');
+
+INSERT INTO schema_migrations (version) VALUES ('20150604000000');
 
