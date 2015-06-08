@@ -12,9 +12,8 @@ module Landable
       def create
         ident  = AuthenticationService.call(asset_token_params[:username], asset_token_params[:password])
         author = RegistrationService.call(ident)
-        groups = idet[:groups]
 
-        respond_with { "access_token": AccessToken.create!(author: author), "groups": "This is a group" }, status: :created
+        respond_with AccessToken.create!(author: author), status: :created
       rescue Landable::AuthenticationFailedError
         head :unauthorized
       end
