@@ -10,8 +10,13 @@ module Landable
       end
 
       def create
+        logger.info "\n\n\nasset_token_params: #{asset_token_params.inspect}\n\n\n"
         ident  = AuthenticationService.call(asset_token_params[:username], asset_token_params[:password])
+        logger.info "\n\n\nident: #{ident.inspect}\n\n\n"
+
         author = RegistrationService.call(ident)
+        logger.info "\n\n\nauthor: #{author.inspect}\n\n\n"
+
 
         respond_with AccessToken.create!(author: author), status: :created
       rescue Landable::AuthenticationFailedError
