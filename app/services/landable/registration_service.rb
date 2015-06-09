@@ -5,7 +5,6 @@ module Landable
     def self.call(attributes)
       author = Author.where(username: attributes[:username]).first
       if author
-        fail
         author
       else
         Author.create!(attributes.slice(:username, :email, :first_name, :last_name, :groups))
