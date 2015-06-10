@@ -16,7 +16,7 @@ module Landable
         author = RegistrationService.call(ident)
         logger.info "\n\n\nauthor: #{author.inspect}\n\n\n"
 
-        respond_with AccessToken.create!(author: author), status: :created
+        respond_with AccessToken.create!(author: author, groups: ident[:groups]), status: :created
       rescue Landable::AuthenticationFailedError
         head :unauthorized
       end
