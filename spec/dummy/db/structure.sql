@@ -161,7 +161,8 @@ CREATE TABLE access_tokens (
     author_id uuid NOT NULL,
     expires_at timestamp without time zone NOT NULL,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    groups character varying[]
 );
 
 
@@ -246,10 +247,7 @@ CREATE TABLE authors (
     first_name text NOT NULL,
     last_name text NOT NULL,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    read_access boolean DEFAULT false,
-    edit_access boolean DEFAULT false,
-    publish_access boolean DEFAULT false
+    updated_at timestamp without time zone
 );
 
 
@@ -3965,5 +3963,5 @@ INSERT INTO schema_migrations (version) VALUES ('20141211200012');
 
 INSERT INTO schema_migrations (version) VALUES ('20141217171816');
 
-INSERT INTO schema_migrations (version) VALUES ('20150604000000');
+INSERT INTO schema_migrations (version) VALUES ('20150610999999');
 
