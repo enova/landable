@@ -1,5 +1,5 @@
 module Landable
-  class Configuration
+  class Configuration < Hash
     attr_accessor :api_url, :public_url, :amqp_configuration, :sitemap_host
     attr_writer :api_namespace, :public_namespace
     attr_writer :api_host, :public_host
