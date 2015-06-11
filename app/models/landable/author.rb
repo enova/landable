@@ -11,15 +11,15 @@ module Landable
     end
 
     def can_read
-      access_tokens.fresh.first.can_read? if access_tokens.fresh
+      access_tokens.fresh.first.can_read?
     end
 
     def can_edit
-      access_tokens.fresh.first.can_edit? if access_tokens.fresh
+      access_tokens.fresh.first.can_edit?
     end
 
     def can_publish
-      access_tokens.fresh.first.can_publish? if access_tokens.fresh
+      access_tokens.fresh.first.can_publish?
     end
   end
 end
