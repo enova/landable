@@ -16,7 +16,10 @@ module Landable
         author = RegistrationService.call(ident)
         logger.info "\n\n\nauthor: #{author.inspect}\n\n\n"
 
-        respond_with AccessToken.create!(author: author, groups: ident[:groups]), status: :created
+        permissions = determine_permissions(ident[:groups])
+        logger.info "\n\n\npermissions: #{permissions.inspect}\n\n\n"
+
+        respond_with AccessToken.create!(author: author, permissions: permissions), status: :created
       rescue Landable::AuthenticationFailedError
         head :unauthorized
       end
@@ -44,6 +47,18 @@ module Landable
 
       def asset_token_params
         params.require(:access_token).permit(:username, :password)
+      end
+
+      def determine_permissions(user_groups) # input: ["HipChat Users", "PagerDuty Users", "popops"]
+        yaml_groups = YAML.load(File.read(Rails.root.join('config', 'ldap.yml')))[:permissions]["CNU"]
+
+        user_groups.inject([]) do |permissions, group|
+          permissions << "read" if yaml_groups[group]["read"]
+          permissions << "edit" if yaml_groups[group]["edit"]
+          permissions << "publish" if yaml_groups[group]["publish"]
+          permissions
+        end.uniq
+
       end
     end
   end

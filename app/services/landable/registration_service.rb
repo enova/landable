@@ -7,7 +7,7 @@ module Landable
       if author
         author
       else
-        Author.create!(attributes.slice(:username, :email, :first_name, :last_name, :groups))
+        Author.create!(attributes.slice(:username, :email, :first_name, :last_name))
       end
     end
   end

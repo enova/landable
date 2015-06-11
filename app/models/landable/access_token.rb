@@ -5,6 +5,7 @@ module Landable
     belongs_to :author
     validates_presence_of :author_id
     validates_presence_of :expires_at
+    validates_presence_of :permissions
 
     before_validation do |token|
       token.expires_at ||= 8.hours.from_now
