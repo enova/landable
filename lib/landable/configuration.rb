@@ -1,5 +1,8 @@
+require 'figgy'
+
 module Landable
   class Configuration < Hash
+
     attr_accessor :api_url, :public_url, :amqp_configuration, :sitemap_host
     attr_writer :api_namespace, :public_namespace
     attr_writer :api_host, :public_host
@@ -12,6 +15,26 @@ module Landable
     attr_writer :blank_user_agent_string, :untracked_paths
     attr_writer :dnt_enabled, :amqp_event_mapping, :amqp_site_segment
     attr_writer :amqp_service_enabled, :amqp_messaging_service
+
+    def initialize( config_path=nil )
+
+      unless config_path.nil? then
+        # let's keep this feature optional. Not all apps
+        # will be using external configs for landable.
+        app_config = Figgy.build do |config_data|
+          config_data.root = config_path
+
+          config_data.define_overlay :default, nil
+          config_data.define_overlay(:environment){ Rails.env }
+        end
+
+        # map our new configs into our local object.
+        config_keys( config_path ).each do |key|
+          self[ key ] = app_config[ key ] unless app_config[ key ].nil?
+        end
+
+      end
+    end
 
     def amqp_configuration
       @amqp_configuration ||= {}
@@ -172,5 +195,44 @@ module Landable
         @autorun = true
       end
     end
+
+
+    private
+
+      EXPECTED_FILETYPES = [ 'yml', 'yaml', 'json' ]
+      EXPECTED_FILETYPES_REGEXP = /\.(#{ EXPECTED_FILETYPES.join('|') })\z/
+
+
+      def config_keys( base_path )
+        files = Dir.entries( base_path )
+        keys = Array.new
+
+        files.delete_if do |filename|
+          [ '.', '..' ].include?( filename )
+        end
+
+        files.each do |filename|
+          filename = File.join( base_path, filename )
+          new_key = filename_to_key( filename )
+
+          if File.file?( filename ) then
+            keys.push( new_key )
+
+          elsif File.directory?( filename ) &&
+                new_key == Rails.env then
+                # only folders matching our environment!
+            keys = keys.concat( config_keys(filename) )
+
+          end
+        end
+
+        keys.uniq
+      end
+
+      def filename_to_key( filename )
+        File.basename( filename ).sub( EXPECTED_FILETYPES_REGEXP, "" )
+      end
+
+
   end
 end
