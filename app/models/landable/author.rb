@@ -9,5 +9,17 @@ module Landable
       return unless author.access_tokens.fresh.exists?(token_id)
       author
     end
+
+    def can_read
+      access_tokens.fresh.first.can_read? if access_tokens.fresh
+    end
+
+    def can_edit
+      access_tokens.fresh.first.can_edit? if access_tokens.fresh
+    end
+
+    def can_publish
+      access_tokens.fresh.first.can_publish? if access_tokens.fresh
+    end
   end
 end

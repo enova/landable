@@ -17,5 +17,17 @@ module Landable
     def refresh!
       update_column :expires_at, 8.hours.from_now
     end
+
+    def can_publish?
+      permissions.include? "publish"
+    end
+
+    def can_edit?
+      permissions.include? "edit"
+    end
+
+    def can_read?
+      permissions.include? "read"
+    end
   end
 end

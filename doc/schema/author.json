@@ -25,6 +25,18 @@
 
     "last_name": {
       "type": "string"
+    },
+
+    "can_read": {
+      "type": "boolean"
+    },
+
+    "can_edit": {
+      "type": "boolean"
+    },
+
+    "can_publish": {
+      "type": "boolean"
     }
   }
 }
