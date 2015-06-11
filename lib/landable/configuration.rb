@@ -201,15 +201,14 @@ module Landable
 
       EXPECTED_FILETYPES = [ 'yml', 'yaml', 'json' ]
       EXPECTED_FILETYPES_REGEXP = /\.(#{ EXPECTED_FILETYPES.join('|') })\z/
+      DOTFILE_MATCHER_REGEXP = /^\.[[[:alnum:]]\.]*$/
 
 
       def config_keys( base_path )
         files = Dir.entries( base_path )
         keys = Array.new
 
-        files.delete_if do |filename|
-          [ '.', '..' ].include?( filename )
-        end
+        files = remove_dotfiles( files )
 
         files.each do |filename|
           filename = File.join( base_path, filename )
@@ -230,7 +229,13 @@ module Landable
       end
 
       def filename_to_key( filename )
-        File.basename( filename ).sub( EXPECTED_FILETYPES_REGEXP, "" )
+        File.basename( filename ).sub( EXPECTED_FILETYPES_REGEXP, '' )
+      end
+
+      def remove_dotfiles( filelist )
+        filelist.delete_if do |filename|
+          !DOTFILE_MATCHER_REGEXP.match( File.basename(filename) ).nil?
+        end
       end
 
 
