@@ -49,11 +49,10 @@ module Landable
       def determine_permissions(user_groups)
         yaml_groups = YAML.load(File.read(Rails.root.join('config', 'ldap.yml')))[:permissions]['CNU']
 
-        user_groups.inject([]) do |permissions, group|
+        user_groups.each_with_object([]) do |permissions, group|
           permissions << 'read' if yaml_groups[group]['read']
           permissions << 'edit' if yaml_groups[group]['edit']
           permissions << 'publish' if yaml_groups[group]['publish']
-          permissions
         end.uniq
       end
     end
