@@ -27,7 +27,11 @@ module Landable
         end
 
         def lookup(parameters)
-          where(transform(parameters)).first_or_create
+          begin
+            where(transform(parameters)).first_or_create
+          rescue ActiveRecord::RecordNotUnique
+            retry
+          end
         end
 
         def digest(parameters)
