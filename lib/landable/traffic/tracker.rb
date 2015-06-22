@@ -299,11 +299,9 @@ module Landable
       end
 
       def visitor
-        begin
-          @visitor ||= Visitor.with_ip_address(ip_address).with_user_agent(user_agent).first_or_create
-        rescue ActiveRecord::RecordNotUnique
-          retry
-        end
+        @visitor ||= Visitor.with_ip_address(ip_address).with_user_agent(user_agent).first_or_create
+      rescue ActiveRecord::RecordNotUnique
+        retry
       end
 
       def visit
