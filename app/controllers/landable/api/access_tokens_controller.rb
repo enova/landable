@@ -51,10 +51,10 @@ module Landable
         permissions_groups = user_groups.select { |group| yaml_groups.include?(group) }
 
         permissions_groups.inject([]) do |permissions, group|
-            permissions << 'read' if yaml_groups[group]['read']
-            permissions << 'edit' if yaml_groups[group]['edit']
-            permissions << 'publish' if yaml_groups[group]['publish']
-            permissions
+          permissions << 'read' if yaml_groups[group]['read']
+          permissions << 'edit' if yaml_groups[group]['edit']
+          permissions << 'publish' if yaml_groups[group]['publish']
+          permissions
         end.uniq
       end
     end
