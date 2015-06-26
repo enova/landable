@@ -2,8 +2,8 @@ module Landable
   class AccessToken < ActiveRecord::Base
     include Landable::TableName
 
-    # Maximum Token age, in hours.
-    MAX_AGE = Landable::configuration['ldap'][:access_token_max_age]
+    # Maximum token age, in hours
+    MAX_AGE = Landable::configuration['ldap'][:access_token_max_age] || 8
 
     belongs_to :author
     validates_presence_of :author_id
