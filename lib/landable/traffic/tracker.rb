@@ -172,10 +172,14 @@ module Landable
         attribution = Attribution.lookup params.slice(*ATTRIBUTION_KEYS)
         query       = params.except(*ATTRIBUTION_KEYS)
 
-        @referer = Referer.where(domain_id:       Domain[referer_uri.host],
-                                 path_id:         Path[referer_uri_path],
-                                 query_string_id: QueryString[query.to_query],
-                                 attribution_id:  attribution.id).first_or_create
+        begin
+          @referer = Referer.where(domain_id:       Domain[referer_uri.host],
+                                   path_id:         Path[referer_uri_path],
+                                   query_string_id: QueryString[query.to_query],
+                                   attribution_id:  attribution.id).first_or_create
+        rescue ActiveRecord::RecordNotUnique
+          retry
+        end
       end
 
       def ip_address
@@ -296,6 +300,8 @@ module Landable
 
       def visitor
         @visitor ||= Visitor.with_ip_address(ip_address).with_user_agent(user_agent).first_or_create
+      rescue ActiveRecord::RecordNotUnique
+        retry
       end
 
       def visit
