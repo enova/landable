@@ -55,12 +55,20 @@ module Landable
 
       def identify(identifier)
         visit = Visit.find(@visit_id)
-        owner = Owner.where(owner: identifier).first_or_create
+        begin
+          owner = Owner.where(owner: identifier).first_or_create
+        rescue ActiveRecord::RecordNotUnique
+          retry
+        end
 
         visit.owner = owner
         visit.save!
 
-        Ownership.where(cookie_id: @cookie_id, owner: owner).first_or_create
+        begin
+          Ownership.where(cookie_id: @cookie_id, owner: owner).first_or_create
+        rescue ActiveRecord::RecordNotUnique
+          retry
+        end
       end
     end
   end

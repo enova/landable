@@ -94,7 +94,7 @@ class AddTrafficSchema < Landable::Migration
       CREATE TABLE attributions (
           attribution_id     SERIAL      PRIMARY KEY
 
-        , #{QUERY_PARAMS.map { |name| format('%s INTEGER REFERENCES %s', name.foreign_key, name.pluralize) }.join(',') }
+        , #{QUERY_PARAMS.map { |name| format('%s INTEGER REFERENCES %s', name.foreign_key, name.pluralize) }.join(',')}
 
         , created_at         TIMESTAMPTZ NOT NULL    DEFAULT NOW()
 
