@@ -50,13 +50,19 @@ module Landable
         yaml_groups = Landable::configuration['ldap'][:permissions]
         permissions_groups = user_groups.select { |group| yaml_groups.include?(group) }
 
-        permissions_groups.inject([]) do |permissions, group|
-          permissions << 'read' if yaml_groups[group]['read']
-          permissions << 'edit' if yaml_groups[group]['edit']
-          permissions << 'publish' if yaml_groups[group]['publish']
-          permissions
-        end.uniq
+        user_permissions = {}
+        permissions_groups.each do |group|
+
+          group_permissions = yaml_groups[group].keys
+          group_permissions.each do |perm|
+            user_permissions[perm] ||= yaml_groups[group][perm]
+          end
+
+        end
+
+        return user_permissions
       end
+
     end
   end
 end

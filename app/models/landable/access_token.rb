@@ -19,15 +19,15 @@ module Landable
     end
 
     def can_publish?
-      permissions.include?('publish')
+      permissions['publish']
     end
 
     def can_edit?
-      permissions.include?('edit')
+      permissions['edit']
     end
 
     def can_read?
-      permissions.include?('read')
+      permissions['read']
     end
   end
 end
