@@ -1,5 +1,6 @@
 class AddPermissionsToAccessTokens < ActiveRecord::Migration
   def change
-    add_column "#{Landable.configuration.database_schema_prefix}landable.access_tokens", :permissions, :string, array: true
+    enable_extension 'hstore' unless extension_enabled?('hstore')
+    add_column "#{Landable.configuration.database_schema_prefix}landable.access_tokens", :permissions, :hstore, array: true
   end
 end
