@@ -47,7 +47,7 @@ module Landable
       end
 
       def determine_permissions(user_groups)
-        yaml_groups = Landable::configuration['ldap'][:permissions]
+        yaml_groups = Landable.configuration['ldap'][:permissions]
         permissions_groups = user_groups.select { |group| yaml_groups.include?(group) }
 
         user_permissions = {}
@@ -62,7 +62,6 @@ module Landable
 
         return user_permissions
       end
-
     end
   end
 end
