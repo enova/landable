@@ -3,7 +3,7 @@ module Landable
     include Landable::TableName
 
     # Maximum token age, in hours
-    MAX_AGE = (Landable::configuration['ldap'][:access_token_max_age] || 8).hours
+    MAX_AGE = (Landable.configuration['ldap'][:access_token_max_age] || 8).hours
 
     belongs_to :author
     validates_presence_of :author_id
@@ -22,21 +22,21 @@ module Landable
     end
 
     def can_publish?
-      permissions['publish'] == "true"
+      permissions['publish'] == 'true'
     end
 
     def can_edit?
-      permissions['edit'] == "true"
+      permissions['edit'] == 'true'
     end
 
     def can_read?
-      permissions['read'] == "true"
+      permissions['read'] == 'true'
     end
 
     private
 
-      def expiration
-        MAX_AGE.from_now
-      end
+    def expiration
+      MAX_AGE.from_now
+    end
   end
 end

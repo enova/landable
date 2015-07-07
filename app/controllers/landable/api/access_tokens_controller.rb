@@ -52,15 +52,13 @@ module Landable
 
         user_permissions = {}
         permissions_groups.each do |group|
-
           group_permissions = yaml_groups[group].keys
           group_permissions.each do |perm|
             user_permissions[perm] ||= yaml_groups[group][perm]
           end
-
         end
 
-        return user_permissions
+        user_permissions
       end
     end
   end
