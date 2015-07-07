@@ -22,23 +22,21 @@ module Landable
     end
 
     def can_publish?
-      permissions['publish']
+      permissions['publish'] == "true"
     end
 
     def can_edit?
-      permissions['edit']
+      permissions['edit'] == "true"
     end
 
     def can_read?
-      permissions['read']
+      permissions['read'] == "true"
     end
-
 
     private
 
       def expiration
         MAX_AGE.from_now
       end
-
   end
 end
