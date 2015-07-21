@@ -19,3 +19,5 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'test_after_commit'
 end
+
+gem 'responders', '~> 2.0'

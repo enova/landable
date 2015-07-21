@@ -4,7 +4,7 @@ describe Landable::AuthenticationService do
   let(:simple_auth) do
     proc do |username, password|
       if username == 'simple' && password == 'authenticator'
-        { username: 'simple', email: 'simple@example.com', first_name: 'Simple', last_name: 'Ton' }
+        { username: 'simple', email: 'simple@example.com', first_name: 'Simple', last_name: 'Ton', groups: ['CreditMe Read-only', 'QuickQuid Editor', 'Netcredit Publisher'] }
       end
     end
   end

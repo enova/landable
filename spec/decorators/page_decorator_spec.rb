@@ -66,7 +66,7 @@ module Landable
       let(:page) { create :page, meta_tags: { content: 'robots', keyword: 'p2p' } }
 
       it 'lists the meta_tags seperated by a new line' do
-        page_decorator.meta_tags.should eq %(<meta content="robots" name="content" />\n<meta content="p2p" name="keyword" />)
+        page_decorator.meta_tags.should eq %(<meta name="content" content="robots" />\n<meta name="keyword" content="p2p" />)
         page_decorator.meta_tags.should be_html_safe
       end
 
