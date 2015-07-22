@@ -19,9 +19,9 @@ module Landable
           #   * The new configuration object inherits Hash but 'audit_flags' gets lost in conversion
           #     to a JSON object because it is a static attribute of the Landable.configuration object.
 
-          #make_request
+          # make_request
           # defined in Landable Dummy Initalizer
-          #last_json['configurations'][0]['audit_flags'].should eq %w(loans apr)
+          # last_json['configurations'][0]['audit_flags'].should eq %w(loans apr)
         end
       end
     end
