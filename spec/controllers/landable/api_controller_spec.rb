@@ -160,9 +160,12 @@ describe Landable::ApiController, json: true do
   describe 'responder' do
     before(:each) do
       controller.instance_variable_set :@resource, resource
+      allow(@resource).to receive(:can_read?).and_return('true')
+      allow(@resource).to receive(:can_edit?).and_return('true')
+      allow(@resource).to receive(:can_publish?).and_return('true')
     end
 
-    let(:resource) { build :author_with_access_tokens }
+    let(:resource) { build :author }
 
     it 'should set X-Landable-Media-Type' do
       get :responder
