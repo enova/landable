@@ -160,6 +160,7 @@ describe Landable::ApiController, json: true do
   describe 'responder' do
     before(:each) do
       controller.instance_variable_set :@resource, resource
+      allow_message_expectations_on_nil
       allow(@resource).to receive(:can_read?).and_return('true')
       allow(@resource).to receive(:can_edit?).and_return('true')
       allow(@resource).to receive(:can_publish?).and_return('true')

@@ -16,6 +16,7 @@ module Landable
 
         it 'updates the asset description' do
           controller.instance_variable_set :@author, asset.author
+          allow_message_expectations_on_nil
           allow(@author).to receive(:can_read?).and_return('true')
           allow(@author).to receive(:can_edit?).and_return('true')
           allow(@author).to receive(:can_publish?).and_return('true')
