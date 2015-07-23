@@ -1,0 +1,12 @@
+# Add extra URLs which aren't in publicist but should be included in sitemap.xml
+# This file is replaced from cnu_config overlay so make changes there
+
+- /
+- /blog
+- /forgot_password.html
+- /login
+- /new-customer-registration
+- /newsroom
+- /registration-step1.html
+- /secure/auth/forgot_email
+- /secure/auth/forgot_password

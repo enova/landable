@@ -1,0 +1,21 @@
+{
+  "title": "Permissions",
+  "description": "Permissions for authors",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["read", "edit", "publish"],
+
+  "properties": {
+    "read": {
+      "type": "string"
+    },
+
+    "edit": {
+      "type": "string"
+    },
+
+    "publish": {
+      "type": "string"
+    }
+  }
+}

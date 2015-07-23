@@ -1,0 +1,17 @@
+:host: adds.enova.com
+:port: 636
+:encryption: :simple_tls
+:base: 'DC=enova,DC=com'
+:permissions:
+  Read-Only:
+    read: true
+    edit: false
+    publish: false
+  Editor:
+    read: true
+    edit: true
+    publish: false
+  Publisher:
+    read: true
+    edit: true
+    publish: true

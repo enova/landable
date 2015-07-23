@@ -17,6 +17,10 @@
 
     "author": {
       "$ref": "author.json"
+    },
+
+    "permissions": {
+      "$ref": "permissions.json"
     }
   }
 }
