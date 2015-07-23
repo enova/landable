@@ -15,7 +15,7 @@ module Landable
     end
 
     def current_author
-      @current_author ||= create :author
+      @current_author ||= create :author_without_access_tokens
     end
 
     def current_access_token
