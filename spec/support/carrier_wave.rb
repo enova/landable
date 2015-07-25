@@ -1,3 +1,5 @@
+require 'fog/aws'
+
 # Bootstraps and enables mocking for CarrierWave and Fog
 credentials = {
   provider: 'AWS',
