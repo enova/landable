@@ -10,15 +10,18 @@ module Landable
     end
 
     def can_read
-      access_tokens.fresh.last.can_read?
+      token = access_tokens.fresh.last
+      token.present? && token.can_read?
     end
 
     def can_edit
-      access_tokens.fresh.last.can_edit?
+      token = access_tokens.fresh.last
+      token.present? && token.can_edit?
     end
 
     def can_publish
-      access_tokens.fresh.last.can_publish?
+      token = access_tokens.fresh.last
+      token.present? && token.can_publish?
     end
   end
 end
