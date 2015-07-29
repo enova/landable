@@ -13,6 +13,7 @@ module Landable
     before_save :slug_has_no_spaces
 
     belongs_to :published_revision,   class_name: 'Landable::TemplateRevision'
+    belongs_to :category,             class_name: 'Landable::Category'
     has_many :audits,               class_name: 'Landable::Audit', as: :auditable
     has_many :revisions,            class_name: 'Landable::TemplateRevision'
 
