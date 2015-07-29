@@ -62,6 +62,7 @@ module Landable
       self.name          = revision.name
       self.body          = revision.body
       self.description   = revision.description
+      self.category_id   = revision.category_id
       self.slug          = revision.slug
 
       save!
