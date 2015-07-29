@@ -18,7 +18,7 @@ module Landable
       self.name          = template.name
       self.body          = template.body
       self.description   = template.description
-      self.category_id   = revision.category_id
+      self.category_id   = template.category_id
       self.slug          = template.slug
     end
 
