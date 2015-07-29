@@ -12,5 +12,11 @@ module Landable
     has_one :published_revision
 
     has_many :pages
+    has_one :category
+
+    def category
+      object.category || Landable::Category.where(name: 'Uncategorized').first
+    end
+
   end
 end
