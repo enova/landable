@@ -162,7 +162,7 @@ CREATE TABLE access_tokens (
     expires_at timestamp without time zone NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    permissions character varying[]
+    permissions public.hstore
 );
 
 
