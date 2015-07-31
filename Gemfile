@@ -20,4 +20,4 @@ group :test do
   gem 'test_after_commit'
 end
 
-gem 'responders', '~> 2.0'
+gem 'responders'
