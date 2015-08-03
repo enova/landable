@@ -38,7 +38,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'lookup_by', '> 0.4.0'
   gem.add_dependency 'highline'
   gem.add_dependency 'figgy',     '~> 1.1.0'
-  gem.add_dependency 'responders', '~> 2.0'
 
   gem.add_development_dependency 'pg'
   gem.add_development_dependency 'rspec-rails',        '~> 2.14.2'
