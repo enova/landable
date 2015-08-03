@@ -4,14 +4,14 @@
 :base: 'DC=enova,DC=com'
 :permissions:
   Read-Only:
-    read: true
-    edit: false
-    publish: false
+    read: 'true'
+    edit: 'false'
+    publish: 'false'
   Editor:
-    read: true
-    edit: true
-    publish: false
+    read: 'true'
+    edit: 'true'
+    publish: 'false'
   Publisher:
-    read: true
-    edit: true
-    publish: true
+    read: 'true'
+    edit: 'true'
+    publish: 'true'
