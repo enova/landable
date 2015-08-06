@@ -22,16 +22,16 @@ module Landable
     end
 
     def can_publish?
-      permissions['publish'] == 'true'
+      permissions['publish']
     end
 
     def can_edit?
-      permissions['edit'] == 'true'
+      permissions['edit']
     end
 
     def can_read?
-      permissions['read'] == 'true'
-    end
+      permissions['read']
+
 
     private
 
