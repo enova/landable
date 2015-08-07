@@ -51,9 +51,9 @@ module Landable
       # custom methods
       def preview
         template = Template.new(template_params)
-        theme  = Theme.most_used_on_pages
+        theme = Theme.most_used_on_pages
 
-        page  = Page.example(theme: theme, body: template.body)
+        page = Page.example(theme: theme, body: template.body)
 
         content = generate_preview_for(page)
 

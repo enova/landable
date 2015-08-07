@@ -45,7 +45,7 @@ module Landable
     end
 
     context 'for a redirect' do
-      let(:page)  { build :page, :redirect  }
+      let(:page) { build :page, :redirect }
 
       context 'previewing' do
         let(:rendered) { render(preview: true) }

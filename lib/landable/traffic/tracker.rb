@@ -29,7 +29,7 @@ module Landable
       ATTRIBUTION_KEYS = TRACKING_PARAMS.except('click_id').keys
 
       TRACKING_PARAMS_TRANSFORM = {
-        'ad_type'        => { 'pe'  => 'product_extensions',
+        'ad_type' => { 'pe'  => 'product_extensions',
                               'pla' => 'product_listing' },
 
         'bid_match_type' => { 'bb'  => 'bidded broad',
@@ -37,11 +37,11 @@ module Landable
                               'be'  => 'bidded exact',
                               'bp'  => 'bidded phrase' },
 
-        'device_type'    => { 'c'   => 'computer',
+        'device_type' => { 'c'   => 'computer',
                               'm'   => 'mobile',
                               't'   => 'tablet' },
 
-        'match_type'     => { 'b'   => 'broad',
+        'match_type' => { 'b'   => 'broad',
                               'c'   => 'content',
                               'e'   => 'exact',
                               'p'   => 'phrase',
@@ -49,7 +49,7 @@ module Landable
                               'adv' => 'advanced',
                               'cnt' => 'content' },
 
-        'network'        => { 'g'   => 'google_search',
+        'network' => { 'g'   => 'google_search',
                               's'   => 'search_partner',
                               'd'   => 'display_network' }
       }.freeze

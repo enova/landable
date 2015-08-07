@@ -30,7 +30,7 @@ module Landable
     validates :redirect_url, url: true, allow_blank: true
     validate :hero_asset_existence
 
-    belongs_to :theme,                class_name: 'Landable::Theme',        inverse_of: :pages, counter_cache: true
+    belongs_to :theme,                class_name: 'Landable::Theme', inverse_of: :pages, counter_cache: true
     belongs_to :published_revision,   class_name: 'Landable::PageRevision'
     belongs_to :category,             class_name: 'Landable::Category'
     belongs_to :updated_by_author,    class_name: 'Landable::Author'

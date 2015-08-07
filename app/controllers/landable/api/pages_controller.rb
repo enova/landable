@@ -53,7 +53,7 @@ module Landable
       end
 
       def preview
-        page  = Page.where(page_id: page_params[:id]).first_or_initialize
+        page = Page.where(page_id: page_params[:id]).first_or_initialize
         page.attributes = page_params
 
         # run the validators and render
