@@ -17,6 +17,5 @@ module Landable
     def category
       object.category || Landable::Category.where(name: 'Uncategorized').first
     end
-
   end
 end

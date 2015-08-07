@@ -47,6 +47,10 @@
       "items": { "$ref": "uuid.json" }
     },
 
+    "category_id": {
+      "type": [{ "$ref": "uuid.json" }, "null"]
+    },
+
     "thumbnail_url": {
       "type": ["string", "null"]
     },

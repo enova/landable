@@ -405,7 +405,8 @@ CREATE TABLE template_revisions (
     body text,
     description text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    category_id uuid
 );
 
 
@@ -428,7 +429,8 @@ CREATE TABLE templates (
     deleted_at timestamp without time zone,
     published_revision_id uuid,
     is_publishable boolean DEFAULT true,
-    audit_flags character varying[] DEFAULT '{}'::character varying[]
+    audit_flags character varying[] DEFAULT '{}'::character varying[],
+    category_id uuid
 );
 
 
@@ -3460,6 +3462,22 @@ ALTER TABLE ONLY templates
 
 
 --
+-- Name: template_revisions_category_id_fkey; Type: FK CONSTRAINT; Schema: dummy_landable; Owner: -
+--
+
+ALTER TABLE ONLY template_revisions
+    ADD CONSTRAINT template_revisions_category_id_fkey FOREIGN KEY (category_id) REFERENCES categories(category_id);
+
+
+--
+-- Name: templates_category_id_fkey; Type: FK CONSTRAINT; Schema: dummy_landable; Owner: -
+--
+
+ALTER TABLE ONLY templates
+    ADD CONSTRAINT templates_category_id_fkey FOREIGN KEY (category_id) REFERENCES categories(category_id);
+
+
+--
 -- Name: theme_id_fk; Type: FK CONSTRAINT; Schema: dummy_landable; Owner: -
 --
 
@@ -3897,7 +3915,7 @@ ALTER TABLE ONLY visits
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20130510221424');
 
@@ -3965,3 +3983,4 @@ INSERT INTO schema_migrations (version) VALUES ('20141217171816');
 
 INSERT INTO schema_migrations (version) VALUES ('20150610999999');
 
+INSERT INTO schema_migrations (version) VALUES ('20150728195345');
