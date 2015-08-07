@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - 'lib/landable/layout.rb'
+    - 'lib/landable/partial.rb'
 
 Lint/AmbiguousOperator:
   Enabled: true
