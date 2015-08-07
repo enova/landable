@@ -30,7 +30,7 @@ module Landable
 
       TRACKING_PARAMS_TRANSFORM = {
         'ad_type' => { 'pe'  => 'product_extensions',
-                              'pla' => 'product_listing' },
+                       'pla' => 'product_listing' },
 
         'bid_match_type' => { 'bb'  => 'bidded broad',
                               'bc'  => 'bidded content',
@@ -38,20 +38,20 @@ module Landable
                               'bp'  => 'bidded phrase' },
 
         'device_type' => { 'c'   => 'computer',
-                              'm'   => 'mobile',
-                              't'   => 'tablet' },
+                           'm'   => 'mobile',
+                           't'   => 'tablet' },
 
         'match_type' => { 'b'   => 'broad',
-                              'c'   => 'content',
-                              'e'   => 'exact',
-                              'p'   => 'phrase',
-                              'std' => 'standard',
-                              'adv' => 'advanced',
-                              'cnt' => 'content' },
+                          'c'   => 'content',
+                          'e'   => 'exact',
+                          'p'   => 'phrase',
+                          'std' => 'standard',
+                          'adv' => 'advanced',
+                          'cnt' => 'content' },
 
         'network' => { 'g'   => 'google_search',
-                              's'   => 'search_partner',
-                              'd'   => 'display_network' }
+                       's'   => 'search_partner',
+                       'd'   => 'display_network' }
       }.freeze
 
       UUID_REGEX       = /\A\h{8}-\h{4}-\h{4}-\h{4}-\h{12}\Z/
