@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/enova/landable/badge.svg?branch=master)](https://coveralls.io/github/enova/landable?branch=master)
 [![Dependency Status](https://gemnasium.com/enova/landable.svg)](https://gemnasium.com/enova/landable)
 
-Landable is an API for building your CMS. It's implemented as a [Rails Engine](http://guides.rubyonrails.org/engines.html). We like to use Landable with [Publicist](https://github.com/enova/publicist), a great UI for managing content.
+Landable is an API for building your CMS. It's implemented as a [Rails Engine](http://guides.rubyonrails.org/engines.html). We like to use Landable with Publicist, a great UI for managing content.
 
 
 ## Installation
