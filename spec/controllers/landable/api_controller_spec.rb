@@ -162,7 +162,7 @@ describe Landable::ApiController, json: true do
       controller.instance_variable_set :@resource, resource
     end
 
-    let(:resource) { build :author }
+    let(:resource) { create :author }
 
     it 'should set X-Landable-Media-Type' do
       get :responder

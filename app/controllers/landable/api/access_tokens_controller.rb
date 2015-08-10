@@ -11,9 +11,12 @@ module Landable
 
       def create
         ident  = AuthenticationService.call(asset_token_params[:username], asset_token_params[:password])
+
         author = RegistrationService.call(ident)
 
-        respond_with AccessToken.create!(author: author), status: :created
+        permissions = determine_permissions(ident[:groups])
+
+        respond_with AccessToken.create!(author: author, permissions: permissions), status: :created
       rescue Landable::AuthenticationFailedError
         head :unauthorized
       end
@@ -41,6 +44,21 @@ module Landable
 
       def asset_token_params
         params.require(:access_token).permit(:username, :password)
+      end
+
+      def determine_permissions(user_groups)
+        yaml_groups = Landable.configuration['ldap'][:permissions]
+        permissions_groups = user_groups.select { |group| yaml_groups.include?(group) }
+
+        user_permissions = {}
+        permissions_groups.each do |group|
+          group_permissions = yaml_groups[group].keys
+          group_permissions.each do |perm|
+            user_permissions[perm] ||= yaml_groups[group][perm]
+          end
+        end
+
+        user_permissions
       end
     end
   end

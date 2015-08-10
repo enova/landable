@@ -365,7 +365,7 @@ module Landable
 
     describe '::by_path' do
       it 'returns first page with path name' do
-        page  = create :page, path: '/seo'
+        page = create :page, path: '/seo'
         Landable::Page.by_path('/seo').should eq page
       end
     end

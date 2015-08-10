@@ -37,7 +37,7 @@ module Landable
 
       def echo_author(username)
         { username: username, email: "#{username}@example.com",
-          first_name: 'Trogdor', last_name: 'McBurninator' }
+          first_name: 'Trogdor', last_name: 'McBurninator', groups: ['Publisher'] }
       end
     end
   end

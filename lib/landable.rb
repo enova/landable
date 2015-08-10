@@ -20,10 +20,12 @@ module Landable
   autoload :Seeds,         'landable/seeds'
 
   def self.configuration
-    @configuration ||= Configuration.new
+    @configuration ||= Configuration.new(@file_path)
   end
 
-  def self.configure
+  def self.configure(path = nil)
+    @file_path = path
+
     yield configuration if block_given?
     configuration
   end

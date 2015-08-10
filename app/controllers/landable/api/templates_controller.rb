@@ -51,9 +51,9 @@ module Landable
       # custom methods
       def preview
         template = Template.new(template_params)
-        theme  = Theme.most_used_on_pages
+        theme = Theme.most_used_on_pages
 
-        page  = Page.example(theme: theme, body: template.body)
+        page = Page.example(theme: theme, body: template.body)
 
         content = generate_preview_for(page)
 
@@ -72,7 +72,7 @@ module Landable
 
       def template_params
         params.require(:template).permit(:id, :name, :body, :description, :thumbnail_url,
-                                         :slug, :is_layout, :is_publishable,
+                                         :slug, :is_layout, :is_publishable, :category_id,
                                          audit_flags: [])
       end
 

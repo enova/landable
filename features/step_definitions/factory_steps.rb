@@ -18,6 +18,10 @@ Given(/^an author "([^"]+)"$/) do |username|
   create :author, username: username
 end
 
+Given(/^an author "([^"]+)" without access tokens$/) do |username|
+  create :author_without_access_tokens, username: username
+end
+
 Given '"$username" has an unexpired access token' do |username|
   create :access_token, author: Landable::Author.where(username: username).first!
 end

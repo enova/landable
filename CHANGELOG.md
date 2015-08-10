@@ -3,6 +3,9 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.13.2...master)
+* Feature: Support permissions for an author
+* Feature: Support Figgy configuration options
+* Add Figgy and Responders gems
 
 ## 1.13.2 [#](https://github.com/enova/landable/compare/v1.13.1...v1.13.2)
 * Bugfix: Fix landable traffic errors

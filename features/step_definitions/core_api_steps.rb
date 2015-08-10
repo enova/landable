@@ -15,7 +15,7 @@ module Landable
     end
 
     def current_author
-      @current_author ||= create :author
+      @current_author ||= create :author_without_access_tokens
     end
 
     def current_access_token
@@ -46,11 +46,11 @@ Before '@api', '~@no-api-auth' do
 end
 
 Given 'I accept HTML' do
-  header 'Accept',      'text/html'
+  header 'Accept', 'text/html'
 end
 
 Given 'I accept JSON' do
-  header 'Accept',      'application/json'
+  header 'Accept', 'application/json'
 end
 
 Given 'my API requests include a valid access token' do

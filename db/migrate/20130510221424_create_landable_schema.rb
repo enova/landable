@@ -25,8 +25,8 @@ class CreateLandableSchema < Landable::Migration
 
     create_table "#{Landable.configuration.database_schema_prefix}landable.status_codes", id: :uuid, primary_key: :status_code_id do |t|
       t.uuid :status_code_category_id, null: false
-      t.integer :code,                    null: false, limit: 2 # Creates as smallint
-      t.text :description,             null: false
+      t.integer :code, null: false, limit: 2 # Creates as smallint
+      t.text :description, null: false
     end
 
     execute "CREATE UNIQUE INDEX #{Landable.configuration.database_schema_prefix}landable_status_codes__u_code ON #{Landable.configuration.database_schema_prefix}landable.status_codes(code)"
@@ -56,7 +56,7 @@ class CreateLandableSchema < Landable::Migration
       t.text :body,           null: false
       t.text :description,    null: false
       t.text :thumbnail_url
-      t.boolean :is_layout,   null: false, default: false
+      t.boolean :is_layout, null: false, default: false
       t.timestamps
     end
 
@@ -123,7 +123,7 @@ class CreateLandableSchema < Landable::Migration
     ## access_tokens
 
     create_table "#{Landable.configuration.database_schema_prefix}landable.access_tokens", id: :uuid, primary_key: :access_token_id do |t|
-      t.uuid :author_id,  null: false
+      t.uuid :author_id, null: false
       t.timestamp :expires_at, null: false
       t.timestamps
     end
@@ -235,8 +235,8 @@ class CreateLandableSchema < Landable::Migration
     ## asset associations table
 
     create_table "#{Landable.configuration.database_schema_prefix}landable.page_assets", id: :uuid, primary_key: :page_asset_id do |t|
-      t.uuid :page_id,    null: false
-      t.uuid :asset_id,         null: false
+      t.uuid :page_id, null: false
+      t.uuid :asset_id, null: false
     end
 
     execute "CREATE UNIQUE INDEX #{Landable.configuration.database_schema_prefix}landable_page_assets__u_page_id_asset_id ON #{Landable.configuration.database_schema_prefix}landable.page_assets (page_id, asset_id)"
@@ -244,8 +244,8 @@ class CreateLandableSchema < Landable::Migration
     execute "ALTER TABLE #{Landable.configuration.database_schema_prefix}landable.page_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES #{Landable.configuration.database_schema_prefix}landable.assets(asset_id)"
 
     create_table "#{Landable.configuration.database_schema_prefix}landable.page_revision_assets", id: :uuid, primary_key: :page_revision_asset_id do |t|
-      t.uuid :page_revision_id,    null: false
-      t.uuid :asset_id,         null: false
+      t.uuid :page_revision_id, null: false
+      t.uuid :asset_id, null: false
     end
 
     execute "CREATE UNIQUE INDEX #{Landable.configuration.database_schema_prefix}landable_page_revision_assets__u_page_revision_id_asset_id ON #{Landable.configuration.database_schema_prefix}landable.page_revision_assets (page_revision_id, asset_id)"
@@ -253,8 +253,8 @@ class CreateLandableSchema < Landable::Migration
     execute "ALTER TABLE #{Landable.configuration.database_schema_prefix}landable.page_revision_assets ADD CONSTRAINT asset_id_fk FOREIGN KEY (asset_id) REFERENCES #{Landable.configuration.database_schema_prefix}landable.assets(asset_id)"
 
     create_table "#{Landable.configuration.database_schema_prefix}landable.theme_assets", id: :uuid, primary_key: :theme_asset_id do |t|
-      t.uuid :theme_id,    null: false
-      t.uuid :asset_id,         null: false
+      t.uuid :theme_id, null: false
+      t.uuid :asset_id, null: false
     end
 
     execute "CREATE UNIQUE INDEX #{Landable.configuration.database_schema_prefix}landable_theme_assets__u_theme_id_asset_id ON #{Landable.configuration.database_schema_prefix}landable.theme_assets (theme_id, asset_id)"
