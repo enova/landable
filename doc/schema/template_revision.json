@@ -18,6 +18,10 @@
       "type": "string"
     },
 
+    "category_id": {
+      "type": "uuid.json"
+    },
+
     "notes": {
       "type": ["string", "null"]
     },
