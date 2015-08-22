@@ -22,16 +22,16 @@ module Landable
       update_column :expires_at, expiration
     end
 
-    def can_publish?
-      permissions['publish'] == 'true'
+    def can_read?
+      permissions['read'] == 'true'
     end
 
     def can_edit?
       permissions['edit'] == 'true'
     end
 
-    def can_read?
-      permissions['read'] == 'true'
+    def can_publish?
+      permissions['publish'] == 'true'
     end
 
     private
