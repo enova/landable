@@ -30,10 +30,7 @@ module Landable
           p.click_id     = tracking_parameters['click_id']
           p.http_status  = response.status
 
-          # if instance var is lost, load session.
-          # If session is lost, make a new visit.
-          p.visit_id = @visit_id || (load && @visit_id) ||
-            (@visit_id = record_visit.visit_id)
+          p.visit_id = current_or_new_visit
 
           current_time = Time.now
           p.created_at   = current_time
@@ -71,6 +68,11 @@ module Landable
         rescue ActiveRecord::RecordNotUnique
           retry
         end
+      end
+
+      private
+      def current_or_new_visit
+        @visit_id || (load && @visit_id) || (@visit_id = record_visit.visit_id)
       end
     end
   end
