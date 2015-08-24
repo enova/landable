@@ -6,7 +6,8 @@ module Landable
 
     it 'generates an expiration timestamp before creation' do
       author = create :author
-      token  = AccessToken.create!(author: author)
+      permissions = { 'read' => 'true', 'edit' => 'true', 'publish' => 'true' }
+      token = AccessToken.create!(author: author, permissions: permissions)
       expect(token.expires_at).not_to be_nil
     end
   end

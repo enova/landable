@@ -1,0 +1,85 @@
+enabled: true
+rescue_errors: true
+brand_code: 'US'
+
+clients:
+  cnuapp_proxy:
+    domain: "www-us-trogdor-cnuapp.dev.enova.com" # For Trogdor AWS box
+    secure: true
+    ping: true
+    session_cookies:
+      - cnuwww_session_id
+      - _us_account_home_session
+  cnuapp:
+    domain: "api-us-trogdor-cnuapp.dev.enova.com" # For Trogdor AWS box
+    secure: true
+  identity:
+    default_base_url: "http://portal-us-trogdor-cnuapp.dev.enova.com" # For Trogdor AWS box
+  portfolio:
+    default_base_url: "http://portal-us-trogdor-cnuapp.dev.enova.com" # For Trogdor AWS box
+
+features:
+  registration:
+    enabled: true
+    redirects:
+      new:
+        "/registration-step1.html": "/registration"
+        "/secure/customers/new2": "/registration/step2"
+      old:
+        "/registration": "/registration-step1.html"
+        "/registration/step2": "/secure/customers/new2"
+
+filter_errors:
+  "is invalid": "Unfortunately there seems to be an issue with the information you've provided.  For assistance, please contact our customer support team at"
+  "Could not save customer.  Potential fraud; lead email does not match form email": "Unfortunately there seems to be an issue with the information you've provided.  For assistance, please contact our customer support team at"
+  "Could not save customer": "Unfortunately there seems to be an issue with the information you've provided.  For assistance, please contact our customer support team at"
+
+pings:
+  "/registration": "/registration-step1.html"
+  "/registration/step2": "/secure/customers/new2"
+
+registration:
+  title_options:
+    mr: Mr.
+    mrs: Mrs.
+    miss: Miss
+    ms: Ms.
+    other: Other
+
+  payment_frequency_options:
+    weekly: Weekly (e.g. Every Friday)
+    biweekly: Biweekly (e.g. Every other Friday)
+    twice_monthly: Twice monthly (ex. The 1st and 15th of each month)
+    specific_date: Monthly on a specific date (ex. 1st of the Month)
+    last_working_day: Monthly last day (ex. Last business day or last calendar day)
+    specific_day: Monthly on a specific weekday (ex. 3rd Wednesday of each month)
+    last_day: Monthly last weekday (ex. Last Tuesday of each month)
+
+  repayment_options:
+    ach_debit: bank_account_ach
+    remotely_created_checks: ecld
+
+  acquisition_source_options:
+    - TV Advert
+    - Radio Advert
+    - Moneysupermarket, Gocompare or Similar
+    - Google Results
+    - Friends/Family
+    - Facebook/Twitter
+    - Online Image/Video Ad
+    - Football Stadium
+    - Email
+    - SMS
+    - Other...
+
+  website_message:
+    header: "message"
+    body: "Due to the upcoming banking holiday, all requests to make changes for loans due on <span class='nobreak'>Nov 28 2014</span> must be received by 3:00 PM CST on <span class='nobreak'>Nov 25 2014.</span><br />All loans approved on Nov 26 2014 will generally be funded on Nov 28 2014."
+    start_date: 2014-11-20 00:00:01 -0600
+    end_date:   2014-11-27 23:59:59 -0600
+
+ldap:
+  host: ldap.cashnetusa.com
+  port: 389
+  ssl:  start_tls
+  base: 'ou=user,ou=jabber,ou=auth,dc=cashnetusa,dc=com'

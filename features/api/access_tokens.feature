@@ -2,7 +2,7 @@
 Feature: Access Tokens API
 
   Scenario: Responding with a fresh access token
-    Given an author "someone"
+    Given an author "someone" without access tokens
     And   "someone" has an unexpired access token
     When I POST to "/api/access_tokens" with:
       """
@@ -29,7 +29,7 @@ Feature: Access Tokens API
     And  the author "someone" should have 1 access token
 
   Scenario: Reusing a pre-existing author record
-    Given an author "someone"
+    Given an author "someone" without access tokens
     When I POST to "/api/access_tokens" with:
       """
       { "access_token": { "username": "someone", "password": "anything" } }

@@ -161,7 +161,8 @@ CREATE TABLE access_tokens (
     author_id uuid NOT NULL,
     expires_at timestamp without time zone NOT NULL,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    permissions public.hstore
 );
 
 
@@ -207,10 +208,10 @@ COMMENT ON TABLE assets IS 'List of all assets uploaded.
 CREATE TABLE audits (
     id integer NOT NULL,
     auditable_id uuid,
-    auditable_type character varying(255),
+    auditable_type character varying,
     notes text,
     approver text,
-    flags character varying(255)[] DEFAULT '{}'::character varying[],
+    flags character varying[] DEFAULT '{}'::character varying[],
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -373,8 +374,8 @@ CREATE TABLE pages (
     abstract text,
     hero_asset_id uuid,
     deleted_at timestamp without time zone,
-    audit_flags character varying(255)[] DEFAULT '{}'::character varying[],
-    page_name character varying(255),
+    audit_flags character varying[] DEFAULT '{}'::character varying[],
+    page_name character varying,
     CONSTRAINT only_valid_paths CHECK ((path ~ '^/[a-zA-Z0-9/_.~-]*$'::text))
 );
 
@@ -404,7 +405,8 @@ CREATE TABLE template_revisions (
     body text,
     description text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    category_id uuid
 );
 
 
@@ -427,7 +429,8 @@ CREATE TABLE templates (
     deleted_at timestamp without time zone,
     published_revision_id uuid,
     is_publishable boolean DEFAULT true,
-    audit_flags character varying(255)[] DEFAULT '{}'::character varying[]
+    audit_flags character varying[] DEFAULT '{}'::character varying[],
+    category_id uuid
 );
 
 
@@ -1805,7 +1808,7 @@ SET search_path = public, pg_catalog;
 --
 
 CREATE TABLE schema_migrations (
-    version character varying(255) NOT NULL
+    version character varying NOT NULL
 );
 
 
@@ -3459,6 +3462,22 @@ ALTER TABLE ONLY templates
 
 
 --
+-- Name: template_revisions_category_id_fkey; Type: FK CONSTRAINT; Schema: dummy_landable; Owner: -
+--
+
+ALTER TABLE ONLY template_revisions
+    ADD CONSTRAINT template_revisions_category_id_fkey FOREIGN KEY (category_id) REFERENCES categories(category_id);
+
+
+--
+-- Name: templates_category_id_fkey; Type: FK CONSTRAINT; Schema: dummy_landable; Owner: -
+--
+
+ALTER TABLE ONLY templates
+    ADD CONSTRAINT templates_category_id_fkey FOREIGN KEY (category_id) REFERENCES categories(category_id);
+
+
+--
 -- Name: theme_id_fk; Type: FK CONSTRAINT; Schema: dummy_landable; Owner: -
 --
 
@@ -3896,7 +3915,7 @@ ALTER TABLE ONLY visits
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20130510221424');
 
@@ -3962,3 +3981,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141211200012');
 
 INSERT INTO schema_migrations (version) VALUES ('20141217171816');
 
+INSERT INTO schema_migrations (version) VALUES ('20150610999999');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728195345');

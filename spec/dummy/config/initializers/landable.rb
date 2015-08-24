@@ -1,7 +1,7 @@
 require 'landable'
 require Rails.root.join('lib', 'bunny_messaging_service.rb')
 
-Landable.configure do |config|
+Landable.configure(File.join(File.dirname(__FILE__), '..', '..', 'etc')) do |config|
   config.api_namespace = '/api'
   config.cors.origins  = ['http://cors.test']
 

@@ -7,6 +7,9 @@ gemspec
 # concerned only with compatibility (see bin/test)
 gem 'rails', ENV['RAILS_VERSION'] if ENV.key? 'RAILS_VERSION'
 
+# handle configurations!
+gem 'figgy', '~> 1.1.0'
+
 # development/test dependencies, and anything else that doesn't belong or fit
 # in the gemspec
 group :test do
