@@ -71,6 +71,7 @@ module Landable
       end
 
       private
+
       def current_or_new_visit
         @visit_id || (load && @visit_id) || (@visit_id = record_visit.visit_id)
       end
