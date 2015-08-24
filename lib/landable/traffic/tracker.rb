@@ -95,8 +95,8 @@ module Landable
       end
 
       def visitor_id
-        @visitor_id = visitor.id if visitor_changed?
-        @visitor_id
+        return @visitor_id unless visitor_changed?
+        visitor.id # visitor method will create a new visitor if needed.
       end
 
       def create_event(type, meta = {})

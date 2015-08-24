@@ -27,12 +27,12 @@ module Landable
           p.path         = request.path
           p.query_string = untracked_parameters.to_query
           p.request_id   = request.uuid
-
           p.click_id     = tracking_parameters['click_id']
-
           p.http_status  = response.status
 
-          p.visit_id     = @visit_id
+          # if instance var is lost, load session. If session is lost, make a new visit b/c there's no other way to retrieve.
+          p.visit_id     = @visit_id || (load and @visit_id) || (@visit_id = record_visit.visit_id)
+
           current_time = Time.now
           p.created_at   = current_time
           p.response_time = (current_time - @start_time) * 1000
