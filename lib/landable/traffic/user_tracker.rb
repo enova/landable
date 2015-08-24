@@ -31,9 +31,9 @@ module Landable
           p.http_status  = response.status
 
           # if instance var is lost, load session.
-          # If session is lost, make a new visit b/c there's no other way to retrieve.
+          # If session is lost, make a new visit.
           p.visit_id = @visit_id || (load && @visit_id) ||
-              (@visit_id = record_visit.visit_id)
+            (@visit_id = record_visit.visit_id)
 
           current_time = Time.now
           p.created_at   = current_time
