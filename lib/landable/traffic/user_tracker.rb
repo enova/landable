@@ -32,7 +32,7 @@ module Landable
 
           # if instance var is lost, load session.
           # If session is lost, make a new visit.
-          p.visit_id = @visit_id || (load; @visit_id) ||
+          p.visit_id = @visit_id || (load && @visit_id) ||
             (@visit_id = record_visit.visit_id)
 
           current_time = Time.now
