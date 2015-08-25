@@ -73,8 +73,8 @@ module Landable
       private
 
       def current_or_new_visit
-        load if @visit_id.nil? # if nil, reload the session data
-        @visit_id ? @visit_id : create_visit
+        load unless @visit_id
+        @visit_id || create_visit
       end
     end
   end
