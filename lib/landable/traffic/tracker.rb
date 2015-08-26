@@ -212,20 +212,24 @@ module Landable
 
       def record_access
         access = Access.where(visitor_id: visitor_id, path_id: Path[request.path]).first_or_initialize
-        access.last_accessed_at = Time.current
-        access.save!
+        Thread.new do
+          access.last_accessed_at = Time.current
+          access.save!
+        end
       end
 
       def create_visit
         visit = Visit.new
-        visit.attribution  = attribution
-        visit.cookie_id    = @cookie_id
-        visit.referer_id   = referer.try(:id)
-        visit.visitor_id   = visitor_id
-        visit.do_not_track = do_not_track
-        visit.save!
+        Thread.new do
+          visit.attribution  = attribution
+          visit.cookie_id    = @cookie_id
+          visit.referer_id   = referer.try(:id)
+          visit.visitor_id   = visitor_id
+          visit.do_not_track = do_not_track
+          visit.save!
 
-        @visit_id = visit.id
+          @visit_id = visit.id
+        end
       end
 
       def new_visit?

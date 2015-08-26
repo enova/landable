@@ -62,7 +62,9 @@ module Landable
         end
 
         visit.owner = owner
-        visit.save!
+        Thread.new do
+          visit.save!
+        end
 
         begin
           Ownership.where(cookie_id: @cookie_id, owner: owner).first_or_create

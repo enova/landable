@@ -25,7 +25,9 @@ module Landable
       template.thumbnail_url ||= 'http://placehold.it/300x200'
 
       # Save!
-      template.save!
+      Thread.new do
+        template.save!
+      end
 
       # Publish!
       author = Author.find_or_create_by(username: 'TrogdorAdmin', email: 'trogdoradming@example.com', first_name: 'Marley', last_name: 'Pants')

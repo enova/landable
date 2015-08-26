@@ -34,7 +34,9 @@ module Landable
       theme.editable        = false
       theme.thumbnail_url ||= 'http://placehold.it/300x200'
 
-      theme.save!
+      Thread.new do
+        theme.save!
+      end
 
       theme
     end
