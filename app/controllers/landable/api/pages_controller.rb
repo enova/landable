@@ -10,7 +10,9 @@ module Landable
       def create
         page = Page.new page_params
         page.updated_by_author = current_author
-        page.save!
+        Thread.new do
+          page.save!
+        end
 
         respond_with page, status: :created, location: page_url(page)
       end

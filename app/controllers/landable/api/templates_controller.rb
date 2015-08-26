@@ -9,7 +9,9 @@ module Landable
       # RESTful methods
       def create
         template = Template.new(template_params)
-        template.save!
+        Thread.new do
+          template.save!
+        end
 
         respond_with template, status: :created, location: template_url(template)
       end

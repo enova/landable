@@ -27,7 +27,9 @@ module Landable
 
         audit = Audit.new audit_params.merge(auditable_id: type_id,
                                              auditable_type: type)
-        audit.save!
+        Thread.new do
+          audit.save!
+        end
 
         respond_with audit, status: :created, location: audit_url(audit)
       end

@@ -17,9 +17,11 @@ module Landable
           return
         end
 
-        Asset.transaction do
-          asset.author = current_author
-          asset.save!
+        Thread.new do
+          Asset.transaction do
+            asset.author = current_author
+            asset.save!
+          end
         end
 
         respond_with asset, status: :created, location: asset_url(asset)

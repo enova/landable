@@ -9,7 +9,9 @@ module Landable
       # RESTful methods
       def create
         theme = Theme.new(theme_params)
-        theme.save!
+        Thread.new do
+          theme.save!
+        end
 
         respond_with theme, status: :created, location: theme_url(theme)
       end
