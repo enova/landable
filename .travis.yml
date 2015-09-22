@@ -28,3 +28,7 @@ notifications:
   # let enova know about the build
   slack: enova:xzPNLg3AxkbkUcUlfn7sqHW5
   email: trogdor@enova.com
+
+addons:
+  code_climate:
+    repo_token: 25ecadea330b0838d49ac4eff1a815893d99134872826af78c162fc5817dadfc
