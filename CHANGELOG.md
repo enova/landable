@@ -3,6 +3,7 @@
 See README.md before updating this file.
 
 ## Unreleased [#](https://github.com/enova/landable/compare/v1.14.0...master)
+* Feature: Add CodeClimate metrics and test coverage for Travis
 
 ## 1.14.0 [#](https://github.com/enova/landable/compare/v1.13.2...v1.14.0)
 * Feature: Support permissions for an author
