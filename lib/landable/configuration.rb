@@ -14,6 +14,7 @@ module Landable
     attr_writer :blank_user_agent_string, :untracked_paths
     attr_writer :dnt_enabled, :amqp_event_mapping, :amqp_site_segment
     attr_writer :amqp_service_enabled, :amqp_messaging_service
+    attr_writer :silence_logger
 
     def initialize(config_path = nil)
       begin
@@ -77,6 +78,10 @@ module Landable
 
     def public_namespace
       @public_namespace ||= (public_uri.try(:path).presence || '')
+    end
+
+    def silence_logger
+      @silence_logger ||= fetch(:silence_logger, false)
     end
 
     def database_schema_prefix
