@@ -1531,7 +1531,7 @@ ALTER SEQUENCE query_strings_query_string_id_seq OWNED BY query_strings.query_st
 CREATE TABLE referers (
     referer_id integer NOT NULL,
     domain_id integer NOT NULL,
-    path_id integer NOT NULL,
+    path_id integer,
     query_string_id integer NOT NULL,
     attribution_id integer NOT NULL
 );
@@ -3984,3 +3984,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141217171816');
 INSERT INTO schema_migrations (version) VALUES ('20150610999999');
 
 INSERT INTO schema_migrations (version) VALUES ('20150728195345');
+
+INSERT INTO schema_migrations (version) VALUES ('20151006000001');
+
