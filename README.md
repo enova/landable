@@ -1,4 +1,10 @@
-# Landable [![Gem Version](http://badge.fury.io/rb/landable.svg)](http://rubygems.org/gems/landable) [![Build Status](https://travis-ci.org/enova/landable.svg?branch=master)](https://travis-ci.org/enova/landable) [![CodeClimate](https://codeclimate.com/repos/5601a9b96956804d85001f0d/badges/9e853bc884d47c292346/gpa.svg)](https://codeclimate.com/repos/5601a9b96956804d85001f0d/feed) [![TestCoverage](https://codeclimate.com/repos/5601a9b96956804d85001f0d/badges/9e853bc884d47c292346/coverage.svg)](https://codeclimate.com/repos/5601a9b96956804d85001f0d/coverage)
+# Landable
+
+[![Gem Version](http://badge.fury.io/rb/landable.svg)](https://rubygems.org/gems/landable)
+[![Build Status](https://travis-ci.org/enova/landable.svg?branch=master)](https://travis-ci.org/enova/landable)
+[![CodeClimate](https://codeclimate.com/repos/5601a9b96956804d85001f0d/badges/9e853bc884d47c292346/gpa.svg)](https://codeclimate.com/repos/5601a9b96956804d85001f0d/feed)
+[![TestCoverage](https://codeclimate.com/repos/5601a9b96956804d85001f0d/badges/9e853bc884d47c292346/coverage.svg)](https://codeclimate.com/repos/5601a9b96956804d85001f0d/coverage)
+[![Dependency Status](https://gemnasium.com/enova/landable.svg)](https://gemnasium.com/enova/landable)
 
 Landable is an API for building your CMS. It's implemented as a [Rails Engine](http://guides.rubyonrails.org/engines.html). We like to use Landable with [Publicist](https://github.com/enova/publicist), a great UI for managing content.
 
