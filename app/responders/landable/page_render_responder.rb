@@ -9,5 +9,6 @@ module Landable
       else          fail page.error
       end
     end
+    alias to_text to_html
   end
 end
