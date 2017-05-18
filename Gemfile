@@ -5,7 +5,7 @@ gemspec
 
 # allow us to load up a specific version of rails, since the gemspec is
 # concerned only with compatibility (see bin/test)
-gem 'rails', "~> #{ENV['RAILS_VERSION']}" if ENV.key? 'RAILS_VERSION'
+gem 'rails', ENV['RAILS_VERSION'] if ENV.key? 'RAILS_VERSION'
 
 # handle configurations!
 gem 'figgy', '~> 1.1.0'
