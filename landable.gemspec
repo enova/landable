@@ -42,7 +42,7 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency 'pg'
   gem.add_development_dependency 'rake', '< 12'
-  gem.add_development_dependency 'rspec-rails',        '~> 2.14.2'
+  gem.add_development_dependency 'rspec-rails',        '~> 2.99'
   gem.add_development_dependency 'factory_girl_rails', '~> 4.2.0'
   gem.add_development_dependency 'json-schema',        '= 2.1.3'
   gem.add_development_dependency 'rack-schema'
