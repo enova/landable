@@ -6,6 +6,8 @@ namespace :landable do
     desc 'Run specs'
     RSpec::Core::RakeTask.new(:spec)
 
+    task spec: ['app:db:test:prepare', 'landable:seed']
+
   rescue LoadError
     desc 'Run specs (missing rspec)'
     task :spec do

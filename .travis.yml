@@ -6,6 +6,13 @@ gemfile:
   - gemfiles/rails_4_1.gemfile
 
 env:
+  - TEST_SUITE=landable:spec
+  - TEST_SUITE=landable:cucumber
+
+matrix:
+  include:
+    - rvm: 2.3.3
+      env: TEST_SUITE=rubocop
 
 rvm:
   - 2.1.9
@@ -16,7 +23,7 @@ before_script:
   - psql -c "CREATE DATABASE dummy_test;" -U postgres
 script:
   - script/redb
-  - bundle exec rake landable
+  - bundle exec rake $TEST_SUITE
 
 notifications:
   # let enova know about the build

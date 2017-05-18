@@ -54,6 +54,8 @@ namespace :landable do
       task 'db:test:prepare' do
       end
 
+      task cucumber: ['app:db:test:prepare', 'landable:seed']
+
       task stats: 'cucumber:statsetup'
     rescue LoadError
       desc 'cucumber rake task not available (cucumber not installed)'
