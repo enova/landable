@@ -2,9 +2,6 @@ inherit_from: .rubocop_todo.yml
 
 AllCops:
   DisplayCopNames: true
-  Exclude:
-    - 'lib/landable/layout.rb'
-    - 'lib/landable/partial.rb'
 
 Lint/AmbiguousOperator:
   Enabled: true

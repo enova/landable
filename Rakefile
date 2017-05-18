@@ -18,6 +18,6 @@ task landable: [
   'app:db:test:prepare',
   'landable:seed',
   'landable:spec',
-  'landable:cucumber',
+  'landable:cucumber'
 ]
 RuboCop::RakeTask.new
