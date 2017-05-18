@@ -18,5 +18,4 @@ group :test do
   gem 'shoulda-matchers'
   gem 'cucumber-rails', require: false
   gem 'test_after_commit'
-  gem 'codeclimate-test-reporter', require: nil
 end
