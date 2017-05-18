@@ -12,6 +12,7 @@ env:
 matrix:
   include:
     - rvm: 2.3.3
+      gemfile: Gemfile
       env: TEST_SUITE=rubocop
 
 rvm:
