@@ -55,6 +55,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rubocop'
   gem.add_development_dependency 'minitest'
   gem.add_development_dependency 'shoulda-matchers'
-  gem.add_development_dependency 'cucumber-rails'
   gem.add_development_dependency 'test_after_commit'
 end
