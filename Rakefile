@@ -19,6 +19,5 @@ task landable: [
   'landable:seed',
   'landable:spec',
   'landable:cucumber',
-  'landable:pgtap'
 ]
 RuboCop::RakeTask.new
