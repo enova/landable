@@ -11,7 +11,7 @@ module Landable
         it 'should check on the availability of a `tidy` command' do
           Kernel.should_receive(:system).with('which tidy > /dev/null') { true }
           service.should be_tidyable
-          service.instance_variable_get(:@is_tidyable).should be_true
+          service.instance_variable_get(:@is_tidyable).should eq true
         end
       end
 
@@ -19,7 +19,7 @@ module Landable
         it 'should return false' do
           Kernel.should_receive(:system).with('which tidy > /dev/null') { false }
           service.should_not be_tidyable
-          service.instance_variable_get(:@is_tidyable).should be_false
+          service.instance_variable_get(:@is_tidyable).should eq false
         end
       end
     end

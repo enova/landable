@@ -24,11 +24,11 @@ module Landable
 
     context 'File Finding' do
       it 'will find the correct application files' do
-        Layout.files.any? { |f| f.end_with?('application.haml') }.should be_true
-        Layout.files.any? { |f| f.end_with?('application.html.erb') }.should be_true
-        Layout.files.any? { |f| f.end_with?('priority.html.erb') }.should be_true
-        Layout.files.any? { |f| f.end_with?('_partial.html.haml') }.should be_false
-        Layout.files.any? { |f| f.end_with?('partial.html.haml') }.should be_false
+        Layout.files.any? { |f| f.end_with?('application.haml') }.should eq true
+        Layout.files.any? { |f| f.end_with?('application.html.erb') }.should eq true
+        Layout.files.any? { |f| f.end_with?('priority.html.erb') }.should eq true
+        Layout.files.any? { |f| f.end_with?('_partial.html.haml') }.should eq false
+        Layout.files.any? { |f| f.end_with?('partial.html.haml') }.should eq false
       end
     end
   end

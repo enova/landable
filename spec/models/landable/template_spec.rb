@@ -34,12 +34,12 @@ module Landable
     describe '#partial?' do
       it 'returns true when template references a file' do
         template = create :template, :partial
-        template.partial?.should be_true
+        template.partial?.should eq true
       end
 
       it 'returns false when template has no file' do
         template = create :template
-        template.partial?.should be_false
+        template.partial?.should eq false
       end
     end
 
@@ -69,7 +69,7 @@ module Landable
         template.publish! author: author
         revision1 = template.published_revision
         template.publish! author: author
-        revision1.is_published.should be_false
+        revision1.is_published.should eq false
       end
 
       it 'should call republish_associated_pages' do

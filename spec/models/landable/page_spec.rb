@@ -20,7 +20,7 @@ module Landable
     it 'should set is_publishable to true on before_save' do
       page = FactoryGirl.build :page, is_publishable: false
       page.save!
-      page.is_publishable.should be_true
+      page.is_publishable.should eq true
     end
 
     specify '#redirect?' do
@@ -176,14 +176,14 @@ module Landable
       it 'should set is_publishable to false' do
         page.is_publishable = true
         page.publish! author: author
-        page.is_publishable.should be_false
+        page.is_publishable.should eq false
       end
 
       it 'should unset previous revision.is_published' do
         page.publish! author: author
         revision1 = page.published_revision
         page.publish! author: author
-        revision1.is_published.should be_false
+        revision1.is_published.should eq false
       end
     end
 

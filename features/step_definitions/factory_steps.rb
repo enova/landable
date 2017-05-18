@@ -120,7 +120,7 @@ Then 'an author "$username" should exist' do |username|
 end
 
 Given 'an author "$username" does not exist' do |username|
-  Landable::Author.where(username: username).present?.should be_false
+  Landable::Author.where(username: username).present?.should eq false
 end
 
 Then(/^the author "(.+?)" should have (\d+) access tokens?$/) do |username, n|

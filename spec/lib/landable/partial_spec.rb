@@ -62,8 +62,8 @@ module Landable
           end
 
           it 'creates a published template' do
-            @test.revisions.present?.should be_true
-            @foobazz.revisions.present?.should be_true
+            @test.revisions.present?.should eq true
+            @foobazz.revisions.present?.should eq true
           end
         end
       end

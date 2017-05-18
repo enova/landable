@@ -58,7 +58,7 @@ end
 # tag the spec with `auth: false`.
 shared_context 'JSON API Controller', type: :controller do
   before do
-    request.env['HTTP_ACCEPT'] = 'application/json' if example.metadata[:json] == true
+    request.env['HTTP_ACCEPT'] = 'application/json' if RSpec.current_example.metadata[:json] == true
   end
 
   def last_json
@@ -81,7 +81,7 @@ shared_examples 'Authenticated API controller' do |request_method|
   fail(ArgumentError, 'Method name required as argument') if request_method.nil?
 
   before do
-    use_access_token unless example.metadata[:auth] == false
+    use_access_token unless RSpec.current_example.metadata[:auth] == false
   end
 
   def current_author
