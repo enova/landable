@@ -8,8 +8,8 @@ env:
   - RAILS_VERSION=4.1.1
 
 rvm:
-  - 2.0.0-p247
-  - 2.1.2
+  - 2.1.9
+  - 2.3.3
 
 before_script:
   - sudo apt-get update
