@@ -1,4 +1,7 @@
+inherit_from: .rubocop_todo.yml
+
 AllCops:
+  DisplayCopNames: true
   Exclude:
     - 'lib/landable/layout.rb'
     - 'lib/landable/partial.rb'
@@ -23,7 +26,7 @@ Lint/Debugger:
 Lint/DeprecatedClassMethods:
   Enabled: true
 
-Lint/Eval:
+Security/Eval:
   Enabled: true
 
 Lint/LiteralInInterpolation:
@@ -174,7 +177,7 @@ Style/IndentationWidth:
 Style/Lambda:
   Enabled: true
 
-Style/MethodCallParentheses:
+Style/MethodCallWithoutArgsParentheses:
   Enabled: true
 
 Style/MethodDefParentheses:
@@ -193,9 +196,6 @@ Style/NilComparison:
   Enabled: true
 
 Style/Not:
-  Enabled: true
-
-Style/PercentLiteralDelimiters:
   Enabled: true
 
 Style/PerlBackrefs:
@@ -219,10 +219,7 @@ Style/RegexpLiteral:
 Style/RescueModifier:
   Enabled: true
 
-Style/SignalException:
-  Enabled: true
-
-Style/SingleSpaceBeforeFirstArg:
+Style/SpaceBeforeFirstArg:
   Enabled: true
 
 Style/SpaceAfterColon:
@@ -240,7 +237,7 @@ Style/SpaceAroundOperators:
 Style/SpaceBeforeBlockBraces:
   Enabled: true
 
-Style/SpaceBeforeModifierKeyword:
+Style/SpaceAroundKeyword:
   Enabled: true
 
 Style/SpaceInsideBlockBraces:
@@ -270,7 +267,10 @@ Style/Tab:
 Style/TrailingBlankLines:
   Enabled: true
 
-Style/TrailingComma:
+Style/TrailingCommaInLiteral:
+  Enabled: true
+
+Style/TrailingCommaInArguments:
   Enabled: true
 
 Style/TrailingWhitespace:
