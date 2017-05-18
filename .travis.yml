@@ -1,4 +1,5 @@
 language: ruby
+cache: bundler
 
 env:
   - RAILS_VERSION=4.0.0
