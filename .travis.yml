@@ -22,6 +22,6 @@ notifications:
   email: trogdor@enova.com
 
 addons:
-  postgresql: "9.1"
+  postgresql: "9.3"
   code_climate:
     repo_token: 25ecadea330b0838d49ac4eff1a815893d99134872826af78c162fc5817dadfc
