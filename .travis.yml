@@ -2,10 +2,8 @@ language: ruby
 cache: bundler
 
 env:
-  - RAILS_VERSION=4.0.0
-  - RAILS_VERSION=4.0.5
-  - RAILS_VERSION=4.1.0
-  - RAILS_VERSION=4.1.1
+  - RAILS_VERSION=4.0
+  - RAILS_VERSION=4.1
 
 rvm:
   - 2.1.9
