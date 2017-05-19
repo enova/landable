@@ -15,6 +15,11 @@ matrix:
       gemfile: Gemfile
       env: TEST_SUITE=rubocop
 
+  allow_failures:
+    - rvm: 2.1.9
+      gemfile: gemfiles/rails_4_0.gemfile
+      env: TEST_SUITE=landable:spec
+
 rvm:
   - 2.1.9
   - 2.3.3
