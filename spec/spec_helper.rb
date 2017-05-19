@@ -11,7 +11,6 @@ require 'shoulda-matchers'
 require 'shoulda/matchers/active_record'
 require 'shoulda/matchers/active_model'
 require 'faker'
-require 'test_after_commit'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.

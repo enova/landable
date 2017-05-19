@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 4.2.0'
 gem 'responders'
+gem 'test_after_commit'
 
 gem 'cucumber-rails', require: false
 

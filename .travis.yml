@@ -13,6 +13,12 @@ env:
 matrix:
   include:
     - rvm: 2.3.3
+      gemfile: gemfiles/rails_5_0.gemfile
+      env: TEST_SUITE=landable:spec
+    - rvm: 2.3.3
+      gemfile: gemfiles/rails_5_0.gemfile
+      env: TEST_SUITE=landable:cucumber
+    - rvm: 2.3.3
       gemfile: Gemfile
       env: TEST_SUITE=rubocop
 
