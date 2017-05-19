@@ -5,8 +5,8 @@ module Landable
     describe TableName do
       describe '#table_name' do
         it 'should generate the correct table name' do
-          Visit.send(:table_name).should eq "#{Landable.configuration.database_schema_prefix}landable_traffic.visits"
-          PageView.send(:table_name).should eq "#{Landable.configuration.database_schema_prefix}landable_traffic.page_views"
+          expect(Visit.send(:table_name)).to eq "#{Landable.configuration.database_schema_prefix}landable_traffic.visits"
+          expect(PageView.send(:table_name)).to eq "#{Landable.configuration.database_schema_prefix}landable_traffic.page_views"
         end
       end
     end

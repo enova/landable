@@ -19,7 +19,7 @@ describe Landable::Migration do
     let(:connection) { ActiveRecord::Base.connection }
 
     before(:each) do
-      ActiveRecord::Base.connection_pool.should_receive(:with_connection).and_yield(connection)
+      expect(ActiveRecord::Base.connection_pool).to receive(:with_connection).and_yield(connection)
     end
 
     def connection_search_path
@@ -32,7 +32,7 @@ describe Landable::Migration do
 
         connection.schema_search_path = 'public'
         FirstMigration.migrate(:up)
-        connection_search_path.should eq 'public'
+        expect(connection_search_path).to eq 'public'
 
         connection.schema_search_path = default_search_path
       end
@@ -42,9 +42,9 @@ describe Landable::Migration do
       it 'should NOT reset the search_path to the original schema_search_path' do
         connection.schema_search_path = 'public'
 
-        connection_search_path.should eq 'public'
+        expect(connection_search_path).to eq 'public'
         RegularMigration.migrate(:up)
-        connection_search_path.should_not eq 'public'
+        expect(connection_search_path).not_to eq 'public'
       end
     end
   end

@@ -16,7 +16,7 @@ module Landable
     describe '#template_id=' do
       it 'should set template revision attributes matching the template' do
         attrs = revision.attributes.except('editable', 'is_publishable', 'created_at', 'updated_at', 'published_revision_id', 'file', 'thumbnail_url', 'is_layout', 'is_minor', 'ordinal', 'notes', 'is_published', 'audit_flags')
-        attrs.should include(template.attributes.except(*TemplateRevision.ignored_template_attributes))
+        expect(attrs).to include(template.attributes.except(*TemplateRevision.ignored_template_attributes))
       end
     end
 
@@ -26,9 +26,9 @@ module Landable
         revision.template_id = template.id
         revision.author_id = author.id
         revision.unpublish!
-        revision.is_published.should eq false
+        expect(revision.is_published).to eq false
         revision.publish!
-        revision.is_published.should eq true
+        expect(revision.is_published).to eq true
       end
     end
   end

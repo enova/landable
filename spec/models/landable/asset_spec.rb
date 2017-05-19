@@ -13,11 +13,11 @@ describe Landable::Asset do
     pdf.close
   end
 
-  it { should_not have_valid(:name).when(nil, '', 'No Spaces') }
-  it { should_not have_valid(:author).when(nil) }
-  it { should_not have_valid(:md5sum).when(nil, '') }
-  it { should_not have_valid(:mime_type).when(nil, '') }
-  it { should_not have_valid(:file_size).when(nil, 1.5) }
+  it { is_expected.not_to have_valid(:name).when(nil, '', 'No Spaces') }
+  it { is_expected.not_to have_valid(:author).when(nil) }
+  it { is_expected.not_to have_valid(:md5sum).when(nil, '') }
+  it { is_expected.not_to have_valid(:mime_type).when(nil, '') }
+  it { is_expected.not_to have_valid(:file_size).when(nil, 1.5) }
 
   it 'stores an md5sum of its contents' do
     asset = build(:asset, data: png)
@@ -41,6 +41,6 @@ describe Landable::Asset do
   it 'returns a list of pages using the asset' do
     create(:page, body: 'panda.png', path: '/testing/assets')
     asset = create(:asset, data: pdf, name: 'panda.png')
-    asset.associated_pages.should eq(['/testing/assets'])
+    expect(asset.associated_pages).to eq(['/testing/assets'])
   end
 end

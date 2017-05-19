@@ -9,10 +9,10 @@ describe Landable::PageRenderResponder do
       it 'should render a 200' do
         content = double
         content_type = double
-        Landable::RenderService.should_receive(:call) { content }
-        page.should_receive(:content_type) { content_type }
+        expect(Landable::RenderService).to receive(:call) { content }
+        expect(page).to receive(:content_type) { content_type }
 
-        responder.should_receive(:render).with(text: content, content_type: content_type, layout: false)
+        expect(responder).to receive(:render).with(text: content, content_type: content_type, layout: false)
 
         responder.to_html
       end
@@ -22,8 +22,8 @@ describe Landable::PageRenderResponder do
       let(:page) { build :page, :redirect }
 
       it 'should render a redirect' do
-        responder.should_receive(:redirect_to).with(page.redirect_url, status: page.status_code)
-        responder.should_not_receive(:render)
+        expect(responder).to receive(:redirect_to).with(page.redirect_url, status: page.status_code)
+        expect(responder).not_to receive(:render)
 
         responder.to_html
       end
@@ -34,7 +34,7 @@ describe Landable::PageRenderResponder do
 
       it 'should render a 410' do
         expect { responder.to_html }.to raise_error(Landable::Page::GoneError)
-        responder.should_not_receive(:render)
+        expect(responder).not_to receive(:render)
       end
     end
   end

@@ -18,8 +18,8 @@ describe Landable::AuthenticationService do
   end
 
   it 'returns the result of the first successful authentication strategy' do
-    described_class.call('simple', 'authenticator')[:username].should eq 'simple'
-    described_class.call('echo', 'echo')[:username].should eq 'echo'
+    expect(described_class.call('simple', 'authenticator')[:username]).to eq 'simple'
+    expect(described_class.call('echo', 'echo')[:username]).to eq 'echo'
   end
 
   it 'raises AuthenticationFailedError if no strategy worked' do
@@ -31,31 +31,31 @@ describe Landable::AuthenticationService do
   describe 'EchoAuthenticator' do
     it 'returns nil outside of development and test environments' do
       Rails.env.stub(development?: false, test?: false)
-      echo_auth.call('would-have', 'worked').should be_nil
+      expect(echo_auth.call('would-have', 'worked')).to be_nil
 
       Rails.env.stub(development?: true, test?: false)
-      echo_auth.call('will-now', 'work').should_not be_nil
+      expect(echo_auth.call('will-now', 'work')).not_to be_nil
 
       Rails.env.stub(development?: false, test?: true)
-      echo_auth.call('will-now', 'work').should_not be_nil
+      expect(echo_auth.call('will-now', 'work')).not_to be_nil
     end
 
     it 'returns nil for password "fail"' do
-      echo_auth.call('will', 'fail').should be_nil
+      expect(echo_auth.call('will', 'fail')).to be_nil
     end
 
     it 'returns an author for the given username' do
       entry = echo_auth.call('anyone', 'anything')
-      entry.should include(username: 'anyone', email: 'anyone@example.com')
-      entry.should have_key(:first_name)
-      entry.should have_key(:last_name)
+      expect(entry).to include(username: 'anyone', email: 'anyone@example.com')
+      expect(entry).to have_key(:first_name)
+      expect(entry).to have_key(:last_name)
     end
 
     it 'can be instantiated to only echo a certain username/password' do
       instance = echo_auth.new('trogdor', 'some-pass')
-      instance.call('previously', 'worked').should be_nil
-      instance.call('trogdor', 'trogdor').should be_nil
-      instance.call('trogdor', 'some-pass')[:username].should eq 'trogdor'
+      expect(instance.call('previously', 'worked')).to be_nil
+      expect(instance.call('trogdor', 'trogdor')).to be_nil
+      expect(instance.call('trogdor', 'some-pass')[:username]).to eq 'trogdor'
     end
   end
 end

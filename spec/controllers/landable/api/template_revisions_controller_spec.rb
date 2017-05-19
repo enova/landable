@@ -17,13 +17,13 @@ module Landable
         it "returns all of a template's revisions" do
           template.publish! author: current_author
           make_request
-          response.status.should eq 200
-          last_json['template_revisions'].length.should eq 1
+          expect(response.status).to eq 200
+          expect(last_json['template_revisions'].length).to eq 1
         end
 
         it '404s on page not found' do
           make_request random_uuid
-          response.status.should eq 404
+          expect(response.status).to eq 404
         end
       end
     end

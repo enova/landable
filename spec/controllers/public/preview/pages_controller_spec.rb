@@ -20,12 +20,12 @@ module Landable
 
           it 'renders the page in situ' do
             make_request
-            response.body.should include '<p>why hello there</p>'
+            expect(response.body).to include '<p>why hello there</p>'
           end
 
           it 'renders the preview message' do
             make_request
-            response.body.should include 'Preview Mode'
+            expect(response.body).to include 'Preview Mode'
           end
 
           it 'is available at /-/p/:id' do

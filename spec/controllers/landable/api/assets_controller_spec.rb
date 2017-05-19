@@ -17,7 +17,7 @@ module Landable
         it 'updates the asset description' do
           make_request
           asset.reload
-          asset.description.should eq 'Updated'
+          expect(asset.description).to eq 'Updated'
         end
       end
     end

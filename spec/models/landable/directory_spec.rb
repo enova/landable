@@ -10,27 +10,27 @@ module Landable
 
     it 'knows its own path' do
       dir = Directory.listing '/'
-      dir.path.should eq '/'
+      expect(dir.path).to eq '/'
     end
 
     it 'lists immediate children' do
       stub_contents
 
       dir = Directory.listing '/'
-      dir.subdirectories.map(&:path).should eq ['/aff', '/seo']
-      dir.pages.map(&:path).should eq ['/quux']
+      expect(dir.subdirectories.map(&:path)).to eq ['/aff', '/seo']
+      expect(dir.pages.map(&:path)).to eq ['/quux']
 
       dir = Directory.listing '/aff'
-      dir.subdirectories.map(&:path).should eq ['/aff/deeply']
-      dir.pages.map(&:path).should eq ['/aff/bar', '/aff/deeply_nested']
+      expect(dir.subdirectories.map(&:path)).to eq ['/aff/deeply']
+      expect(dir.pages.map(&:path)).to eq ['/aff/bar', '/aff/deeply_nested']
 
       dir = Directory.listing '/seo'
-      dir.subdirectories.should be_empty
-      dir.pages.map(&:path).should eq ['/seo/baz', '/seo/foo']
+      expect(dir.subdirectories).to be_empty
+      expect(dir.pages.map(&:path)).to eq ['/seo/baz', '/seo/foo']
 
       dir = Directory.listing '/aff/deeply'
-      dir.subdirectories.should be_empty
-      dir.pages.map(&:path).should eq ['/aff/deeply/nested']
+      expect(dir.subdirectories).to be_empty
+      expect(dir.pages.map(&:path)).to eq ['/aff/deeply/nested']
     end
   end
 end

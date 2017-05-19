@@ -16,13 +16,13 @@ module Landable
 
         it 'returns the selected category' do
           make_request
-          response.status.should eq 200
-          last_json['category']['id'].should eq category.id
+          expect(response.status).to eq 200
+          expect(last_json['category']['id']).to eq category.id
         end
 
         it '404s on page not found' do
           make_request random_uuid
-          response.status.should eq 404
+          expect(response.status).to eq 404
         end
       end
 
@@ -38,8 +38,8 @@ module Landable
           create_list :category, 5
 
           make_request
-          response.status.should eq 200
-          last_json['categories'].size.should eq 5
+          expect(response.status).to eq 200
+          expect(last_json['categories'].size).to eq 5
         end
       end
     end

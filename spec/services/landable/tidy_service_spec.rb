@@ -9,17 +9,17 @@ module Landable
 
       context 'when tidyable' do
         it 'should check on the availability of a `tidy` command' do
-          Kernel.should_receive(:system).with('which tidy > /dev/null') { true }
-          service.should be_tidyable
-          service.instance_variable_get(:@is_tidyable).should eq true
+          expect(Kernel).to receive(:system).with('which tidy > /dev/null') { true }
+          expect(service).to be_tidyable
+          expect(service.instance_variable_get(:@is_tidyable)).to eq true
         end
       end
 
       context 'not tidyable' do
         it 'should return false' do
-          Kernel.should_receive(:system).with('which tidy > /dev/null') { false }
-          service.should_not be_tidyable
-          service.instance_variable_get(:@is_tidyable).should eq false
+          expect(Kernel).to receive(:system).with('which tidy > /dev/null') { false }
+          expect(service).not_to be_tidyable
+          expect(service.instance_variable_get(:@is_tidyable)).to eq false
         end
       end
     end
@@ -28,22 +28,22 @@ module Landable
       it 'should call #call with raise_on_error: true' do
         input = double
         output = double
-        service.should_receive(:call).with(input, raise_on_error: true) { output }
-        service.call!(input).should eq output
+        expect(service).to receive(:call).with(input, raise_on_error: true) { output }
+        expect(service.call!(input)).to eq output
       end
     end
 
     describe '.call' do
       context 'when not tidyable' do
         it 'should raise an exception' do
-          service.should_receive(:tidyable?) { false }
+          expect(service).to receive(:tidyable?) { false }
           expect { service.call 'foo' }.to raise_error(StandardError)
         end
       end
 
       context 'when tidyable' do
         before(:each) do
-          service.should_receive(:tidyable?) { true }
+          expect(service).to receive(:tidyable?) { true }
         end
 
         it 'should invoke tidy and return a Result' do
@@ -51,22 +51,22 @@ module Landable
           output = double('output')
           result = double('result')
 
-          service.should_receive(:wrap_liquid) { |value| value }.ordered # passthrough; will test later
+          expect(service).to receive(:wrap_liquid) { |value| value }.ordered # passthrough; will test later
 
           mock_io = double('io')
-          mock_io.should_receive(:puts).with(input).ordered
-          mock_io.should_receive(:close_write).ordered
-          mock_io.should_receive(:read) { output }
+          expect(mock_io).to receive(:puts).with(input).ordered
+          expect(mock_io).to receive(:close_write).ordered
+          expect(mock_io).to receive(:read) { output }
 
-          service.should_receive(:unwrap_liquid) { |value| value }.ordered # passthrough; will test later
+          expect(service).to receive(:unwrap_liquid) { |value| value }.ordered # passthrough; will test later
 
           # other setup
-          service.should_receive(:options) { %w(one two three) }
-          IO.should_receive(:popen).with('tidy one two three', 'r+').and_yield(mock_io)
+          expect(service).to receive(:options) { %w(one two three) }
+          expect(IO).to receive(:popen).with('tidy one two three', 'r+').and_yield(mock_io)
 
-          TidyService::Result.should_receive(:new).with(output) { result }
+          expect(TidyService::Result).to receive(:new).with(output) { result }
 
-          service.call(input).should eq result
+          expect(service.call(input)).to eq result
         end
 
         it 'should wrap known liquid tags before sending to tidy, and unwrap them after' do
@@ -75,33 +75,33 @@ module Landable
 
           # mock out tidy itself, and make it a no-op
           mock_io = double('io')
-          mock_io.should_receive(:puts).with(wrapped_string)
-          mock_io.should_receive(:close_write)
-          mock_io.should_receive(:read) { wrapped_string }
-          IO.should_receive(:popen).and_yield(mock_io)
+          expect(mock_io).to receive(:puts).with(wrapped_string)
+          expect(mock_io).to receive(:close_write)
+          expect(mock_io).to receive(:read) { wrapped_string }
+          expect(IO).to receive(:popen).and_yield(mock_io)
 
           # ensuring that the output == the input, modulo any new whitespace
-          service.call(original_string).to_s.gsub(/\s+/, ' ').should eq original_string.gsub(/\s+/, ' ')
+          expect(service.call(original_string).to_s.gsub(/\s+/, ' ')).to eq original_string.gsub(/\s+/, ' ')
         end
 
         context 'raise_on_error is enabled' do
           it 'should raise TidyError when status is 2' do
-            IO.should_receive(:popen)
-            $CHILD_STATUS.should_receive(:exitstatus) { 2 }
+            expect(IO).to receive(:popen)
+            expect($CHILD_STATUS).to receive(:exitstatus) { 2 }
 
             # meh, shouldn't have to do this. could use a refactor.
-            service.should_receive(:wrap_liquid) { |input| input }
+            expect(service).to receive(:wrap_liquid) { |input| input }
 
             expect { service.call('<div>foo</div>', raise_on_error: true) }.to raise_error TidyService::TidyError
           end
 
           it 'should be cool when status is 1' do
-            IO.should_receive(:popen)
-            $CHILD_STATUS.should_receive(:exitstatus) { 1 }
+            expect(IO).to receive(:popen)
+            expect($CHILD_STATUS).to receive(:exitstatus) { 1 }
 
             # meh, shouldn't have to do this. could use a refactor.
-            service.should_receive(:wrap_liquid)   { |input| input }
-            service.should_receive(:unwrap_liquid) { |input| input }
+            expect(service).to receive(:wrap_liquid)   { |input| input }
+            expect(service).to receive(:unwrap_liquid) { |input| input }
 
             expect { service.call('<div>foo</div>', raise_on_error: true) }.not_to raise_error
           end
@@ -132,25 +132,25 @@ eof
 
       describe '#to_s' do
         it 'should return the string given on init' do
-          Result.new('foobar').to_s.should eq 'foobar'
+          expect(Result.new('foobar').to_s).to eq 'foobar'
         end
       end
 
       describe '#body' do
         it 'should return the de-indented contents of <body>' do
-          result.body.should eq "<div>hello</div>\n<div>friend</div>"
+          expect(result.body).to eq "<div>hello</div>\n<div>friend</div>"
         end
       end
 
       describe '#head' do
         it 'should return the de-indented contents of <head>' do
-          result.head.should eq "<link type=\"text/css\" rel=\"stylesheet\">\n<title>sup</title>\n<style type=\"text/css\">\n  body {}\n</style>"
+          expect(result.head).to eq "<link type=\"text/css\" rel=\"stylesheet\">\n<title>sup</title>\n<style type=\"text/css\">\n  body {}\n</style>"
         end
       end
 
       describe '#css' do
         it 'should return embedded and linked stylesheets from the head' do
-          result.css.should eq "<link type=\"text/css\" rel=\"stylesheet\">\n\n<style type=\"text/css\">\n  body {}\n</style>"
+          expect(result.css).to eq "<link type=\"text/css\" rel=\"stylesheet\">\n\n<style type=\"text/css\">\n  body {}\n</style>"
         end
       end
     end

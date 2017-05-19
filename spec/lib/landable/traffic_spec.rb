@@ -27,12 +27,12 @@ module Landable
       it 'should log errors' do
         tracker = double('tracker')
 
-        Landable::Traffic::Tracker.stub(:for).and_return(tracker)
-        tracker.stub(:track).and_raise(TrackError)
-        tracker.stub(:save).and_raise(SaveError)
+        allow(Landable::Traffic::Tracker).to receive(:for).and_return(tracker)
+        allow(tracker).to receive(:track).and_raise(TrackError)
+        allow(tracker).to receive(:save).and_raise(SaveError)
 
-        controller.should_receive(:newrelic_notice_error) { |error| error.should be_an_instance_of TrackError }
-        controller.should_receive(:newrelic_notice_error) { |error| error.should be_an_instance_of SaveError }
+        expect(controller).to receive(:newrelic_notice_error) { |error| expect(error).to be_an_instance_of TrackError }
+        expect(controller).to receive(:newrelic_notice_error) { |error| expect(error).to be_an_instance_of SaveError }
 
         get :my_method
       end

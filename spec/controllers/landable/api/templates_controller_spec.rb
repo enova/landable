@@ -22,22 +22,22 @@ module Landable
         it 'renders JSON' do
           request.env['HTTP_ACCEPT'] = 'application/json'
           make_request
-          response.status.should eq 200
-          last_json['template']['preview'].should be_present
+          expect(response.status).to eq 200
+          expect(last_json['template']['preview']).to be_present
         end
 
         it 'renders the layout without content if the body is not present' do
           request.env['HTTP_ACCEPT'] = 'application/json'
           make_request attributes_for(:page, body: nil)
-          response.status.should eq 200
-          last_json['template']['preview'].should include('body')
+          expect(response.status).to eq 200
+          expect(last_json['template']['preview']).to include('body')
         end
 
         it 'renders without a layout if no theme is present' do
           request.env['HTTP_ACCEPT'] = 'application/json'
           make_request attributes_for(:page, body: 'raw content')
-          response.status.should eq 200
-          last_json['template']['preview'].should include('raw content')
+          expect(response.status).to eq 200
+          expect(last_json['template']['preview']).to include('raw content')
         end
       end
     end

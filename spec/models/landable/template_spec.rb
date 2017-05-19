@@ -6,9 +6,9 @@ module Landable
       # some valid seed data
       before(:each) { create :template }
 
-      it { should validate_presence_of :name }
-      it { should validate_presence_of :description }
-      it { should validate_presence_of :slug }
+      it { is_expected.to validate_presence_of :name }
+      it { is_expected.to validate_presence_of :description }
+      it { is_expected.to validate_presence_of :slug }
     end
 
     describe '#name=' do
@@ -16,8 +16,8 @@ module Landable
         it 'should assign a slug' do
           template = build(:template, slug: nil)
           template.name = 'Six Seven'
-          template.name.should eq 'Six Seven'
-          template.slug.should eq 'six_seven'
+          expect(template.name).to eq 'Six Seven'
+          expect(template.slug).to eq 'six_seven'
         end
       end
 
@@ -25,8 +25,8 @@ module Landable
         it 'should leave the slug alone' do
           template = build(:template, slug: 'six')
           template.name = 'seven'
-          template.name.should eq 'seven'
-          template.slug.should eq 'six'
+          expect(template.name).to eq 'seven'
+          expect(template.slug).to eq 'six'
         end
       end
     end
@@ -34,12 +34,12 @@ module Landable
     describe '#partial?' do
       it 'returns true when template references a file' do
         template = create :template, :partial
-        template.partial?.should eq true
+        expect(template.partial?).to eq true
       end
 
       it 'returns false when template has no file' do
         template = create :template
-        template.partial?.should eq false
+        expect(template.partial?).to eq false
       end
     end
 
@@ -55,21 +55,21 @@ module Landable
         template.publish! author: author
         revision = template.revisions.last
 
-        revision.author.should eq author
+        expect(revision.author).to eq author
       end
 
       it 'should update the published_revision_id' do
         template.publish! author: author
         revision = template.revisions.last
 
-        template.published_revision.should eq revision
+        expect(template.published_revision).to eq revision
       end
 
       it 'should unset previous revision.is_published' do
         template.publish! author: author
         revision1 = template.published_revision
         template.publish! author: author
-        revision1.is_published.should eq false
+        expect(revision1.is_published).to eq false
       end
 
       it 'should call republish_associated_pages' do
@@ -77,7 +77,7 @@ module Landable
         template.pages = [page]
         template.save!
 
-        template.should_receive(:republish_associated_pages)
+        expect(template).to receive(:republish_associated_pages)
         template.publish! author: author
       end
     end
@@ -96,7 +96,7 @@ module Landable
 
         template.revert_to! revision
 
-        template.published_revision.id.should_not eq revision.id
+        expect(template.published_revision.id).not_to eq revision.id
       end
 
       it 'should copy revision attributes into the page model' do
@@ -112,7 +112,7 @@ module Landable
         # ensure assignment for all copied attributes
         keys = %w(name body description slug)
         keys.each do |key|
-          template.should_receive("#{key}=").with(revision.send(key))
+          expect(template).to receive("#{key}=").with(revision.send(key))
         end
 
         template.revert_to! revision
@@ -125,8 +125,8 @@ module Landable
         t.name = 'No Space'
         t.save!
 
-        t.slug.should_not eq 'I have no space'
-        t.slug.should eq 'i_have_no_space'
+        expect(t.slug).not_to eq 'I have no space'
+        expect(t.slug).to eq 'i_have_no_space'
       end
 
       it 'should allow the name to set the slug' do
@@ -134,7 +134,7 @@ module Landable
         t.name = 'I have no space'
         t.save!
 
-        t.slug.should eq 'i_have_no_space'
+        expect(t.slug).to eq 'i_have_no_space'
       end
     end
   end

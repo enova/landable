@@ -31,26 +31,26 @@ module Landable
         it 'defaults to the root path' do
           ['/a', '/b/c', '/b/d'].map { |path| create :page, path: path }
           make_request
-          response.status.should eq 200
+          expect(response.status).to eq 200
 
-          dirs.length.should eq 1
-          dirs.first['id'].should eq '/'
+          expect(dirs.length).to eq 1
+          expect(dirs.first['id']).to eq '/'
 
-          subdirs('/').length.should eq 1
-          pages('/').length.should eq 1
+          expect(subdirs('/').length).to eq 1
+          expect(pages('/').length).to eq 1
         end
 
         it 'returns multiple directory listings' do
           ['/a', '/b/c', '/b/d', '/c/e', '/c/f/g'].map { |path| create :page, path: path }
           make_request ['/b', '/c']
-          response.status.should eq 200
-          dirs.length.should eq 2
+          expect(response.status).to eq 200
+          expect(dirs.length).to eq 2
 
-          pages('/b').length.should eq 2
-          pages('/c').length.should eq 1
+          expect(pages('/b').length).to eq 2
+          expect(pages('/c').length).to eq 1
 
-          subdirs('/b').length.should eq 0
-          subdirs('/c').length.should eq 1
+          expect(subdirs('/b').length).to eq 0
+          expect(subdirs('/c').length).to eq 1
         end
       end
     end

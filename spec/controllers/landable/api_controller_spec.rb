@@ -72,50 +72,50 @@ describe Landable::ApiController, json: true do
 
     it 'sets current_author when valid' do
       make_request
-      controller.send(:current_author).should eq author
+      expect(controller.send(:current_author)).to eq author
     end
 
     it 'must be in the HTTP Authorization header' do
       headers.delete 'HTTP_AUTHORIZATION'
       make_request access_token: token.id
-      response.status.should eq 401
+      expect(response.status).to eq 401
     end
 
     it 'must belong to a valid Author username' do
       headers['HTTP_AUTHORIZATION'] = encode_basic_auth('wrong-username', token.id)
       make_request
-      response.status.should eq 401
+      expect(response.status).to eq 401
     end
 
     it 'must be an existing token ID' do
       headers['HTTP_AUTHORIZATION'] = encode_basic_auth(author.username, token.id.reverse)
       make_request
-      response.status.should eq 401
+      expect(response.status).to eq 401
     end
 
     it 'must not be expired' do
       token.update_attributes(expires_at: 1.minute.ago)
       make_request
-      response.status.should eq 401
+      expect(response.status).to eq 401
     end
   end
 
   context 'rescues RecordNotFound' do
     it 'returns 404 Not Found' do
       get :not_found
-      response.status.should eq 404
+      expect(response.status).to eq 404
     end
   end
 
   context 'rescues RecordInvalid' do
     it 'returns 422 Unprocessable Entity' do
       get :record_invalid
-      response.status.should eq 422
+      expect(response.status).to eq 422
     end
 
     it 'renders ActiveModel::Errors as the JSON response' do
       get :record_invalid
-      last_json['errors'].should have_key('path')
+      expect(last_json['errors']).to have_key('path')
     end
   end
 
@@ -123,14 +123,14 @@ describe Landable::ApiController, json: true do
     it 'returns 406 Not Acceptable' do
       request.env['HTTP_ACCEPT'] = 'text/plain'
       get :xml_only
-      response.status.should eq 406
+      expect(response.status).to eq 406
     end
   end
 
   context 'rescues PG::Errors about invalid UUIDs' do
     it 'returns 404' do
       get :uuid_invalid
-      response.status.should eq 404
+      expect(response.status).to eq 404
     end
 
     it 're-raises any other PG::Error' do
@@ -149,9 +149,9 @@ describe Landable::ApiController, json: true do
       get :ok
 
       # sanity check
-      request.format.symbol.should eq :xml
+      expect(request.format.symbol).to eq :xml
 
-      controller.api_media.should eq(format: request.format.symbol,
+      expect(controller.api_media).to eq(format: request.format.symbol,
                                      version: Landable::VERSION::STRING,
                                      param: nil)
     end
@@ -166,21 +166,21 @@ describe Landable::ApiController, json: true do
 
     it 'should set X-Landable-Media-Type' do
       get :responder
-      response.status.should eq 200
-      response.headers['X-Landable-Media-Type'].should eq "landable.v#{Landable::VERSION::STRING}; format=json"
+      expect(response.status).to eq 200
+      expect(response.headers['X-Landable-Media-Type']).to eq "landable.v#{Landable::VERSION::STRING}; format=json"
     end
 
     context 'patch' do
       it 'should display the resource' do
         put :responder
-        response.body.should_not be_empty
+        expect(response.body).not_to be_empty
       end
     end
 
     context 'put' do
       it 'should display the resource' do
         put :responder
-        response.body.should_not be_empty
+        expect(response.body).not_to be_empty
       end
     end
   end

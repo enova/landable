@@ -5,7 +5,7 @@ describe Landable::Configuration do
     it 'should allow :all, true, false, :html' do
       [:all, true, false, :html].each do |val|
         expect { subject.traffic_enabled = val }.to_not raise_error
-        subject.traffic_enabled.should eq val
+        expect(subject.traffic_enabled).to eq val
       end
     end
 

@@ -10,7 +10,7 @@ module Landable
 
     describe '#for' do
       it 'should default to UserTracker if user_agent does not exist' do
-        Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::UserTracker)
+        expect(Landable::Traffic::Tracker.for(controller)).to be_a(Landable::Traffic::UserTracker)
       end
 
       it 'should create the appropriate type of tracker based on user_agent' do
@@ -19,7 +19,7 @@ module Landable
         fake_agent['type'] = type
         stub_const('Landable::Traffic::UserAgent', fake_agent)
 
-        Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::ScanTracker)
+        expect(Landable::Traffic::Tracker.for(controller)).to be_a(Landable::Traffic::ScanTracker)
       end
 
       it 'should not bark if user_agent is nil' do
@@ -27,17 +27,17 @@ module Landable
         request = double('request', query_parameters: {}, user_agent: user_agent, format: format)
         controller = double('controller', request: request)
 
-        Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::UserTracker)
+        expect(Landable::Traffic::Tracker.for(controller)).to be_a(Landable::Traffic::UserTracker)
       end
 
       it 'should set type to noop when non-html content' do
         user_agent = nil
-        Landable.configuration.stub(:traffic_enabled).and_return(:html)
+        allow(Landable.configuration).to receive(:traffic_enabled).and_return(:html)
         format = double('format', html?: false)
         request = double('request', query_parameters: {}, user_agent: user_agent, format: format)
         controller = double('controller', request: request)
 
-        Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::NoopTracker)
+        expect(Landable::Traffic::Tracker.for(controller)).to be_a(Landable::Traffic::NoopTracker)
       end
 
       it 'should allow non-html content if config says so' do
@@ -45,7 +45,7 @@ module Landable
         request = double('request', query_parameters: {}, user_agent: user_agent, format: format)
         controller = double('controller', request: request)
 
-        Landable::Traffic::Tracker.for(controller).should be_a(Landable::Traffic::UserTracker)
+        expect(Landable::Traffic::Tracker.for(controller)).to be_a(Landable::Traffic::UserTracker)
       end
     end
 
@@ -57,34 +57,34 @@ module Landable
         it 'should encode special characters' do
           tracker = Landable::Traffic::UserTracker.new controller
 
-          tracker.send(:referer_uri).path.should eq '/something/%20valid'
+          expect(tracker.send(:referer_uri).path).to eq '/something/%20valid'
         end
       end
 
       describe '#visit_referer_domain' do
         it 'should return the domain of the referer' do
           tracker = Landable::Traffic::UserTracker.new controller
-          tracker.stub(:visit) { visit }
+          allow(tracker).to receive(:visit) { visit }
 
-          tracker.send(:visit_referer_domain).should eq 'www.fakedomain.yes'
+          expect(tracker.send(:visit_referer_domain)).to eq 'www.fakedomain.yes'
         end
       end
 
       describe '#visit_referer_path' do
         it 'should return the path of the referer' do
           tracker = Landable::Traffic::UserTracker.new controller
-          tracker.stub(:visit) { visit }
+          allow(tracker).to receive(:visit) { visit }
 
-          tracker.send(:visit_referer_path).should eq '/mypath'
+          expect(tracker.send(:visit_referer_path)).to eq '/mypath'
         end
       end
 
       describe '#visit_referer_url' do
         it 'should return the full url of the referer' do
           tracker = Landable::Traffic::UserTracker.new controller
-          tracker.stub(:visit) { visit }
+          allow(tracker).to receive(:visit) { visit }
 
-          tracker.send(:visit_referer_url).should eq 'http://www.fakedomain.yes/mypath'
+          expect(tracker.send(:visit_referer_url)).to eq 'http://www.fakedomain.yes/mypath'
         end
       end
     end
@@ -96,18 +96,18 @@ module Landable
 
           it 'should return the user agent' do
             tracker = Landable::Traffic::UserTracker.new controller
-            tracker.stub(:user_agent) { user_agent }
+            allow(tracker).to receive(:user_agent) { user_agent }
 
-            tracker.send(:get_user_agent).should eq user_agent
+            expect(tracker.send(:get_user_agent)).to eq user_agent
           end
         end
 
         context 'user agent not provided' do
           it 'should return the user agent' do
             tracker = Landable::Traffic::UserTracker.new controller
-            tracker.stub(:user_agent) { nil }
+            allow(tracker).to receive(:user_agent) { nil }
 
-            tracker.send(:get_user_agent).should be_nil
+            expect(tracker.send(:get_user_agent)).to be_nil
           end
         end
       end
@@ -120,36 +120,36 @@ module Landable
       describe '#referer_uri_path' do
         it 'should return empty string' do
           tracker = Landable::Traffic::UserTracker.new controller
-          tracker.stub(:referer_uri) { referer }
+          allow(tracker).to receive(:referer_uri) { referer }
 
-          tracker.send(:referer_uri_path).should == ''
+          expect(tracker.send(:referer_uri_path)).to eq('')
         end
       end
 
       describe '#visit_referer_domain' do
         it 'should return nil' do
           tracker = Landable::Traffic::UserTracker.new controller
-          tracker.stub(:visit) { visit }
+          allow(tracker).to receive(:visit) { visit }
 
-          tracker.send(:visit_referer_domain).should.nil?
+          expect(tracker.send(:visit_referer_domain)).to be_nil
         end
       end
 
       describe '#visit_referer_path' do
         it 'should return nil' do
           tracker = Landable::Traffic::UserTracker.new controller
-          tracker.stub(:visit) { visit }
+          allow(tracker).to receive(:visit) { visit }
 
-          tracker.send(:visit_referer_path).should.nil?
+          expect(tracker.send(:visit_referer_path)).to be_nil
         end
       end
 
       describe '#visit_referer_url' do
         it 'should return nil' do
           tracker = Landable::Traffic::UserTracker.new controller
-          tracker.stub(:visit) { visit }
+          allow(tracker).to receive(:visit) { visit }
 
-          tracker.send(:visit_referer_url).should.nil?
+          expect(tracker.send(:visit_referer_url)).to be_nil
         end
       end
     end

@@ -20,7 +20,7 @@ module Landable
 
           it 'renders audits as json' do
             make_request
-            last_json['audits'].collect { |p| p['id'] }.sort.should eq Landable::Audit.all.map(&:id).sort
+            expect(last_json['audits'].collect { |p| p['id'] }.sort).to eq Landable::Audit.all.map(&:id).sort
           end
         end
 
@@ -35,7 +35,7 @@ module Landable
 
           it 'renders audits as json' do
             make_request
-            last_json['audits'].collect { |p| p['id'] }.sort.should eq Landable::Audit.all.map(&:id).sort
+            expect(last_json['audits'].collect { |p| p['id'] }.sort).to eq Landable::Audit.all.map(&:id).sort
           end
         end
 
@@ -50,7 +50,7 @@ module Landable
 
           it 'renders audits as json' do
             make_request
-            last_json['audits'].collect { |p| p['id'] }.sort.should eq Landable::Audit.all.map(&:id).sort
+            expect(last_json['audits'].collect { |p| p['id'] }.sort).to eq Landable::Audit.all.map(&:id).sort
           end
         end
       end
@@ -65,13 +65,13 @@ module Landable
 
         it 'renders the page as JSON' do
           make_request
-          last_json['audit']['flags'].should eq audit.flags
+          expect(last_json['audit']['flags']).to eq audit.flags
         end
 
         context 'no such page' do
           it 'returns 404' do
             make_request random_uuid
-            response.status.should eq 404
+            expect(response.status).to eq 404
           end
         end
       end
@@ -97,17 +97,17 @@ module Landable
           context 'success' do
             it 'returns 201 Created' do
               make_request
-              response.status.should eq 201
+              expect(response.status).to eq 201
             end
 
             it 'returns header Location with the audit URL' do
               make_request
-              response.headers['Location'].should eq audit_url(audit)
+              expect(response.headers['Location']).to eq audit_url(audit)
             end
 
             it 'renders the audit as JSON' do
               make_request
-              last_json['audit']['flags'].should eq audit.flags
+              expect(last_json['audit']['flags']).to eq audit.flags
             end
           end
         end
@@ -132,17 +132,17 @@ module Landable
           context 'success' do
             it 'returns 201 Created' do
               make_request
-              response.status.should eq 201
+              expect(response.status).to eq 201
             end
 
             it 'returns header Location with the audit URL' do
               make_request
-              response.headers['Location'].should eq audit_url(audit)
+              expect(response.headers['Location']).to eq audit_url(audit)
             end
 
             it 'renders the audit as JSON' do
               make_request
-              last_json['audit']['flags'].should eq audit.flags
+              expect(last_json['audit']['flags']).to eq audit.flags
             end
           end
         end

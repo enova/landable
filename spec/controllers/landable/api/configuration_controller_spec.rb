@@ -21,7 +21,7 @@ module Landable
 
           make_request
           # defined in Landable Dummy Initalizer
-          last_json['configurations'][0]['audit_flags'].should eq %w(loans apr)
+          expect(last_json['configurations'][0]['audit_flags']).to eq %w(loans apr)
         end
       end
     end

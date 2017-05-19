@@ -45,7 +45,7 @@ shared_examples 'API authentication' do |request_method|
   it 'returns 401 if unauthorized' do
     default_headers.delete 'HTTP_AUTHORIZATION'
     send(request_method)
-    response.status.should eq 401
+    expect(response.status).to eq 401
   end
 end
 
@@ -102,6 +102,6 @@ shared_examples 'Authenticated API controller' do |request_method|
 
   it 'returns 401 if unauthorized', auth: false do
     send(request_method)
-    response.status.should eq 401
+    expect(response.status).to eq 401
   end
 end

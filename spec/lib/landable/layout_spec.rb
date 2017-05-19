@@ -11,7 +11,7 @@ module Landable
 
     it 'defaults attributes' do
       theme = Theme.where(file: 'application').first
-      theme.attributes.should include({
+      expect(theme.attributes).to include({
         name:        'Application',
         file:        'application',
         extension:   'erb',
@@ -19,16 +19,16 @@ module Landable
         description: 'Defined in application.html.erb'
       }.stringify_keys)
 
-      theme.body.should eq File.read(Rails.root.join('app/views/layouts/application.html.erb'))
+      expect(theme.body).to eq File.read(Rails.root.join('app/views/layouts/application.html.erb'))
     end
 
     context 'File Finding' do
       it 'will find the correct application files' do
-        Layout.files.any? { |f| f.end_with?('application.haml') }.should eq true
-        Layout.files.any? { |f| f.end_with?('application.html.erb') }.should eq true
-        Layout.files.any? { |f| f.end_with?('priority.html.erb') }.should eq true
-        Layout.files.any? { |f| f.end_with?('_partial.html.haml') }.should eq false
-        Layout.files.any? { |f| f.end_with?('partial.html.haml') }.should eq false
+        expect(Layout.files.any? { |f| f.end_with?('application.haml') }).to eq true
+        expect(Layout.files.any? { |f| f.end_with?('application.html.erb') }).to eq true
+        expect(Layout.files.any? { |f| f.end_with?('priority.html.erb') }).to eq true
+        expect(Layout.files.any? { |f| f.end_with?('_partial.html.haml') }).to eq false
+        expect(Layout.files.any? { |f| f.end_with?('partial.html.haml') }).to eq false
       end
     end
   end

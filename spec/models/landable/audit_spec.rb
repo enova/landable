@@ -1,5 +1,5 @@
 require 'spec_helper'
 
 describe Landable::Audit do
-  it { should validate_presence_of(:approver) }
+  it { is_expected.to validate_presence_of(:approver) }
 end

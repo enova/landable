@@ -15,24 +15,24 @@ module Landable
     it 'returns a string' do
       page.body = 'Hi mom'
       theme.body = '{{body}}'
-      render.should eq 'Hi mom'
+      expect(render).to eq 'Hi mom'
     end
 
     context 'without a theme' do
       it 'returns the bare page body' do
         page.theme = nil
-        render.should eq page.body
+        expect(render).to eq page.body
       end
 
       it 'returns the bare page body if the theme is defined, but has no liquid body template' do
         page.theme.body = nil
-        render.should eq page.body
+        expect(render).to eq page.body
       end
 
       it 'returns an empty string if there is also no page body' do
         page.theme = nil
         page.body = nil
-        render.should eq ''
+        expect(render).to eq ''
       end
     end
 
@@ -40,7 +40,7 @@ module Landable
       it 'renders the bare theme' do
         theme.body = 'foo {{body}}'
         page.body  = nil
-        render.should eq 'foo '
+        expect(render).to eq 'foo '
       end
     end
 
@@ -51,8 +51,8 @@ module Landable
         let(:rendered) { render(preview: true) }
 
         it 'conveys information about the redirect' do
-          rendered.should include "#{page.status_code}"
-          rendered.should include "<a href=\"#{page.redirect_url}\">#{page.redirect_url}</a>"
+          expect(rendered).to include "#{page.status_code}"
+          expect(rendered).to include "<a href=\"#{page.redirect_url}\">#{page.redirect_url}</a>"
         end
       end
 
@@ -60,8 +60,8 @@ module Landable
         let(:rendered) { render }
 
         it 'should not include those things' do
-          rendered.should_not include "#{page.status_code}"
-          rendered.should_not include "<a href=\"#{page.redirect_url}\">#{page.redirect_url}</a>"
+          expect(rendered).not_to include "#{page.status_code}"
+          expect(rendered).not_to include "<a href=\"#{page.redirect_url}\">#{page.redirect_url}</a>"
         end
       end
     end
@@ -70,14 +70,14 @@ module Landable
       let(:page) { build :page, body: 'render test', path: 'foo.txt', theme: theme }
 
       it 'renders without a theme' do
-        render.should eq 'render test'
+        expect(render).to eq 'render test'
       end
 
       context 'previewing' do
         let(:rendered) { render(preview: true) }
 
         it 'renders with <pre> around the content' do
-          rendered.should eq '<pre>render test</pre>'
+          expect(rendered).to eq '<pre>render test</pre>'
         end
       end
     end
@@ -94,7 +94,7 @@ module Landable
         page.body = '{{hello_world}}'
         # actions
         # expectations
-        rendered.should match "I'm a Loner, Dottie. A Rebel."
+        expect(rendered).to match "I'm a Loner, Dottie. A Rebel."
         # end
       end
       # end

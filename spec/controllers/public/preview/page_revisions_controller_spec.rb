@@ -30,7 +30,7 @@ module Landable
 
           it 'renders the page revision' do
             make_request
-            response.body.should include '<p>hello</p>'
+            expect(response.body).to include '<p>hello</p>'
           end
 
           it 'is available at /-/pr/:id' do

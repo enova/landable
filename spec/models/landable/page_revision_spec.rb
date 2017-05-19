@@ -15,33 +15,33 @@ module Landable
       PageRevision.new page_id: page.id, author_id: author.id
     end
 
-    it { should be_a HasAssets }
+    it { is_expected.to be_a HasAssets }
 
     it 'defaults to is_published = true' do
-      PageRevision.new.is_published.should eq true
+      expect(PageRevision.new.is_published).to eq true
     end
 
     describe '#page_id=' do
       it 'should set page revision attributes matching the page' do
         attrs = revision.attributes.except('page_revision_id', 'ordinal', 'notes', 'is_minor', 'is_published', 'author_id', 'created_at', 'updated_at', 'page_id', 'audit_flags')
-        attrs.should include(page.attributes.except(*PageRevision.ignored_page_attributes))
+        expect(attrs).to include(page.attributes.except(*PageRevision.ignored_page_attributes))
       end
     end
 
     describe '#snapshot' do
       it 'should build a page based on the cached page attributes' do
         snapshot = revision.snapshot
-        snapshot.should be_new_record
-        snapshot.should be_an_instance_of Page
-        snapshot.title.should eq page.title
-        snapshot.path.should eq page.path
-        snapshot.head_content.should eq page.head_content
-        snapshot.meta_tags.should eq page.meta_tags
-        snapshot.body.should eq page.body
-        snapshot.redirect_url.should eq page.redirect_url
-        snapshot.category_id.should eq page.category_id
-        snapshot.theme_id.should eq page.theme_id
-        snapshot.status_code.should eq page.status_code
+        expect(snapshot).to be_new_record
+        expect(snapshot).to be_an_instance_of Page
+        expect(snapshot.title).to eq page.title
+        expect(snapshot.path).to eq page.path
+        expect(snapshot.head_content).to eq page.head_content
+        expect(snapshot.meta_tags).to eq page.meta_tags
+        expect(snapshot.body).to eq page.body
+        expect(snapshot.redirect_url).to eq page.redirect_url
+        expect(snapshot.category_id).to eq page.category_id
+        expect(snapshot.theme_id).to eq page.theme_id
+        expect(snapshot.status_code).to eq page.status_code
       end
     end
 
@@ -51,9 +51,9 @@ module Landable
         revision.page_id = page.id
         revision.author_id = author.id
         revision.unpublish!
-        revision.is_published.should eq false
+        expect(revision.is_published).to eq false
         revision.publish!
-        revision.is_published.should eq true
+        expect(revision.is_published).to eq true
       end
     end
 
@@ -65,25 +65,25 @@ module Landable
         old.republish!(author_id: new_author.id, notes: 'Great Note', template: template.name)
 
         new_record = PageRevision.order('created_at ASC').last
-        new_record.author_id.should eq new_author.id
-        new_record.notes.should eq "Publishing update for template #{template.name}: Great Note"
-        new_record.page_id.should eq page.id
-        new_record.body.should eq page.body
+        expect(new_record.author_id).to eq new_author.id
+        expect(new_record.notes).to eq "Publishing update for template #{template.name}: Great Note"
+        expect(new_record.page_id).to eq page.id
+        expect(new_record.body).to eq page.body
       end
     end
 
     describe '#preview_path' do
       it 'should return the preview path' do
-        revision.should_receive(:public_preview_page_revision_path) { 'foo' }
-        revision.preview_path.should eq 'foo'
+        expect(revision).to receive(:public_preview_page_revision_path) { 'foo' }
+        expect(revision.preview_path).to eq 'foo'
       end
     end
 
     describe '#preview_url' do
       it 'should return the preview url' do
-        Landable.configuration.stub(:public_host) { 'foo' }
-        revision.should_receive(:public_preview_page_revision_url).with(revision, host: 'foo') { 'bar' }
-        revision.preview_url.should eq 'bar'
+        allow(Landable.configuration).to receive(:public_host) { 'foo' }
+        expect(revision).to receive(:public_preview_page_revision_url).with(revision, host: 'foo') { 'bar' }
+        expect(revision.preview_url).to eq 'bar'
       end
     end
 
@@ -91,24 +91,24 @@ module Landable
       let(:screenshots_enabled) { true }
 
       before(:each) do
-        Landable.configuration.stub(:screenshots_enabled) { screenshots_enabled }
+        allow(Landable.configuration).to receive(:screenshots_enabled) { screenshots_enabled }
       end
 
       it 'should be fired before create' do
-        revision.should_receive :add_screenshot!
+        expect(revision).to receive :add_screenshot!
         revision.save!
       end
 
       it 'should add a screenshot' do
         screenshot = double('screenshot')
 
-        revision.stub(:preview_url) { 'http://google.com/foo' }
-        ScreenshotService.should_receive(:capture).with(revision.preview_url) { screenshot }
+        allow(revision).to receive(:preview_url) { 'http://google.com/foo' }
+        expect(ScreenshotService).to receive(:capture).with(revision.preview_url) { screenshot }
 
-        revision.should_receive(:screenshot=).with(screenshot).ordered
-        revision.should_receive(:store_screenshot!).ordered
-        revision.should_receive(:write_screenshot_identifier).ordered
-        revision.should_receive(:update_column).with(:screenshot, revision[:screenshot]).ordered
+        expect(revision).to receive(:screenshot=).with(screenshot).ordered
+        expect(revision).to receive(:store_screenshot!).ordered
+        expect(revision).to receive(:write_screenshot_identifier).ordered
+        expect(revision).to receive(:update_column).with(:screenshot, revision[:screenshot]).ordered
 
         revision.add_screenshot!
       end
@@ -117,9 +117,9 @@ module Landable
         let(:screenshots_enabled) { false }
 
         it 'should skip' do
-          revision.should_receive(:add_screenshot!).and_call_original
-          ScreenshotService.should_not_receive :capture
-          revision.should_not_receive :screenshot=
+          expect(revision).to receive(:add_screenshot!).and_call_original
+          expect(ScreenshotService).not_to receive :capture
+          expect(revision).not_to receive :screenshot=
 
           revision.save!
         end
@@ -131,15 +131,15 @@ module Landable
         it 'should return the screenshot url' do
           screenshot = double('screenshot', url: 'foobar')
 
-          revision.stub(:screenshot) { screenshot }
-          revision.screenshot_url.should eq screenshot.url
+          allow(revision).to receive(:screenshot) { screenshot }
+          expect(revision.screenshot_url).to eq screenshot.url
         end
       end
 
       context 'without screenshot' do
         it 'should return nil' do
-          revision.stub(:screenshot) { nil }
-          revision.screenshot_url.should be_nil
+          allow(revision).to receive(:screenshot) { nil }
+          expect(revision.screenshot_url).to be_nil
         end
       end
     end
