@@ -48,7 +48,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rack-schema'
   gem.add_development_dependency 'cucumber', '~> 2.0'
   gem.add_development_dependency 'database_cleaner'
-  gem.add_development_dependency 'simplecov'
+  gem.add_development_dependency 'coveralls'
   gem.add_development_dependency 'valid_attribute'
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'faker'

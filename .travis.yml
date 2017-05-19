@@ -40,5 +40,5 @@ notifications:
 
 addons:
   postgresql: "9.3"
-  code_climate:
-    repo_token: 25ecadea330b0838d49ac4eff1a815893d99134872826af78c162fc5817dadfc
+
+secure: "SovzxN4N1XrP1I3jtTQrwSJUI0XZCotr7NkjPTlnk3Zb1/qa/QKpoM3bM64/YFgL33I8BIp2UDAVQj4CnbqqetbG8MfcjNOEmBLF7gHRFMD4NHpFwS9LEwwSdWCnSNXdB0G7gySd5X/dLgQ1fKEaFaacvRhfFTeAr671g5et5RY="
