@@ -10,7 +10,7 @@ FactoryGirl.define do
     first_name 'Marley'
     last_name 'Pants'
 
-    ignore do
+    transient do
       tokens_count 1
     end
 

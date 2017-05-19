@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :asset, class: 'Landable::Asset' do
-    ignore do
+    transient do
       asset_dir    { Landable::Engine.root.join('spec', 'fixtures', 'assets') }
       all_fixtures { ['panda.png', 'cthulhu.jpg', 'small.pdf', 'sloth.png'] }
 
