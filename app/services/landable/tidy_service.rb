@@ -1,3 +1,5 @@
+require 'English'
+
 module Landable
   module TidyService
     class TidyError < StandardError; end
