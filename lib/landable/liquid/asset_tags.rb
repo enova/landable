@@ -22,7 +22,7 @@ module Landable
         tag_method = :image_tag if tag_method == :img_tag
 
         # if this matches an application asset, use that
-        if assets_environment[asset_name]
+        if Rails.application.assets_manifest.files.values.map { |v| v['logical_path'] }.include?(asset_name)
           send tag_method, asset_name
 
         # otherwise, find an asset of our own
@@ -50,12 +50,6 @@ module Landable
 
       # stuff for sprockets
       delegate :assets_prefix, :digest_assets, to: 'ActionView::Base'
-
-      # ActionView::Base.assets_environment will be nil if the pipeline is
-      # disabled - use this instead
-      def assets_environment
-        Rails.application.assets
-      end
     end
 
     class AssetAttributeTag < AssetTag
