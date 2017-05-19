@@ -14,9 +14,9 @@ module Landable
 
       before do
         routes.draw do
-          get '/my_path' => 'anonymous#my_path'
-          post '/my_path' => 'anonymous#my_path'
-          delete '/my_path' => 'anonymous#my_path'
+          get '/my_path'    => 'landable/application#my_path'
+          post '/my_path'   => 'landable/application#my_path'
+          delete '/my_path' => 'landable/application#my_path'
         end
       end
 

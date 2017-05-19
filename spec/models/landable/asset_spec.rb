@@ -29,7 +29,7 @@ describe Landable::Asset do
     dupe = build(:asset, data: png)
 
     expect(dupe).not_to be_valid
-    expect(dupe.errors_on(:md5sum)).to eql(['has already been taken'])
+    expect(dupe.errors[:md5sum]).to eq(['has already been taken'])
   end
 
   it 'provides access to the other asset with the same contents' do

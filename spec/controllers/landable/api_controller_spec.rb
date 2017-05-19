@@ -45,16 +45,16 @@ describe Landable::ApiController, json: true do
 
   before do
     routes.draw do
-      get 'index' => 'anonymous#index'
-      get 'ok' => 'anonymous#ok'
-      get 'responder' => 'anonymous#responder'
-      patch 'responder' => 'anonymous#responder'
-      put 'responder' => 'anonymous#responder'
-      get 'not_found' => 'anonymous#not_found'
-      get 'xml_only'  => 'anonymous#xml_only'
-      get 'record_invalid' => 'anonymous#record_invalid'
-      get 'uuid_invalid' => 'anonymous#uuid_invalid'
-      get 'other_pg_error' => 'anonymous#other_pg_error'
+      get 'index'          => 'landable/api#index'
+      get 'ok'             => 'landable/api#ok'
+      get 'responder'      => 'landable/api#responder'
+      patch 'responder'    => 'landable/api#responder'
+      put 'responder'      => 'landable/api#responder'
+      get 'not_found'      => 'landable/api#not_found'
+      get 'xml_only'       => 'landable/api#xml_only'
+      get 'record_invalid' => 'landable/api#record_invalid'
+      get 'uuid_invalid'   => 'landable/api#uuid_invalid'
+      get 'other_pg_error' => 'landable/api#other_pg_error'
     end
   end
 

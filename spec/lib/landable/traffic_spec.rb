@@ -19,7 +19,7 @@ module Landable
 
     before do
       routes.draw do
-        get 'my_method' => 'anonymous#my_method'
+        get 'my_method' => 'landable/application#my_method'
       end
     end
 

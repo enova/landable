@@ -14,7 +14,7 @@ describe Landable::AuthenticationService do
   end
 
   before do
-    Landable.configuration.stub(authenticators: [simple_auth, echo_auth])
+    allow(Landable.configuration).to receive(:authenticators).and_return([simple_auth, echo_auth])
   end
 
   it 'returns the result of the first successful authentication strategy' do
