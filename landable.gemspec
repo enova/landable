@@ -50,7 +50,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'database_cleaner'
   gem.add_development_dependency 'coveralls'
   gem.add_development_dependency 'valid_attribute'
-  gem.add_development_dependency 'pry'
+  gem.add_development_dependency 'pry-byebug'
   gem.add_development_dependency 'faker'
   gem.add_development_dependency 'rubocop', '~> 0.48.1'
   gem.add_development_dependency 'minitest'
