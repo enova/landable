@@ -31,7 +31,7 @@ module Landable
       return nil unless page.meta_tags?
 
       page.meta_tags.map do |name, value|
-        tag('meta', name: name, content: value) if value.present?
+        tag('meta', content: value, name: name) if value.present?
       end.compact.join("\n").html_safe
     end
 

@@ -27,7 +27,7 @@ module Landable
         tags = page.meta_tags || {}
 
         tags.map do |name, value|
-          tag(:meta, name: name, content: value)
+          tag(:meta, content: value, name: name)
         end.join("\n")
       end
     end
