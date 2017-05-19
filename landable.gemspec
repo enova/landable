@@ -52,7 +52,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'valid_attribute'
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'faker'
-  gem.add_development_dependency 'rubocop'
+  gem.add_development_dependency 'rubocop', '~> 0.48.1'
   gem.add_development_dependency 'minitest'
   gem.add_development_dependency 'shoulda-matchers'
   gem.add_development_dependency 'test_after_commit'
