@@ -5,8 +5,8 @@ module Landable
       super
     end
 
-    def respond_to?(method)
-      return true if method =~ /_(path|url)$/ && main_app.respond_to?(method)
+    def respond_to_missing?(method, *args)
+      return true if method =~ /_(path|url)$/ && main_app.respond_to?(method, *args)
       super
     end
   end
