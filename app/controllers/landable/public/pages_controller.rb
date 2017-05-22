@@ -8,6 +8,9 @@ module Landable
       self.responder = Landable::PageRenderResponder
 
       def show
+        # No matter what kind of request we get, the responder needs to treat it as HTML
+        request.format = :html
+
         respond_with current_snapshot
       end
 

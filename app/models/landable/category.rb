@@ -12,7 +12,7 @@ module Landable
     def to_liquid
       {
         'name' => name,
-        'pages' => pages.published
+        'pages' => pages.published.to_a
       }
     end
 
