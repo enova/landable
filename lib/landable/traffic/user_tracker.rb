@@ -27,12 +27,11 @@ module Landable
           p.path         = request.path
           p.query_string = untracked_parameters.to_query
           p.request_id   = request.uuid
-
           p.click_id     = tracking_parameters['click_id']
-
           p.http_status  = response.status
 
-          p.visit_id     = @visit_id
+          p.visit_id = current_or_new_visit
+
           current_time = Time.now
           p.created_at   = current_time
           p.response_time = (current_time - @start_time) * 1000
@@ -69,6 +68,12 @@ module Landable
         rescue ActiveRecord::RecordNotUnique
           retry
         end
+      end
+
+      private
+
+      def current_or_new_visit
+        @visit_id || (load && @visit_id) || (@visit_id = record_visit.visit_id)
       end
     end
   end
