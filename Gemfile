@@ -4,3 +4,4 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'cucumber-rails', require: false
+gem 'responders'
