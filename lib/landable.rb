@@ -8,6 +8,7 @@ require 'landable/traffic'
 require 'landable/migration'
 
 require 'landable/core_ext/ipaddr'
+require 'landable/core_ext/silent_logger'
 
 require 'lookup_by'
 
@@ -27,6 +28,11 @@ module Landable
     @file_path = path
 
     yield configuration if block_given?
-    configuration
+
+    configuration.tap do |config|
+      if config.silence_logger
+        Rails.logger.singleton_class.send(:prepend, CoreExt::SilentLogger)
+      end
+    end
   end
 end
