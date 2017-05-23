@@ -32,6 +32,14 @@ rake db:migrate
 
 Checkout the wiki for steps on [configuration](https://github.com/enova/landable/wiki/Configuration).
 
+## Rails 4.2+
+Landable relies heavily on `ActionController::Responder`, which as of Rails 4.2 has been extracted into the [responders](https://github.com/plataformatec/responders) gem.
+
+If you are running on Rails 4.2 or later, you will need to manually add the gem to your Gemfile:
+```ruby
+gem 'responders'
+```
+
 ## Visit Tracking
 Landable includes the ability to track visits.
 
