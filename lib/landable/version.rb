@@ -1,7 +1,7 @@
 module Landable
   module VERSION
     MAJOR = 1
-    MINOR = 15
+    MINOR = 99
     PATCH = 0
 
     STRING = [MAJOR, MINOR, PATCH].compact.join('.')
