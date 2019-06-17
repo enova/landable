@@ -20,6 +20,22 @@ module Landable
       end
     end
 
+    describe '#page_name' do
+      let(:page) { create :page, page_name: 'title' }
+
+      it 'lists the page_name' do
+        page_decorator.page_name.should == 'title'
+      end
+
+      context 'nil' do
+        let(:page) { create :page, page_name: nil }
+
+        it 'returns nil' do
+          page_decorator.page_name.should be_nil
+        end
+      end
+    end
+
     describe '#path' do
       let(:page) { create :page, path: '/landable' }
 
