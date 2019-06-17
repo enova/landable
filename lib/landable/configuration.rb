@@ -196,7 +196,7 @@ module Landable
     private
 
     DOTFILE_MATCHER_REGEXP = /^\.[[[:alnum:]]\.]*$/
-    EXPECTED_FILETYPES = ['yml', 'yaml', 'json']
+    EXPECTED_FILETYPES = ['yml', 'yaml', 'json', 'yml.erb', 'yaml.erb']
     EXPECTED_FILETYPES_REGEXP = /\.(#{ EXPECTED_FILETYPES.join('|') })\z/
 
     def config_keys(base_path)
