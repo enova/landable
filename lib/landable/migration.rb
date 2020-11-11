@@ -1,5 +1,5 @@
 module Landable
-  class Migration < ActiveRecord::Migration
+  class Migration < ActiveRecord.version < Gem::Version.new("5.1") ? ActiveRecord::Migration : ActiveRecord::Migration[4.2]
     class << self
       def connection_search_path(conn)
         conn.execute('SHOW SEARCH_PATH')[0]['search_path']
