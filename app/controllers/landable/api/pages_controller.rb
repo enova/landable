@@ -4,7 +4,7 @@ module Landable
   module Api
     class PagesController < ApiController
       # filters
-      before_filter :load_page, except: [:create, :index, :preview]
+      before_action :load_page, except: [:create, :index, :preview]
 
       # RESTful methods
       def create

@@ -3,7 +3,7 @@ require_dependency 'landable/api_controller'
 module Landable
   module Api
     class PageRevisionsController < ApiController
-      skip_before_filter :require_author!, if: proc { |c| c.action_name == 'show' && c.request.format == :html }
+      skip_before_action :require_author!, if: proc { |c| c.action_name == 'show' && c.request.format == :html }
 
       def index
         page = Page.find(params[:page_id])

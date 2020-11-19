@@ -5,7 +5,7 @@ module Landable
   module Api
     class AssetsController < ApiController
       # filters
-      before_filter :load_asset, except: [:create, :index]
+      before_action :load_asset, except: [:create, :index]
 
       # RESTful methods
       def create
