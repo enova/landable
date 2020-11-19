@@ -10,7 +10,7 @@ module Landable
     # tracking is not necessary for API calls
     skip_around_action :track_with_landable!, raise: false
 
-    before_filter :require_author!
+    before_action :require_author!
 
     respond_to :json
     self.responder = Landable::ApiResponder

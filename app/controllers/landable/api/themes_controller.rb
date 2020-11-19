@@ -4,7 +4,7 @@ module Landable
   module Api
     class ThemesController < ApiController
       # filters
-      before_filter :load_theme, except: [:create, :index, :preview]
+      before_action :load_theme, except: [:create, :index, :preview]
 
       # RESTful methods
       def create

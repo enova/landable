@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Landable::ApiController, json: true do
   controller(Landable::ApiController) do
-    skip_before_filter :require_author!, except: [:index]
+    skip_before_action :require_author!, except: [:index]
 
     def index
       render nothing: true

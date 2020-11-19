@@ -3,7 +3,7 @@ require_dependency 'landable/api_controller'
 module Landable
   module Api
     class AccessTokensController < ApiController
-      skip_before_filter :require_author!, only: [:create]
+      skip_before_action :require_author!, only: [:create]
 
       def show
         respond_with find_own_access_token
