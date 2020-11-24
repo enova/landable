@@ -59,7 +59,7 @@ module Landable
 
         respond_to do |format|
           format.html do
-            render text: content, layout: false, content_type: 'text/html'
+            render plain: content, layout: false, content_type: 'text/html'
           end
 
           format.json do
