@@ -185,7 +185,7 @@ module Landable
       transaction do
         published_revision.unpublish! if published_revision
         revision = revisions.create! options
-        update_attributes!(published_revision: revision, is_publishable: false)
+        update!(published_revision: revision, is_publishable: false)
       end
     end
 
